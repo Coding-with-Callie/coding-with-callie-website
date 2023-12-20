@@ -12,7 +12,9 @@ const FullMenu = ({ menuItems }: Props) => {
       {menuItems.map((item: any) => {
         return (
           <Link to={`/${item.path}`}>
-            <Button colorScheme="teal">{item.name}</Button>
+            <Button color="#45446A" borderColor="#45446A" variant="outline">
+              {item.name}
+            </Button>
           </Link>
         );
       })}
