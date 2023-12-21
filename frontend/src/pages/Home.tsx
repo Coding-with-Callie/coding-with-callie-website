@@ -1,6 +1,9 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
+import CenteredColumn from "../Components/CenteredColumn";
+import MyButton from "../Components/MyButton";
+import Section from "../Components/Section";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -10,29 +13,51 @@ const homeText = [
   "Currently, I'm a Senior Software Engineer at Moody's Analytics! I love my job a little too much and find it difficult to stop coding after hours. So, I decided to switch it up and spend my after hours coding time on Coding with Callie.",
 ];
 
+const workshopText = [
+  "Coding with Callie's first workshop starts Thursday, January 18.",
+  "Over the course of 10 weeks, we'll build a Todo List application. This is a guided workshop meant for those want to learn how to build usable applications.",
+];
+
+const codeReviewsText = [
+  "Sometimes it's hard to know where to refactor or what to work on next when you're coding alone.",
+  "Having someone else take a look at your code can help you level up! Plus, learning how to do a code review yourself is a necessary a part of the day-to-day work for a software engineer.",
+];
+
+const coffeeChatsText = [
+  "Networking was an essential part of my breaking into tech. So many software engineers took time out of their day to talk with me about their experience and answer some of my questions.",
+  "Use coffee chats to learn what it's like on the job, find potentials mentors, and practice talking about code.",
+];
+
 const Home = () => {
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
   return (
     <Box>
-      <Box
-        px={4}
-        py={20}
-        display="flex"
-        gap={10}
-        alignItems="center"
-        flexDirection={isLargerThan700 ? "row" : "column"}
-        backgroundColor="#E1E7CD"
-      >
-        <Image src={callie} borderRadius="50%" h="300px" boxShadow="lg" />
+      <Section screenSizeParameter={isLargerThan700} alignItemsCenter={true}>
+        <Image src={callie} borderRadius="50%" h="350px" boxShadow="lg" />
         <Box>
-          <BodyHeading text="Hi, I'm Callie 👋🏻" textAlignCenter={false} />
-          <BodyText textBlocks={homeText} />
+          <BodyHeading textAlignCenter={false}>Hi, I'm Callie 👋🏻</BodyHeading>
+          <BodyText textBlocks={homeText} textAlignCenter={false} />
         </Box>
-      </Box>
-      <Box py={20}>
-        <BodyHeading text="Workshops" textAlignCenter={true} />
-      </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <CenteredColumn>
+          <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
+          <BodyText textBlocks={workshopText} textAlignCenter={true} />
+          <MyButton>Learn More</MyButton>
+        </CenteredColumn>
+        <CenteredColumn>
+          <BodyHeading textAlignCenter={true}>Code Reviews</BodyHeading>
+          <BodyText textBlocks={codeReviewsText} textAlignCenter={true} />
+          <MyButton>Learn More</MyButton>
+        </CenteredColumn>
+        <CenteredColumn>
+          <BodyHeading textAlignCenter={true}>Coffee Chats</BodyHeading>
+          <BodyText textBlocks={coffeeChatsText} textAlignCenter={true} />
+          <MyButton>Learn More</MyButton>
+        </CenteredColumn>
+      </Section>
     </Box>
   );
 };

@@ -5,7 +5,7 @@ const sloth = require("../../src/images/sloth.png");
 
 const Header = () => {
   return (
-    <Box p={4} display="flex" alignItems="center">
+    <Box py={4} px={8} display="flex" alignItems="center">
       <Box flex={1}>
         <Link to="/">
           <Box display="flex" gap={4} alignItems="center">

@@ -8,13 +8,13 @@ type Props = {
 
 const FullMenu = ({ menuItems }: Props) => {
   return (
-    <Box display="flex" gap={2}>
+    <Box display="flex" gap={10}>
       {menuItems.map((item: any) => {
         return (
           <Link to={`/${item.path}`}>
-            <Button color="#45446A" borderColor="#45446A" variant="outline">
+            <Box color="#45446A" _hover={{ textDecoration: "underline" }}>
               {item.name}
-            </Button>
+            </Box>
           </Link>
         );
       })}

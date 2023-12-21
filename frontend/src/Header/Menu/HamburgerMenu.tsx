@@ -1,31 +1,51 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import {
-  Menu,
-  MenuButton,
-  IconButton,
-  MenuList,
-  MenuItem,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 type Props = {
   menuItems: any;
 };
 
+const purple = "#45446A";
+const green = "#E1E7CD";
+
 const HamburgerMenu = ({ menuItems }: Props) => {
   return (
     <Menu>
       <MenuButton
-        as={IconButton}
+        as={Button}
         aria-label="Options"
-        icon={<HamburgerIcon />}
-        variant="outline"
-      />
-      <MenuList>
+        color={green}
+        backgroundColor={purple}
+        _hover={{
+          backgroundColor: `${green}`,
+          border: `1px solid ${purple}`,
+          color: `${purple}`,
+        }}
+        _expanded={{
+          backgroundColor: `${green}`,
+          border: `1px solid ${purple}`,
+          color: `${purple}`,
+        }}
+        px={2}
+        py={1}
+      >
+        <HamburgerIcon boxSize={5} />
+      </MenuButton>
+      <MenuList backgroundColor={purple}>
         {menuItems.map((item: any) => {
           return (
             <Link to={`/${item.path}`}>
-              <MenuItem>{item.name}</MenuItem>
+              <MenuItem
+                backgroundColor={purple}
+                color={green}
+                _hover={{
+                  backgroundColor: `${green}`,
+                  color: `${purple}`,
+                }}
+              >
+                {item.name}
+              </MenuItem>
             </Link>
           );
         })}

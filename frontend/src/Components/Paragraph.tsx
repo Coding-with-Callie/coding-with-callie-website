@@ -1,13 +1,19 @@
 import { Text } from "@chakra-ui/react";
 
 type Props = {
-  text: string;
+  children: string;
+  textAlignCenter: boolean;
 };
 
-const Paragraph = ({ text }: Props) => {
+const Paragraph = ({ children, textAlignCenter }: Props) => {
   return (
-    <Text fontSize={14} color="#45446A" my={4}>
-      {text}
+    <Text
+      color="#45446A"
+      my={4}
+      textAlign={textAlignCenter ? "center" : "left"}
+      flex={1}
+    >
+      {children}
     </Text>
   );
 };

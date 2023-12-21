@@ -1,5 +1,12 @@
+import BodyHeading from "../Components/BodyHeading";
+import Section from "../Components/Section";
+
 const WorkshopDetails = () => {
-  return <div>WORKSHOP DETAILS</div>;
+  return (
+    <Section screenSizeParameter={false} alignItemsCenter={false}>
+      <BodyHeading textAlignCenter={true}>Todo List Workshop</BodyHeading>
+    </Section>
+  );
 };
 
 export default WorkshopDetails;

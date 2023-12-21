@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Apply from "./pages/Apply";
-import ContactCallie from "./pages/ContactCallie";
-import Home from "./pages/Home";
-import Resources from "./pages/Resources";
-import WorkshopDetails from "./pages/WorkshopDetails";
+import Apply from "./Pages/Apply";
+import ContactCallie from "./Pages/ContactCallie";
+import Home from "./Pages/Home";
+import Resources from "./Pages/Resources";
+import WorkshopDetails from "./Pages/WorkshopDetails";
 
 const router = createBrowserRouter([
   {
