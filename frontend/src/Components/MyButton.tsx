@@ -2,9 +2,10 @@ import { Box } from "@chakra-ui/react";
 
 type Props = {
   children: string;
+  onClick?: any;
 };
 
-const MyButton = ({ children }: Props) => {
+const MyButton = ({ children, onClick }: Props) => {
   return (
     <Box
       as="button"
@@ -12,6 +13,7 @@ const MyButton = ({ children }: Props) => {
       p={2}
       borderRadius={4}
       layerStyle="button"
+      onClick={onClick}
     >
       {children}
     </Box>

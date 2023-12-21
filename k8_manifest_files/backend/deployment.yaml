@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: coding-with-callie
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coding-with-callie
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: coding-with-callie
+        tier: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:latest
+        ports:
+        - containerPort: 3001

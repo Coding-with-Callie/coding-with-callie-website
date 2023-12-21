@@ -20,6 +20,9 @@ const theme = extendTheme({
         backgroundColor: green,
       },
     },
+    input: {
+      color: purple,
+    },
   },
 });
 
