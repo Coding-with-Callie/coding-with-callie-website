@@ -4,20 +4,22 @@ type Props = {
   children: any;
   screenSizeParameter: boolean;
   alignItemsCenter: boolean;
+  gapSize?: number;
 };
 
 const Section = ({
   children,
   screenSizeParameter,
   alignItemsCenter,
+  gapSize,
 }: Props) => {
   return (
     <Box
       px={8}
-      pt={20}
-      pb={4}
+      mt={20}
+      mb={4}
+      gap={gapSize}
       display="flex"
-      gap={10}
       alignItems={
         alignItemsCenter ? "center" : screenSizeParameter ? "left" : "center"
       }

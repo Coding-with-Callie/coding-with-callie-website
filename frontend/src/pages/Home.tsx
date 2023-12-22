@@ -34,14 +34,22 @@ const Home = () => {
 
   return (
     <Box>
-      <Section screenSizeParameter={isLargerThan700} alignItemsCenter={true}>
+      <Section
+        screenSizeParameter={isLargerThan700}
+        alignItemsCenter={true}
+        gapSize={10}
+      >
         <Image src={callie} borderRadius="50%" h="350px" boxShadow="lg" />
         <Box>
           <BodyHeading textAlignCenter={false}>Hi, I'm Callie 👋🏻</BodyHeading>
           <BodyText textBlocks={homeText} textAlignCenter={false} />
         </Box>
       </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+      <Section
+        screenSizeParameter={isLargerThan900}
+        alignItemsCenter={false}
+        gapSize={10}
+      >
         <CenteredColumn>
           <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
           <BodyText textBlocks={workshopText} textAlignCenter={true} />
