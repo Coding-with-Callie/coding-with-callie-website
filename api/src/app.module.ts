@@ -19,6 +19,12 @@ import { ConfigModule } from '@nestjs/config';
       entities: [Message],
       synchronize: true,
       logging: true,
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
     MessageModule,
   ],

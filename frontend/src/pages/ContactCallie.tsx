@@ -30,14 +30,9 @@ const ContactCallie = () => {
       contactFormData.message !== ""
     ) {
       setFormSent(true);
-      axios
-        .post(
-          `${process.env.REACT_APP_API || "http://localhost:3001"}/contact`,
-          contactFormData
-        )
-        .then((response) => {
-          console.log(response.data);
-        });
+      axios.post("api/contact", contactFormData).then((response) => {
+        console.log(response.data);
+      });
     } else {
       setSubmitClicked(true);
     }
