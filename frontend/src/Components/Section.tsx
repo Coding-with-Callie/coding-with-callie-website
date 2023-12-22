@@ -5,12 +5,14 @@ type Props = {
   screenSizeParameter: boolean;
   alignItemsCenter: boolean;
   gapSize?: number;
+  justifyContentCenter?: boolean;
 };
 
 const Section = ({
   children,
   screenSizeParameter,
   alignItemsCenter,
+  justifyContentCenter,
   gapSize,
 }: Props) => {
   return (
@@ -23,6 +25,7 @@ const Section = ({
       alignItems={
         alignItemsCenter ? "center" : screenSizeParameter ? "left" : "center"
       }
+      justifyContent="center"
       flexDirection={screenSizeParameter ? "row" : "column"}
     >
       {children}

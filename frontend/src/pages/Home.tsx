@@ -1,4 +1,5 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import CenteredColumn from "../Components/CenteredColumn";
@@ -53,7 +54,9 @@ const Home = () => {
         <CenteredColumn>
           <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
           <BodyText textBlocks={workshopText} textAlignCenter={true} />
-          <MyButton>Learn More</MyButton>
+          <Link to="/workshop-details">
+            <MyButton>Learn More</MyButton>
+          </Link>
         </CenteredColumn>
         <CenteredColumn>
           <BodyHeading textAlignCenter={true}>Code Reviews</BodyHeading>
