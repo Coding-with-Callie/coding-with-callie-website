@@ -30,6 +30,7 @@ const coffeeChatsText = [
 ];
 
 const Home = () => {
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
@@ -40,7 +41,12 @@ const Home = () => {
         alignItemsCenter={true}
         gapSize={10}
       >
-        <Image src={callie} borderRadius="50%" h="350px" boxShadow="lg" />
+        <Image
+          src={callie}
+          borderRadius="50%"
+          h={isLargerThan500 ? "350px" : "280px"}
+          boxShadow="lg"
+        />
         <Box>
           <BodyHeading textAlignCenter={false}>Hi, I'm Callie 👋🏻</BodyHeading>
           <BodyText textBlocks={homeText} textAlignCenter={false} />
