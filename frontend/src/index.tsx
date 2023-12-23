@@ -11,6 +11,7 @@ import Apply from "./Pages/Apply";
 import ContactCallie from "./Pages/ContactCallie";
 import Home from "./Pages/Home";
 import LogIn from "./Pages/LogIn";
+import Profile from "./Pages/Profile";
 import Resources from "./Pages/Resources";
 import SignUp from "./Pages/SignUp";
 import WorkshopDetails from "./Pages/WorkshopDetails";
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
               await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }auth/profile`,
+                }/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -124,6 +125,31 @@ const router = createBrowserRouter([
               return redirect("/");
             } catch (error) {
               return null;
+            }
+          } else {
+            return {};
+          }
+        },
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        loader: async () => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error) {
+              return redirect("/log-in");
             }
           } else {
             return {};

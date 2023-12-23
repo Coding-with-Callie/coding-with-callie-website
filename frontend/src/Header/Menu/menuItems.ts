@@ -4,5 +4,6 @@ export const menuItems = [
   {name: "Resources", path: "resources"},
   {name: "Contact Callie", path: "contact-callie"},
   {name: "Sign Up", path: "sign-up"},
-  {name: "Log  In", path: "log-in"}
+  {name: "Log  In", path: "log-in"},
+  {name: "Profile", path: "profile"}
 ]
