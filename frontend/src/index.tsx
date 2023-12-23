@@ -24,7 +24,9 @@ const router = createBrowserRouter([
       if (token) {
         try {
           const response = await axios.get(
-            "http://localhost:3001/api/auth/profile",
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/auth/profile`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -59,7 +61,9 @@ const router = createBrowserRouter([
           if (token) {
             try {
               const response = await axios.get(
-                "http://localhost:3001/api/auth/profile",
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -84,9 +88,14 @@ const router = createBrowserRouter([
           const token = localStorage.getItem("token");
           if (token) {
             try {
-              await axios.get("http://localhost:3001/api/auth/profile", {
-                headers: { Authorization: `Bearer ${token}` },
-              });
+              await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
               return redirect("/");
             } catch (error) {
               return { token: true };
@@ -104,9 +113,14 @@ const router = createBrowserRouter([
 
           if (token) {
             try {
-              await axios.get("http://localhost:3001/api/auth/profile", {
-                headers: { Authorization: `Bearer ${token}` },
-              });
+              await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
               return redirect("/");
             } catch (error) {
               return null;

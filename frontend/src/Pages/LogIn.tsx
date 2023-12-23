@@ -33,14 +33,24 @@ const LogIn = () => {
       userData.password !== ""
     ) {
       axios
-        .post("http://localhost:3001/api/auth/login", userData)
+        .post(
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/login`,
+          userData
+        )
         .then((response) => {
           const token = response.data.access_token;
           localStorage.setItem("token", token);
           axios
-            .get("http://localhost:3001/api/auth/profile", {
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            .get(
+              `${
+                process.env.REACT_APP_API || "http://localhost:3001/api"
+              }/auth/profile`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
             .then((response) => {
               context.updateUser(response.data);
               navigate("/");

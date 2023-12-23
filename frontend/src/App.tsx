@@ -13,6 +13,7 @@ export type Context = {
 };
 
 function App() {
+  console.log("REACT APP API: ", process.env.REACT_APP_API);
   const data = useLoaderData();
   const [user, setUser] = useState<any>(data);
 

@@ -1,21 +1,9 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: backend-deployment
-  labels:
-    app: coding-with-callie
-    tier: backend
+  name: database-migrate-job
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: coding-with-callie
-      tier: backend
   template:
-    metadata:
-      labels:
-        app: coding-with-callie
-        tier: backend
     spec:
       containers:
       - name: backend-container
@@ -36,16 +24,9 @@ spec:
             secretKeyRef:
               name: db-credentials
               key: DATABASE_PASSWORD
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: jwt-secret
-              key: JWT_SECRET
         - name: DATABASE_NAME
           value: "postgres"
         - name: NODE_TLS_REJECT_UNAUTHORIZED
           value: "0"
-        - name: ENVIRONMENT
-          value: "production"
-        ports:
-        - containerPort: 3001
+        command: ["npm", "run", "migration:run"]
+      restartPolicy: Never

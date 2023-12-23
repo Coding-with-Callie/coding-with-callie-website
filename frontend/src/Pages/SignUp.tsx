@@ -38,14 +38,24 @@ const SignUp = () => {
     ) {
       setFormSent(true);
       axios
-        .post("http://localhost:3001/api/auth/signup", userData)
+        .post(
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/signup`,
+          userData
+        )
         .then((response) => {
           const token = response.data.access_token;
           localStorage.setItem("token", token);
           axios
-            .get("http://localhost:3001/api/auth/profile", {
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            .get(
+              `${
+                process.env.REACT_APP_API || "http://localhost:3001/api"
+              }/auth/profile`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
             .then((response) => {
               context.updateUser(response.data);
             });
