@@ -1,13 +1,26 @@
-import { Box, Image, Heading, useMediaQuery } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
 const sloth = require("../../src/images/sloth.png");
 
-const Header = () => {
+type Props = {
+  user: any;
+  updateUser: (user: any) => void;
+};
+
+const Header = ({ user, updateUser }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    const newUser = {};
+    updateUser(newUser);
+    navigate("/log-in");
+  };
 
   return (
-    <Box py={4} px={8} display="flex" alignItems="center">
+    <Box py={4} px={8} display="flex" alignItems="center" gap={4}>
       <Box flex={1}>
         <Link to="/">
           <Box display="flex" gap={isLargerThan500 ? 4 : 2} alignItems="center">
@@ -24,6 +37,7 @@ const Header = () => {
         </Link>
       </Box>
       <Menus />
+      {user?.name ? <Avatar name={user.username} onClick={logout} /> : null}
     </Box>
   );
 };

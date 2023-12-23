@@ -12,8 +12,6 @@ export class MessageService {
   ) {}
 
   submitMessage(message: MessageDto) {
-    console.log(message);
-
     return this.messageRepository.save(message);
   }
 }
