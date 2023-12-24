@@ -12,7 +12,7 @@ const BodyText = ({ textBlocks, textAlignCenter, widthSize }: Props) => {
     <Box flex={1}>
       {textBlocks.map((text: string) => {
         return (
-          <Paragraph textAlignCenter={textAlignCenter} widthSize={widthSize}>
+          <Paragraph textAlignCenter={textAlignCenter} maxWidthSize={widthSize}>
             {text}
           </Paragraph>
         );

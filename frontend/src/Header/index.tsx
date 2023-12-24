@@ -5,19 +5,11 @@ const sloth = require("../../src/images/sloth.png");
 
 type Props = {
   user: any;
-  updateUser: (user: any) => void;
 };
 
-const Header = ({ user, updateUser }: Props) => {
+const Header = ({ user }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    const newUser = {};
-    updateUser(newUser);
-    navigate("/log-in");
-  };
 
   return (
     <Box py={4} px={8} display="flex" alignItems="center" gap={4}>
@@ -37,7 +29,13 @@ const Header = ({ user, updateUser }: Props) => {
         </Link>
       </Box>
       <Menus />
-      {user?.name ? <Avatar name={user.username} onClick={logout} /> : null}
+      {user?.name ? (
+        <Avatar
+          name={user.username}
+          _hover={{ cursor: "pointer" }}
+          onClick={() => navigate("/profile")}
+        />
+      ) : null}
     </Box>
   );
 };

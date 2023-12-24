@@ -13,7 +13,35 @@ export class UsersService {
     return await this.usersRepository.save({ ...user, role: 'user' });
   }
 
-  async findOne(username: string) {
+  async findOneByUsername(username: string) {
     return await this.usersRepository.findOne({ where: { username } });
+  }
+
+  async findOneById(id: number) {
+    return await this.usersRepository.findOne({ where: { id } });
+  }
+
+  async changeName(id: number, name: string) {
+    const userToUpdate = await this.findOneById(id);
+    userToUpdate.name = name;
+    return await this.usersRepository.save(userToUpdate);
+  }
+
+  async changeUsername(id: number, username: string) {
+    const userToUpdate = await this.findOneById(id);
+    userToUpdate.username = username;
+    return await this.usersRepository.save(userToUpdate);
+  }
+
+  async changeEmail(id: number, email: string) {
+    const userToUpdate = await this.findOneById(id);
+    userToUpdate.email = email;
+    return await this.usersRepository.save(userToUpdate);
+  }
+
+  async changeAccountDetail(id: number, value: string, field: string) {
+    const userToUpdate = await this.findOneById(id);
+    userToUpdate[field] = value;
+    return await this.usersRepository.save(userToUpdate);
   }
 }

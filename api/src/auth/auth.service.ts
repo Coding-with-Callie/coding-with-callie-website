@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   async signIn(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(username);
+    const user = await this.usersService.findOneByUsername(username);
     const isMatch = await bcrypt.compare(pass, user.password);
     if (!isMatch) {
       throw new UnauthorizedException();
@@ -35,8 +35,58 @@ export class AuthService {
     };
   }
 
-  async getUserProfile(username: string) {
-    const user = await this.usersService.findOne(username);
-    return { name: user.name, username: user.username };
+  async getUserProfile(id: number) {
+    const user = await this.usersService.findOneById(id);
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    };
+  }
+
+  async changeName(id: number, name: string) {
+    const user = await this.usersService.changeName(id, name);
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    };
+  }
+
+  async changeUsername(id: number, username: string) {
+    const user = await this.usersService.changeUsername(id, username);
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    };
+  }
+
+  async changeEmail(id: number, email: string) {
+    const user = await this.usersService.changeEmail(id, email);
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    };
+  }
+
+  async changeAccountDetail(id: number, value: string, field: string) {
+    const user = await this.usersService.changeAccountDetail(id, value, field);
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    };
   }
 }

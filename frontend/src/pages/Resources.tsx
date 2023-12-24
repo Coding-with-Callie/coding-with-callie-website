@@ -1,6 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
+import AccessRequired from "../Components/AccessRequired";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
@@ -18,17 +19,7 @@ const Resources = () => {
         {context.user.name ? (
           <Text>Here are your resources, {context.user.name}!</Text>
         ) : (
-          <Box>
-            <Text>You do not have access to this page.</Text>
-            <Box display="flex" gap={4} justifyContent="center" mt={4}>
-              <Link to="/log-in">
-                <MyButton>Login</MyButton>
-              </Link>
-              <Link to="/sign-up">
-                <MyButton>Sign up</MyButton>
-              </Link>
-            </Box>
-          </Box>
+          <AccessRequired />
         )}
       </Box>
     </Section>
