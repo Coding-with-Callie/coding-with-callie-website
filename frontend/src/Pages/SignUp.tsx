@@ -7,10 +7,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
+import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 
 export type SignUpData = {
@@ -20,10 +22,12 @@ export type SignUpData = {
 const SignUp = () => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
-  const [formSent, setFormSent] = useState(false);
   const context: Context = useOutletContext();
-  const { token } = useLoaderData() as SignUpData;
   const navigate = useNavigate();
+
+  const showNotification = (message: string, type: "success" | "error") => {
+    toast[type](message, { toastId: "success" });
+  };
 
   const onSubmit = () => {
     if (
@@ -36,7 +40,6 @@ const SignUp = () => {
       userData.password &&
       userData.password !== ""
     ) {
-      setFormSent(true);
       axios
         .post(
           `${
@@ -45,20 +48,36 @@ const SignUp = () => {
           userData
         )
         .then((response) => {
-          const token = response.data.access_token;
-          localStorage.setItem("token", token);
-          axios
-            .get(
-              `${
-                process.env.REACT_APP_API || "http://localhost:3001/api"
-              }/auth/profile`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            )
-            .then((response) => {
-              context.updateUser(response.data);
-            });
+          if (response.data === "user already exists") {
+            const emptyUser = {
+              name: "",
+              email: "",
+              username: "",
+              password: "",
+            };
+            setUserData(emptyUser);
+            showNotification("User already exists!", "error");
+          } else {
+            const token = response.data.access_token;
+            localStorage.setItem("token", token);
+            axios
+              .get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              )
+              .then((response) => {
+                context.updateUser(response.data);
+                showNotification(
+                  `Welcome to Coding with Callie, ${response.data.name}!`,
+                  "success"
+                );
+                navigate("/");
+              });
+          }
         });
     } else {
       setSubmitClicked(true);
@@ -88,74 +107,78 @@ const SignUp = () => {
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
       <BodyHeading textAlignCenter={true}>
-        {formSent
-          ? "Welcome to the Coding with Callie community!"
-          : "Join the Coding with Callie community!"}
+        Join the Coding with Callie community!
       </BodyHeading>
-      {formSent ? (
-        <div>Put buttons to link to other pages here</div>
-      ) : (
-        <FormControl display="flex" flexDirection="column" gap={6}>
-          <Box>
-            <FormLabel layerStyle="input">Name</FormLabel>
-            <Input
-              type="text"
-              layerStyle="input"
-              variant="filled"
-              id="name"
-              onChange={onChangeName}
-              isInvalid={
-                submitClicked && (!userData.name || userData.name === "")
-              }
-            />
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Email address</FormLabel>
-            <Input
-              type="email"
-              layerStyle="input"
-              variant="filled"
-              onChange={onChangeEmail}
-              isInvalid={
-                submitClicked && (!userData.email || userData.email === "")
-              }
-            />
-            <FormHelperText>We'll never share your email.</FormHelperText>
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Username</FormLabel>
-            <Input
-              type="text"
-              layerStyle="input"
-              variant="filled"
-              onChange={onChangeUsername}
-              isInvalid={
-                submitClicked &&
-                (!userData.username || userData.username === "")
-              }
-            />
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Password</FormLabel>
-            <Input
-              type="password"
-              layerStyle="input"
-              variant="filled"
-              onChange={onChangePassword}
-              isInvalid={
-                submitClicked &&
-                (!userData.password || userData.password === "")
-              }
-            />
-          </Box>
-          <MyButton onClick={onSubmit}>Submit</MyButton>
-          {token ? (
-            <MyButton onClick={() => navigate("/log-in")}>
-              Log in instead?
-            </MyButton>
-          ) : null}
-        </FormControl>
-      )}
+      <FormControl display="flex" flexDirection="column" gap={6}>
+        <Box>
+          <FormLabel layerStyle="input">Name</FormLabel>
+          <Input
+            type="text"
+            layerStyle="input"
+            variant="filled"
+            id="name"
+            value={userData.name}
+            onChange={onChangeName}
+            isInvalid={
+              submitClicked && (!userData.name || userData.name === "")
+            }
+          />
+        </Box>
+        <Box>
+          <FormLabel layerStyle="input">Email address</FormLabel>
+          <Input
+            type="email"
+            layerStyle="input"
+            variant="filled"
+            value={userData.email}
+            onChange={onChangeEmail}
+            isInvalid={
+              submitClicked && (!userData.email || userData.email === "")
+            }
+          />
+          <FormHelperText>We'll never share your email.</FormHelperText>
+        </Box>
+        <Box>
+          <FormLabel layerStyle="input">Username</FormLabel>
+          <Input
+            type="text"
+            layerStyle="input"
+            variant="filled"
+            value={userData.username}
+            onChange={onChangeUsername}
+            isInvalid={
+              submitClicked && (!userData.username || userData.username === "")
+            }
+          />
+        </Box>
+        <Box>
+          <FormLabel layerStyle="input">Password</FormLabel>
+          <Input
+            type="password"
+            layerStyle="input"
+            variant="filled"
+            value={userData.password}
+            onChange={onChangePassword}
+            isInvalid={
+              submitClicked && (!userData.password || userData.password === "")
+            }
+          />
+        </Box>
+        <MyButton onClick={onSubmit}>Submit</MyButton>
+
+        <Box
+          display="flex"
+          gap={2}
+          alignItems="center"
+          justifyContent="center"
+          mt={6}
+        >
+          <Paragraph margin={false}>Already have an account?</Paragraph>
+          <Link to="/log-in">
+            <MyButton>Sign in instead!</MyButton>
+          </Link>
+        </Box>
+      </FormControl>
     </Section>
   );
 };

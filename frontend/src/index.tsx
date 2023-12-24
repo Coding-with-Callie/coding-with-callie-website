@@ -6,6 +6,7 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import Apply from "./Pages/Apply";
 import ContactCallie from "./Pages/ContactCallie";
@@ -15,6 +16,13 @@ import Profile from "./Pages/Profile";
 import Resources from "./Pages/Resources";
 import SignUp from "./Pages/SignUp";
 import WorkshopDetails from "./Pages/WorkshopDetails";
+
+export const showNotification = (
+  message: string,
+  type: "success" | "error"
+) => {
+  toast[type](message, { toastId: `${type}-${message}` });
+};
 
 const router = createBrowserRouter([
   {
@@ -71,10 +79,18 @@ const router = createBrowserRouter([
               );
               return response.data;
             } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+                "error"
+              );
               return redirect("/log-in");
             }
           } else {
-            return {};
+            showNotification(
+              "You must sign up to view Coding with Callie resources!",
+              "error"
+            );
+            return redirect("/sign-up");
           }
         },
       },
@@ -149,10 +165,18 @@ const router = createBrowserRouter([
               );
               return response.data;
             } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view your account details!",
+                "error"
+              );
               return redirect("/log-in");
             }
           } else {
-            return {};
+            showNotification(
+              "You must have an account to view account details!",
+              "error"
+            );
+            return redirect("/sign-up");
           }
         },
       },
@@ -166,5 +190,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer limit={1} />
   </React.StrictMode>
 );

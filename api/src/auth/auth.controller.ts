@@ -48,30 +48,19 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('change-name')
-  changeName(@Body() body) {
-    return this.authService.changeName(body.id, body.value);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('change-username')
-  changeUsername(@Body() body) {
-    return this.authService.changeUsername(body.id, body.value);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('change-email')
-  changeEmail(@Body() body) {
-    return this.authService.changeEmail(body.id, body.value);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('change-account-detail')
   changeAccountDetail(@Body() body) {
+    console.log('BODY: ', body);
     return this.authService.changeAccountDetail(
       body.id,
       body.value,
       body.field,
     );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-account')
+  deleteAccount(@Body() body) {
+    return this.authService.deleteUser(body.id);
   }
 }

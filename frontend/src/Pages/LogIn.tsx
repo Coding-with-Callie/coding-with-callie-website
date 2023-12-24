@@ -1,14 +1,8 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  FormHelperText,
-  Box,
-  Text,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
@@ -23,7 +17,9 @@ const LogIn = () => {
   const context: Context = useOutletContext();
   context.updateUser(data);
 
-  const token = localStorage.getItem("token");
+  const showNotification = (message: string, type: "success" | "error") => {
+    toast[type](message, { toastId: `${type}-${message}` });
+  };
 
   const onSubmit = () => {
     if (
@@ -40,7 +36,7 @@ const LogIn = () => {
           userData
         )
         .then((response) => {
-          const token = response.data.access_token;
+          const token = response?.data.access_token;
           localStorage.setItem("token", token);
           axios
             .get(
@@ -53,8 +49,26 @@ const LogIn = () => {
             )
             .then((response) => {
               context.updateUser(response.data);
+              console.log("HERE");
+              showNotification(
+                `Welcome back, ${response.data.username}!`,
+                "success"
+              );
+
               navigate("/");
             });
+        })
+        .catch((error) => {
+          if (error.response.data.message === "Unauthorized") {
+            const emptyUser = {
+              name: "",
+              email: "",
+              username: "",
+              password: "",
+            };
+            setUserData(emptyUser);
+            showNotification("You entered incorrect credentials.", "error");
+          }
         });
     } else {
       setSubmitClicked(true);
@@ -81,6 +95,7 @@ const LogIn = () => {
             type="text"
             layerStyle="input"
             variant="filled"
+            value={userData?.username}
             onChange={onChangeUsername}
             isInvalid={
               submitClicked && (!userData.username || userData.username === "")
@@ -93,6 +108,7 @@ const LogIn = () => {
             type="password"
             layerStyle="input"
             variant="filled"
+            value={userData?.password}
             onChange={onChangePassword}
             isInvalid={
               submitClicked && (!userData.password || userData.password === "")
@@ -100,7 +116,6 @@ const LogIn = () => {
           />
         </Box>
         <MyButton onClick={onSubmit}>Submit</MyButton>
-        {token ? <Text>You must log in to view resources!</Text> : null}
       </FormControl>
     </Section>
   );

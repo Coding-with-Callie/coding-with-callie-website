@@ -1,7 +1,23 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, useMediaQuery, Avatar, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  useMediaQuery,
+  Avatar,
+  IconButton,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Context } from "../App";
 import AccessRequired from "../Components/AccessRequired";
 import BodyHeading from "../Components/BodyHeading";
@@ -12,6 +28,7 @@ import Section from "../Components/Section";
 
 const Profile = () => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const data = useLoaderData();
   const navigate = useNavigate();
 
@@ -21,19 +38,45 @@ const Profile = () => {
   const currentUsername = context.user?.username as string;
   const currentEmail = context.user?.email as string;
 
-  const [editName, setEditName] = useState(false);
-  const [editUsername, setEditUsername] = useState(false);
-  const [editEmail, setEditEmail] = useState(false);
+  const [field, setField] = useState("");
+  const [fieldValue, setFieldValue] = useState("");
 
   const [name, setName] = useState(currentName);
   const [username, setUsername] = useState(currentName);
   const [email, setEmail] = useState(currentEmail);
+
+  const showNotification = (message: string, type: "error" | "success") => {
+    toast[type](message, { toastId: `${type}-${message}` });
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
     const newUser = {};
     context.updateUser(newUser);
     navigate("/log-in");
+    showNotification("You have been logged out of your account!", "success");
+  };
+
+  const deleteAccount = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_API || "http://localhost:3001/api"
+        }/auth/delete-account`,
+        { id: context.user.id },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        localStorage.removeItem("token");
+        const newUser = {};
+        context.updateUser(newUser);
+        navigate("/sign-up");
+        showNotification("Your account has been deleted!", "success");
+      });
   };
 
   return (
@@ -71,7 +114,9 @@ const Profile = () => {
                       aria-label="edit"
                       icon={<EditIcon />}
                       onClick={() => {
-                        setEditName(true);
+                        setField("name");
+                        setFieldValue(name);
+                        onOpen();
                       }}
                     />
                   </Box>
@@ -91,7 +136,9 @@ const Profile = () => {
                       aria-label="edit"
                       icon={<EditIcon />}
                       onClick={() => {
-                        setEditUsername(true);
+                        setField("username");
+                        setFieldValue(username);
+                        onOpen();
                       }}
                     />
                   </Box>
@@ -111,7 +158,9 @@ const Profile = () => {
                       aria-label="edit"
                       icon={<EditIcon />}
                       onClick={() => {
-                        setEditEmail(true);
+                        setField("email");
+                        setFieldValue(email);
+                        onOpen();
                       }}
                     />
                   </Box>
@@ -122,36 +171,19 @@ const Profile = () => {
           <Section screenSizeParameter={false} alignItemsCenter={false}>
             <Box display="flex" gap={4}>
               <MyButton onClick={logout}>Log out</MyButton>
-              <MyButton>Delete Account</MyButton>
+              <MyButton onClick={deleteAccount}>Delete Account</MyButton>
             </Box>
           </Section>
-          {editName ? (
-            <EditModal
-              field="name"
-              fieldValue={name}
-              updateFieldValue={(name) => {
-                setName(name);
-              }}
-            />
-          ) : null}
-          {editUsername ? (
-            <EditModal
-              field="username"
-              fieldValue={username}
-              updateFieldValue={(username) => {
-                setUsername(username);
-              }}
-            />
-          ) : null}
-          {editEmail ? (
-            <EditModal
-              field="email"
-              fieldValue={email}
-              updateFieldValue={(email) => {
-                setEmail(email);
-              }}
-            />
-          ) : null}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader color="#45446A">Edit {field}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <EditModal field={field} onClose={onClose} />
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </Box>
       ) : (
         <AccessRequired />

@@ -11,19 +11,32 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async signUp(user: newUserDto) {
-    const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(user.password, saltOrRounds);
-    await this.usersService.createUser({
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      password: hashedPassword,
-    });
-    return this.signIn(user.username, user.password);
+    const existingUser = await this.usersService.findOneByUsername(
+      user.username,
+    );
+
+    if (existingUser !== null) {
+      return 'user already exists';
+    } else {
+      const saltOrRounds = 10;
+      const hashedPassword = await bcrypt.hash(user.password, saltOrRounds);
+      await this.usersService.createUser({
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        password: hashedPassword,
+      });
+      return this.signIn(user.username, user.password);
+    }
   }
 
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
+
+    if (user === null) {
+      throw new UnauthorizedException();
+    }
+
     const isMatch = await bcrypt.compare(pass, user.password);
     if (!isMatch) {
       throw new UnauthorizedException();
@@ -46,41 +59,9 @@ export class AuthService {
     };
   }
 
-  async changeName(id: number, name: string) {
-    const user = await this.usersService.changeName(id, name);
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-    };
-  }
-
-  async changeUsername(id: number, username: string) {
-    const user = await this.usersService.changeUsername(id, username);
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-    };
-  }
-
-  async changeEmail(id: number, email: string) {
-    const user = await this.usersService.changeEmail(id, email);
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-    };
-  }
-
   async changeAccountDetail(id: number, value: string, field: string) {
     const user = await this.usersService.changeAccountDetail(id, value, field);
+    console.log('AFTER CHANGE:', user);
     return {
       id: user.id,
       name: user.name,
@@ -88,5 +69,9 @@ export class AuthService {
       username: user.username,
       role: user.role,
     };
+  }
+
+  async deleteUser(id: number) {
+    return await this.usersService.deleteUser(id);
   }
 }

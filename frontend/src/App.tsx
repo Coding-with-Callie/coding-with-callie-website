@@ -6,6 +6,7 @@ import "@fontsource/pacifico/400.css";
 import "@fontsource/sometype-mono/500.css";
 import { Helmet } from "react-helmet";
 import { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 export type Context = {
   user: any;
