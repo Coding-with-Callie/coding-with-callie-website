@@ -4,11 +4,11 @@ import FullMenu from "./FullMenu";
 import { menuItems } from "./menuItems";
 
 const Menus = () => {
-  const [isLargerThan1000] = useMediaQuery("(min-width: 1000px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   return (
     <>
-      {isLargerThan1000 ? (
+      {isLargerThan1300 ? (
         <FullMenu menuItems={menuItems} />
       ) : (
         <HamburgerMenu menuItems={menuItems} />
