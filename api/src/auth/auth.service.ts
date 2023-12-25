@@ -19,12 +19,16 @@ export class AuthService {
   }
 
   async signUp(user: newUserDto) {
-    const existingUser = await this.usersService.findOneByUsername(
+    const existingUsername = await this.usersService.findOneByUsername(
       user.username,
     );
 
-    if (existingUser !== null) {
+    const existingEmail = await this.usersService.findOneByEmail(user.email);
+
+    if (existingUsername !== null) {
       return 'user already exists';
+    } else if (existingEmail !== null) {
+      return 'email already exists';
     } else {
       const hashedPassword = await this.hashPassword(user.password);
       await this.usersService.createUser({

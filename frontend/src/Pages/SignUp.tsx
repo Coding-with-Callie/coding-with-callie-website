@@ -59,6 +59,15 @@ const SignUp = () => {
             };
             setUserData(emptyUser);
             showNotification("User already exists!", "error");
+          } else if (response.data === "email already exists") {
+            const emptyUser = {
+              name: "",
+              email: "",
+              username: "",
+              password: "",
+            };
+            setUserData(emptyUser);
+            showNotification("Email already exists!", "error");
           } else {
             const token = response.data.access_token;
             localStorage.setItem("token", token);
