@@ -97,15 +97,6 @@ const LogIn = () => {
         }/auth/forgot-password`,
         { email }
       )
-      .catch((error) => {
-        if (error.response.data.message === "Unauthorized") {
-          setEmail("");
-          showNotification(
-            "We did not find that email in our system.",
-            "error"
-          );
-        }
-      })
       .then((response) => {
         showNotification(
           "Check your email for a password reset link!",
@@ -113,6 +104,16 @@ const LogIn = () => {
         );
         setEmail("");
         onClose();
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          setEmail("");
+          onClose();
+          showNotification(
+            "We did not find that email in our system.",
+            "error"
+          );
+        }
       });
   };
 

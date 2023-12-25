@@ -21,8 +21,8 @@ export class UsersService {
   async findOneByUsername(username: string) {
     return await this.usersRepository
       .createQueryBuilder()
-      .where('LOWER(username) LIKE :username', {
-        username: `%${username.toLowerCase()}%`,
+      .where('LOWER(username) = LOWER(:username)', {
+        username: username,
       })
       .getOne();
   }
@@ -34,7 +34,9 @@ export class UsersService {
   async findOneByEmail(email: string) {
     return await this.usersRepository
       .createQueryBuilder()
-      .where('LOWER(email) LIKE :email', { email: `%${email.toLowerCase()}%` })
+      .where('LOWER(email) = LOWER(:email)', {
+        email: email,
+      })
       .getOne();
   }
 
