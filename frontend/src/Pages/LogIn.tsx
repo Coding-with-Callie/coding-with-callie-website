@@ -90,13 +90,30 @@ const LogIn = () => {
   };
 
   const resetPassword = async () => {
-    await axios.post(
-      `${
-        process.env.REACT_APP_API || "http://localhost:3001/api"
-      }/auth/forgot-password`,
-      { email }
-    );
-    onClose();
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_API || "http://localhost:3001/api"
+        }/auth/forgot-password`,
+        { email }
+      )
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          setEmail("");
+          showNotification(
+            "We did not find that email in our system.",
+            "error"
+          );
+        }
+      })
+      .then((response) => {
+        showNotification(
+          "Check your email for a password reset link!",
+          "success"
+        );
+        setEmail("");
+        onClose();
+      });
   };
 
   const onChangeUsername = (e: any) => {
@@ -165,6 +182,7 @@ const LogIn = () => {
                   setEmail(e.target.value);
                 }}
                 variant="filled"
+                value={email}
               />
               <MyButton onClick={resetPassword}>
                 Send verification email!

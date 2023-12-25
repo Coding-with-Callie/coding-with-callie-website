@@ -99,6 +99,10 @@ export class AuthService {
 
   async forgotPassword(email: string) {
     const user = await this.usersService.findOneByEmail(email);
+    if (user === null) {
+      throw new UnauthorizedException();
+    }
+
     const payload = { sub: user.id, username: user.username };
     const access_token = await this.jwtService.signAsync(payload);
     return await this.mailService.sendPasswordResetEmail(user, access_token);
