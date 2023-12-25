@@ -67,16 +67,16 @@ const EditModal = ({ field, onClose }: Props) => {
   return (
     <Box display="flex" flexDirection="column" gap={4} mx={10} mb={10} mt={4}>
       <Input
-        type="text"
+        type={field === "password" ? "password" : "text"}
         variant="filled"
         layerStyle="input"
-        placeholder="Enter new password"
+        placeholder={field === "password" ? "Enter new password" : ""}
         onChange={handleChange}
         isInvalid={submitClicked && newValue === ""}
       />
       {field === "password" ? (
         <Input
-          type="text"
+          type="password"
           variant="filled"
           layerStyle="input"
           placeholder="Retype new password"

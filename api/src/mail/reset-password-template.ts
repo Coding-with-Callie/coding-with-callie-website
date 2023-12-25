@@ -42,7 +42,7 @@ export const HTML_TEMPLATE = (token) => {
               <h1>Reset your password!</h1>
             </div>
             <div class="email-body">
-              <h3>You can reset your password <a href="http://localhost:3000/profile/${token}">here</a></h3>
+              <h3>You can reset your password <a href="https://coding-with-callie.com/profile/${token}">here</a></h3>
             </div>
           </div>
         </div>

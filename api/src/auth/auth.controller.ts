@@ -38,7 +38,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() userDto: userDto) {
-    console.log(userDto);
     return this.authService.signIn(userDto.username, userDto.password);
   }
 
@@ -66,7 +65,6 @@ export class AuthController {
 
   @Post('forgot-password')
   forgotPassword(@Body() body) {
-    console.log('FORGOT PASSWORD', body);
     return this.authService.forgotPassword(body.email);
   }
 }

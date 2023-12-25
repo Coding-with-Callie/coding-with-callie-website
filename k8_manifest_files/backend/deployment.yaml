@@ -41,6 +41,11 @@ spec:
             secretKeyRef:
               name: jwt-secret
               key: JWT_SECRET
+        - name: GMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gmail-secret
+              key: GMAIL_PASSWORD
         - name: DATABASE_NAME
           value: "postgres"
         - name: NODE_TLS_REJECT_UNAUTHORIZED

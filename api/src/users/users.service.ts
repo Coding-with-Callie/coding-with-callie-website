@@ -19,7 +19,12 @@ export class UsersService {
   }
 
   async findOneByUsername(username: string) {
-    return await this.usersRepository.findOne({ where: { username } });
+    return await this.usersRepository
+      .createQueryBuilder()
+      .where('LOWER(username) LIKE :username', {
+        username: `%${username.toLowerCase()}%`,
+      })
+      .getOne();
   }
 
   async findOneById(id: number) {
@@ -27,7 +32,10 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    return await this.usersRepository.findOne({ where: { email } });
+    return await this.usersRepository
+      .createQueryBuilder()
+      .where('LOWER(email) LIKE :email', { email: `%${email.toLowerCase()}%` })
+      .getOne();
   }
 
   async changeAccountDetail(userToUpdate, field, value) {

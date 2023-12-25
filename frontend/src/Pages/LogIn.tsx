@@ -64,7 +64,6 @@ const LogIn = () => {
             )
             .then((response) => {
               context.updateUser(response.data);
-              console.log("HERE");
               showNotification(
                 `Welcome back, ${response.data.username}!`,
                 "success"
@@ -155,20 +154,22 @@ const LogIn = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color="#45446A">
-            Enter the email address associated with the account:
+          <ModalHeader color="#45446A" mx={2}>
+            Enter the email address associated with your account:
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input
-              onChange={(e: any) => {
-                setEmail(e.target.value);
-              }}
-              variant="filled"
-            />
-            <MyButton onClick={resetPassword}>
-              Send verification email!
-            </MyButton>
+            <Box display="flex" flexDirection="column" gap={4} mb={4}>
+              <Input
+                onChange={(e: any) => {
+                  setEmail(e.target.value);
+                }}
+                variant="filled"
+              />
+              <MyButton onClick={resetPassword}>
+                Send verification email!
+              </MyButton>
+            </Box>
           </ModalBody>
         </ModalContent>
       </Modal>

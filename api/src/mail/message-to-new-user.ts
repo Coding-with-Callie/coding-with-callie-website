@@ -44,7 +44,7 @@ export const HTML_TEMPLATE = (data) => {
             <div class="email-body">
               <h3>Thank you for joining Coding with Callie! You now have access to the Coding with Callie resources.</h3>
               <h3>Please let me know if you have any questions or concerns 🙂</h3>
-              <p>You can manage your account <a href="https://coding-with-callie.com">here</a></p>
+              <p>You can manage your account <a href="https://coding-with-callie.com/profile">here</a></p>
             </div>
           </div>
         </div>
