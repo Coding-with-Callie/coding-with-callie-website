@@ -1,9 +1,8 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import AccessRequired from "../Components/AccessRequired";
 import BodyHeading from "../Components/BodyHeading";
-import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 
 const Resources = () => {

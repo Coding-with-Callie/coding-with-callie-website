@@ -18,12 +18,23 @@ const EditModal = ({ field, onClose }: Props) => {
 
   const [newValue, setNewValue] = useState("");
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [match, setMatch] = useState("");
 
   const handleChange = (e: any) => {
     setNewValue(e.target.value);
   };
 
+  const handleChangeMatch = (e: any) => {
+    setMatch(e.target.value);
+  };
+
   const handleSubmit = (field: string) => {
+    if (field === "password") {
+      if (newValue !== match) {
+        setSubmitClicked(true);
+        return;
+      }
+    }
     if (newValue !== "" && newValue) {
       context.user[field] = newValue;
       const token = localStorage.getItem("token");
@@ -59,9 +70,20 @@ const EditModal = ({ field, onClose }: Props) => {
         type="text"
         variant="filled"
         layerStyle="input"
+        placeholder="Enter new password"
         onChange={handleChange}
         isInvalid={submitClicked && newValue === ""}
       />
+      {field === "password" ? (
+        <Input
+          type="text"
+          variant="filled"
+          layerStyle="input"
+          placeholder="Retype new password"
+          onChange={handleChangeMatch}
+          isInvalid={submitClicked && match === ""}
+        />
+      ) : null}
       <MyButton
         onClick={() => {
           handleSubmit(field);

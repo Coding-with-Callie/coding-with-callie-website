@@ -1,4 +1,16 @@
-import { FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Box,
+  Modal,
+  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  useDisclosure,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
@@ -6,11 +18,14 @@ import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
+import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 
 const LogIn = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const data = useLoaderData();
   const [userData, setUserData] = useState<any>(data);
+  const [email, setEmail] = useState<string>("");
   const [submitClicked, setSubmitClicked] = useState(false);
   const navigate = useNavigate();
 
@@ -75,6 +90,16 @@ const LogIn = () => {
     }
   };
 
+  const resetPassword = async () => {
+    await axios.post(
+      `${
+        process.env.REACT_APP_API || "http://localhost:3001/api"
+      }/auth/forgot-password`,
+      { email }
+    );
+    onClose();
+  };
+
   const onChangeUsername = (e: any) => {
     setSubmitClicked(false);
     setUserData({ ...userData, username: e.target.value });
@@ -117,6 +142,36 @@ const LogIn = () => {
         </Box>
         <MyButton onClick={onSubmit}>Submit</MyButton>
       </FormControl>
+      <Box
+        display="flex"
+        gap={2}
+        alignItems="center"
+        justifyContent="center"
+        mt={6}
+      >
+        <Paragraph margin={false}>Forgot your password?</Paragraph>
+        <MyButton onClick={onOpen}>Reset Password</MyButton>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader color="#45446A">
+            Enter the email address associated with the account:
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              onChange={(e: any) => {
+                setEmail(e.target.value);
+              }}
+              variant="filled"
+            />
+            <MyButton onClick={resetPassword}>
+              Send verification email!
+            </MyButton>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Section>
   );
 };

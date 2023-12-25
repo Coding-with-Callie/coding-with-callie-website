@@ -5,6 +5,7 @@ import {
   createBrowserRouter,
   redirect,
   RouterProvider,
+  useParams,
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
@@ -178,6 +179,16 @@ const router = createBrowserRouter([
             );
             return redirect("/sign-up");
           }
+        },
+      },
+      {
+        path: "/profile/:token",
+        element: <Profile />,
+        loader: ({ params }) => {
+          const token = params.token as string;
+          localStorage.setItem("token", token);
+          showNotification("You can reset your password here!", "success");
+          return redirect("/profile");
         },
       },
     ],

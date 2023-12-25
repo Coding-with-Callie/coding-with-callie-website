@@ -3,13 +3,21 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { newUserDto } from './auth.controller';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
+    private mailService: MailService,
     private jwtService: JwtService,
   ) {}
+
+  async hashPassword(password) {
+    const saltOrRounds = 10;
+    return await bcrypt.hash(password, saltOrRounds);
+  }
+
   async signUp(user: newUserDto) {
     const existingUser = await this.usersService.findOneByUsername(
       user.username,
@@ -18,25 +26,20 @@ export class AuthService {
     if (existingUser !== null) {
       return 'user already exists';
     } else {
-      const saltOrRounds = 10;
-      const hashedPassword = await bcrypt.hash(user.password, saltOrRounds);
+      const hashedPassword = await this.hashPassword(user.password);
       await this.usersService.createUser({
         name: user.name,
         email: user.email,
         username: user.username,
         password: hashedPassword,
       });
+      this.mailService.sendNewUserEmail(user);
+      this.mailService.sendEmailToNewUser(user);
       return this.signIn(user.username, user.password);
     }
   }
 
-  async signIn(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOneByUsername(username);
-
-    if (user === null) {
-      throw new UnauthorizedException();
-    }
-
+  async checkPasswordAndCreateAccessToken(pass: string, user) {
     const isMatch = await bcrypt.compare(pass, user.password);
     if (!isMatch) {
       throw new UnauthorizedException();
@@ -46,6 +49,15 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async signIn(username: string, pass: string): Promise<any> {
+    const user = await this.usersService.findOneByUsername(username);
+    if (user === null) {
+      throw new UnauthorizedException();
+    }
+
+    return this.checkPasswordAndCreateAccessToken(pass, user);
   }
 
   async getUserProfile(id: number) {
@@ -60,8 +72,18 @@ export class AuthService {
   }
 
   async changeAccountDetail(id: number, value: string, field: string) {
-    const user = await this.usersService.changeAccountDetail(id, value, field);
-    console.log('AFTER CHANGE:', user);
+    const userToUpdate = await this.usersService.findOneById(id);
+
+    if (field === 'password') {
+      value = await this.hashPassword(value);
+    }
+
+    const user = await this.usersService.changeAccountDetail(
+      userToUpdate,
+      field,
+      value,
+    );
+
     return {
       id: user.id,
       name: user.name,
@@ -73,5 +95,12 @@ export class AuthService {
 
   async deleteUser(id: number) {
     return await this.usersService.deleteUser(id);
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.usersService.findOneByEmail(email);
+    const payload = { sub: user.id, username: user.username };
+    const access_token = await this.jwtService.signAsync(payload);
+    return await this.mailService.sendPasswordResetEmail(user, access_token);
   }
 }

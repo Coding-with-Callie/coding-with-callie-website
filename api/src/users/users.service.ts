@@ -26,9 +26,13 @@ export class UsersService {
     return await this.usersRepository.findOne({ where: { id } });
   }
 
-  async changeAccountDetail(id: number, value: string, field: string) {
-    const userToUpdate = await this.findOneById(id);
+  async findOneByEmail(email: string) {
+    return await this.usersRepository.findOne({ where: { email } });
+  }
+
+  async changeAccountDetail(userToUpdate, field, value) {
     userToUpdate[field] = value;
+
     return await this.usersRepository.save(userToUpdate);
   }
 }

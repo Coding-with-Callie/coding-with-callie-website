@@ -11,8 +11,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter,
-  Button,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -44,6 +42,7 @@ const Profile = () => {
   const [name, setName] = useState(currentName);
   const [username, setUsername] = useState(currentName);
   const [email, setEmail] = useState(currentEmail);
+  const [password, setPassword] = useState(currentEmail);
 
   const showNotification = (message: string, type: "error" | "success") => {
     toast[type](message, { toastId: `${type}-${message}` });
@@ -138,6 +137,28 @@ const Profile = () => {
                       onClick={() => {
                         setField("username");
                         setFieldValue(username);
+                        onOpen();
+                      }}
+                    />
+                  </Box>
+                </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={2}
+                  alignItems="center"
+                >
+                  <Paragraph margin={false}>Password: </Paragraph>
+                  <Box display="flex" w="70%" alignItems="center">
+                    <Paragraph flexWeight={1} margin={false}>
+                      ****************************
+                    </Paragraph>
+                    <IconButton
+                      aria-label="edit"
+                      icon={<EditIcon />}
+                      onClick={() => {
+                        setField("password");
+                        setFieldValue(password);
                         onOpen();
                       }}
                     />

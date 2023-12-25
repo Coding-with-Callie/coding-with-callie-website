@@ -38,6 +38,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() userDto: userDto) {
+    console.log(userDto);
     return this.authService.signIn(userDto.username, userDto.password);
   }
 
@@ -50,7 +51,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('change-account-detail')
   changeAccountDetail(@Body() body) {
-    console.log('BODY: ', body);
     return this.authService.changeAccountDetail(
       body.id,
       body.value,
@@ -62,5 +62,11 @@ export class AuthController {
   @Post('delete-account')
   deleteAccount(@Body() body) {
     return this.authService.deleteUser(body.id);
+  }
+
+  @Post('forgot-password')
+  forgotPassword(@Body() body) {
+    console.log('FORGOT PASSWORD', body);
+    return this.authService.forgotPassword(body.email);
   }
 }
