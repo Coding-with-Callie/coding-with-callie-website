@@ -10,6 +10,7 @@ import {
   ModalContent,
   ModalHeader,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -22,6 +23,7 @@ import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 
 const LogIn = () => {
+  const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const data = useLoaderData();
   const [userData, setUserData] = useState<any>(data);
@@ -165,9 +167,13 @@ const LogIn = () => {
         alignItems="center"
         justifyContent="center"
         mt={6}
+        w="100%"
+        flexDirection={isLargerThan450 ? "row" : "column"}
       >
         <Paragraph margin={false}>Forgot your password?</Paragraph>
-        <MyButton onClick={onOpen}>Reset Password</MyButton>
+        <MyButton onClick={onOpen} widthSize={isLargerThan450 ? null : "100%"}>
+          Reset Password
+        </MyButton>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

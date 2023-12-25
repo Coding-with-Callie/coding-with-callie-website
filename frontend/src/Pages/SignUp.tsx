@@ -4,6 +4,7 @@ import {
   Input,
   FormHelperText,
   Box,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -20,6 +21,7 @@ export type SignUpData = {
 };
 
 const SignUp = () => {
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
   const context: Context = useOutletContext();
@@ -172,11 +174,18 @@ const SignUp = () => {
           alignItems="center"
           justifyContent="center"
           mt={6}
+          w="100%"
+          flexDirection={isLargerThan500 ? "row" : "column"}
         >
           <Paragraph margin={false}>Already have an account?</Paragraph>
-          <Link to="/log-in">
-            <MyButton>Sign in instead!</MyButton>
-          </Link>
+          <MyButton
+            onClick={() => {
+              navigate("/log-in");
+            }}
+            widthSize={isLargerThan500 ? null : "100%"}
+          >
+            Sign in instead!
+          </MyButton>
         </Box>
       </FormControl>
     </Section>

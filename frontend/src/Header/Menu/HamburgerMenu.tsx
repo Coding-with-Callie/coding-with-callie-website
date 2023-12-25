@@ -1,5 +1,12 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -10,6 +17,8 @@ const purple = "#45446A";
 const green = "#E1E7CD";
 
 const HamburgerMenu = ({ menuItems }: Props) => {
+  const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
+
   return (
     <Menu>
       <MenuButton
@@ -34,20 +43,41 @@ const HamburgerMenu = ({ menuItems }: Props) => {
       </MenuButton>
       <MenuList backgroundColor={purple}>
         {menuItems.map((item: any) => {
-          return (
-            <Link to={`/${item.path}`}>
-              <MenuItem
-                backgroundColor={purple}
-                color={green}
-                _hover={{
-                  backgroundColor: `${green}`,
-                  color: `${purple}`,
-                }}
-              >
-                {item.name}
-              </MenuItem>
-            </Link>
-          );
+          if (!isLargerThan600) {
+            return (
+              <Link to={`/${item.path}`}>
+                <MenuItem
+                  backgroundColor={purple}
+                  color={green}
+                  _hover={{
+                    backgroundColor: `${green}`,
+                    color: `${purple}`,
+                  }}
+                >
+                  {item.name}
+                </MenuItem>
+              </Link>
+            );
+          } else {
+            if (item.name !== "Account Details") {
+              return (
+                <Link to={`/${item.path}`}>
+                  <MenuItem
+                    backgroundColor={purple}
+                    color={green}
+                    _hover={{
+                      backgroundColor: `${green}`,
+                      color: `${purple}`,
+                    }}
+                  >
+                    {item.name}
+                  </MenuItem>
+                </Link>
+              );
+            } else {
+              return null;
+            }
+          }
         })}
       </MenuList>
     </Menu>

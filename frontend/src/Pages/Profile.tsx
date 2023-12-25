@@ -151,7 +151,7 @@ const Profile = () => {
                   <Paragraph margin={false}>Password: </Paragraph>
                   <Box display="flex" w="70%" alignItems="center">
                     <Paragraph flexWeight={1} margin={false}>
-                      ****************************
+                      {isLargerThan600 ? "********************" : "******"}
                     </Paragraph>
                     <IconButton
                       aria-label="edit"

@@ -8,21 +8,27 @@ type Props = {
 };
 
 const Header = ({ user }: Props) => {
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
   return (
-    <Box py={4} px={8} display="flex" alignItems="center" gap={4}>
+    <Box
+      py={4}
+      px={isLargerThan600 ? 8 : 4}
+      display="flex"
+      alignItems="center"
+      gap={4}
+    >
       <Box flex={1}>
         <Link to="/">
-          <Box display="flex" gap={isLargerThan500 ? 4 : 2} alignItems="center">
+          <Box display="flex" gap={isLargerThan600 ? 4 : 2} alignItems="center">
             <Image
               src={sloth}
               borderRadius="50%"
-              h={isLargerThan500 ? "80px" : "50px"}
+              h={isLargerThan600 ? "80px" : "50px"}
               boxShadow="lg"
             />
-            <Heading fontSize={isLargerThan500 ? 36 : 25} color="#79A9CD">
+            <Heading fontSize={isLargerThan600 ? 36 : 24} color="#79A9CD">
               Coding with Callie
             </Heading>
           </Box>
@@ -34,6 +40,7 @@ const Header = ({ user }: Props) => {
           name={user.username}
           _hover={{ cursor: "pointer" }}
           onClick={() => navigate("/profile")}
+          display={isLargerThan600 ? "flex" : "none"}
         />
       ) : null}
     </Box>
