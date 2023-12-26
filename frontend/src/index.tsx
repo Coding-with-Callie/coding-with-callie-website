@@ -182,13 +182,32 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/profile/:token",
+        path: "/profile/:token/:id",
         element: <Profile />,
-        loader: ({ params }) => {
+        loader: async ({ params }) => {
           const token = params.token as string;
-          localStorage.setItem("token", token);
-          showNotification("You can reset your password here!", "success");
-          return redirect("/profile");
+          const id = params.id;
+
+          try {
+            const response = await axios.get(
+              `${
+                process.env.REACT_APP_API || "http://localhost:3001/api"
+              }/auth/profile/${token}/${id}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            localStorage.setItem("token", response.data);
+
+            showNotification("You can reset your password here!", "success");
+            return redirect("/profile");
+          } catch (error) {
+            showNotification(
+              "I'm sorry, this link is no longer active. Please log in again to view your account details!",
+              "error"
+            );
+            return redirect("/log-in");
+          }
         },
       },
     ],

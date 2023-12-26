@@ -47,6 +47,11 @@ export class AuthController {
     return this.authService.getUserProfile(req.user.sub);
   }
 
+  @Get('profile/:token/:id')
+  getProfileReset(@Request() req) {
+    return this.authService.getProfileReset(req.params.token, req.params.id);
+  }
+
   @UseGuards(AuthGuard)
   @Post('change-account-detail')
   changeAccountDetail(@Body() body) {

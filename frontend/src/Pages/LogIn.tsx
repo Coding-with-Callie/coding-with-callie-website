@@ -34,7 +34,10 @@ const LogIn = () => {
   const context: Context = useOutletContext();
   context.updateUser(data);
 
-  const showNotification = (message: string, type: "success" | "error") => {
+  const showNotification = (
+    message: string,
+    type: "success" | "error" | "info"
+  ) => {
     toast[type](message, { toastId: `${type}-${message}` });
   };
 
@@ -100,10 +103,7 @@ const LogIn = () => {
         { email }
       )
       .then((response) => {
-        showNotification(
-          "Check your email for a password reset link!",
-          "success"
-        );
+        showNotification("Please check your email for next steps.", "info");
         setEmail("");
         onClose();
       })
@@ -111,10 +111,7 @@ const LogIn = () => {
         if (error.response.data.message === "Unauthorized") {
           setEmail("");
           onClose();
-          showNotification(
-            "We did not find that email in our system.",
-            "error"
-          );
+          showNotification("Please check your email for next steps.", "info");
         }
       });
   };

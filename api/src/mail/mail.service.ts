@@ -4,6 +4,8 @@ import { HTML_TEMPLATE as newMessageTemplate } from './new-message-mail-template
 import { HTML_TEMPLATE as newUserTemplate } from './new-user-mail-template';
 import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user';
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 @Injectable()
 export class MailService {
@@ -17,7 +19,7 @@ export class MailService {
         html: newUserTemplate(data),
       },
       (info) => {
-        console.log(`INFO`, info);
+        console.log('new user notfication email sent');
       },
     );
   }
@@ -32,7 +34,7 @@ export class MailService {
         html: newMessageTemplate(data),
       },
       (info) => {
-        console.log(`INFO`, info);
+        console.log('new user notification email sent');
       },
     );
   }
@@ -47,12 +49,12 @@ export class MailService {
         html: messageToNewUserTemplate(data),
       },
       (info) => {
-        console.log(`INFO`, info);
+        console.log('welcome email sent to new user');
       },
     );
   }
 
-  async sendPasswordResetEmail(user, access_token) {
+  async sendPasswordResetEmail(user, access_token, id) {
     SENDMAIL(
       {
         from: 'calliestoscup@gmail.com>', // sender address
@@ -62,10 +64,22 @@ export class MailService {
             : user.email, // receiver email
         subject: 'Reset Your Password', // Subject line
         text: '',
-        html: resetPasswordTemplate(access_token),
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+          {
+            filename: 'image-1.png',
+            path: path.join(__dirname, '/image-1.png'),
+            cid: 'icon',
+          },
+        ],
+        html: resetPasswordTemplate(access_token, id),
       },
       (info) => {
-        console.log(`INFO`, info);
+        console.log('reset email sent');
       },
     );
   }

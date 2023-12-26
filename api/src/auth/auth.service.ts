@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { newUserDto } from './auth.controller';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
+import jwt from 'src/config/jwt';
 
 @Injectable()
 export class AuthService {
@@ -108,7 +109,32 @@ export class AuthService {
     }
 
     const payload = { sub: user.id, username: user.username };
-    const access_token = await this.jwtService.signAsync(payload);
-    return await this.mailService.sendPasswordResetEmail(user, access_token);
+    const secret = user.password;
+    const access_token = await this.jwtService.signAsync(payload, {
+      secret,
+      expiresIn: '10m',
+    });
+
+    return await this.mailService.sendPasswordResetEmail(
+      user,
+      access_token,
+      user.id,
+    );
+  }
+
+  async getProfileReset(token, id) {
+    const user = await this.usersService.findOneById(id);
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: user.password,
+    });
+
+    if (payload) {
+      return await this.jwtService.signAsync({
+        sub: user.id,
+        username: user.username,
+      });
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }

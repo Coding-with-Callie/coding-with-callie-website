@@ -49,6 +49,7 @@ const EditModal = ({ field, onClose }: Props) => {
           }
         )
         .then((response) => {
+          showNotification(`Your account ${field} has been changed`, "success");
           context.updateUser(response.data);
         })
         .catch((error) => {
