@@ -5,10 +5,11 @@ import {
   FormHelperText,
   Box,
   useMediaQuery,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
@@ -37,6 +38,7 @@ const SignUp = () => {
       userData.name !== "" &&
       userData.email &&
       userData.email !== "" &&
+      userData.email.indexOf("@") !== -1 &&
       userData.username &&
       userData.username !== "" &&
       userData.password &&
@@ -144,10 +146,19 @@ const SignUp = () => {
             value={userData.email}
             onChange={onChangeEmail}
             isInvalid={
-              submitClicked && (!userData.email || userData.email === "")
+              submitClicked &&
+              (!userData.email ||
+                userData.email === "" ||
+                userData.email.indexOf("@") === -1)
             }
           />
-          <FormHelperText>We'll never share your email.</FormHelperText>
+          {submitClicked && userData.email.indexOf("@") === -1 ? (
+            <FormHelperText color="red">
+              Please enter a valid email.
+            </FormHelperText>
+          ) : (
+            <FormHelperText>We'll never share your email.</FormHelperText>
+          )}
         </Box>
         <Box>
           <FormLabel layerStyle="input">Username</FormLabel>
