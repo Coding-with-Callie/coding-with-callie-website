@@ -203,7 +203,7 @@ const router = createBrowserRouter([
             return redirect("/profile");
           } catch (error) {
             showNotification(
-              "I'm sorry, this link is no longer active. Please log in again to view your account details!",
+              "I'm sorry, this link is no longer active.",
               "error"
             );
             return redirect("/log-in");
