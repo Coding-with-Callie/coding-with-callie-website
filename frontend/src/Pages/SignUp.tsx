@@ -5,7 +5,6 @@ import {
   FormHelperText,
   Box,
   useMediaQuery,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";

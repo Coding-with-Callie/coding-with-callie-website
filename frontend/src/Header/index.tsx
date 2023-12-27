@@ -34,7 +34,7 @@ const Header = ({ user }: Props) => {
           </Box>
         </Link>
       </Box>
-      <Menus />
+      <Menus user={user} />
       {user?.name ? (
         <Avatar
           name={user.username}

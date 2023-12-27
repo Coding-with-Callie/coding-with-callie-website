@@ -16,7 +16,7 @@ const homeText = [
 
 const workshopText = [
   "Coding with Callie's first workshop starts Thursday, January 18.",
-  "Over the course of 10 weeks, we'll build a Todo List application. This is a guided workshop meant for those want to learn how to build usable applications.",
+  "Over the course of 10 weeks, we'll build a Todo List application. This is a guided workshop meant for those who want to learn how to build usable applications.",
 ];
 
 const codeReviewsText = [
