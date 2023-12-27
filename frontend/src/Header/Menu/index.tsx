@@ -7,12 +7,15 @@ const Menus = ({ user }: any) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
 
+  const loggedIn = user?.name;
+
   const filterMenuItems = (items: menuItem[]) => {
     return items.filter((item) => {
-      if (user?.name && item.hiddenWhenLoggedIn) {
-        return null;
-      }
-      if (user?.name && isLargerThan600 && item.name === "Account Details") {
+      if (
+        (loggedIn && item.hiddenWhenLoggedIn) ||
+        (loggedIn && isLargerThan600 && item.name === "Account Details") ||
+        (!loggedIn && item.hiddenWhenLoggedOut)
+      ) {
         return null;
       }
       return item;

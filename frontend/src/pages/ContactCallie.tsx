@@ -1,34 +1,52 @@
-import {
-  Box,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
+import { FormControl } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
+import TextInput from "../Components/Forms/TextInput";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
+import {
+  isInvalidEmail,
+  isInvalidMessage,
+  isInvalidName,
+} from "../helpers/helpers";
 
 const thankYouMessage = ["Thank you! Callie will get back to you soon!"];
 
 const ContactCallie = () => {
-  const [contactFormData, setContactFormData] = useState<any>({});
+  const context: Context = useOutletContext();
+  const [contactFormData, setContactFormData] = useState<any>({
+    name: context.user?.name || "",
+    email: context.user?.email || "",
+    message: "",
+  });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [formSent, setFormSent] = useState(false);
+  const [invalidName, setInvalidName] = useState(
+    isInvalidName(contactFormData.name)
+  );
+  const [invalidEmail, setInvalidEmail] = useState(
+    isInvalidEmail(contactFormData.email)
+  );
+  const [invalidMessage, setInvalidMessage] = useState(
+    isInvalidMessage(contactFormData.message)
+  );
 
   const onSubmit = () => {
+    setInvalidName(isInvalidName(contactFormData.name));
+    setInvalidEmail(isInvalidEmail(contactFormData.email));
+    setInvalidMessage(isInvalidMessage(contactFormData.message));
+
     if (
-      contactFormData.name &&
-      contactFormData.name !== "" &&
-      contactFormData.email &&
-      contactFormData.email !== "" &&
-      contactFormData.message &&
-      contactFormData.message !== ""
+      isInvalidName(contactFormData.name) ||
+      isInvalidEmail(contactFormData.email) ||
+      isInvalidMessage(contactFormData.message)
     ) {
+      setSubmitClicked(true);
+    } else {
       setFormSent(true);
       axios
         .post(
@@ -38,23 +56,21 @@ const ContactCallie = () => {
         .then((response) => {
           console.log(response.data);
         });
-    } else {
-      setSubmitClicked(true);
     }
   };
 
   const onChangeName = (e: any) => {
-    setSubmitClicked(false);
+    setInvalidName(false);
     setContactFormData({ ...contactFormData, name: e.target.value });
   };
 
   const onChangeEmail = (e: any) => {
-    setSubmitClicked(false);
+    setInvalidEmail(false);
     setContactFormData({ ...contactFormData, email: e.target.value });
   };
 
   const onChangeMessage = (e: any) => {
-    setSubmitClicked(false);
+    setInvalidMessage(false);
     setContactFormData({ ...contactFormData, message: e.target.value });
   };
 
@@ -65,46 +81,25 @@ const ContactCallie = () => {
         <BodyText textBlocks={thankYouMessage} textAlignCenter={true} />
       ) : (
         <FormControl display="flex" flexDirection="column" gap={6}>
-          <Box>
-            <FormLabel layerStyle="input">Name</FormLabel>
-            <Input
-              type="text"
-              layerStyle="input"
-              variant="filled"
-              id="name"
-              onChange={onChangeName}
-              isInvalid={
-                submitClicked &&
-                (!contactFormData.name || contactFormData.name === "")
-              }
-            />
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Email address</FormLabel>
-            <Input
-              type="email"
-              layerStyle="input"
-              variant="filled"
-              onChange={onChangeEmail}
-              isInvalid={
-                submitClicked &&
-                (!contactFormData.email || contactFormData.email === "")
-              }
-            />
-            <FormHelperText>We'll never share your email.</FormHelperText>
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Message</FormLabel>
-            <Textarea
-              layerStyle="input"
-              variant="filled"
-              onChange={onChangeMessage}
-              isInvalid={
-                submitClicked &&
-                (!contactFormData.message || contactFormData.message === "")
-              }
-            />
-          </Box>
+          <TextInput
+            field="Name"
+            onChange={onChangeName}
+            value={contactFormData.name}
+            isInvalid={submitClicked && invalidName}
+          />
+          <TextInput
+            field="Email"
+            onChange={onChangeEmail}
+            value={contactFormData.email}
+            isInvalid={submitClicked && invalidEmail}
+            helperText="We'll never share your email."
+          />
+          <TextInput
+            field="Message"
+            onChange={onChangeMessage}
+            value={contactFormData.message}
+            isInvalid={submitClicked && invalidMessage}
+          />
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>
       )}
