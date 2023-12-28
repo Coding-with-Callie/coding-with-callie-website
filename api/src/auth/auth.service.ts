@@ -4,7 +4,7 @@ import { UsersService } from '../users/users.service';
 import { newUserDto } from './auth.controller';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
-import jwt from 'src/config/jwt';
+import { SubmissionsService } from 'src/submissions/submissions.service';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +12,7 @@ export class AuthService {
     private usersService: UsersService,
     private mailService: MailService,
     private jwtService: JwtService,
+    private submissionsService: SubmissionsService,
   ) {}
 
   async hashPassword(password) {
@@ -136,5 +137,17 @@ export class AuthService {
     } else {
       throw new UnauthorizedException();
     }
+  }
+
+  async getUserSubmissions(userId: number) {
+    return await this.submissionsService.getUserSubmissions(userId);
+  }
+
+  async getAllSubmissions(sessionId) {
+    return await this.submissionsService.getAllSubmissions(sessionId);
+  }
+
+  async submitDeliverable(deliverable: any) {
+    return await this.submissionsService.submitDeliverable(deliverable);
   }
 }

@@ -16,6 +16,7 @@ import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
 import Resources from "./Pages/Resources";
 import SignUp from "./Pages/SignUp";
+import Submissions from "./Pages/Submissions";
 import WorkshopDetails from "./Pages/WorkshopDetails";
 
 export const showNotification = (
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                }/auth/user-submissions`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -207,6 +208,40 @@ const router = createBrowserRouter([
               "error"
             );
             return redirect("/log-in");
+          }
+        },
+      },
+      {
+        path: "/submissions/:id",
+        element: <Submissions />,
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+          const id = params.id;
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/all-submissions/${id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
+                "error"
+              );
+              return redirect("/log-in");
+            }
+          } else {
+            showNotification(
+              "You must sign up to view Conding with Callie submissions!",
+              "error"
+            );
+            return redirect("/sign-up");
           }
         },
       },

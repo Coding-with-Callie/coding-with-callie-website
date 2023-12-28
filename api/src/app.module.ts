@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 import { MailModule } from './mail/mail.module';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MailModule } from './mail/mail.module';
       },
     }),
     MessageModule,
+    SubmissionsModule,
     AuthModule,
     UsersModule,
     MailModule,

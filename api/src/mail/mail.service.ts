@@ -43,7 +43,10 @@ export class MailService {
     SENDMAIL(
       {
         from: 'calliestoscup@gmail.com>', // sender address
-        to: data.email, // receiver email
+        to:
+          process.env.ENVIRONMENT === 'local'
+            ? 'calliestoscup@gmail.com'
+            : data.email, // receiver email
         subject: 'Welcome to the Coding with Callie community 👋🏻', // Subject line
         text: '',
         html: messageToNewUserTemplate(data),

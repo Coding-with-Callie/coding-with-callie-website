@@ -72,4 +72,23 @@ export class AuthController {
   forgotPassword(@Body() body) {
     return this.authService.forgotPassword(body.email);
   }
+
+  @UseGuards(AuthGuard)
+  @Get('user-submissions')
+  getUserSubmissions(@Request() req) {
+    const userId = req.user.sub;
+    return this.authService.getUserSubmissions(userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('all-submissions/:id')
+  getAllSubmissions(@Request() req) {
+    return this.authService.getAllSubmissions(req.params.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('submit-deliverable')
+  submitDeliverable(@Body() deliverable: any) {
+    return this.authService.submitDeliverable(deliverable);
+  }
 }
