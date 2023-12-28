@@ -4,9 +4,10 @@ type Props = {
   children: string;
   onClick?: any;
   widthSize?: any;
+  disabled?: boolean;
 };
 
-const MyButton = ({ children, onClick, widthSize }: Props) => {
+const MyButton = ({ children, onClick, widthSize, disabled }: Props) => {
   return (
     <Box
       as="button"
@@ -16,6 +17,7 @@ const MyButton = ({ children, onClick, widthSize }: Props) => {
       layerStyle="button"
       onClick={onClick}
       w={widthSize}
+      disabled={disabled}
     >
       {children}
     </Box>
