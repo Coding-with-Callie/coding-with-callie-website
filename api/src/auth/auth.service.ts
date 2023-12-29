@@ -164,4 +164,8 @@ export class AuthService {
   async editFeedback(feedbackDto: any) {
     return await this.feedbackService.editFeedback(feedbackDto);
   }
+
+  async deleteFeedback(id: number) {
+    return await this.feedbackService.deleteFeedback(id);
+  }
 }

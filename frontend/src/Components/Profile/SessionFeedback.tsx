@@ -22,7 +22,7 @@ const SessionFeedback = () => {
             <BodyHeading
               textAlignCenter={true}
             >{`Session ${submission.session}`}</BodyHeading>
-            <Box mt={20} mb={4}>
+            <Box mb={4}>
               <BodyHeading textAlignCenter={false}>
                 Feedback Received
               </BodyHeading>

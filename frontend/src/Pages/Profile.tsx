@@ -59,6 +59,7 @@ const Profile = () => {
   useEffect(() => {
     console.log("use effect");
     context.updateUser(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const context: Context = useOutletContext();
@@ -81,8 +82,6 @@ const Profile = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    const newUser = {};
-    context.updateUser(newUser);
     navigate("/log-in");
     showNotification("You have been logged out of your account!", "success");
   };

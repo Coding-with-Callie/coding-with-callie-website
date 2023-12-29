@@ -1,26 +1,13 @@
-import {
-  Box,
-  Button,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Link, Text, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
-import TextAreaInput from "../Components/Forms/TextAreaInput";
 import MyButton from "../Components/MyButton";
 import { Submission } from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
+import FeedbackModal from "../Components/Submissions/FeedbackModal";
 
 type Data = {
   id: number;
@@ -134,44 +121,18 @@ const Submissions = () => {
           })}
         </Box>
       </Section>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Submission Feedback</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box display="flex" gap={6} flexDirection="column">
-              <TextAreaInput
-                field="What did you learn from reviewing this submission that you'd like to implement yourself?"
-                onChange={(e: any) => {
-                  setPositiveFeedback(e.target.value);
-                }}
-                value={positiveFeedback}
-                isInvalid={submitClicked && positiveFeedback === ""}
-              />
-              <TextAreaInput
-                field="What immediate modifications would you recommend be made to this submission? Why?"
-                onChange={(e: any) => {
-                  setImmediateChangesRequested(e.target.value);
-                }}
-                value={immediateChangesRequested}
-                isInvalid={submitClicked && immediateChangesRequested === ""}
-              />
-              <TextAreaInput
-                field="What long-term enhancements would you recommend be made to this submission? Why?"
-                onChange={(e: any) => {
-                  setLongTermChangesRequested(e.target.value);
-                }}
-                value={longTermChangesRequested}
-                isInvalid={submitClicked && longTermChangesRequested === ""}
-              />
-            </Box>
-          </ModalBody>
-          <ModalFooter>
-            <MyButton onClick={submitFeedback}>Submit</MyButton>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <FeedbackModal
+        isOpen={isOpen}
+        onClose={onClose}
+        setPositiveFeedback={setPositiveFeedback}
+        positiveFeedback={positiveFeedback}
+        submitClicked={submitClicked}
+        setImmediateChangesRequested={setImmediateChangesRequested}
+        immediateChangesRequested={immediateChangesRequested}
+        setLongTermChangesRequested={setLongTermChangesRequested}
+        longTermChangesRequested={longTermChangesRequested}
+        submitFeedback={submitFeedback}
+      />
     </Box>
   );
 };

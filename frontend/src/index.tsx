@@ -74,7 +74,7 @@ const router = createBrowserRouter([
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/user-submissions`,
+                }/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }

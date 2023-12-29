@@ -38,4 +38,11 @@ export class FeedbackService {
       feedbackDto.longTermChangesRequested;
     return await this.feedbackRepository.save(feedbackToUpdate);
   }
+
+  async deleteFeedback(id: number) {
+    const feedbackToDelete = await this.feedbackRepository.findOne({
+      where: { id },
+    });
+    return await this.feedbackRepository.remove(feedbackToDelete);
+  }
 }

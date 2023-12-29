@@ -2,6 +2,7 @@ import { Box, Text, Input } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Feedback } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
 import Section from "../Section";
@@ -19,12 +20,22 @@ type Props = {
   index: number;
   userId: number;
   submissions: any;
+  feedback: Feedback[];
 };
 
-const SessionTask = ({ session, index, userId, submissions }: Props) => {
+const SessionTask = ({
+  session,
+  index,
+  userId,
+  submissions,
+  feedback,
+}: Props) => {
   const sessionSubmissions = submissions.filter(
     (submission: Submission) => submission.session === index + 1
   );
+
+  const feedbackCount = feedback.length;
+  console.log("COUNT", feedbackCount);
 
   const navigate = useNavigate();
   const [url, setUrl] = useState("");
@@ -78,24 +89,47 @@ const SessionTask = ({ session, index, userId, submissions }: Props) => {
             {session.dueDate}
           </Text>
         </Box>
-        <Box display="flex" flexDirection="column" gap={4}>
-          <Input
-            layerStyle="input"
-            variant="filled"
-            placeholder="Paste a link to your deliverable here..."
-            onChange={(e: any) => {
-              setUrl(e.target.value);
-            }}
-          />
-          <MyButton onClick={submitDeliverable}>Submit</MyButton>
+        <Box display="flex" gap={2}>
+          {submitted ? (
+            <>
+              <Box flex={1}>
+                <MyButton
+                  widthSize="100%"
+                  onClick={() => navigate(`/submissions/${index + 1}`)}
+                >
+                  Participant submissions
+                </MyButton>
+              </Box>
+              <Box flex={1}>
+                <MyButton widthSize="100%" onClick={() => {}}>
+                  Edit submission
+                </MyButton>
+              </Box>
+            </>
+          ) : (
+            <Box display="flex" flexDirection="column" gap={4}>
+              <Input
+                layerStyle="input"
+                variant="filled"
+                placeholder="Paste a link to your deliverable here..."
+                onChange={(e: any) => {
+                  setUrl(e.target.value);
+                }}
+              />
+              <MyButton onClick={submitDeliverable}>Submit</MyButton>
+            </Box>
+          )}
+          {feedbackCount > 1 ? (
+            <Box flex={1}>
+              <MyButton
+                widthSize="100%"
+                onClick={() => navigate(`/submissions/callie/${index + 1}`)}
+              >
+                View Callie's Solution
+              </MyButton>
+            </Box>
+          ) : null}
         </Box>
-        {submitted ? (
-          <Box>
-            <MyButton onClick={() => navigate(`/submissions/${index + 1}`)}>
-              Participant submissions
-            </MyButton>
-          </Box>
-        ) : null}
       </Box>
     </Section>
   );

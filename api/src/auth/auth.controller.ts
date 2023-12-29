@@ -105,4 +105,11 @@ export class AuthController {
     const result = await this.authService.editFeedback(feedbackDto);
     return this.authService.getUserProfile(result.user.id);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-feedback')
+  async deleteFeedback(@Body() body) {
+    const result = await this.authService.deleteFeedback(body.id);
+    return this.authService.getUserProfile(result.user.id);
+  }
 }

@@ -6,6 +6,7 @@ import BodyText from "../Components/BodyText";
 import { sessions } from "../Components/Resources/sessions";
 import SessionTask from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
+import { Data, Feedback } from "./Profile";
 
 const instructions = [
   "We will be building our Todo List application over the course of 10 weeks. I have broken the application into 10 corresponding tasks.",
@@ -15,8 +16,12 @@ const instructions = [
 ];
 
 const Resources = () => {
-  const data = useLoaderData();
+  const data = useLoaderData() as Data;
   const context: Context = useOutletContext();
+
+  console.log(data);
+
+  const feedback: Feedback[] = data.feedback;
 
   return (
     <>
@@ -26,12 +31,17 @@ const Resources = () => {
       </Section>
       <Box>
         {sessions.map((session, index) => {
+          const sessionFeedback = feedback.filter((feedback) => {
+            return feedback.submission.session === index + 1;
+          });
+
           return (
             <SessionTask
               session={session}
               index={index}
               userId={context.user.id}
-              submissions={data}
+              submissions={data.submissions}
+              feedback={sessionFeedback}
             />
           );
         })}
