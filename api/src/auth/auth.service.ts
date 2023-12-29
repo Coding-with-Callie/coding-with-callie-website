@@ -5,6 +5,7 @@ import { newUserDto } from './auth.controller';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
+import { FeedbackService } from 'src/feedback/feedback.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
     private mailService: MailService,
     private jwtService: JwtService,
     private submissionsService: SubmissionsService,
+    private feedbackService: FeedbackService,
   ) {}
 
   async hashPassword(password) {
@@ -74,6 +76,8 @@ export class AuthService {
       email: user.email,
       username: user.username,
       role: user.role,
+      submissions: user.submissions,
+      feedback: user.feedback,
     };
   }
 
@@ -96,6 +100,8 @@ export class AuthService {
       email: user.email,
       username: user.username,
       role: user.role,
+      submissions: user.submissions,
+      feedback: user.feedback,
     };
   }
 
@@ -149,5 +155,13 @@ export class AuthService {
 
   async submitDeliverable(deliverable: any) {
     return await this.submissionsService.submitDeliverable(deliverable);
+  }
+
+  async submitFeedback(feedbackDto: any) {
+    return await this.feedbackService.submitFeedback(feedbackDto);
+  }
+
+  async editFeedback(feedbackDto: any) {
+    return await this.feedbackService.editFeedback(feedbackDto);
   }
 }

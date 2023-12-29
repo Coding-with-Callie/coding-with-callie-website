@@ -32,7 +32,6 @@ const SessionTask = ({ session, index, userId, submissions }: Props) => {
 
   const submitDeliverable = () => {
     const token = localStorage.getItem("token");
-    console.log("USER ID", userId);
     axios
       .post(
         `${

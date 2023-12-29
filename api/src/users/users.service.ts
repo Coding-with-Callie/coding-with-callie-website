@@ -28,7 +28,15 @@ export class UsersService {
   }
 
   async findOneById(id: number) {
-    return await this.usersRepository.findOne({ where: { id } });
+    return await this.usersRepository.findOne({
+      where: { id },
+      relations: [
+        'submissions',
+        'submissions.feedback',
+        'feedback',
+        'feedback.submission',
+      ],
+    });
   }
 
   async findOneByEmail(email: string) {

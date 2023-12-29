@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
+import TextAreaInput from "../Components/Forms/TextAreaInput";
 import TextInput from "../Components/Forms/TextInput";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
@@ -94,7 +95,7 @@ const ContactCallie = () => {
             isInvalid={submitClicked && invalidEmail}
             helperText="We'll never share your email."
           />
-          <TextInput
+          <TextAreaInput
             field="Message"
             onChange={onChangeMessage}
             value={contactFormData.message}

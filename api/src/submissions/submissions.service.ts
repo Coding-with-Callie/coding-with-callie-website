@@ -13,6 +13,7 @@ export class SubmissionsService {
   async getUserSubmissions(userId: number) {
     const submissions = await this.submissionsRepository.find({
       where: { user: { id: userId } },
+      relations: ['feedback'],
     });
 
     if (submissions) {
@@ -25,6 +26,7 @@ export class SubmissionsService {
   async getAllSubmissions(sessionId: number) {
     return await this.submissionsRepository.find({
       where: { session: sessionId },
+      relations: ['feedback'],
     });
   }
 

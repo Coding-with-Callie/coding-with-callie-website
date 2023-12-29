@@ -12,13 +12,23 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
-import TextInput from "../Components/Forms/TextInput";
+import TextAreaInput from "../Components/Forms/TextAreaInput";
 import MyButton from "../Components/MyButton";
 import { Submission } from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
+
+type Data = {
+  id: number;
+  session: number;
+  url: string;
+  feedback: any[];
+  user: any;
+};
 
 const Submissions = () => {
   const params = useParams();
@@ -27,7 +37,48 @@ const Submissions = () => {
 
   const context = useOutletContext() as Context;
   const userId = context.user.id;
-  console.log("CONTEXT", userId);
+
+  const data = useLoaderData() as Data[];
+
+  const [sessionData, setSessionData] = useState(data);
+  const [submissionId, setSubmissionId] = useState(0);
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [positiveFeedback, setPositiveFeedback] = useState("");
+  const [immediateChangesRequested, setImmediateChangesRequested] =
+    useState("");
+  const [longTermChangesRequested, setLongTermChangesRequested] = useState("");
+
+  const submitFeedback = () => {
+    setSubmitClicked(true);
+    if (
+      positiveFeedback !== "" &&
+      immediateChangesRequested !== "" &&
+      longTermChangesRequested !== ""
+    ) {
+      onClose();
+      const token = localStorage.getItem("token");
+      axios
+        .post(
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/submit-feedback`,
+          {
+            positiveFeedback,
+            immediateChangesRequested,
+            longTermChangesRequested,
+            feedbackProviderId: userId,
+            submissionId,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((response) => {
+          console.log("RESPONSE", response.data);
+          setSessionData(response.data);
+        });
+    }
+  };
 
   return (
     <Box>
@@ -36,7 +87,7 @@ const Submissions = () => {
           textAlignCenter={false}
         >{`Session ${params.id} Submissions`}</BodyHeading>
         <Box w="100%" display="flex" flexDirection="column" gap={6}>
-          {submissions.map((submission: Submission) => {
+          {submissions.map((submission: Submission, index) => {
             return (
               <Box
                 border="1px solid #45446A"
@@ -46,17 +97,33 @@ const Submissions = () => {
                 flexDirection="column"
                 gap={6}
                 backgroundColor="white"
+                boxShadow="lg"
               >
-                <Box display="flex" w="100%">
-                  <Text w="25%">{submission.user.username}</Text>
-                  <Box w="75%">
+                <Box display="flex" w="100%" alignItems="center">
+                  <Text>{submission.user.username}</Text>
+                  <Box textAlign="center" flex={1}>
                     <Link href={submission.url} target="_blank">
                       {submission.url}
                     </Link>
                   </Box>
+                  <Box
+                    backgroundColor="#45446A"
+                    color="white"
+                    w="40px"
+                    h="40px"
+                    textAlign="center"
+                    lineHeight="40px"
+                    borderRadius="50%"
+                    boxShadow="lg"
+                  >
+                    {sessionData[index].feedback.length}
+                  </Box>
                 </Box>
                 <MyButton
-                  onClick={onOpen}
+                  onClick={() => {
+                    onOpen();
+                    setSubmissionId(submission.id);
+                  }}
                   disabled={submission.user.id === userId}
                   widthSize="100%"
                 >
@@ -67,39 +134,41 @@ const Submissions = () => {
           })}
         </Box>
       </Section>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Submission Feedback</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box display="flex" gap={6} flexDirection="column">
-              <TextInput
+              <TextAreaInput
                 field="What did you learn from reviewing this submission that you'd like to implement yourself?"
-                onChange={undefined}
-                value={""}
-                isInvalid={undefined}
+                onChange={(e: any) => {
+                  setPositiveFeedback(e.target.value);
+                }}
+                value={positiveFeedback}
+                isInvalid={submitClicked && positiveFeedback === ""}
               />
-              <TextInput
-                field="What immediate modifications would you recommend be made to this submission? Why"
-                onChange={undefined}
-                value={""}
-                isInvalid={undefined}
+              <TextAreaInput
+                field="What immediate modifications would you recommend be made to this submission? Why?"
+                onChange={(e: any) => {
+                  setImmediateChangesRequested(e.target.value);
+                }}
+                value={immediateChangesRequested}
+                isInvalid={submitClicked && immediateChangesRequested === ""}
               />
-              <TextInput
-                field="What long-term enhancements would you recommend be made to this submission? Why"
-                onChange={undefined}
-                value={""}
-                isInvalid={undefined}
+              <TextAreaInput
+                field="What long-term enhancements would you recommend be made to this submission? Why?"
+                onChange={(e: any) => {
+                  setLongTermChangesRequested(e.target.value);
+                }}
+                value={longTermChangesRequested}
+                isInvalid={submitClicked && longTermChangesRequested === ""}
               />
             </Box>
           </ModalBody>
-
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
+            <MyButton onClick={submitFeedback}>Submit</MyButton>
           </ModalFooter>
         </ModalContent>
       </Modal>

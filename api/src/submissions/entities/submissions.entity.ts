@@ -1,9 +1,11 @@
+import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Users } from 'src/users/entities/users.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -24,4 +26,7 @@ export class Submissions {
   })
   @JoinColumn({ name: 'userId' })
   user: Users;
+
+  @OneToMany(() => Feedback, (feedback) => feedback.submission)
+  feedback: Feedback[];
 }

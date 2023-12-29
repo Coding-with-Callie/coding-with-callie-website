@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import jwt from 'src/config/jwt';
+import { FeedbackModule } from 'src/feedback/feedback.module';
 import { SubmissionsModule } from 'src/submissions/submissions.module';
 import { MailModule } from '../mail/mail.module';
 import { UsersModule } from '../users/users.module';
@@ -16,6 +17,7 @@ import { AuthService } from './auth.service';
     }),
     UsersModule,
     SubmissionsModule,
+    FeedbackModule,
     MailModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

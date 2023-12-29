@@ -1,7 +1,6 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
-import AccessRequired from "../Components/AccessRequired";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import { sessions } from "../Components/Resources/sessions";

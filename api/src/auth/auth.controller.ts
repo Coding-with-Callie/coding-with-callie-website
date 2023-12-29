@@ -91,4 +91,18 @@ export class AuthController {
   submitDeliverable(@Body() deliverable: any) {
     return this.authService.submitDeliverable(deliverable);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('submit-feedback')
+  async submitFeedback(@Body() feedbackDto: any) {
+    await this.authService.submitFeedback(feedbackDto);
+    return this.authService.getAllSubmissions(feedbackDto.sessionId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('edit-feedback')
+  async editFeedback(@Body() feedbackDto: any) {
+    const result = await this.authService.editFeedback(feedbackDto);
+    return this.authService.getUserProfile(result.user.id);
+  }
 }
