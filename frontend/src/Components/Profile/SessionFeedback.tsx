@@ -34,7 +34,7 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
       {submission ? <SubmissionInfo submission={submission} /> : null}
 
       {submission && submission?.feedback.length > 0 ? (
-        <Box mb={10}>
+        <Box mb={10} w="100%">
           <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
 
           {submission.feedback.map((feedback) => {

@@ -12,7 +12,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useRef } from "react";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
@@ -20,7 +19,6 @@ import { Feedback } from "../../Pages/Profile";
 import TextAreaInput from "../Forms/TextAreaInput";
 import MyButton from "../MyButton";
 import Paragraph from "../Paragraph";
-import Alert from "./Alert";
 
 type Props = {
   feedback: Feedback;
@@ -28,12 +26,7 @@ type Props = {
 
 const FeedbackGiven = ({ feedback }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenAlert,
-    onOpen: onOpenAlert,
-    onClose: onCloseAlert,
-  } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
+
   const context: Context = useOutletContext();
 
   const [positiveFeedback, setPositiveFeedback] = useState(
@@ -77,26 +70,6 @@ const FeedbackGiven = ({ feedback }: Props) => {
     }
   };
 
-  const deleteFeedback = () => {
-    onCloseAlert();
-    const token = localStorage.getItem("token");
-    axios
-      .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-feedback`,
-        {
-          id: feedback.id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        context.updateUser(response.data);
-      });
-  };
-
   return (
     <>
       <Box
@@ -127,13 +100,6 @@ const FeedbackGiven = ({ feedback }: Props) => {
             onClick={() => {
               onOpen();
             }}
-          />
-          <IconButton
-            backgroundColor="#45446A"
-            _hover={{ backgroundColor: "#363554" }}
-            aria-label="edit"
-            icon={<DeleteIcon color="#E1E7CD" />}
-            onClick={onOpenAlert}
           />
         </Box>
         <Box>
@@ -197,13 +163,6 @@ const FeedbackGiven = ({ feedback }: Props) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Alert
-        isOpenAlert={isOpenAlert}
-        onCloseAlert={onCloseAlert}
-        cancelRef={cancelRef}
-        handleDelete={deleteFeedback}
-        item="Feedback"
-      />
     </>
   );
 };

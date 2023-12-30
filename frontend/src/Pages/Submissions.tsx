@@ -61,6 +61,10 @@ const Submissions = () => {
           }
         )
         .then((response) => {
+          setPositiveFeedback("");
+          setImmediateChangesRequested("");
+          setLongTermChangesRequested("");
+          setSubmitClicked(false);
           showNotification("Your feedback has been submitted!", "success");
           setSessionData(response.data);
         });
