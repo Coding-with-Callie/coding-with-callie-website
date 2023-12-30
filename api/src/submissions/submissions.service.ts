@@ -40,7 +40,10 @@ export class SubmissionsService {
 
   async editDeliverable(deliverable: any) {
     const deliverableToUpdate = await this.submissionsRepository.findOne({
-      where: { id: deliverable.id },
+      where: {
+        session: deliverable.session,
+        user: { id: deliverable.userId },
+      },
     });
 
     deliverableToUpdate.url = deliverable.url;

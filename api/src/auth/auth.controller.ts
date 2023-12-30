@@ -89,15 +89,15 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('submit-deliverable')
   async submitDeliverable(@Body() deliverable: any) {
-    const result = await this.authService.submitDeliverable(deliverable);
-    return this.authService.getUserProfile(result.user.id);
+    await this.authService.submitDeliverable(deliverable);
+    return this.authService.getUserProfile(deliverable.userId);
   }
 
   @UseGuards(AuthGuard)
   @Post('edit-deliverable')
   async editDeliverable(@Body() deliverable: any) {
-    const result = await this.authService.editDeliverable(deliverable);
-    return this.authService.getUserProfile(result.user.id);
+    await this.authService.editDeliverable(deliverable);
+    return this.authService.getUserProfile(deliverable.userId);
   }
 
   @UseGuards(AuthGuard)

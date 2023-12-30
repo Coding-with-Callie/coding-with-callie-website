@@ -37,13 +37,7 @@ type Props = {
   feedback: Feedback[];
 };
 
-const SessionTask = ({
-  session,
-  index,
-  userId,
-  submissions,
-  feedback,
-}: Props) => {
+const SessionTask = ({ session, index, userId, feedback }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
@@ -59,6 +53,7 @@ const SessionTask = ({
 
   const submitDeliverable = () => {
     const token = localStorage.getItem("token");
+    console.log("userId", userId);
     axios
       .post(
         `${
@@ -71,6 +66,8 @@ const SessionTask = ({
       )
       .then((response) => {
         setSubmitted(true);
+        showNotification("Your submission has been submitted!", "success");
+        console.log("RESPONSE", response.data);
         context.updateUser(response.data);
       });
   };
@@ -78,6 +75,7 @@ const SessionTask = ({
   const editDeliverable = () => {
     onClose();
     const token = localStorage.getItem("token");
+    console.log("INDEX", index);
     axios
       .post(
         `${

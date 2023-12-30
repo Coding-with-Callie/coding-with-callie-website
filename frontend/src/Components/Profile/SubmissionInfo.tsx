@@ -53,17 +53,21 @@ const SubmissionInfo = ({ submission }: Props) => {
         p={4}
         boxShadow="lg"
       >
-        <Paragraph bold margin={false}>
-          Deliverable:
-        </Paragraph>
-        <Paragraph margin={false}>{submission.url}</Paragraph>
-        <IconButton
-          backgroundColor="#45446A"
-          _hover={{ backgroundColor: "#363554" }}
-          aria-label="edit"
-          icon={<EditIcon color="#E1E7CD" />}
-          onClick={onOpen}
-        />
+        <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" gap={2} flex={1}>
+            <Paragraph bold margin={false}>
+              Deliverable:
+            </Paragraph>
+            <Paragraph margin={false}>{submission.url}</Paragraph>
+          </Box>
+          <IconButton
+            backgroundColor="#45446A"
+            _hover={{ backgroundColor: "#363554" }}
+            aria-label="edit"
+            icon={<EditIcon color="#E1E7CD" />}
+            onClick={onOpen}
+          />
+        </Box>
       </Box>
       <EditSubmissionModal
         isOpen={isOpen}

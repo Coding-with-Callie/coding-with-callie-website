@@ -16,10 +16,14 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
   const context: Context = useOutletContext();
 
   const currentUser = context.user as Data;
-  const submission = currentUser.submissions[sessionNumber - 1];
+  const submission = currentUser.submissions.find(
+    (submission) => submission.session === sessionNumber
+  );
   const feedback = currentUser.feedback.filter(
     (review) => review.submission.session === sessionNumber
   );
+
+  console.log("HERE", sessionNumber, submission);
 
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
@@ -31,7 +35,7 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
 
       {submission ? <SubmissionInfo submission={submission} /> : null}
 
-      {submission?.feedback.length > 0 ? (
+      {submission && submission?.feedback.length > 0 ? (
         <Box mb={10}>
           <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
 
