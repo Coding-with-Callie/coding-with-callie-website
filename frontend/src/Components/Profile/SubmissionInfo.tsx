@@ -1,42 +1,41 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon } from "@chakra-ui/icons";
 import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
-import { useRef } from "react";
+import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { showNotification } from "../..";
+import { Context } from "../../App";
 import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
+import EditSubmissionModal from "../Resources/EditSubmissionModal";
 import { Submission } from "../Resources/SessionTask";
-import Alert from "./Alert";
 
 type Props = {
   submission: Submission;
 };
 
 const SubmissionInfo = ({ submission }: Props) => {
-  const {
-    isOpen: isOpenAlert,
-    onOpen: onOpenAlert,
-    onClose: onCloseAlert,
-  } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [url, setUrl] = useState("");
 
-  const deleteSubmission = () => {
-    onCloseAlert();
+  const context: Context = useOutletContext();
+
+  const editDeliverable = () => {
+    onClose();
     const token = localStorage.getItem("token");
     axios
       .post(
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-submission`,
-        {
-          id: submission.id,
-        },
+        }/auth/edit-deliverable`,
+        { session: submission.session, url, userId: submission.user.id },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
       .then((response) => {
-        console.log(response.data);
-        // context.updateUser(response.data);
+        showNotification("Your submission has been edited!", "success");
+        context.updateUser(response.data);
       });
   };
 
@@ -58,29 +57,19 @@ const SubmissionInfo = ({ submission }: Props) => {
           Deliverable:
         </Paragraph>
         <Paragraph margin={false}>{submission.url}</Paragraph>
-        {/* <IconButton
-          backgroundColor="#45446A"
-          _hover={{ backgroundColor: "#363554" }}
-          aria-label="edit"
-          icon={<EditIcon color="#E1E7CD" />}
-          onClick={() => {
-            onOpen();
-          }}
-        /> */}
         <IconButton
           backgroundColor="#45446A"
           _hover={{ backgroundColor: "#363554" }}
           aria-label="edit"
-          icon={<DeleteIcon color="#E1E7CD" />}
-          onClick={onOpenAlert}
+          icon={<EditIcon color="#E1E7CD" />}
+          onClick={onOpen}
         />
       </Box>
-      <Alert
-        isOpenAlert={isOpenAlert}
-        onCloseAlert={onCloseAlert}
-        cancelRef={cancelRef}
-        handleDelete={deleteSubmission}
-        item="Submission"
+      <EditSubmissionModal
+        isOpen={isOpen}
+        onClose={onClose}
+        setUrl={setUrl}
+        editDeliverable={editDeliverable}
       />
     </Box>
   );

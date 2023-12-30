@@ -19,6 +19,7 @@ import { Feedback } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
 import Section from "../Section";
+import EditSubmissionModal from "./EditSubmissionModal";
 import { Session } from "./sessions";
 
 export type Submission = {
@@ -177,26 +178,12 @@ const SessionTask = ({
           </Box>
         </Box>
       </Section>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Submission</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box display="flex" flexDirection="column" gap={4} mb={2}>
-              <Input
-                layerStyle="input"
-                variant="filled"
-                placeholder="Paste a link to your deliverable here..."
-                onChange={(e: any) => {
-                  setUrl(e.target.value);
-                }}
-              />
-              <MyButton onClick={editDeliverable}>Submit</MyButton>
-            </Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <EditSubmissionModal
+        isOpen={isOpen}
+        onClose={onClose}
+        setUrl={setUrl}
+        editDeliverable={editDeliverable}
+      />
     </>
   );
 };
