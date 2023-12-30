@@ -157,15 +157,15 @@ export class AuthService {
     return await this.submissionsService.submitDeliverable(deliverable);
   }
 
+  async editDeliverable(deliverable: any) {
+    return await this.submissionsService.editDeliverable(deliverable);
+  }
+
   async submitFeedback(feedbackDto: any) {
     return await this.feedbackService.submitFeedback(feedbackDto);
   }
 
   async editFeedback(feedbackDto: any) {
     return await this.feedbackService.editFeedback(feedbackDto);
-  }
-
-  async deleteFeedback(id: number) {
-    return await this.feedbackService.deleteFeedback(id);
   }
 }

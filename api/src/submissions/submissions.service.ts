@@ -37,4 +37,24 @@ export class SubmissionsService {
     submission.user = deliverable.userId;
     return await this.submissionsRepository.save(submission);
   }
+
+  async editDeliverable(deliverable: any) {
+    const deliverableToUpdate = await this.submissionsRepository.findOne({
+      where: { id: deliverable.id },
+    });
+
+    deliverableToUpdate.url = deliverable.url;
+
+    return await this.submissionsRepository.save(deliverableToUpdate);
+  }
+
+  async deleteSubmission(id: number) {
+    const submissionToDelete = await this.submissionsRepository.findOne({
+      where: { id },
+    });
+
+    console.log(submissionToDelete);
+
+    return await this.submissionsRepository.remove(submissionToDelete);
+  }
 }

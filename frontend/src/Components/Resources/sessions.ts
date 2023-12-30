@@ -14,4 +14,10 @@ export const sessions: Session[] = [
       "A link to your Trello board with all 5 features and corresponding stories and tasks.",
     dueDate: "January 18, 2024",
   },
+  {
+    title: "Project Set-up",
+    summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up and a NestJS api.",
+    deliverable: "A link to your Todo List Github repository.",
+    dueDate: "January 25, 2024"
+  }
 ];

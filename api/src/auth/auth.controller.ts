@@ -88,8 +88,16 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('submit-deliverable')
-  submitDeliverable(@Body() deliverable: any) {
-    return this.authService.submitDeliverable(deliverable);
+  async submitDeliverable(@Body() deliverable: any) {
+    const result = await this.authService.submitDeliverable(deliverable);
+    return this.authService.getUserProfile(result.user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('edit-deliverable')
+  async editDeliverable(@Body() deliverable: any) {
+    const result = await this.authService.editDeliverable(deliverable);
+    return this.authService.getUserProfile(result.user.id);
   }
 
   @UseGuards(AuthGuard)
@@ -103,13 +111,6 @@ export class AuthController {
   @Post('edit-feedback')
   async editFeedback(@Body() feedbackDto: any) {
     const result = await this.authService.editFeedback(feedbackDto);
-    return this.authService.getUserProfile(result.user.id);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('delete-feedback')
-  async deleteFeedback(@Body() body) {
-    const result = await this.authService.deleteFeedback(body.id);
     return this.authService.getUserProfile(result.user.id);
   }
 }

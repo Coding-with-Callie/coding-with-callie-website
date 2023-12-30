@@ -6,43 +6,51 @@ import BodyHeading from "../BodyHeading";
 import Section from "../Section";
 import FeedbackGiven from "./FeedbackGiven";
 import FeedbackReceived from "./FeedbackReceived";
+import SubmissionInfo from "./SubmissionInfo";
 
-const SessionFeedback = () => {
+type Props = {
+  sessionNumber: number;
+};
+
+const SessionFeedback = ({ sessionNumber }: Props) => {
   const context: Context = useOutletContext();
 
   const currentUser = context.user as Data;
-  const submissions = currentUser.submissions;
-  const feedback = currentUser.feedback;
+  const submission = currentUser.submissions[sessionNumber - 1];
+  const feedback = currentUser.feedback.filter(
+    (review) => review.submission.session === sessionNumber
+  );
 
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
-      {submissions.map((submission) => {
-        return (
-          <Box w="100%">
-            <BodyHeading
-              textAlignCenter={true}
-            >{`Session ${submission.session}`}</BodyHeading>
-            <Box mb={4}>
-              <BodyHeading textAlignCenter={false}>
-                Feedback Received
-              </BodyHeading>
-              {submission.feedback.map((feedback) => {
-                return <FeedbackReceived feedback={feedback} />;
-              })}
-            </Box>
-            <Box mt={20} mb={4}>
-              <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
-              {feedback.map((feedback) => {
-                if (feedback.submission.session === submission.session) {
-                  return <FeedbackGiven feedback={feedback} />;
-                } else {
-                  return null;
-                }
-              })}
-            </Box>
-          </Box>
-        );
-      })}
+      {submission || feedback.length > 0 ? (
+        <BodyHeading
+          textAlignCenter={true}
+        >{`Session ${sessionNumber}`}</BodyHeading>
+      ) : null}
+
+      {submission ? <SubmissionInfo submission={submission} /> : null}
+
+      {submission?.feedback.length > 0 ? (
+        <Box mb={10}>
+          <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
+
+          {submission.feedback.map((feedback) => {
+            return <FeedbackReceived feedback={feedback} />;
+          })}
+        </Box>
+      ) : null}
+      <Box mb={4} w="100%">
+        {feedback.length > 0 ? (
+          <>
+            <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
+
+            {feedback.map((feedback) => {
+              return <FeedbackGiven feedback={feedback} />;
+            })}
+          </>
+        ) : null}
+      </Box>
     </Section>
   );
 };

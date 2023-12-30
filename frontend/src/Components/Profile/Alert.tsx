@@ -13,14 +13,16 @@ type Props = {
   isOpenAlert: boolean;
   onCloseAlert: () => void;
   cancelRef: React.RefObject<HTMLButtonElement>;
-  deleteFeedback: () => void;
+  handleDelete: () => void;
+  item: string;
 };
 
 const Alert = ({
   isOpenAlert,
   cancelRef,
   onCloseAlert,
-  deleteFeedback,
+  handleDelete,
+  item,
 }: Props) => {
   return (
     <AlertDialog
@@ -31,12 +33,11 @@ const Alert = ({
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize="lg" fontWeight="bold" color="#45446A">
-            Delete Feedback
+            Delete {item}
           </AlertDialogHeader>
 
           <AlertDialogBody color="#45446A">
-            Are you sure? You can't undo this action afterwards and this will
-            affect another Coding with Callie member.
+            Are you sure? You can't undo this action afterwards.
           </AlertDialogBody>
 
           <AlertDialogFooter gap={2}>
@@ -63,7 +64,7 @@ const Alert = ({
             >
               Cancel
             </Box>
-            <MyButton onClick={deleteFeedback}>Delete</MyButton>
+            <MyButton onClick={handleDelete}>Delete</MyButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>

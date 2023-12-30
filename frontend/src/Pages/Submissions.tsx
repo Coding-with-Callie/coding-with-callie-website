@@ -1,7 +1,8 @@
-import { Box, Link, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Link, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { SetStateAction, useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
+import { showNotification } from "..";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
@@ -61,7 +62,7 @@ const Submissions = () => {
           }
         )
         .then((response) => {
-          console.log("RESPONSE", response.data);
+          showNotification("Your feedback has been submitted!", "success");
           setSessionData(response.data);
         });
     }
@@ -93,18 +94,20 @@ const Submissions = () => {
                       {submission.url}
                     </Link>
                   </Box>
-                  <Box
-                    backgroundColor="#45446A"
-                    color="white"
-                    w="40px"
-                    h="40px"
-                    textAlign="center"
-                    lineHeight="40px"
-                    borderRadius="50%"
-                    boxShadow="lg"
-                  >
-                    {sessionData[index].feedback.length}
-                  </Box>
+                  <Tooltip label={`Number of submission reviews`}>
+                    <Box
+                      backgroundColor="#45446A"
+                      color="white"
+                      w="40px"
+                      h="40px"
+                      textAlign="center"
+                      lineHeight="40px"
+                      borderRadius="50%"
+                      boxShadow="lg"
+                    >
+                      {sessionData[index].feedback.length}
+                    </Box>
+                  </Tooltip>
                 </Box>
                 <MyButton
                   onClick={() => {

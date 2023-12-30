@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
@@ -201,7 +201,8 @@ const FeedbackGiven = ({ feedback }: Props) => {
         isOpenAlert={isOpenAlert}
         onCloseAlert={onCloseAlert}
         cancelRef={cancelRef}
-        deleteFeedback={deleteFeedback}
+        handleDelete={deleteFeedback}
+        item="Feedback"
       />
     </>
   );
