@@ -40,7 +40,7 @@ const FeedbackGiven = ({ feedback }: Props) => {
   );
   const [submitClicked, setSubmitClicked] = useState(false);
 
-  const submitFeedback = () => {
+  const editFeedback = () => {
     setSubmitClicked(true);
     if (
       positiveFeedback !== "" &&
@@ -159,7 +159,7 @@ const FeedbackGiven = ({ feedback }: Props) => {
             </Box>
           </ModalBody>
           <ModalFooter>
-            <MyButton onClick={submitFeedback}>Submit</MyButton>
+            <MyButton onClick={editFeedback}>Edit</MyButton>
           </ModalFooter>
         </ModalContent>
       </Modal>

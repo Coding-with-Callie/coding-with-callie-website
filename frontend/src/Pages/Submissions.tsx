@@ -79,51 +79,70 @@ const Submissions = () => {
         >{`Session ${params.id} Submissions`}</BodyHeading>
         <Box w="100%" display="flex" flexDirection="column" gap={6}>
           {sessionData.map((submission: Submission) => {
-            return (
-              <Box
-                border="1px solid #45446A"
-                borderRadius={4}
-                p={6}
-                display="flex"
-                flexDirection="column"
-                gap={6}
-                backgroundColor="white"
-                boxShadow="lg"
-              >
-                <Box display="flex" w="100%" alignItems="center">
-                  <Text>{submission.user.username}</Text>
-                  <Box textAlign="center" flex={1}>
-                    <Link href={submission.url} target="_blank">
-                      {submission.url}
-                    </Link>
-                  </Box>
-                  <Tooltip label={`Number of submission reviews`}>
-                    <Box
-                      backgroundColor="#45446A"
-                      color="white"
-                      w="40px"
-                      h="40px"
-                      textAlign="center"
-                      lineHeight="40px"
-                      borderRadius="50%"
-                      boxShadow="lg"
-                    >
-                      {submission?.feedback.length}
-                    </Box>
-                  </Tooltip>
-                </Box>
-                <MyButton
-                  onClick={() => {
-                    onOpen();
-                    setSubmissionId(submission.id);
-                  }}
-                  disabled={submission.user.id === userId}
-                  widthSize="100%"
-                >
-                  Provide Feedback
-                </MyButton>
-              </Box>
+            const feedbackList = submission.feedback;
+            const feedbackByUser = feedbackList.filter(
+              (review) => review.user.id === userId
             );
+
+            if (submission.user.id !== userId) {
+              return (
+                <Box
+                  border="1px solid #45446A"
+                  borderRadius={4}
+                  p={6}
+                  display="flex"
+                  flexDirection="column"
+                  gap={6}
+                  backgroundColor="white"
+                  boxShadow="lg"
+                >
+                  <Box display="flex" w="100%" alignItems="center">
+                    <Text>{submission.user.username}</Text>
+                    <Box textAlign="center" flex={1}>
+                      <Link href={submission.url} target="_blank">
+                        {submission.url}
+                      </Link>
+                    </Box>
+                    <Tooltip label={`Number of submission reviews`}>
+                      <Box
+                        backgroundColor="#45446A"
+                        color="white"
+                        w="40px"
+                        h="40px"
+                        textAlign="center"
+                        lineHeight="40px"
+                        borderRadius="50%"
+                        boxShadow="lg"
+                      >
+                        {submission?.feedback.length}
+                      </Box>
+                    </Tooltip>
+                  </Box>
+                  {feedbackByUser.length === 0 ? (
+                    <MyButton
+                      onClick={() => {
+                        onOpen();
+                        setSubmissionId(submission.id);
+                      }}
+                      widthSize="100%"
+                    >
+                      Provide Feedback
+                    </MyButton>
+                  ) : (
+                    <Tooltip
+                      label="You've already review this submission!"
+                      shouldWrapChildren
+                    >
+                      <MyButton disabled={true} widthSize="100%">
+                        Provide Feedback
+                      </MyButton>
+                    </Tooltip>
+                  )}
+                </Box>
+              );
+            } else {
+              return null;
+            }
           })}
         </Box>
       </Section>

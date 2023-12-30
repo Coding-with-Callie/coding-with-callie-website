@@ -90,6 +90,11 @@ const SignUp = () => {
                 navigate("/");
               });
           }
+        })
+        .catch((error) => {
+          let message: string = error.response.data.message[0];
+          message = message[0].toUpperCase() + message.slice(1);
+          showNotification(`${message}`, "error");
         });
     } else {
       setSubmitClicked(true);

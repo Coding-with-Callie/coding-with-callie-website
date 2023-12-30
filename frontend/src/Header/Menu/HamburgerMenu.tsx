@@ -6,46 +6,23 @@ type Props = {
   menuItems: any;
 };
 
-const purple = "#45446A";
-const green = "#E1E7CD";
-
 const HamburgerMenu = ({ menuItems }: Props) => {
   return (
     <Menu>
       <MenuButton
+        colorScheme="green"
         as={Button}
         aria-label="Options"
-        color={green}
-        backgroundColor={purple}
-        _hover={{
-          backgroundColor: `${green}`,
-          border: `1px solid ${purple}`,
-          color: `${purple}`,
-        }}
-        _expanded={{
-          backgroundColor: `${green}`,
-          border: `1px solid ${purple}`,
-          color: `${purple}`,
-        }}
         px={2}
         py={1}
       >
         <HamburgerIcon boxSize={5} />
       </MenuButton>
-      <MenuList backgroundColor={purple}>
+      <MenuList>
         {menuItems.map((item: any) => {
           return (
             <Link to={`/${item.path}`}>
-              <MenuItem
-                backgroundColor={purple}
-                color={green}
-                _hover={{
-                  backgroundColor: `${green}`,
-                  color: `${purple}`,
-                }}
-              >
-                {item.name}
-              </MenuItem>
+              <MenuItem color="#45446A">{item.name}</MenuItem>
             </Link>
           );
         })}

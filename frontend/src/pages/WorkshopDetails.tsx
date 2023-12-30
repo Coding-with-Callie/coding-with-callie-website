@@ -40,7 +40,7 @@ const WorkshopDetails = () => {
           <BodyHeading textAlignCenter={!isLargerThan1090}>
             You can expect to learn how to:
           </BodyHeading>
-          <UnorderedList>
+          <UnorderedList color="#45446A">
             <ListItem>
               Plan a project and split dev work into doable tasks
             </ListItem>
@@ -57,7 +57,7 @@ const WorkshopDetails = () => {
           <BodyHeading textAlignCenter={!isLargerThan1090}>
             To build this application, I will be using:
           </BodyHeading>
-          <UnorderedList>
+          <UnorderedList color="#45446A">
             <ListItem>TypeScript</ListItem>
             <ListItem>React</ListItem>
             <ListItem>React Router</ListItem>

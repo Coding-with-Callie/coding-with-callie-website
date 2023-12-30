@@ -10,11 +10,19 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class newUserDto {
+  @IsNotEmpty()
   name: string;
+
+  @IsEmail()
   email: string;
+
+  @IsNotEmpty()
   username: string;
+
+  @IsNotEmpty()
   password: string;
 }
 
