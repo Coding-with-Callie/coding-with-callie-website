@@ -57,7 +57,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("use effect");
     context.updateUser(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

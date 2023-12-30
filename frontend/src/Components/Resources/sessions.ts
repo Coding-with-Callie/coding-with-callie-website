@@ -16,7 +16,7 @@ export const sessions: Session[] = [
   },
   {
     title: "Project Set-up",
-    summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up, a NestJS api, and a README that gives step-by-step details on how to pull down your application and start it.",
+    summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up, a NestJS api, and a README that gives step-by-step details on how to pull down your application and start it. Make sure your frontend is able to hit an api route.",
     deliverable: "A link to your Todo List Github repository.",
     dueDate: "January 25, 2024"
   },

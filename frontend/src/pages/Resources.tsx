@@ -19,8 +19,6 @@ const Resources = () => {
   const data = useLoaderData() as Data;
   const context: Context = useOutletContext();
 
-  console.log("context", context);
-
   const feedback: Feedback[] = data.feedback;
 
   return (

@@ -1,6 +1,6 @@
 import { Box, Link, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
 import { showNotification } from "..";
 import { Context } from "../App";
@@ -26,9 +26,7 @@ const Submissions = () => {
   const context = useOutletContext() as Context;
   const userId = context.user.id;
 
-  const data = useLoaderData() as Data[];
-
-  const [sessionData, setSessionData] = useState(data);
+  const [sessionData, setSessionData] = useState(submissions);
   const [submissionId, setSubmissionId] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [positiveFeedback, setPositiveFeedback] = useState("");
@@ -56,6 +54,7 @@ const Submissions = () => {
             longTermChangesRequested,
             feedbackProviderId: userId,
             submissionId,
+            sessionId: params.id,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -75,7 +74,7 @@ const Submissions = () => {
           textAlignCenter={false}
         >{`Session ${params.id} Submissions`}</BodyHeading>
         <Box w="100%" display="flex" flexDirection="column" gap={6}>
-          {submissions.map((submission: Submission, index) => {
+          {sessionData.map((submission: Submission) => {
             return (
               <Box
                 border="1px solid #45446A"
@@ -105,7 +104,7 @@ const Submissions = () => {
                       borderRadius="50%"
                       boxShadow="lg"
                     >
-                      {sessionData[index].feedback.length}
+                      {submission?.feedback.length}
                     </Box>
                   </Tooltip>
                 </Box>

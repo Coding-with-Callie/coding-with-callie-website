@@ -27,6 +27,7 @@ export type Submission = {
   session: number;
   url: string;
   user: any;
+  feedback: any[];
 };
 
 type Props = {
@@ -67,7 +68,6 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
       .then((response) => {
         setSubmitted(true);
         showNotification("Your submission has been submitted!", "success");
-        console.log("RESPONSE", response.data);
         context.updateUser(response.data);
       });
   };
@@ -75,7 +75,6 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
   const editDeliverable = () => {
     onClose();
     const token = localStorage.getItem("token");
-    console.log("INDEX", index);
     axios
       .post(
         `${

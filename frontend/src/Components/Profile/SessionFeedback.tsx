@@ -23,8 +23,6 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
     (review) => review.submission.session === sessionNumber
   );
 
-  console.log("HERE", sessionNumber, submission);
-
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
       {submission || feedback.length > 0 ? (
