@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { newUserDto } from './auth.controller';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
+import { NewUserDto } from './auth.controller';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
     return await bcrypt.hash(password, saltOrRounds);
   }
 
-  async signUp(user: newUserDto) {
+  async signUp(user: NewUserDto) {
     const existingUsername = await this.usersService.findOneByUsername(
       user.username,
     );

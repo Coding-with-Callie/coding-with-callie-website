@@ -36,7 +36,6 @@ const EditModal = ({ field, onClose }: Props) => {
       }
     }
     if (newValue !== "" && newValue) {
-      context.user[field] = newValue;
       const token = localStorage.getItem("token");
       axios
         .post(
@@ -53,11 +52,16 @@ const EditModal = ({ field, onClose }: Props) => {
           context.updateUser(response.data);
         })
         .catch((error) => {
-          showNotification(
-            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-            "error"
-          );
-          navigate("/log-in");
+          if (error.response.data.message === "Unauthorized") {
+            showNotification(
+              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+              "error"
+            );
+            navigate("/log-in");
+          } else {
+            let message: string = error.response.data.message[0];
+            showNotification(`${message}`, "error");
+          }
         });
       onClose();
     } else {

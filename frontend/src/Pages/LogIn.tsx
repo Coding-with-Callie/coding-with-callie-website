@@ -88,6 +88,9 @@ const LogIn = () => {
             };
             setUserData(emptyUser);
             showNotification("You entered incorrect credentials.", "error");
+          } else {
+            let message: string = error.response.data.message[0];
+            showNotification(`${message}`, "error");
           }
         });
     } else {
@@ -113,6 +116,9 @@ const LogIn = () => {
           setEmail("");
           onClose();
           showNotification("Please check your email for next steps.", "info");
+        } else {
+          let message: string = error.response.data.message[0];
+          showNotification(`${message}`, "error");
         }
       });
   };

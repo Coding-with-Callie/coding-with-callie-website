@@ -92,9 +92,16 @@ const SignUp = () => {
           }
         })
         .catch((error) => {
-          let message: string = error.response.data.message[0];
-          message = message[0].toUpperCase() + message.slice(1);
-          showNotification(`${message}`, "error");
+          if (error.response.data.message === "Unauthorized") {
+            showNotification(
+              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+              "error"
+            );
+            navigate("/log-in");
+          } else {
+            let message: string = error.response.data.message[0];
+            showNotification(`${message}`, "error");
+          }
         });
     } else {
       setSubmitClicked(true);

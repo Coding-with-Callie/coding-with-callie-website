@@ -1,7 +1,12 @@
 import { Box, Link, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import { showNotification } from "..";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
@@ -20,6 +25,8 @@ type Data = {
 
 const Submissions = () => {
   const params = useParams();
+  const navigate = useNavigate();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const submissions = useLoaderData() as Submission[];
 
@@ -67,6 +74,18 @@ const Submissions = () => {
           setSubmitClicked(false);
           showNotification("Your feedback has been submitted!", "success");
           setSessionData(response.data);
+        })
+        .catch((error) => {
+          if (error.response.data.message === "Unauthorized") {
+            showNotification(
+              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+              "error"
+            );
+            navigate("/log-in");
+          } else {
+            let message: string = error.response.data.message[0];
+            showNotification(`${message}`, "error");
+          }
         });
     }
   };

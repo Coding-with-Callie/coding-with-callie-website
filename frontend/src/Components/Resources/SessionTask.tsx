@@ -69,6 +69,18 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
         setSubmitted(true);
         showNotification("Your submission has been submitted!", "success");
         context.updateUser(response.data);
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          showNotification(
+            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+            "error"
+          );
+          navigate("/log-in");
+        } else {
+          let message = error.response.data.message;
+          showNotification(`${message}`, "error");
+        }
       });
   };
 
@@ -88,6 +100,18 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
       .then((response) => {
         showNotification("Your submission has been edited!", "success");
         context.updateUser(response.data);
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          showNotification(
+            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+            "error"
+          );
+          navigate("/log-in");
+        } else {
+          let message = error.response.data.message;
+          showNotification(`${message}`, "error");
+        }
       });
   };
 
