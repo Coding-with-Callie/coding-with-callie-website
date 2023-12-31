@@ -255,6 +255,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    <ToastContainer limit={1} />
+    <ToastContainer
+      limit={1}
+      pauseOnHover={false}
+      pauseOnFocusLoss={false}
+      autoClose={2000}
+    />
   </React.StrictMode>
 );
