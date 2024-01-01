@@ -15,14 +15,6 @@ import { Submission } from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
 import FeedbackModal from "../Components/Submissions/FeedbackModal";
 
-type Data = {
-  id: number;
-  session: number;
-  url: string;
-  feedback: any[];
-  user: any;
-};
-
 const Submissions = () => {
   const params = useParams();
   const navigate = useNavigate();
