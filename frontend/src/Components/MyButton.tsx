@@ -1,22 +1,22 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 type Props = {
   children: string;
   onClick?: any;
+  widthSize?: any;
+  disabled?: boolean;
 };
 
-const MyButton = ({ children, onClick }: Props) => {
+const MyButton = ({ children, onClick, widthSize, disabled }: Props) => {
   return (
-    <Box
-      as="button"
-      border="1px solid #79A9CD"
-      p={2}
-      borderRadius={4}
-      layerStyle="button"
+    <Button
+      colorScheme="green"
+      w={widthSize}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
-    </Box>
+    </Button>
   );
 };
 

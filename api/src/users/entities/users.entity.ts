@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Feedback } from 'src/feedback/entities/feedback.entity';
+import { Submissions } from 'src/submissions/entities/submissions.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Users {
@@ -19,4 +21,10 @@ export class Users {
 
   @Column()
   role: string;
+
+  @OneToMany(() => Submissions, (submission) => submission.user)
+  submissions: Submissions[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.user)
+  feedback: Feedback[];
 }

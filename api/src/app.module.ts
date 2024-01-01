@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
+import { MailModule } from './mail/mail.module';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -21,8 +23,10 @@ import typeorm from './config/typeorm';
       },
     }),
     MessageModule,
+    SubmissionsModule,
     AuthModule,
     UsersModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,6 +6,7 @@ import "@fontsource/pacifico/400.css";
 import "@fontsource/sometype-mono/500.css";
 import { Helmet } from "react-helmet";
 import { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 export type Context = {
   user: any;
@@ -13,7 +14,6 @@ export type Context = {
 };
 
 function App() {
-  console.log("REACT APP API: ", process.env.REACT_APP_API);
   const data = useLoaderData();
   const [user, setUser] = useState<any>(data);
 
@@ -31,7 +31,7 @@ function App() {
       <Helmet>
         <style>{"body { background-color: #E1E7CD; }"}</style>
       </Helmet>
-      <Header user={user} updateUser={updateUser} />
+      <Header user={user} />
       <Outlet context={context} />
     </ChakraProvider>
   );

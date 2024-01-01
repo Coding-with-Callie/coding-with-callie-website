@@ -13,7 +13,44 @@ export class UsersService {
     return await this.usersRepository.save({ ...user, role: 'user' });
   }
 
-  async findOne(username: string) {
-    return await this.usersRepository.findOne({ where: { username } });
+  async deleteUser(id) {
+    const userToDelete = await this.findOneById(id);
+    return await this.usersRepository.remove(userToDelete);
+  }
+
+  async findOneByUsername(username: string) {
+    return await this.usersRepository
+      .createQueryBuilder()
+      .where('LOWER(username) = LOWER(:username)', {
+        username: username,
+      })
+      .getOne();
+  }
+
+  async findOneById(id: number) {
+    return await this.usersRepository.findOne({
+      where: { id },
+      relations: [
+        'submissions',
+        'submissions.feedback',
+        'feedback',
+        'feedback.submission',
+      ],
+    });
+  }
+
+  async findOneByEmail(email: string) {
+    return await this.usersRepository
+      .createQueryBuilder()
+      .where('LOWER(email) = LOWER(:email)', {
+        email: email,
+      })
+      .getOne();
+  }
+
+  async changeAccountDetail(userToUpdate, field, value) {
+    userToUpdate[field] = value;
+
+    return await this.usersRepository.save(userToUpdate);
   }
 }
