@@ -14,7 +14,7 @@ const workshopDetails = [
 
 const moreInformation = [
   "I am no longer accepting applications for the Todo List workshop. However, you can still participate! The first assignment for the workshop will be posted on January 11, 2024.",
-  "Please join the Coding with Callie community for access to the workshop assignments, community feedback features, and the solution videos.",
+  "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
 ];
 
 const WorkshopDetails = () => {
@@ -22,6 +22,7 @@ const WorkshopDetails = () => {
 
   const context: Context = useOutletContext();
   const loggedIn = context.user.username !== undefined;
+  const tokenExists = localStorage.getItem("token") !== undefined;
 
   return (
     <>
@@ -73,9 +74,15 @@ const WorkshopDetails = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
         <BodyText textBlocks={moreInformation} textAlignCenter={true} />
-        <Link to={loggedIn ? "/resources" : "/sign-up"}>
+        <Link
+          to={loggedIn ? "/resources" : tokenExists ? "/log-in" : "/sign-up"}
+        >
           <MyButton>
-            {loggedIn ? "View Workshop Resources" : "Create an Account"}
+            {loggedIn
+              ? "View Workshop Resources"
+              : tokenExists
+                ? "Sign in"
+                : "Create an Account"}
           </MyButton>
         </Link>
       </Section>
