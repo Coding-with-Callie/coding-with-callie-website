@@ -106,7 +106,28 @@ export class AuthService {
   }
 
   async deleteUser(id: number) {
-    return await this.usersService.deleteUser(id);
+    const user = await this.usersService.findOneById(id);
+
+    await this.usersService.changeAccountDetail(user, 'name', 'deleted');
+    await this.usersService.changeAccountDetail(
+      user,
+      'username',
+      `deleted-${Date.now()}`,
+    );
+    await this.usersService.changeAccountDetail(user, 'email', 'deleted');
+    await this.usersService.changeAccountDetail(user, 'password', 'deleted');
+
+    const submissions = user.submissions;
+
+    submissions.forEach(async (submission) => {
+      await this.editDeliverable({
+        session: submission.session,
+        user: { id: user.id },
+        url: 'This submission was deleted.',
+      });
+    });
+
+    return 'deleted';
   }
 
   async forgotPassword(email: string) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { EditIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -13,13 +14,14 @@ import {
   ModalBody,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
+import Alert from "../Components/Profile/Alert";
 import EditModal from "../Components/Profile/EditModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
@@ -52,6 +54,12 @@ export type Data = {
 const Profile = () => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenAlert,
+    onOpen: onOpenAlert,
+    onClose: onCloseAlert,
+  } = useDisclosure();
+  const cancelRef = useRef<HTMLButtonElement>(null);
   const data = useLoaderData() as Data;
 
   const navigate = useNavigate();
@@ -220,7 +228,7 @@ const Profile = () => {
         <Section screenSizeParameter={false} alignItemsCenter={false}>
           <Box display="flex" gap={4}>
             <MyButton onClick={logout}>Log out</MyButton>
-            <MyButton onClick={deleteAccount}>Delete Account</MyButton>
+            <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
           </Box>
         </Section>
 
@@ -234,6 +242,14 @@ const Profile = () => {
             </ModalBody>
           </ModalContent>
         </Modal>
+
+        <Alert
+          isOpenAlert={isOpenAlert}
+          onCloseAlert={onCloseAlert}
+          cancelRef={cancelRef}
+          handleDelete={deleteAccount}
+          item="Account"
+        />
 
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
           return <SessionFeedback sessionNumber={sessionNumber} />;

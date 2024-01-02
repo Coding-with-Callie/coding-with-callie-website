@@ -1,4 +1,6 @@
 import { Box, ListItem, UnorderedList, useMediaQuery } from "@chakra-ui/react";
+import { Link, useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
@@ -11,16 +13,16 @@ const workshopDetails = [
 ];
 
 const moreInformation = [
-  "If you feel like you know this tech stack pretty well, you can challenge yourself to follow along with a DIFFERENT tech stack and/or build a slightly different project that meets that same requirements as the group.",
-  "I want this workshop to be super interactive and collaborative. So, I'm limiting the size to 20 participants. Please fill out this application to be considered for a spot. The application will be open for the rest of December 2023. You will receive an email from me on January 1 with details for the first session if you received a spot in the workshop!",
+  "I am no longer accepting applications for the Todo List workshop. However, you can still participate! The first assignment for the workshop will be posted on January 11, 2024.",
+  "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
 ];
 
 const WorkshopDetails = () => {
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
-  const openApplication = () => {
-    window.open("https://forms.gle/TyhCvTkdCmaWNnmU6", "_blank");
-  };
+  const context: Context = useOutletContext();
+  const loggedIn = context.user.username !== undefined;
+  const tokenExists = localStorage.getItem("token") !== undefined;
 
   return (
     <>
@@ -72,7 +74,17 @@ const WorkshopDetails = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
         <BodyText textBlocks={moreInformation} textAlignCenter={true} />
-        <MyButton onClick={openApplication}>Apply</MyButton>
+        <Link
+          to={loggedIn ? "/resources" : tokenExists ? "/log-in" : "/sign-up"}
+        >
+          <MyButton>
+            {loggedIn
+              ? "View Workshop Resources"
+              : tokenExists
+                ? "Sign in"
+                : "Create an Account"}
+          </MyButton>
+        </Link>
       </Section>
     </>
   );
