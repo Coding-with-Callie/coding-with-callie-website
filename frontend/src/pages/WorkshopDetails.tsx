@@ -1,5 +1,6 @@
 import { Box, ListItem, UnorderedList, useMediaQuery } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
@@ -18,6 +19,9 @@ const moreInformation = [
 
 const WorkshopDetails = () => {
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
+
+  const context: Context = useOutletContext();
+  const loggedIn = context.user.username !== undefined;
 
   return (
     <>
@@ -69,14 +73,11 @@ const WorkshopDetails = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
         <BodyText textBlocks={moreInformation} textAlignCenter={true} />
-        <Box display="flex" gap={4}>
-          <Link to="/sign-up">
-            <MyButton>Create an Account</MyButton>
-          </Link>
-          <Link to="/resources">
-            <MyButton>View Workshop Resources</MyButton>
-          </Link>
-        </Box>
+        <Link to={loggedIn ? "/resources" : "/sign-up"}>
+          <MyButton>
+            {loggedIn ? "View Workshop Resources" : "Create an Account"}
+          </MyButton>
+        </Link>
       </Section>
     </>
   );
