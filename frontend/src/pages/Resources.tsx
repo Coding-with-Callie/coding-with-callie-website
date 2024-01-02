@@ -19,6 +19,8 @@ const Resources = () => {
   const data = useLoaderData() as Data;
   const context: Context = useOutletContext();
 
+  const role = context.user.role;
+
   const feedback: Feedback[] = data.feedback;
 
   return (
@@ -33,15 +35,22 @@ const Resources = () => {
             return feedback.submission.session === index + 1;
           });
 
-          return (
-            <SessionTask
-              session={session}
-              index={index}
-              userId={context.user.id}
-              submissions={data.submissions}
-              feedback={sessionFeedback}
-            />
-          );
+          const today = new Date();
+          const startDate = new Date(session.startDate);
+
+          if (today > startDate || role === "admin") {
+            return (
+              <SessionTask
+                session={session}
+                index={index}
+                userId={context.user.id}
+                submissions={data.submissions}
+                feedback={sessionFeedback}
+              />
+            );
+          } else {
+            return null;
+          }
         })}
       </Box>
     </>

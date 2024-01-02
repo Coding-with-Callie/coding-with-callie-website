@@ -95,7 +95,12 @@ const Submissions = () => {
               (review) => review.user.id === userId
             );
 
-            if (submission.user.id !== userId) {
+            if (
+              submission.user.id === userId ||
+              submission.url === "This submission was deleted."
+            ) {
+              return null;
+            } else {
               return (
                 <Box
                   border="1px solid #45446A"
@@ -151,8 +156,6 @@ const Submissions = () => {
                   )}
                 </Box>
               );
-            } else {
-              return null;
             }
           })}
         </Box>

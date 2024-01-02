@@ -5,7 +5,6 @@ import {
   createBrowserRouter,
   redirect,
   RouterProvider,
-  useParams,
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
@@ -62,6 +61,13 @@ const router = createBrowserRouter([
       {
         path: "/apply",
         element: <Apply />,
+        loader: () => {
+          showNotification(
+            "There are no workshops to apply to right now",
+            "error"
+          );
+          return redirect("/");
+        },
       },
       {
         path: "/resources",
@@ -228,13 +234,32 @@ const router = createBrowserRouter([
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
-              return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
-                "error"
-              );
-              return redirect("/log-in");
+
+              if (response.data.length > 0) {
+                return response.data;
+              } else {
+                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
+                  showNotification(`There are only 10 sessions`, "error");
+                } else {
+                  showNotification(
+                    `There aren't any submissions for session ${id} yet!`,
+                    "error"
+                  );
+                }
+
+                return redirect("/");
+              }
+            } catch (error: any) {
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
+                  "error"
+                );
+                return redirect("/log-in");
+              } else {
+                showNotification("That page doesn't seem to exist!", "error");
+                return redirect("/");
+              }
             }
           } else {
             showNotification(
