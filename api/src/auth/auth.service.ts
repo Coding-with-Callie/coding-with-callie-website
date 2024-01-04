@@ -78,6 +78,7 @@ export class AuthService {
       role: user.role,
       submissions: user.submissions,
       feedback: user.feedback,
+      photo: user.photo,
     };
   }
 
@@ -102,6 +103,7 @@ export class AuthService {
       role: user.role,
       submissions: user.submissions,
       feedback: user.feedback,
+      photo: user.photo,
     };
   }
 
@@ -188,5 +190,9 @@ export class AuthService {
 
   async editFeedback(feedbackDto: any) {
     return await this.feedbackService.editFeedback(feedbackDto);
+  }
+
+  async uploadFile(id, file) {
+    return await this.usersService.uploadFile(id, file);
   }
 }

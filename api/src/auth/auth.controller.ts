@@ -6,14 +6,18 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { IsEmail, IsNotEmpty, IsUrl } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -162,7 +166,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('submit-deliverable')
   async submitDeliverable(@Body() deliverable: DeliverableDto) {
-    console.log(deliverable);
     await this.authService.submitDeliverable(deliverable);
     return this.authService.getUserProfile(deliverable.userId);
   }
@@ -187,5 +190,16 @@ export class AuthController {
     console.log(feedbackDto);
     const result = await this.authService.editFeedback(feedbackDto);
     return this.authService.getUserProfile(result.user.id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Query('id') id: number,
+  ) {
+    await this.authService.uploadFile(id, file);
+    return this.authService.getUserProfile(id);
   }
 }
