@@ -105,8 +105,7 @@ export class AuthController {
 
   @Post('signup')
   async signUp(@Body() newUserDto: NewUserDto) {
-    console.log(newUserDto);
-    return this.authService.signUp(newUserDto);
+    return await this.authService.signUp(newUserDto);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -187,7 +186,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('edit-feedback')
   async editFeedback(@Body() feedbackDto: FeedbackDto) {
-    console.log(feedbackDto);
     const result = await this.authService.editFeedback(feedbackDto);
     return this.authService.getUserProfile(result.user.id);
   }

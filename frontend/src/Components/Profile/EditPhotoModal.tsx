@@ -61,7 +61,14 @@ const EditPhotoModal = ({ onClose }: Props) => {
 
   return (
     <Box display="flex" flexDirection="column" gap={4} mx={10} mb={10} mt={4}>
-      <Input type="file" onChange={handlePhotoChange} />
+      <Input
+        p={0}
+        border="none"
+        borderRadius="0px"
+        type="file"
+        accept="image/*"
+        onChange={handlePhotoChange}
+      />
       <MyButton onClick={onFileUpload}>Submit</MyButton>
     </Box>
   );

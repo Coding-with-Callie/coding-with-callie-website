@@ -31,6 +31,45 @@ const SignUp = () => {
     toast[type](message, { toastId: "success" });
   };
 
+  const [photo, setPhoto] = useState();
+
+  const onFileUpload = (id: number) => {
+    const token = localStorage.getItem("token");
+
+    if (photo) {
+      const formData = new FormData();
+      formData.append("file", photo);
+      axios
+        .post(
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/upload?id=${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          context.updateUser(response.data);
+        })
+        .catch((error) => {
+          if (error.response.data.message === "Unauthorized") {
+            showNotification(
+              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+              "error"
+            );
+            navigate("/log-in");
+          } else {
+            let message: string = error.response.data.message[0];
+            showNotification(`${message}`, "error");
+          }
+        });
+    }
+  };
+
   const onSubmit = () => {
     if (
       userData.name &&
@@ -83,6 +122,11 @@ const SignUp = () => {
               )
               .then((response) => {
                 context.updateUser(response.data);
+
+                if (photo) {
+                  onFileUpload(response.data.id);
+                }
+
                 showNotification(
                   `Welcome to Coding with Callie, ${response.data.name}!`,
                   "success"
@@ -126,6 +170,11 @@ const SignUp = () => {
   const onChangePassword = (e: any) => {
     setSubmitClicked(false);
     setUserData({ ...userData, password: e.target.value });
+  };
+
+  const onChangePhoto = (e: any) => {
+    setSubmitClicked(false);
+    setPhoto(e.target.files[0]);
   };
 
   return (
@@ -195,6 +244,18 @@ const SignUp = () => {
             isInvalid={
               submitClicked && (!userData.password || userData.password === "")
             }
+          />
+        </Box>
+        <Box>
+          <FormLabel layerStyle="input">Profile Photo</FormLabel>
+          <Input
+            p={0}
+            border="none"
+            borderRadius="0px"
+            type="file"
+            accept="image/*"
+            onChange={onChangePhoto}
+            color="#45446A"
           />
         </Box>
         <MyButton onClick={onSubmit}>Submit</MyButton>

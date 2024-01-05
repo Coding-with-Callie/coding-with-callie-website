@@ -134,21 +134,23 @@ const Profile = () => {
         <Section
           screenSizeParameter={isLargerThan600}
           alignItemsCenter={true}
-          gapSize={50}
+          gapSize={isLargerThan600 ? 75 : 0}
         >
-          <Avatar
-            size="2xl"
-            name={context.user.username}
-            src={context.user.photo}
-          />
-          <Box position="relative" top="-50px" left="-50px">
-            <IconButton
-              aria-label="edit"
-              icon={<EditIcon />}
-              onClick={onOpenPhotoModal}
+          <Box w="25%">
+            <Avatar
+              size="2xl"
+              name={context.user.username}
+              src={context.user.photo}
             />
+            <Box position="relative" top="-130px" left="130px">
+              <IconButton
+                aria-label="edit"
+                icon={<EditIcon />}
+                onClick={onOpenPhotoModal}
+              />
+            </Box>
           </Box>
-          <Box flex={1} w="100%">
+          <Box w={isLargerThan600 ? "75%" : "100%"}>
             <Box px={2}>
               <Box
                 display="flex"
@@ -203,7 +205,7 @@ const Profile = () => {
                 <Paragraph margin={false}>Password: </Paragraph>
                 <Box display="flex" w="70%" alignItems="center">
                   <Paragraph flexWeight={1} margin={false}>
-                    {isLargerThan600 ? "********************" : "******"}
+                    ******
                   </Paragraph>
                   <IconButton
                     aria-label="edit"
