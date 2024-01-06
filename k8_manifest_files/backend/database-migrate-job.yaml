@@ -28,5 +28,7 @@ spec:
           value: "postgres"
         - name: NODE_TLS_REJECT_UNAUTHORIZED
           value: "0"
+        - name: ENVIRONMENT
+          value: "production"
         command: ["npm", "run", "migration:run"]
       restartPolicy: Never
