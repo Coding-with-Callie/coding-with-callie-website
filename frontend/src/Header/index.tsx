@@ -38,6 +38,7 @@ const Header = ({ user }: Props) => {
       {user?.name ? (
         <Avatar
           name={user.username}
+          src={user.photo}
           _hover={{ cursor: "pointer" }}
           onClick={() => navigate("/profile")}
           display={isLargerThan600 ? "flex" : "none"}

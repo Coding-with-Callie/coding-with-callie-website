@@ -22,6 +22,12 @@ export class Users {
   @Column()
   role: string;
 
+  @Column({
+    nullable: true,
+    default: null,
+  })
+  photo: string;
+
   @OneToMany(() => Submissions, (submission) => submission.user)
   submissions: Submissions[];
 

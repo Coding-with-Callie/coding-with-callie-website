@@ -23,6 +23,7 @@ import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
 import Alert from "../Components/Profile/Alert";
 import EditModal from "../Components/Profile/EditModal";
+import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
 
@@ -59,8 +60,14 @@ const Profile = () => {
     onOpen: onOpenAlert,
     onClose: onCloseAlert,
   } = useDisclosure();
+  const {
+    isOpen: isOpenPhotoModal,
+    onOpen: onOpenPhotoModal,
+    onClose: onClosePhotoModal,
+  } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const data = useLoaderData() as Data;
+  const context = useOutletContext() as Context;
 
   const navigate = useNavigate();
 
@@ -68,8 +75,6 @@ const Profile = () => {
     context.updateUser(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-  const context: Context = useOutletContext();
 
   const currentName = context.user?.name as string;
   const currentUsername = context.user?.username as string;
@@ -129,10 +134,23 @@ const Profile = () => {
         <Section
           screenSizeParameter={isLargerThan600}
           alignItemsCenter={true}
-          gapSize={50}
+          gapSize={isLargerThan600 ? 75 : 0}
         >
-          <Avatar size="2xl" name={context.user.username} />
-          <Box flex={1} w="100%">
+          <Box w="25%">
+            <Avatar
+              size="2xl"
+              name={context.user.username}
+              src={context.user.photo}
+            />
+            <Box position="relative" top="-130px" left="130px">
+              <IconButton
+                aria-label="edit"
+                icon={<EditIcon />}
+                onClick={onOpenPhotoModal}
+              />
+            </Box>
+          </Box>
+          <Box w={isLargerThan600 ? "75%" : "100%"}>
             <Box px={2}>
               <Box
                 display="flex"
@@ -187,7 +205,7 @@ const Profile = () => {
                 <Paragraph margin={false}>Password: </Paragraph>
                 <Box display="flex" w="70%" alignItems="center">
                   <Paragraph flexWeight={1} margin={false}>
-                    {isLargerThan600 ? "********************" : "******"}
+                    ******
                   </Paragraph>
                   <IconButton
                     aria-label="edit"
@@ -239,6 +257,17 @@ const Profile = () => {
             <ModalCloseButton />
             <ModalBody>
               <EditModal field={field} onClose={onClose} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+
+        <Modal isOpen={isOpenPhotoModal} onClose={onClosePhotoModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader color="#45446A">Edit Profile Photo</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <EditPhotoModal onClose={onClosePhotoModal} />
             </ModalBody>
           </ModalContent>
         </Modal>

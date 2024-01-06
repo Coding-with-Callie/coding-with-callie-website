@@ -56,8 +56,6 @@ export class SubmissionsService {
       where: { id },
     });
 
-    console.log(submissionToDelete);
-
     return await this.submissionsRepository.remove(submissionToDelete);
   }
 }

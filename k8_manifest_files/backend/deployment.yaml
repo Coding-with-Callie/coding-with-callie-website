@@ -46,6 +46,16 @@ spec:
             secretKeyRef:
               name: gmail-secret
               key: GMAIL_PASSWORD
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: ACCESS_KEY
+        - name: SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: SECRET_ACCESS_KEY
         - name: DATABASE_NAME
           value: "postgres"
         - name: NODE_TLS_REJECT_UNAUTHORIZED
