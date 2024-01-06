@@ -25,7 +25,7 @@ import { AuthService } from './auth.service';
         return {
           secret: configService.get('jwt').secret,
           signOptions: {
-            expiresIn: 3600,
+            expiresIn: '24h',
           },
         };
       },

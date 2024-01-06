@@ -21,8 +21,9 @@ const WorkshopDetails = () => {
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
   const context: Context = useOutletContext();
-  const loggedIn = context.user.username !== undefined;
-  const tokenExists = localStorage.getItem("token") !== undefined;
+  const loggedIn =
+    context.user === null ? false : context.user.username !== undefined;
+  const tokenExists = localStorage.getItem("token") !== null;
 
   return (
     <>
