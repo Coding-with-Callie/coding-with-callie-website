@@ -29,6 +29,11 @@ import { LoggerModule } from 'nestjs-pino';
           target: 'pino-pretty',
           options: {
             singleLine: true,
+            colorize: true,
+            levelFirst: true,
+            translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
+            ignore: 'pid,hostname,req,res,responseTime',
+            messageFormat: '{req.method} {req.url}: {msg}',
           },
         },
       },
