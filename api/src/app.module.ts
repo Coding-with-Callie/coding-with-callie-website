@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 import { MailModule } from './mail/mail.module';
 import { SubmissionsModule } from './submissions/submissions.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -20,6 +21,16 @@ import { SubmissionsModule } from './submissions/submissions.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return configService.get('typeorm');
+      },
+    }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+          },
+        },
       },
     }),
     MessageModule,
