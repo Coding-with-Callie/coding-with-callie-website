@@ -1,10 +1,19 @@
-import { Box, ListItem, UnorderedList, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  ListItem,
+  UnorderedList,
+  useMediaQuery,
+  Text,
+  ListIcon,
+  List,
+} from "@chakra-ui/react";
 import { Link, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
+import { WarningIcon } from "@chakra-ui/icons";
 
 const workshopDetails = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. When I started my software engineering position, I realized how much my projects were lacking when it comes to: error handling, testing, logging, security, deployment, scaling, project management, documentation, etc.",
@@ -39,7 +48,7 @@ const WorkshopDetails = () => {
         justifyContentCenter={true}
         gapSize={20}
       >
-        <Box>
+        <Box w="50%">
           <BodyHeading textAlignCenter={!isLargerThan1090}>
             You can expect to learn how to:
           </BodyHeading>
@@ -53,7 +62,9 @@ const WorkshopDetails = () => {
             <ListItem>Style your UI with a components library</ListItem>
             <ListItem>Add logging to your backend service</ListItem>
             <ListItem>Test your backend service</ListItem>
-            <ListItem>Deploy your application</ListItem>
+            <ListItem>
+              <Text as="s">Deploy your application</Text>
+            </ListItem>
           </UnorderedList>
         </Box>
         <Box>
@@ -68,10 +79,26 @@ const WorkshopDetails = () => {
             <ListItem>Node</ListItem>
             <ListItem>NestJS</ListItem>
             <ListItem>PostgreSQL with TypeORM</ListItem>
-            <ListItem>AWS</ListItem>
+            <ListItem>
+              <Text as="s">AWS</Text>
+            </ListItem>
           </UnorderedList>
         </Box>
       </Section>
+      <Box
+        display="flex"
+        gap={isLargerThan1090 ? 3 : 1}
+        mt={4}
+        mx={10}
+        justifyContent="center"
+        textAlign="center"
+      >
+        <WarningIcon color="#45446A" mt={1} />
+        <Text color="#45446A">
+          We will not have enough time to complete a quality deployment. I will
+          plan to hold a Deployment Workshop next!
+        </Text>
+      </Box>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
         <BodyText textBlocks={moreInformation} textAlignCenter={true} />
