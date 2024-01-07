@@ -19,7 +19,7 @@ export const sessions: Session[] = [
     videoDate: "January 20, 2024"
   },
   {
-    title: "Project Set-up",
+    title: "Setting Your Project Up",
     summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up, a NestJS api, and a README that gives step-by-step details on how to pull down your application and start it. Make sure your frontend is able to hit an api route.",
     deliverable: "A link to your Todo List Github repository.",
     dueDate: "January 25, 2024",

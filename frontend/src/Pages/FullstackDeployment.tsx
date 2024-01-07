@@ -4,8 +4,6 @@ import {
   UnorderedList,
   useMediaQuery,
   Text,
-  ListIcon,
-  List,
 } from "@chakra-ui/react";
 import { Link, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
@@ -15,18 +13,14 @@ import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import { WarningIcon } from "@chakra-ui/icons";
 
-const workshopDetails = [
-  "When I was learning to code, I spent a maximum of a week or two working on a single project. When I started my software engineering position, I realized how much my projects were lacking when it comes to: error handling, testing, logging, security, deployment, scaling, project management, documentation, etc.",
-  "So, I thought I'd start a 10-week workshop where we build a relatively simple application, but spend the time making sure it is actually usable.",
-  "Whenever I learn a new technology, I create a Todo List with it to make sure I understand the fundamentals. So, that's what we are going to start with!",
-];
+const workshopDetails = ["I'm still planning this workshop out! Stay tuned..."];
 
 const moreInformation = [
   "I am no longer accepting applications for the Todo List workshop. However, you can still participate! The first assignment for the workshop will be posted on January 11, 2024.",
   "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
 ];
 
-const WorkshopDetails = () => {
+const FullstackDeployment = () => {
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
   const context: Context = useOutletContext();
@@ -38,11 +32,11 @@ const WorkshopDetails = () => {
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>
-          Todo List Workshop Details
+          Fullstack Deployment Workshop Details
         </BodyHeading>
         <BodyText textBlocks={workshopDetails} textAlignCenter={true} />
       </Section>
-      <Section
+      {/* <Section
         screenSizeParameter={isLargerThan1090}
         alignItemsCenter={false}
         justifyContentCenter={true}
@@ -98,24 +92,16 @@ const WorkshopDetails = () => {
           We will not have enough time to complete a quality deployment. I will
           plan to hold a Deployment Workshop next!
         </Text>
-      </Box>
+      </Box> */}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
-        <BodyText textBlocks={moreInformation} textAlignCenter={true} />
-        <Link
-          to={loggedIn ? "/resources" : tokenExists ? "/log-in" : "/sign-up"}
-        >
-          <MyButton>
-            {loggedIn
-              ? "View Workshop Resources"
-              : tokenExists
-                ? "Sign in"
-                : "Create an Account"}
-          </MyButton>
+        {/* <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
+        <BodyText textBlocks={moreInformation} textAlignCenter={true} /> */}
+        <Link to="/workshops">
+          <MyButton>Return to Workshops</MyButton>
         </Link>
       </Section>
     </>
   );
 };
 
-export default WorkshopDetails;
+export default FullstackDeployment;
