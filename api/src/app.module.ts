@@ -10,6 +10,8 @@ import typeorm from './config/typeorm';
 import { MailModule } from './mail/mail.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { LoggerModule } from 'nestjs-pino';
+import { IncomingMessage } from 'http';
+import { ServerResponse } from 'http';
 
 @Module({
   imports: [
@@ -25,6 +27,19 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     LoggerModule.forRoot({
       pinoHttp: {
+        serializers: {
+          req(request: IncomingMessage) {
+            return {
+              method: request.method,
+              url: request.url,
+            };
+          },
+          res(reply: ServerResponse) {
+            return {
+              statusCode: reply.statusCode,
+            };
+          },
+        },
         transport: {
           target: 'pino-pretty',
           options: {
@@ -32,8 +47,7 @@ import { LoggerModule } from 'nestjs-pino';
             colorize: true,
             levelFirst: true,
             translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
-            ignore: 'pid,hostname,req,res,responseTime',
-            messageFormat: '{req.method} {req.url}: {msg}',
+            ignore: 'pid,hostname',
           },
         },
       },

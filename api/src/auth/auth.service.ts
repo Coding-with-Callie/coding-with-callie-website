@@ -43,6 +43,7 @@ export class AuthService {
         username: user.username,
         password: hashedPassword,
       });
+      this.logger.log('New user created', user.username);
       this.mailService.sendNewUserEmail(user);
       this.mailService.sendEmailToNewUser(user);
       return this.signIn(user.username, user.password);
@@ -52,11 +53,12 @@ export class AuthService {
   async checkPasswordAndCreateAccessToken(pass: string, user) {
     const isMatch = await bcrypt.compare(pass, user.password);
     if (!isMatch) {
-      this.logger.error('Unauthorized');
+      this.logger.error('Unauthorized: Incorrect password', user.username);
       throw new UnauthorizedException();
     }
 
     const payload = { sub: user.id, username: user.username };
+    this.logger.log('User logged in', user.username);
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
@@ -65,7 +67,7 @@ export class AuthService {
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
     if (user === null) {
-      this.logger.error('User doe not exist');
+      this.logger.error('User does not exist', username);
       throw new UnauthorizedException();
     }
 
@@ -139,7 +141,7 @@ export class AuthService {
   async forgotPassword(email: string) {
     const user = await this.usersService.findOneByEmail(email);
     if (user === null) {
-      this.logger.error('User doe not exist');
+      this.logger.error('User doe not exist', email);
       throw new UnauthorizedException();
     }
 
@@ -169,7 +171,10 @@ export class AuthService {
         username: user.username,
       });
     } else {
-      this.logger.error('Unauthorized');
+      this.logger.error(
+        'Unauthorized - Password reset link expired',
+        user.username,
+      );
       throw new UnauthorizedException();
     }
   }
