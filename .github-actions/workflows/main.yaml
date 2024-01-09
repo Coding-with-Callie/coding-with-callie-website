@@ -4,9 +4,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Cypress-Test:
-
-
+  Build-and-Push-to-ECR:
     name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
