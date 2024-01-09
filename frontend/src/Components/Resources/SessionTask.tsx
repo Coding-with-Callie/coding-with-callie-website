@@ -1,15 +1,4 @@
-import {
-  Box,
-  Text,
-  Input,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Text, Input, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
@@ -11,8 +11,6 @@ const workshopDetails = [
 ];
 
 const Workshops = () => {
-  const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
-
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>

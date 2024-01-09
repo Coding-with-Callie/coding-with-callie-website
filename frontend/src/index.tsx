@@ -16,7 +16,6 @@ import Profile from "./Pages/Profile";
 import Resources from "./Pages/Resources";
 import SignUp from "./Pages/SignUp";
 import Submissions from "./Pages/Submissions";
-import WorkshopDetails from "./Pages/Workshops";
 import FullstackDeployment from "./Pages/FullstackDeployment";
 import TodoList from "./Pages/TodoList";
 import Workshops from "./Pages/Workshops";
