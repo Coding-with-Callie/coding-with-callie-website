@@ -7,8 +7,8 @@ export type menuItem = {
 
 export const menuItems = [
   {
-    name: "Workshop Details",
-    path: "workshop-details",
+    name: "Workshops",
+    path: "workshops",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
   },

@@ -16,7 +16,10 @@ import Profile from "./Pages/Profile";
 import Resources from "./Pages/Resources";
 import SignUp from "./Pages/SignUp";
 import Submissions from "./Pages/Submissions";
-import WorkshopDetails from "./Pages/WorkshopDetails";
+import WorkshopDetails from "./Pages/Workshops";
+import FullstackDeployment from "./Pages/FullstackDeployment";
+import TodoList from "./Pages/TodoList";
+import Workshops from "./Pages/Workshops";
 
 export const showNotification = (
   message: string,
@@ -55,8 +58,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/workshops",
+        element: <Workshops />,
+      },
+      {
         path: "/workshop-details",
-        element: <WorkshopDetails />,
+        element: <TodoList />,
+      },
+      {
+        path: "/workshops/todo-list",
+        element: <TodoList />,
+      },
+      {
+        path: "/workshops/fullstack-deployment",
+        element: <FullstackDeployment />,
       },
       {
         path: "/apply",
