@@ -5,7 +5,11 @@ on:
 
 jobs:
   Build-and-Push-to-ECR:
+<<<<<<< HEAD:.github-actions/workflows/main.yaml
     name: Build and Push to ECR
+=======
+    name: Build Docker Image
+>>>>>>> f992f53848f10301c2d4bf1eb8ff37ff5b29787c:.github/workflows/main.yaml
     runs-on: ubuntu-latest
     steps:
         - name: Checkout
