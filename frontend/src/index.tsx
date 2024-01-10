@@ -8,16 +8,17 @@ import {
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
-import ContactCallie from "./Pages/ContactCallie";
 import Home from "./Pages/Home";
+import Workshops from "./Pages/Workshops";
+import TodoList from "./Pages/TodoList";
+import FullstackDeployment from "./Pages/FullstackDeployment";
+import Apply from "./Pages/Apply";
+import Resources from "./Pages/Resources";
+import ContactCallie from "./Pages/ContactCallie";
+import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
-import Resources from "./Pages/Resources";
-import SignUp from "./Pages/SignUp";
 import Submissions from "./Pages/Submissions";
-import FullstackDeployment from "./Pages/FullstackDeployment";
-import TodoList from "./Pages/TodoList";
-import Workshops from "./Pages/Workshops";
 
 export const showNotification = (
   message: string,
@@ -70,6 +71,17 @@ const router = createBrowserRouter([
       {
         path: "/workshops/fullstack-deployment",
         element: <FullstackDeployment />,
+      },
+      {
+        path: "/apply",
+        element: <Apply />,
+        loader: () => {
+          showNotification(
+            "There are no workshops to apply to right now",
+            "error"
+          );
+          return redirect("/");
+        },
       },
       {
         path: "/resources",
