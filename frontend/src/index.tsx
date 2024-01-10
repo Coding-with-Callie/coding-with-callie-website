@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
-import Apply from "./Pages/Apply";
 import ContactCallie from "./Pages/ContactCallie";
 import Home from "./Pages/Home";
 import LogIn from "./Pages/LogIn";
@@ -71,17 +70,6 @@ const router = createBrowserRouter([
       {
         path: "/workshops/fullstack-deployment",
         element: <FullstackDeployment />,
-      },
-      {
-        path: "/apply",
-        element: <Apply />,
-        loader: () => {
-          showNotification(
-            "There are no workshops to apply to right now",
-            "error"
-          );
-          return redirect("/");
-        },
       },
       {
         path: "/resources",
