@@ -47,7 +47,9 @@ jobs:
 
         - name: Deploy to EKS
           run: |
-            kubectl create namespace test
-            kubectl apply -f ./k8_manifest_files/backend/database-migrate-job.yaml --namespace test
-            kubectl apply -f ./k8_manifest_files/backend/deployment.yaml --namespace test
-            kubectl apply -f ./k8_manifest_files/frontend/deployment.yaml --namespace test
+            kubectl apply -f ./k8_manifest_files/backend/database-migrate-job.yaml
+            kubectl apply -f ./k8_manifest_files/backend/deployment.yaml
+            kubectl apply -f ./k8_manifest_files/backend/service.yaml
+            kubectl apply -f ./k8_manifest_files/frontend/deployment.yaml
+            kubectl apply -f ./k8_manifest_files/frontend/service.yaml
+            kubectl apply -f ./k8_manifest_files/ingress.yaml
