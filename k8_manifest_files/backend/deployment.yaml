@@ -1,27 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment-dev
+  name: backend-deployment
   labels:
     app: coding-with-callie
     tier: backend
-    env: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: coding-with-callie
       tier: backend
-      env: dev
   template:
     metadata:
       labels:
         app: coding-with-callie
         tier: backend
-        env: dev
     spec:
       containers:
-      - name: backend-container-dev
+      - name: backend-container
         image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:latest
         env:
         - name: DATABASE_HOST

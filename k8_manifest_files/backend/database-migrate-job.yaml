@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: database-migrate-job-dev
+  name: database-migrate-job
 spec:
   template:
     spec:
       containers:
-      - name: backend-container-dev
+      - name: backend-container
         image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:latest
         env:
         - name: DATABASE_HOST
