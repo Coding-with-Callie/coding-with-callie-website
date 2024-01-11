@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
-import { NewUserDto } from './auth.controller';
+import { DeliverableDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 
 @Injectable()
@@ -187,7 +187,13 @@ export class AuthService {
     return await this.submissionsService.getAllSubmissions(sessionId);
   }
 
-  async submitDeliverable(deliverable: any) {
+  async submitDeliverable(deliverable: DeliverableDto, user: any) {
+    this.mailService.sendNewSubmissionEmail({
+      session: deliverable.session,
+      url: deliverable.url,
+      user,
+      videoDate: deliverable.videoDate,
+    });
     return await this.submissionsService.submitDeliverable(deliverable);
   }
 

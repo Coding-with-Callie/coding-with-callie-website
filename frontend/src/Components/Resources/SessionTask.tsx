@@ -10,6 +10,7 @@ import MyButton from "../MyButton";
 import Section from "../Section";
 import EditSubmissionModal from "./EditSubmissionModal";
 import { Session } from "./sessions";
+import ReactPlayer from "react-player";
 
 export type Submission = {
   id: number;
@@ -48,7 +49,7 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/submit-deliverable`,
-        { session: index + 1, url, userId },
+        { session: index + 1, url, userId, videoDate: session.videoDate },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -117,9 +118,12 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
             overflow="hidden"
             boxShadow="lg"
           >
-            <video controls>
-              <source src={session.instructionVideo} type="video" />
-            </video>
+            <ReactPlayer
+              url={session.instructionVideo}
+              controls
+              width="100%"
+              height="100%"
+            />
           </Box>
         ) : null}
         <Box display="flex" flexDirection="column" gap={6}>

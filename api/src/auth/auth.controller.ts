@@ -74,6 +74,8 @@ export class DeliverableDto {
 
   @IsNotEmpty()
   userId: number;
+
+  videoDate: string;
 }
 
 export class FeedbackDto {
@@ -89,13 +91,10 @@ export class FeedbackDto {
   @Transform((params) => sanitizeHTML(params.value))
   longTermChangesRequested: string;
 
-  @IsNotEmpty()
   feedbackProviderId: number;
 
-  @IsNotEmpty()
   submissionId: number;
 
-  @IsNotEmpty()
   sessionId: number;
 }
 
@@ -165,8 +164,9 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('submit-deliverable')
   async submitDeliverable(@Body() deliverable: DeliverableDto) {
-    await this.authService.submitDeliverable(deliverable);
-    return this.authService.getUserProfile(deliverable.userId);
+    const user = await this.authService.getUserProfile(deliverable.userId);
+    await this.authService.submitDeliverable(deliverable, user);
+    return await this.authService.getUserProfile(deliverable.userId);
   }
 
   @UseGuards(AuthGuard)
@@ -186,7 +186,9 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('edit-feedback')
   async editFeedback(@Body() feedbackDto: FeedbackDto) {
+    console.log(feedbackDto);
     const result = await this.authService.editFeedback(feedbackDto);
+    console.log(result);
     return this.authService.getUserProfile(result.user.id);
   }
 

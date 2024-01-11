@@ -49,14 +49,10 @@ const ContactCallie = () => {
       setSubmitClicked(true);
     } else {
       setFormSent(true);
-      axios
-        .post(
-          `${process.env.REACT_APP_API || "http://localhost:3001/api"}/contact`,
-          contactFormData
-        )
-        .then((response) => {
-          console.log(response.data);
-        });
+      axios.post(
+        `${process.env.REACT_APP_API || "http://localhost:3001/api"}/contact`,
+        contactFormData
+      );
     }
   };
 

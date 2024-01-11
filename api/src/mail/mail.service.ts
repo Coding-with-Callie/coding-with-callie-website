@@ -4,6 +4,7 @@ import { HTML_TEMPLATE as newMessageTemplate } from './new-message-mail-template
 import { HTML_TEMPLATE as newUserTemplate } from './new-user-mail-template';
 import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user';
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
+import { HTML_TEMPLATE as newSubmissionTemplate } from './new-submission-template';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
@@ -18,7 +19,7 @@ export class MailService {
         text: '',
         html: newUserTemplate(data),
       },
-      (info) => {
+      () => {
         console.log('new user notfication email sent');
       },
     );
@@ -33,7 +34,7 @@ export class MailService {
         text: '',
         html: newMessageTemplate(data),
       },
-      (info) => {
+      () => {
         console.log('new user notification email sent');
       },
     );
@@ -51,8 +52,26 @@ export class MailService {
         text: '',
         html: messageToNewUserTemplate(data),
       },
-      (info) => {
+      () => {
         console.log('welcome email sent to new user');
+      },
+    );
+  }
+
+  async sendNewSubmissionEmail(data) {
+    SENDMAIL(
+      {
+        from: 'calliestoscup@gmail.com>', // sender address
+        to:
+          process.env.ENVIRONMENT === 'local'
+            ? 'calliestoscup@gmail.com'
+            : data.user.email, // receiver email
+        subject: `Coding with Callie: Session ${data.session} Deliverable Submitted 🥳`, // Subject line
+        text: '',
+        html: newSubmissionTemplate(data),
+      },
+      () => {
+        console.log('submission email sent to new user');
       },
     );
   }
@@ -81,7 +100,7 @@ export class MailService {
         ],
         html: resetPasswordTemplate(access_token, id),
       },
-      (info) => {
+      () => {
         console.log('reset email sent');
       },
     );
