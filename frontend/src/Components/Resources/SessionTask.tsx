@@ -109,6 +109,19 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
         <BodyHeading textAlignCenter={false}>
           {`Session ${index + 1}: ${session.title}`}
         </BodyHeading>
+        {session.instructionVideo ? (
+          <Box
+            borderRadius="5px"
+            w="60%"
+            mb={6}
+            overflow="hidden"
+            boxShadow="lg"
+          >
+            <video controls>
+              <source src={session.instructionVideo} type="video" />
+            </video>
+          </Box>
+        ) : null}
         <Box display="flex" flexDirection="column" gap={6}>
           <Box display="flex" justifyContent="space-between">
             <Text layerStyle="input" fontWeight="bold">

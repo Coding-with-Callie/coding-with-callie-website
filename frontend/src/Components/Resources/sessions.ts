@@ -5,6 +5,7 @@ export type Session = {
   dueDate: string;
   startDate: string;
   videoDate: string;
+  instructionVideo?: string;
 }
 
 export const sessions: Session[] = [
@@ -16,7 +17,8 @@ export const sessions: Session[] = [
       "A link to your Trello board with all 5 features and corresponding stories and tasks.",
     dueDate: "January 18, 2024",
     startDate: "January 11, 2024",
-    videoDate: "January 20, 2024"
+    videoDate: "January 20, 2024",
+    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4"
   },
   {
     title: "Setting Your Project Up",
