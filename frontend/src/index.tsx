@@ -19,6 +19,7 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
+import Reviews from "./Pages/Reviews";
 
 export const showNotification = (
   message: string,
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/workshops/todo-list",
         element: <TodoList />,
+      },
+      {
+        path: "/reviews",
+        element: <Reviews />,
       },
       {
         path: "/workshops/fullstack-deployment",
