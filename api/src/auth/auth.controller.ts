@@ -202,4 +202,10 @@ export class AuthController {
     await this.authService.uploadFile(id, file);
     return this.authService.getUserProfile(id);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('submit-review')
+  async submitReview(@Body() review: any) {
+    return await this.authService.submitReview(review);
+  }
 }

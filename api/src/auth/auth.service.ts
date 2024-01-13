@@ -7,6 +7,7 @@ import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
 import { DeliverableDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
+import { ReviewService } from 'src/review/review.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     private submissionsService: SubmissionsService,
     private feedbackService: FeedbackService,
+    private reviewService: ReviewService,
     private logger: Logger,
   ) {}
 
@@ -211,5 +213,9 @@ export class AuthService {
 
   async uploadFile(id, file) {
     return await this.usersService.uploadFile(id, file);
+  }
+
+  async submitReview(review) {
+    return await this.reviewService.submitReview(review);
   }
 }
