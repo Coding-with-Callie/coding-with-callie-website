@@ -1,4 +1,4 @@
-import { FormControl } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -8,9 +8,11 @@ import BodyText from "../Components/BodyText";
 import TextInput from "../Components/Forms/TextInput";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
-import { isInvalidComments, isInvalidName } from "../helpers/helpers";
+import { isInvalidName } from "../helpers/helpers";
 import TextAreaInput from "../Components/Forms/TextAreaInput";
 import StarRating from "../Components/Reviews/StarRating";
+import Paragraph from "../Components/Paragraph";
+import RatingInput from "../Components/Forms/RatingInput";
 
 const thankYouMessage = ["Thank you for your review!"];
 
@@ -24,7 +26,7 @@ const Reviews = () => {
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [formSent, setFormSent] = useState(false);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState<null | number>(null);
   const [invalidDisplayName, setInvalidDisplayName] = useState(
     isInvalidName(reviewFormData.displayName)
   );
@@ -63,12 +65,7 @@ const Reviews = () => {
         <BodyText textBlocks={thankYouMessage} textAlignCenter={true} />
       ) : (
         <FormControl display="flex" flexDirection="column" gap={6}>
-          <StarRating
-            rating={rating}
-            setRating={setRating}
-            count={5}
-            size={undefined}
-          />
+          <RatingInput rating={rating} setRating={setRating} />
           <TextInput
             field="Display Name"
             onChange={onChangeName}
