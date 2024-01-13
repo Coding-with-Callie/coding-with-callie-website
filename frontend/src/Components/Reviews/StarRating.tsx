@@ -5,9 +5,15 @@ type Props = {
   rating: any;
   setRating: any;
   count: number;
+  isInvalid: boolean;
 };
 
-export default function StarRating({ rating, setRating, count }: Props) {
+export default function StarRating({
+  rating,
+  setRating,
+  count,
+  isInvalid,
+}: Props) {
   const [hover, setHover] = useState<any>(null);
   return (
     <Box display="flex" gap={setRating ? 2 : 1}>
@@ -36,7 +42,9 @@ export default function StarRating({ rating, setRating, count }: Props) {
               id="Capa_1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="-1 0 49.94 48.94"
-              stroke={rating !== null ? "#79aace" : "#45446A"}
+              stroke={
+                rating !== null ? "#79aace" : isInvalid ? "red" : "#45446A"
+              }
             >
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g

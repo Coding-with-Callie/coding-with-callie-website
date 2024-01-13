@@ -4,13 +4,19 @@ import StarRating from "../Reviews/StarRating";
 type Props = {
   rating: null | number;
   setRating: React.Dispatch<React.SetStateAction<number | null>>;
+  isInvalid: boolean;
 };
 
-const RatingInput = ({ rating, setRating }: Props) => {
+const RatingInput = ({ rating, setRating, isInvalid }: Props) => {
   return (
     <Box>
       <FormLabel layerStyle="input">Rating</FormLabel>
-      <StarRating rating={rating} setRating={setRating} count={5} />
+      <StarRating
+        rating={rating}
+        setRating={setRating}
+        count={5}
+        isInvalid={isInvalid}
+      />
     </Box>
   );
 };
