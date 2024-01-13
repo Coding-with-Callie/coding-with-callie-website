@@ -12,6 +12,8 @@ import { SubmissionsModule } from './submissions/submissions.module';
 import { LoggerModule } from 'nestjs-pino';
 import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
+import { ReviewModule } from './review/review.module';
+import { ReviewController } from './review/review.controller';
 
 @Module({
   imports: [
@@ -57,8 +59,9 @@ import { ServerResponse } from 'http';
     AuthModule,
     UsersModule,
     MailModule,
+    ReviewModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, ReviewController],
   providers: [AppService],
 })
 export class AppModule {}

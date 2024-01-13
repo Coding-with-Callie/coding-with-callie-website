@@ -72,6 +72,14 @@ const router = createBrowserRouter([
       {
         path: "/reviews",
         element: <Reviews />,
+        loader: async () => {
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/reviews`
+          );
+          return response.data;
+        },
       },
       {
         path: "/workshops/fullstack-deployment",

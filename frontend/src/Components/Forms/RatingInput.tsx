@@ -10,12 +10,7 @@ const RatingInput = ({ rating, setRating }: Props) => {
   return (
     <Box>
       <FormLabel layerStyle="input">Rating</FormLabel>
-      <StarRating
-        rating={rating}
-        setRating={setRating}
-        count={5}
-        size={undefined}
-      />
+      <StarRating rating={rating} setRating={setRating} count={5} />
     </Box>
   );
 };

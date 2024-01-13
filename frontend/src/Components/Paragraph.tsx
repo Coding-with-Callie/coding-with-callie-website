@@ -7,6 +7,7 @@ type Props = {
   flexWeight?: number;
   margin?: boolean;
   bold?: boolean;
+  italic?: boolean;
 };
 
 const Paragraph = ({
@@ -16,6 +17,7 @@ const Paragraph = ({
   flexWeight,
   margin = true,
   bold,
+  italic,
 }: Props) => {
   return (
     <Text
@@ -25,6 +27,7 @@ const Paragraph = ({
       maxW={maxWidthSize}
       flex={flexWeight}
       fontWeight={bold ? "600" : "500"}
+      fontStyle={italic ? "italic" : "normal"}
     >
       {children}
     </Text>
