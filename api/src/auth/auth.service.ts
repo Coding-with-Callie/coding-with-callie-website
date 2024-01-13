@@ -216,6 +216,14 @@ export class AuthService {
   }
 
   async submitReview(review) {
-    return await this.reviewService.submitReview(review);
+    const existingReview = await this.reviewService.findReview(
+      review.userId,
+      review.session,
+    );
+    if (existingReview.length > 0) {
+      return await this.reviewService.getAllReviews();
+    } else {
+      return await this.reviewService.submitReview(review);
+    }
   }
 }

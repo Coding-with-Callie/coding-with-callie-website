@@ -16,6 +16,17 @@ export class ReviewService {
     });
   }
 
+  async findReview(userId, session) {
+    return await this.reviewRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+        session,
+      },
+    });
+  }
+
   async submitReview(review: any) {
     const result = new Review();
     result.rating = review.rating;

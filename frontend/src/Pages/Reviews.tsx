@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import StarRating from "../Components/Reviews/StarRating";
 import { sessions } from "../Components/Resources/sessions";
 import { Submission } from "./Profile";
+import { showNotification } from "..";
 
 const thankYouMessage = ["Thank you for your review!"];
 
@@ -59,12 +60,13 @@ const Reviews = () => {
 
   const onSubmit = () => {
     setInvalidDisplayName(isInvalidName(reviewFormData.displayName));
-
-    if (isInvalidName(reviewFormData.displayName)) {
+    if (isInvalidName(reviewFormData.displayName) || rating === null) {
       setSubmitClicked(true);
+      showNotification("Please enter all the necessary information", "error");
     } else {
       setFormSent(true);
       const token = localStorage.getItem("token");
+      const numberOfReviews = reviews.length;
       axios
         .post(
           `${
@@ -76,7 +78,14 @@ const Reviews = () => {
           }
         )
         .then((response) => {
-          setReviews(response.data);
+          if (numberOfReviews < response.data.length) {
+            setReviews(response.data);
+          } else {
+            showNotification(
+              `You've already submitted a review for session ${reviewFormData.session}!`,
+              "error"
+            );
+          }
         });
     }
   };
