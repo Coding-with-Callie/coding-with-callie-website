@@ -8,7 +8,9 @@ import BodyText from "../Components/BodyText";
 import TextInput from "../Components/Forms/TextInput";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
-import { isInvalidName } from "../helpers/helpers";
+import { isInvalidComments, isInvalidName } from "../helpers/helpers";
+import TextAreaInput from "../Components/Forms/TextAreaInput";
+import StarRating from "../Components/Reviews/StarRating";
 
 const thankYouMessage = ["Thank you for your review!"];
 
@@ -17,32 +19,39 @@ const Reviews = () => {
   const [reviewFormData, setReviewFormData] = useState<any>({
     rating: "",
     course: "Todo List",
-    review: "",
+    comments: "",
     displayName: context.user.name,
   });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [formSent, setFormSent] = useState(false);
-  const [invalidName, setInvalidName] = useState(
-    isInvalidName(reviewFormData.name)
+  const [rating, setRating] = useState(0);
+  const [invalidDisplayName, setInvalidDisplayName] = useState(
+    isInvalidName(reviewFormData.displayName)
   );
 
   const onSubmit = () => {
-    setInvalidName(isInvalidName(reviewFormData.name));
+    setInvalidDisplayName(isInvalidName(reviewFormData.displayName));
 
-    if (isInvalidName(reviewFormData.name)) {
+    if (isInvalidName(reviewFormData.displayName)) {
       setSubmitClicked(true);
     } else {
       setFormSent(true);
-      axios.post(
-        `${process.env.REACT_APP_API || "http://localhost:3001/api"}/review`,
-        reviewFormData
-      );
+      // axios.post(
+      //   `${process.env.REACT_APP_API || "http://localhost:3001/api"}/review`,
+      //   reviewFormData
+      // );
     }
   };
 
   const onChangeName = (e: any) => {
-    setInvalidName(false);
-    setReviewFormData({ ...reviewFormData, name: e.target.value });
+    setInvalidDisplayName(false);
+    console.log("display name", e.target.value);
+    setReviewFormData({ ...reviewFormData, displayName: e.target.value });
+  };
+
+  const onChangeComments = (e: any) => {
+    console.log("comments", e.target.value);
+    setReviewFormData({ ...reviewFormData, comments: e.target.value });
   };
 
   return (
@@ -54,11 +63,23 @@ const Reviews = () => {
         <BodyText textBlocks={thankYouMessage} textAlignCenter={true} />
       ) : (
         <FormControl display="flex" flexDirection="column" gap={6}>
+          <StarRating
+            rating={rating}
+            setRating={setRating}
+            count={5}
+            size={undefined}
+          />
           <TextInput
-            field="Name"
+            field="Display Name"
             onChange={onChangeName}
-            value={reviewFormData.name}
-            isInvalid={submitClicked && invalidName}
+            value={reviewFormData.displayName}
+            isInvalid={submitClicked && invalidDisplayName}
+          />
+          <TextAreaInput
+            field="Comments"
+            onChange={onChangeComments}
+            value={reviewFormData.comments}
+            isInvalid={submitClicked}
           />
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>

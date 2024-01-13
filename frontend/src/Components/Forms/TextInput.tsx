@@ -17,6 +17,11 @@ const TextInput = ({
   helperText,
   type,
 }: Props) => {
+  console.log(isInvalid);
+  const makeLowerCase = (field: string) => {
+    return field.split("").map((character) => character.toLowerCase());
+  };
+
   return (
     <Box>
       <FormLabel layerStyle="input">{field}</FormLabel>
@@ -28,10 +33,10 @@ const TextInput = ({
         value={value}
         isInvalid={isInvalid}
       />
-      {helperText ? (
+      {!helperText ? (
         isInvalid ? (
           <FormHelperText color="red.500">
-            Please enter a valid {field.toLowerCase()}!
+            Please enter a valid {makeLowerCase(field)}!
           </FormHelperText>
         ) : (
           <FormHelperText>{helperText}</FormHelperText>
