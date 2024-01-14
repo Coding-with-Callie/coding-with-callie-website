@@ -196,9 +196,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('edit-feedback')
   async editFeedback(@Body() feedbackDto: FeedbackDto) {
-    console.log(feedbackDto);
     const result = await this.authService.editFeedback(feedbackDto);
-    console.log(result);
     return this.authService.getUserProfile(result.user.id);
   }
 

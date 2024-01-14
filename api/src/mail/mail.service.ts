@@ -5,6 +5,7 @@ import { HTML_TEMPLATE as newUserTemplate } from './new-user-mail-template';
 import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user';
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
 import { HTML_TEMPLATE as newSubmissionTemplate } from './new-submission-template';
+import { HTML_TEMPLATE as newFeedbackTemplate } from './new-feedback-template';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
@@ -71,7 +72,25 @@ export class MailService {
         html: newSubmissionTemplate(data),
       },
       () => {
-        console.log('submission email sent to new user');
+        console.log('submission email sent to user');
+      },
+    );
+  }
+
+  async sendFeedbackEmail(data) {
+    SENDMAIL(
+      {
+        from: 'calliestoscup@gmail.com>', // sender address
+        to:
+          process.env.ENVIRONMENT === 'local'
+            ? 'calliestoscup@gmail.com'
+            : data.user.email, // receiver email
+        subject: `Coding with Callie: You have new feedback! 🥳`, // Subject line
+        text: '',
+        html: newFeedbackTemplate(data),
+      },
+      () => {
+        console.log('new feedback email sent to user');
       },
     );
   }
