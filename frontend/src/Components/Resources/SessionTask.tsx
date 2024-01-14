@@ -153,7 +153,7 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
               <Link
                 href={sessionSubmissions[0].url}
                 target="_blank"
-                maxW="250px"
+                maxW="200px"
                 isTruncated
                 color="#45446A"
               >
