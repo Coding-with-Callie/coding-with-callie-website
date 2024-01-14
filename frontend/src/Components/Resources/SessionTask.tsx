@@ -1,4 +1,4 @@
-import { Box, Text, Input, useDisclosure } from "@chakra-ui/react";
+import { Box, Text, Input, useDisclosure, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -127,38 +127,38 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
           </Box>
         ) : null}
         <Box display="flex" flexDirection="column" gap={6}>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Summary:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.summary}
-            </Text>
+            <Text layerStyle="input">{session.summary}</Text>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Deliverable:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.deliverable}
-            </Text>
+            <Text layerStyle="input">{session.deliverable}</Text>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Due Date:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.dueDate}
-            </Text>
+            <Text layerStyle="input">{session.dueDate}</Text>
           </Box>
           {submitted ? (
-            <Box display="flex" justifyContent="space-between">
-              <Text layerStyle="input" fontWeight="bold">
+            <Box display="flex">
+              <Text layerStyle="input" fontWeight="bold" minW="145px">
                 Submission:
               </Text>
-              <Text layerStyle="input" w="80%">
+              <Link
+                href={sessionSubmissions[0].url}
+                target="_blank"
+                maxW="250px"
+                isTruncated
+                color="#45446A"
+              >
                 {sessionSubmissions[0].url}
-              </Text>
+              </Link>
             </Box>
           ) : null}
           <Box display="flex" gap={2}>

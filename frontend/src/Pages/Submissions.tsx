@@ -112,13 +112,18 @@ const Submissions = () => {
                   backgroundColor="white"
                   boxShadow="lg"
                 >
-                  <Box display="flex" w="100%" alignItems="center">
+                  <Box display="flex" w="100%" alignItems="center" gap={5}>
                     <Text>{submission.user.username}</Text>
-                    <Box textAlign="center" flex={1}>
-                      <Link href={submission.url} target="_blank">
-                        {submission.url}
-                      </Link>
-                    </Box>
+                    <Link
+                      href={submission.url}
+                      target="_blank"
+                      w="180px"
+                      isTruncated
+                      color="#45446A"
+                      flex={1}
+                    >
+                      {submission.url}
+                    </Link>
                     <Tooltip label={`Number of submission reviews`}>
                       <Box
                         backgroundColor="#45446A"
