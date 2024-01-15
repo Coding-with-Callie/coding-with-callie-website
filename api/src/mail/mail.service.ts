@@ -18,6 +18,13 @@ export class MailService {
         to: 'calliestoscup@gmail.com', // receiver email
         subject: 'Coding with Callie has a new user 🥳', // Subject line
         text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
         html: newUserTemplate(data),
       },
       () => {
@@ -33,6 +40,13 @@ export class MailService {
         to: 'calliestoscup@gmail.com', // receiver email
         subject: 'Coding with Callie has a new message 🥳', // Subject line
         text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
         html: newMessageTemplate(data),
       },
       () => {
@@ -76,6 +90,13 @@ export class MailService {
             : data.user.email, // receiver email
         subject: `Coding with Callie: Session ${data.session} Deliverable Submitted 🥳`, // Subject line
         text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
         html: newSubmissionTemplate(data),
       },
       () => {
@@ -94,6 +115,13 @@ export class MailService {
             : data.user.email, // receiver email
         subject: `Coding with Callie: You have new feedback! 🥳`, // Subject line
         text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
         html: newFeedbackTemplate(data),
       },
       () => {
