@@ -51,6 +51,13 @@ export class MailService {
             : data.email, // receiver email
         subject: 'Welcome to the Coding with Callie community 👋🏻', // Subject line
         text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
         html: messageToNewUserTemplate(data),
       },
       () => {
