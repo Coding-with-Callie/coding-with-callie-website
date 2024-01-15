@@ -1,3 +1,8 @@
+export type HelpfulLink = {
+  link: string;
+  label: string;
+}
+
 export type Session = {
   title: string;
   summary: string;
@@ -6,6 +11,7 @@ export type Session = {
   startDate: string;
   videoDate: string;
   instructionVideo?: string;
+  helpfulLinks?: HelpfulLink[];
 }
 
 export const sessions: Session[] = [
@@ -18,7 +24,8 @@ export const sessions: Session[] = [
     dueDate: "January 18, 2024",
     startDate: "January 11, 2024",
     videoDate: "January 20, 2024",
-    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4"
+    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4",
+    helpfulLinks: [{link: "https://trello.com/w/calliestodolist", label: "Trello Template"}, {link: "https://coding-with-callie.s3.amazonaws.com/trello_template.mp4", label: "Trello Template Video Walkthrough"}]
   },
   {
     title: "Setting Your Project Up",

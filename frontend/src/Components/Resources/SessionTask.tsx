@@ -145,6 +145,27 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
             </Text>
             <Text layerStyle="input">{session.dueDate}</Text>
           </Box>
+          {session.helpfulLinks ? (
+            <Box display="flex">
+              <Text layerStyle="input" fontWeight="bold" minW="145px">
+                Resources:
+              </Text>
+              <Box display="flex" flexDirection="column" gap={3}>
+                {session.helpfulLinks.map((link) => {
+                  return (
+                    <Link
+                      href={link.link}
+                      target="_blank"
+                      color="#45446A"
+                      textDecoration="underline"
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </Box>
+            </Box>
+          ) : null}
           {submitted ? (
             <Box display="flex">
               <Text layerStyle="input" fontWeight="bold" minW="145px">
