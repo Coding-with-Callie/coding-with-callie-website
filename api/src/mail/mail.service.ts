@@ -6,6 +6,8 @@ import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
 import { HTML_TEMPLATE as newSubmissionTemplate } from './new-submission-template';
 import { HTML_TEMPLATE as newFeedbackTemplate } from './new-feedback-template';
+import { HTML_TEMPLATE_1 as newFeedbackGivenTemplate1 } from './new-feedback-given-template';
+import { HTML_TEMPLATE_2 as newFeedbackGivenTemplate2 } from './new-feedback-given-template';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
@@ -101,6 +103,34 @@ export class MailService {
       },
       () => {
         console.log('submission email sent to user');
+      },
+    );
+  }
+
+  async sendNewFeedbackGivenEmail(data) {
+    SENDMAIL(
+      {
+        from: 'calliestoscup@gmail.com>', // sender address
+        to:
+          process.env.ENVIRONMENT === 'local'
+            ? 'calliestoscup@gmail.com'
+            : data.feedbackProvider.email, // receiver email
+        subject: `Coding with Callie: Session ${data.session} Feedback Submitted 🥳`, // Subject line
+        text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+        ],
+        html:
+          data.feedbackProvider.feedback.length === 0
+            ? newFeedbackGivenTemplate1(data)
+            : newFeedbackGivenTemplate2(data),
+      },
+      () => {
+        console.log('new feedback given email sent to user');
       },
     );
   }

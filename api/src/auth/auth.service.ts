@@ -206,6 +206,10 @@ export class AuthService {
       feedbackDto.submissionId,
     );
 
+    const submission = await this.submissionsService.getSubmissionWithId(
+      feedbackDto.submissionId,
+    );
+
     const feedbackProvider = await this.usersService.findOneById(
       feedbackDto.feedbackProviderId,
     );
@@ -218,6 +222,14 @@ export class AuthService {
       immediateChangesRequested: feedbackDto.immediateChangesRequested,
       longTermChangesRequested: feedbackDto.longTermChangesRequested,
     });
+
+    this.mailService.sendNewFeedbackGivenEmail({
+      feedbackReceiver: user[0].user.username,
+      session: feedbackDto.sessionId,
+      url: submission[0].url,
+      feedbackProvider: feedbackProvider,
+    });
+
     return await this.feedbackService.submitFeedback(feedbackDto);
   }
 
