@@ -37,7 +37,7 @@ const Resources = () => {
         </OrderedList>
         <Text color="#45446A" mb={4}>
           Prior to each session, you'll need to attempt the task on your own.
-          Each task has a summary of its requirements, the deliverble you must
+          Each task has a summary of its requirements, the deliverable you must
           submit, and the date on which the deliverable is due. Once you give it
           your best shot, submit your deliverable on this page. Submitting your
           deliverable will unlock options to see other participants'
