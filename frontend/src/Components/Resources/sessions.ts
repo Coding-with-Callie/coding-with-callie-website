@@ -29,11 +29,13 @@ export const sessions: Session[] = [
   },
   {
     title: "Setting Your Project Up",
-    summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up, a NestJS api, and a README that gives step-by-step details on how to pull down your application and start it. Make sure your frontend is able to hit an api route.",
+    summary: "Create a local project for your Todo List application and link it to a Github repository. Your project should have a React frontend with Chakra UI set up, a NestJS api, and a Postgres database that is connected to your api. Your goal is to successfully connect your frontend to your api and your api to your database. The way I would do it, is to make a button on the frontend that when clicked sends a hardcoded Todo to the api which then saves the Todo into a Todos table. Your repository should have a README that gives step-by-step details on how to pull down your application and start it.",
     deliverable: "A link to your Todo List Github repository.",
     dueDate: "January 25, 2024",
     startDate: "January 18, 2024",
-    videoDate: "January 27, 2024"
+    videoDate: "January 27, 2024",
+    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/session-2.mp4",
+    helpfulLinks: [{link: "https://create-react-app.dev/docs/adding-typescript/", label: "Create React App with TypeScript"}, {link: "https://chakra-ui.com/getting-started", label: "Chakra UI Documentation"}, {link: "https://docs.nestjs.com/", label: "NestJS Documentation"}, {link: "https://docs.nestjs.com/techniques/database", label: "NestJS - How to set up a database"}]
   },
   {
     title: "Feature 1",
