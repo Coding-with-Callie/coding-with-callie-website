@@ -26,9 +26,16 @@ type Props = {
   userId: number;
   submissions: any;
   feedback: Feedback[];
+  solutionVideoPosted: boolean;
 };
 
-const SessionTask = ({ session, index, userId, feedback }: Props) => {
+const SessionTask = ({
+  session,
+  index,
+  userId,
+  feedback,
+  solutionVideoPosted,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
@@ -216,7 +223,16 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
               <Box flex={1}>
                 <MyButton
                   widthSize="100%"
-                  onClick={() => navigate(`/submissions/callie/${index + 1}`)}
+                  onClick={
+                    solutionVideoPosted
+                      ? () => navigate(`/submissions/callie/${index + 1}`)
+                      : () => {
+                          showNotification(
+                            `Callie's solution video will be posted on ${session.videoDate}`,
+                            "error"
+                          );
+                        }
+                  }
                 >
                   View Callie's Solution
                 </MyButton>

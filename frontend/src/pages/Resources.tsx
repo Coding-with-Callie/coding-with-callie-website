@@ -64,6 +64,8 @@ const Resources = () => {
 
           const today = new Date();
           const startDate = new Date(session.startDate);
+          const videoDate = new Date(session.videoDate);
+          const solutionVideoPosted = today > videoDate;
 
           if (today > startDate || role === "admin") {
             return (
@@ -73,6 +75,7 @@ const Resources = () => {
                 userId={context.user.id}
                 submissions={data.submissions}
                 feedback={sessionFeedback}
+                solutionVideoPosted={solutionVideoPosted}
               />
             );
           } else {
