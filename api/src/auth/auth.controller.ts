@@ -164,6 +164,11 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('submit-deliverable')
   async submitDeliverable(@Body() deliverable: DeliverableDto) {
+    const url = deliverable.url;
+    if (url.indexOf('http') === -1) {
+      deliverable.url = 'http://' + url;
+    }
+
     const user = await this.authService.getUserProfile(deliverable.userId);
     await this.authService.submitDeliverable(deliverable, user);
     return await this.authService.getUserProfile(deliverable.userId);
@@ -172,6 +177,11 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('edit-deliverable')
   async editDeliverable(@Body() deliverable: DeliverableDto) {
+    const url = deliverable.url;
+    if (url.indexOf('http') === -1) {
+      deliverable.url = 'http://' + url;
+    }
+
     await this.authService.editDeliverable(deliverable);
     return this.authService.getUserProfile(deliverable.userId);
   }
@@ -186,9 +196,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('edit-feedback')
   async editFeedback(@Body() feedbackDto: FeedbackDto) {
-    console.log(feedbackDto);
     const result = await this.authService.editFeedback(feedbackDto);
-    console.log(result);
     return this.authService.getUserProfile(result.user.id);
   }
 

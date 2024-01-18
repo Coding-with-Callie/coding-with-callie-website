@@ -1,4 +1,4 @@
-import { Box, Text, Input, useDisclosure } from "@chakra-ui/react";
+import { Box, Text, Input, useDisclosure, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -26,9 +26,16 @@ type Props = {
   userId: number;
   submissions: any;
   feedback: Feedback[];
+  solutionVideoPosted: boolean;
 };
 
-const SessionTask = ({ session, index, userId, feedback }: Props) => {
+const SessionTask = ({
+  session,
+  index,
+  userId,
+  feedback,
+  solutionVideoPosted,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
@@ -127,38 +134,59 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
           </Box>
         ) : null}
         <Box display="flex" flexDirection="column" gap={6}>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Summary:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.summary}
-            </Text>
+            <Text layerStyle="input">{session.summary}</Text>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Deliverable:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.deliverable}
-            </Text>
+            <Text layerStyle="input">{session.deliverable}</Text>
           </Box>
-          <Box display="flex" justifyContent="space-between">
-            <Text layerStyle="input" fontWeight="bold">
+          <Box display="flex">
+            <Text layerStyle="input" fontWeight="bold" minW="145px">
               Due Date:
             </Text>
-            <Text layerStyle="input" w="80%">
-              {session.dueDate}
-            </Text>
+            <Text layerStyle="input">{session.dueDate}</Text>
           </Box>
+          {session.helpfulLinks ? (
+            <Box display="flex">
+              <Text layerStyle="input" fontWeight="bold" minW="145px">
+                Resources:
+              </Text>
+              <Box display="flex" flexDirection="column" gap={3}>
+                {session.helpfulLinks.map((link) => {
+                  return (
+                    <Link
+                      href={link.link}
+                      target="_blank"
+                      color="#45446A"
+                      textDecoration="underline"
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </Box>
+            </Box>
+          ) : null}
           {submitted ? (
-            <Box display="flex" justifyContent="space-between">
-              <Text layerStyle="input" fontWeight="bold">
+            <Box display="flex">
+              <Text layerStyle="input" fontWeight="bold" minW="145px">
                 Submission:
               </Text>
-              <Text layerStyle="input" w="80%">
+              <Link
+                href={sessionSubmissions[0].url}
+                target="_blank"
+                maxW="200px"
+                isTruncated
+                color="#45446A"
+              >
                 {sessionSubmissions[0].url}
-              </Text>
+              </Link>
             </Box>
           ) : null}
           <Box display="flex" gap={2}>
@@ -195,7 +223,16 @@ const SessionTask = ({ session, index, userId, feedback }: Props) => {
               <Box flex={1}>
                 <MyButton
                   widthSize="100%"
-                  onClick={() => navigate(`/submissions/callie/${index + 1}`)}
+                  onClick={
+                    solutionVideoPosted
+                      ? () => navigate(`/submissions/callie/${index + 1}`)
+                      : () => {
+                          showNotification(
+                            `Callie's solution video will be posted on ${session.videoDate}`,
+                            "error"
+                          );
+                        }
+                  }
                 >
                   View Callie's Solution
                 </MyButton>

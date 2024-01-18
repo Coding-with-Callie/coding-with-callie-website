@@ -19,7 +19,12 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
+<<<<<<< HEAD
 import Reviews from "./Pages/Reviews";
+import CallieSubmission from "./Pages/CallieSubmission";
+=======
+import CallieSubmission from "./Pages/CallieSubmission";
+>>>>>>> main
 
 export const showNotification = (
   message: string,
@@ -241,6 +246,53 @@ const router = createBrowserRouter([
               "error"
             );
             return redirect("/log-in");
+          }
+        },
+      },
+      {
+        path: "/submissions/callie/:id",
+        element: <CallieSubmission />,
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+          const id = params.id;
+
+          if (token) {
+            try {
+              // get Callie's video for session # id
+              let url;
+
+              if (url) {
+                return url;
+              } else {
+                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
+                  showNotification(`There are only 10 sessions`, "error");
+                } else {
+                  showNotification(
+                    `Callie hasn't posted her submission for session ${id} yet!`,
+                    "error"
+                  );
+                }
+
+                return redirect("/resources");
+              }
+            } catch (error: any) {
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
+                  "error"
+                );
+                return redirect("/log-in");
+              } else {
+                showNotification("That page doesn't seem to exist!", "error");
+                return redirect("/");
+              }
+            }
+          } else {
+            showNotification(
+              "You must sign up to view Conding with Callie submissions!",
+              "error"
+            );
+            return redirect("/sign-up");
           }
         },
       },

@@ -1,3 +1,8 @@
+export type HelpfulLink = {
+  link: string;
+  label: string;
+}
+
 export type Session = {
   title: string;
   summary: string;
@@ -6,6 +11,7 @@ export type Session = {
   startDate: string;
   videoDate: string;
   instructionVideo?: string;
+  helpfulLinks?: HelpfulLink[];
 }
 
 export const sessions: Session[] = [
@@ -18,15 +24,18 @@ export const sessions: Session[] = [
     dueDate: "January 18, 2024",
     startDate: "January 11, 2024",
     videoDate: "January 20, 2024",
-    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4"
+    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4",
+    helpfulLinks: [{link: "https://trello.com/w/calliestodolist", label: "Trello Template"}, {link: "https://coding-with-callie.s3.amazonaws.com/trello_template.mp4", label: "Trello Template Video Walkthrough"}]
   },
   {
     title: "Setting Your Project Up",
-    summary: "Create a Github repository for your Todo List application. Your repo should have a React frontend with Chakra UI set up, a NestJS api, and a README that gives step-by-step details on how to pull down your application and start it. Make sure your frontend is able to hit an api route.",
-    deliverable: "A link to your Todo List Github repository.",
+    summary: "Create a local project for your Todo List application and link it to a Github repository. Your project should have a React frontend with Chakra UI set up, a NestJS API, and a PostgreSQL database. Your goal is to successfully connect your frontend to your API and your api to your database. The way I would do it, is to make a button on the frontend that when clicked sends a hardcoded Todo to the API which then saves the Todo into a Todo table. Your repository should have a README that gives step-by-step instructions on how to pull down your application and start it.",
+    deliverable: "A link to your Todo List Github repository (please make it publicly accessible).",
     dueDate: "January 25, 2024",
     startDate: "January 18, 2024",
-    videoDate: "January 27, 2024"
+    videoDate: "January 27, 2024",
+    instructionVideo: "https://coding-with-callie.s3.amazonaws.com/session-2.mp4",
+    helpfulLinks: [{link: "https://create-react-app.dev/docs/adding-typescript/", label: "Create React App with TypeScript"}, {link: "https://chakra-ui.com/getting-started", label: "Chakra UI Documentation"}, {link: "https://docs.nestjs.com/", label: "NestJS Documentation"}, {link: "https://docs.nestjs.com/techniques/database", label: "NestJS - How to set up a database"}]
   },
   {
     title: "Feature 1",

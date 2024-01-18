@@ -4,7 +4,7 @@ export const HTML_TEMPLATE = (data) => {
     <html>
       <head>
         <meta charset="utf-8">
-        <title>New Message Email</title>
+        <title>New User Email</title>
         <style>
           .container {
             width: 100%;
@@ -19,19 +19,32 @@ export const HTML_TEMPLATE = (data) => {
             padding: 20px;
           }
           .email-header {
-            background-color: #333;
-            color: #fff;
+            background-color: #E1E7CD;
+            color: #45446A;
             padding: 20px;
             text-align: center;
           }
           .email-body {
             padding: 20px;
+            background-color: #E1E7CD;
+            color: #45446A;
           }
           .email-footer {
-            background-color: #333;
-            color: #fff;
+            background-color: #E1E7CD;
+            color: #45446A;
             padding: 20px;
-            text-align: center;
+          }
+          .link-lists {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            width: 100%;
+          }
+          li {
+            font-size: 20px
+          }
+          p {
+            font-size: 20px
           }
         </style>
       </head>
@@ -39,12 +52,29 @@ export const HTML_TEMPLATE = (data) => {
         <div class="container">
           <div class="email">
             <div class="email-header">
-              <h1>Hi, ${data.name}!</h1>
+              <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
+              <h1>Welcome to Coding with Callie, ${data.name}!</h1>
             </div>
             <div class="email-body">
-              <h3>Thank you for joining Coding with Callie! You now have access to the Coding with Callie resources.</h3>
-              <h3>Please let me know if you have any questions or concerns 🙂</h3>
-              <p>You can manage your account <a href="https://coding-with-callie.com/profile">here</a></p>
+              <p>We are currently working through the Todo List Workshop. Each Thursday, a new task is posted. You can learn more about the tasks and submit your attempts on the Todo List Resources page.</p>
+              <p>Once you submit your attempt at the task, you will have access to all of other task submissions. You can even leave feedback on the submissions!</p>
+              <p>If you provide feedback for at least 2 submissions, you will have access to a video of me attempting the task!</p>
+              <p>Please let me know if you have any questions or concerns 🙂</p>
+            </div>
+            <div class="email-footer">
+              <h1>Helpful Links</h1>
+              <div class="link-lists">
+                <ul>
+                  <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
+                  <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
+                  <li><a href="https://www.linkedin.com/groups/14345705/">Coding with Callie's LinkedIn Group</a></li>
+                </ul>
+                <ul>
+                  <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
+                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
+                  <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
