@@ -29,8 +29,8 @@ export const sessions: Session[] = [
   },
   {
     title: "Setting Your Project Up",
-    summary: "Create a local project for your Todo List application and link it to a Github repository. Your project should have a React frontend with Chakra UI set up, a NestJS api, and a Postgres database that is connected to your api. Your goal is to successfully connect your frontend to your api and your api to your database. The way I would do it, is to make a button on the frontend that when clicked sends a hardcoded Todo to the api which then saves the Todo into a Todos table. Your repository should have a README that gives step-by-step details on how to pull down your application and start it.",
-    deliverable: "A link to your Todo List Github repository.",
+    summary: "Create a local project for your Todo List application and link it to a Github repository. Your project should have a React frontend with Chakra UI set up, a NestJS API, and a PostgreSQL database. Your goal is to successfully connect your frontend to your API and your api to your database. The way I would do it, is to make a button on the frontend that when clicked sends a hardcoded Todo to the API which then saves the Todo into a Todo table. Your repository should have a README that gives step-by-step instructions on how to pull down your application and start it.",
+    deliverable: "A link to your Todo List Github repository (please make it publicly accessible).",
     dueDate: "January 25, 2024",
     startDate: "January 18, 2024",
     videoDate: "January 27, 2024",
