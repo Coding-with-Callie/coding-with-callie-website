@@ -19,12 +19,8 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
-<<<<<<< HEAD
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
-=======
-import CallieSubmission from "./Pages/CallieSubmission";
->>>>>>> main
 
 export const showNotification = (
   message: string,
