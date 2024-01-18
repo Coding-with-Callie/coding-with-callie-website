@@ -196,59 +196,52 @@ const Reviews = () => {
             <BodyHeading textAlignCenter={true}>
               Post Your Own Review
             </BodyHeading>
-            {formSent ? (
-              <BodyText textBlocks={thankYouMessage} textAlignCenter={true} />
-            ) : (
-              <FormControl display="flex" flexDirection="column" gap={6}>
-                <RatingInput
-                  rating={rating}
-                  setRating={setRating}
-                  isInvalid={submitClicked && rating === null}
-                />
-                <TextInput
-                  field="Display Name"
-                  onChange={onChangeName}
-                  value={reviewFormData.displayName}
-                  isInvalid={submitClicked && invalidDisplayName}
-                />
-                <TextAreaInput
-                  field="Comments"
-                  onChange={onChangeComments}
-                  value={reviewFormData.comments}
-                  isInvalid={false}
-                />
-                <Box>
-                  <FormLabel layerStyle="input">Workshop Session</FormLabel>
-                  <Select
-                    backgroundColor="#edf2f6"
-                    color="#45446A"
-                    onChange={handleSelectChange}
-                  >
-                    {sessions.map((session, index) => {
-                      const sessionSubmissions =
-                        context.user.submissions.filter(
-                          (submission: Submission) => {
-                            if (submission.session === index + 1) {
-                              return submission;
-                            } else {
-                              return null;
-                            }
-                          }
-                        );
-
-                      if (sessionSubmissions.length > 0) {
-                        return (
-                          <option value={index + 1}>{session.title}</option>
-                        );
-                      } else {
-                        return null;
+            <FormControl display="flex" flexDirection="column" gap={6}>
+              <RatingInput
+                rating={rating}
+                setRating={setRating}
+                isInvalid={submitClicked && rating === null}
+              />
+              <TextInput
+                field="Display Name"
+                onChange={onChangeName}
+                value={reviewFormData.displayName}
+                isInvalid={submitClicked && invalidDisplayName}
+              />
+              <TextAreaInput
+                field="Comments"
+                onChange={onChangeComments}
+                value={reviewFormData.comments}
+                isInvalid={false}
+              />
+              <Box>
+                <FormLabel layerStyle="input">Workshop Session</FormLabel>
+                <Select
+                  backgroundColor="#edf2f6"
+                  color="#45446A"
+                  onChange={handleSelectChange}
+                >
+                  {sessions.map((session, index) => {
+                    const sessionSubmissions = context.user.submissions.filter(
+                      (submission: Submission) => {
+                        if (submission.session === index + 1) {
+                          return submission;
+                        } else {
+                          return null;
+                        }
                       }
-                    })}
-                  </Select>
-                </Box>
-                <MyButton onClick={onSubmit}>Submit</MyButton>
-              </FormControl>
-            )}
+                    );
+
+                    if (sessionSubmissions.length > 0) {
+                      return <option value={index + 1}>{session.title}</option>;
+                    } else {
+                      return null;
+                    }
+                  })}
+                </Select>
+              </Box>
+              <MyButton onClick={onSubmit}>Submit</MyButton>
+            </FormControl>
           </Section>
         </Box>
       ) : null}
