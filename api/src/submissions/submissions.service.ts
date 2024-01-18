@@ -23,6 +23,19 @@ export class SubmissionsService {
     }
   }
 
+  async getSubmissionWithId(id: number) {
+    return await this.submissionsRepository.find({
+      where: { id },
+    });
+  }
+
+  async getUserWithSubmissionId(submissionId: number) {
+    return await this.submissionsRepository.find({
+      where: { id: submissionId },
+      relations: ['user', 'feedback'],
+    });
+  }
+
   async getAllSubmissions(sessionId: number) {
     return await this.submissionsRepository.find({
       where: { session: sessionId },

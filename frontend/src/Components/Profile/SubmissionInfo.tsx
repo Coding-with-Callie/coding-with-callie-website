@@ -1,8 +1,8 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
+import { Box, IconButton, Link, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { showNotification } from "../..";
 import { Context } from "../../App";
 import BodyHeading from "../BodyHeading";
@@ -17,6 +17,7 @@ type Props = {
 const SubmissionInfo = ({ submission }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [url, setUrl] = useState("");
+  const navigate = useNavigate();
 
   const context: Context = useOutletContext();
 
@@ -36,6 +37,18 @@ const SubmissionInfo = ({ submission }: Props) => {
       .then((response) => {
         showNotification("Your submission has been edited!", "success");
         context.updateUser(response.data);
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          showNotification(
+            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+            "error"
+          );
+          navigate("/log-in");
+        } else {
+          let message: string = error.response.data.message[0];
+          showNotification(`${message}`, "error");
+        }
       });
   };
 
@@ -58,7 +71,15 @@ const SubmissionInfo = ({ submission }: Props) => {
             <Paragraph bold margin={false}>
               Deliverable:
             </Paragraph>
-            <Paragraph margin={false}>{submission.url}</Paragraph>
+            <Link
+              href={submission.url}
+              target="_blank"
+              w="180px"
+              isTruncated
+              color="#45446A"
+            >
+              {submission.url}
+            </Link>
           </Box>
           <IconButton
             backgroundColor="#45446A"

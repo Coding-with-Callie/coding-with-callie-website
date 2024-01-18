@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
-import { NewUserDto } from './auth.controller';
+import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 
 @Injectable()
@@ -187,7 +187,13 @@ export class AuthService {
     return await this.submissionsService.getAllSubmissions(sessionId);
   }
 
-  async submitDeliverable(deliverable: any) {
+  async submitDeliverable(deliverable: DeliverableDto, user: any) {
+    this.mailService.sendNewSubmissionEmail({
+      session: deliverable.session,
+      url: deliverable.url,
+      user,
+      videoDate: deliverable.videoDate,
+    });
     return await this.submissionsService.submitDeliverable(deliverable);
   }
 
@@ -195,7 +201,35 @@ export class AuthService {
     return await this.submissionsService.editDeliverable(deliverable);
   }
 
-  async submitFeedback(feedbackDto: any) {
+  async submitFeedback(feedbackDto: FeedbackDto) {
+    const user = await this.submissionsService.getUserWithSubmissionId(
+      feedbackDto.submissionId,
+    );
+
+    const submission = await this.submissionsService.getSubmissionWithId(
+      feedbackDto.submissionId,
+    );
+
+    const feedbackProvider = await this.usersService.findOneById(
+      feedbackDto.feedbackProviderId,
+    );
+
+    this.mailService.sendFeedbackEmail({
+      user: user[0].user,
+      feedbackProvider: feedbackProvider.username,
+      session: feedbackDto.sessionId,
+      positiveFeedback: feedbackDto.positiveFeedback,
+      immediateChangesRequested: feedbackDto.immediateChangesRequested,
+      longTermChangesRequested: feedbackDto.longTermChangesRequested,
+    });
+
+    this.mailService.sendNewFeedbackGivenEmail({
+      feedbackReceiver: user[0].user.username,
+      session: feedbackDto.sessionId,
+      url: submission[0].url,
+      feedbackProvider: feedbackProvider,
+    });
+
     return await this.feedbackService.submitFeedback(feedbackDto);
   }
 

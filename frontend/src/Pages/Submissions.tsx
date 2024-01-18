@@ -20,7 +20,14 @@ const Submissions = () => {
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const submissions = useLoaderData() as Submission[];
+  let submissions = useLoaderData() as Submission[];
+  submissions = submissions.sort((a, b) => {
+    if (a.feedback.length < b.feedback.length) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
 
   const context = useOutletContext() as Context;
   const userId = context.user.id;
@@ -65,7 +72,16 @@ const Submissions = () => {
           setLongTermChangesRequested("");
           setSubmitClicked(false);
           showNotification("Your feedback has been submitted!", "success");
-          setSessionData(response.data);
+          const sortedSubmissions = response.data.sort(
+            (a: Submission, b: Submission) => {
+              if (a.feedback.length < b.feedback.length) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }
+          );
+          setSessionData(sortedSubmissions);
         })
         .catch((error) => {
           if (error.response.data.message === "Unauthorized") {
@@ -112,13 +128,18 @@ const Submissions = () => {
                   backgroundColor="white"
                   boxShadow="lg"
                 >
-                  <Box display="flex" w="100%" alignItems="center">
+                  <Box display="flex" w="100%" alignItems="center" gap={5}>
                     <Text>{submission.user.username}</Text>
-                    <Box textAlign="center" flex={1}>
-                      <Link href={submission.url} target="_blank">
-                        {submission.url}
-                      </Link>
-                    </Box>
+                    <Link
+                      href={submission.url}
+                      target="_blank"
+                      w="180px"
+                      isTruncated
+                      color="#45446A"
+                      flex={1}
+                    >
+                      {submission.url}
+                    </Link>
                     <Tooltip label={`Number of submission reviews`}>
                       <Box
                         backgroundColor="#45446A"

@@ -1,10 +1,10 @@
-export const HTML_TEMPLATE = (user) => {
+export const HTML_TEMPLATE = (data) => {
   return `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="utf-8">
-        <title>New User Email</title>
+        <title>New Message Email</title>
         <style>
           .container {
             width: 100%;
@@ -28,13 +28,6 @@ export const HTML_TEMPLATE = (user) => {
             padding: 20px;
             background-color: #E1E7CD;
             color: #45446A;
-          }
-          .group {
-            display: flex;
-          }
-          .bold {
-            width: 150px;
-            font-weight: bold;
           }
           .email-footer {
             background-color: #E1E7CD;
@@ -60,23 +53,12 @@ export const HTML_TEMPLATE = (user) => {
           <div class="email">
             <div class="email-header">
               <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
-              <h1>Coding with Callie has a new user 🥳</h1>
+              <h1>Great job! You submitted your session ${data.session} deliverable ✅</h1>
             </div>
             <div class="email-body">
-              <div class="group">
-                <p class="bold">Name:</p>
-                <p>${user.name}</p>
-              </div>
-
-              <div class="group">
-                <p class="bold">Username:</p>
-                <p>${user.username}</p>
-              </div>
-
-              <div class="group">
-                <p class="bold">Email:</p>
-                <p>${user.email}</p>
-              </div>
+              <p>Thank you for submitting your <a href="${data.url}">deliverable</a>, ${data.user.name}!</p>
+              <p>Please make sure to review two other participant submissions in order to see Callie's video when it is available on ${data.videoDate}.</p>
+              <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>
