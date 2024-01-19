@@ -179,7 +179,11 @@ const Reviews = () => {
                   } Workshop: ${
                     sessions[review.session - 1].title
                   }`}</Paragraph>
-                  <Paragraph margin={false}>{`"${review.comments}"`}</Paragraph>
+                  {review.comments.length > 0 ? (
+                    <Paragraph
+                      margin={false}
+                    >{`"${review.comments}"`}</Paragraph>
+                  ) : null}
                 </Box>
               </Box>
             );
