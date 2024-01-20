@@ -281,14 +281,14 @@ const router = createBrowserRouter([
               return id;
             } catch (error) {
               showNotification(
-                "It looks like your session has expired. Please log in again to view Coding with Callie solutions!",
+                "It looks like your session has expired. Please log in again to view Callie's submissions!",
                 "error"
               );
               return redirect("/log-in");
             }
           } else {
             showNotification(
-              "You must sign up to view Coding with Callie solutions!",
+              "You must sign up to view Callie's submissions!",
               "error"
             );
             return redirect("/sign-up");
