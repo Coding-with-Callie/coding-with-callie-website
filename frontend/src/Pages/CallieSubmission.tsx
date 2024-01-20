@@ -11,7 +11,7 @@ const CallieSubmission = () => {
   const solutionLinks = sessions[sessionId - 1].solutionLinks;
 
   const otherLinks = solutionLinks?.filter((link) => link.type !== "video");
-  const videos = solutionLinks?.filter((link) => link.type === "video");
+  // const videos = solutionLinks?.filter((link) => link.type === "video");
 
   return (
     <Box>
@@ -19,6 +19,13 @@ const CallieSubmission = () => {
         <BodyHeading textAlignCenter={false}>
           {`Session ${sessionId}: ${sessions[sessionId - 1].title}`}
         </BodyHeading>
+        <Box w="60%">
+          <Paragraph>
+            I decided to rework my Todo List and will record new videos this
+            weekend! If you want to check in on my progress, take a look at my
+            wireframe designs and trello board.
+          </Paragraph>
+        </Box>
         {otherLinks?.map((link) => {
           return (
             <Link
@@ -31,7 +38,7 @@ const CallieSubmission = () => {
             </Link>
           );
         })}
-        {videos?.map((link) => {
+        {/* {videos?.map((link) => {
           return (
             <Box w="75%">
               <Paragraph>{link.label}</Paragraph>
@@ -51,7 +58,7 @@ const CallieSubmission = () => {
               </Box>
             </Box>
           );
-        })}
+        })} */}
       </Section>
     </Box>
   );

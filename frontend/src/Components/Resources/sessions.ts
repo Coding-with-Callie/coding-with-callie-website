@@ -18,6 +18,7 @@ export type Session = {
   videoDate: string;
   instructionVideo?: string;
   helpfulLinks?: HelpfulLink[];
+  solutionText?: string;
   solutionLinks?: SolutionLink[];
 };
 
@@ -43,6 +44,7 @@ export const sessions: Session[] = [
         label: "Trello Template Video Walkthrough",
       },
     ],
+    solutionText: "",
     solutionLinks: [
       {
         link: "https://miro.com/welcomeonboard/WXB3ajNEMnJoaTcwM085Wm9KMnRmU1lrVkVPQW1oUUhLZzV1VmE1OHlmbEVzdk1QR01iY3lraWl1TG5ma0dtTnwzNDU4NzY0NTczNzQzMzk0NTU3fDI=?share_link_id=382989233379",
