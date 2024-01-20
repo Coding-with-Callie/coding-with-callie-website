@@ -281,12 +281,14 @@ const router = createBrowserRouter([
 
               const user = response.data as any;
 
+              console.log(user.role);
+
               const userFeedbackForSession = user.feedback.filter(
                 (feedback: Feedback) =>
                   feedback.submission.session === parseInt(id)
               );
 
-              if (userFeedbackForSession.length > 1) {
+              if (userFeedbackForSession.length > 1 || user.role === "admin") {
                 return id;
               } else {
                 showNotification(
