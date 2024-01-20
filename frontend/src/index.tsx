@@ -21,6 +21,7 @@ import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
+import { sessions } from "./Components/Resources/sessions";
 
 export const showNotification = (
   message: string,
@@ -252,40 +253,42 @@ const router = createBrowserRouter([
           const token = localStorage.getItem("token");
           const id = params.id;
 
+          const today = new Date();
+
+          if (!id || parseInt(id) < 0 || parseInt(id) > 10 || !parseInt(id)) {
+            showNotification(`There are only 10 sessions`, "error");
+            return redirect("/resources");
+          }
+
+          if (today < new Date(sessions[parseInt(id) - 1].videoDate)) {
+            showNotification(
+              `Callie hasn't posted her submission for session ${id} yet!`,
+              "error"
+            );
+            return redirect("/resources");
+          }
+
           if (token) {
             try {
-              // get Callie's video for session # id
-              let url;
-
-              if (url) {
-                return url;
-              } else {
-                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
-                  showNotification(`There are only 10 sessions`, "error");
-                } else {
-                  showNotification(
-                    `Callie hasn't posted her submission for session ${id} yet!`,
-                    "error"
-                  );
+              await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
                 }
-
-                return redirect("/resources");
-              }
-            } catch (error: any) {
-              if (error.response.data.message === "Unauthorized") {
-                showNotification(
-                  "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
-                  "error"
-                );
-                return redirect("/log-in");
-              } else {
-                showNotification("That page doesn't seem to exist!", "error");
-                return redirect("/");
-              }
+              );
+              return id;
+            } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view Coding with Callie solutions!",
+                "error"
+              );
+              return redirect("/log-in");
             }
           } else {
             showNotification(
-              "You must sign up to view Conding with Callie submissions!",
+              "You must sign up to view Coding with Callie solutions!",
               "error"
             );
             return redirect("/sign-up");
