@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import App from "./App";
+import App, { Context } from "./App";
 import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
 import TodoList from "./Pages/TodoList";
@@ -17,7 +17,7 @@ import Resources from "./Pages/Resources";
 import ContactCallie from "./Pages/ContactCallie";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
-import Profile from "./Pages/Profile";
+import Profile, { Feedback } from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
@@ -270,7 +270,7 @@ const router = createBrowserRouter([
 
           if (token) {
             try {
-              await axios.get(
+              const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
                 }/auth/profile`,
@@ -278,7 +278,23 @@ const router = createBrowserRouter([
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
-              return id;
+
+              const user = response.data as any;
+
+              const userFeedbackForSession = user.feedback.filter(
+                (feedback: Feedback) =>
+                  feedback.submission.session === parseInt(id)
+              );
+
+              if (userFeedbackForSession.length > 1) {
+                return id;
+              } else {
+                showNotification(
+                  `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
+                  "error"
+                );
+                return redirect("/resources");
+              }
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",
