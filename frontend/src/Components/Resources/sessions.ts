@@ -48,33 +48,33 @@ export const sessions: Session[] = [
     solutionText: "",
     solutionLinks: [
       {
-        link: "https://miro.com/welcomeonboard/WXB3ajNEMnJoaTcwM085Wm9KMnRmU1lrVkVPQW1oUUhLZzV1VmE1OHlmbEVzdk1QR01iY3lraWl1TG5ma0dtTnwzNDU4NzY0NTczNzQzMzk0NTU3fDI=?share_link_id=382989233379",
+        link: "https://miro.com/welcomeonboard/WXB3ajNEMnJoaTcwM085Wm9KMnRmU1lrVkVPQW1oUUhLZzV1VmE1OHlmbEVzdk1QR01iY3lraWl1TG5ma0dtTnwzNDU4NzY0NTczNzQzMzk0NTU3fDI=?share_link_id=916400630443",
         label: "Wireframe Designs",
         type: "miro-board",
       },
       {
-        link: "https://trello.com/w/todolist07059372",
-        label: "Trello Board",
+        link: "https://miro.com/welcomeonboard/SHlRQ095Zk0yTGZuWGZuYkRuN1FqZ3VoblppTVlJVWR3NUg5aTF2NnRCNDV5clR4UXc1R2dEUVBDNWpZbGxUQnwzNDU4NzY0NTczNzQzMzk0NTU3fDI=?share_link_id=855413908490",
+        label: "API Routes and Database Tables",
+        type: "miro-board",
+      },
+      {
+        link: "https://trello.com/b/qjc8wP5R/todo-list-main",
+        label: "Project Plan",
         type: "trello-board",
       },
       {
-        link: "https://coding-with-callie.s3.amazonaws.com/session_1_solution_part_1.mp4",
-        label: "Part 1",
+        link: "",
+        label: "Wireframe Designs",
         type: "video",
       },
       {
-        link: "https://coding-with-callie.s3.amazonaws.com/session_1_solution_part_2.mp4",
-        label: "Part 2",
+        link: "",
+        label: "API Routes and Database Tables",
         type: "video",
       },
       {
-        link: "https://coding-with-callie.s3.amazonaws.com/session_1_solution_part_3.mp4",
-        label: "Part 3",
-        type: "video",
-      },
-      {
-        link: "https://coding-with-callie.s3.amazonaws.com/session_1_solution_part_4.mp4",
-        label: "Part 4",
+        link: "",
+        label: "Project Plan",
         type: "video",
       },
     ],
