@@ -24,16 +24,72 @@ const Resources = () => {
           weeks. I have broken the application into 10 corresponding tasks.
         </Text>
         <OrderedList color="#45446A" mb={4}>
-          <ListItem>Planning a Project</ListItem>
-          <ListItem>Setting A Project Up</ListItem>
-          <ListItem>Feature 1</ListItem>
-          <ListItem>Feature 2</ListItem>
-          <ListItem>Feature 3</ListItem>
-          <ListItem>Feature 4</ListItem>
-          <ListItem>Feature 5</ListItem>
-          <ListItem>Logging</ListItem>
-          <ListItem>Manual E2E Testing</ListItem>
-          <ListItem>Automated Spec Testing</ListItem>
+          <ListItem>
+            Planning a Project{" "}
+            <Box>
+              - Zoom Session: {sessions[0].zoomSession || sessions[0].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Setting A Project Up
+            <Box>
+              - Zoom Session: {sessions[1].zoomSession || sessions[1].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 1
+            <Box>
+              - Zoom Session: {sessions[2].zoomSession || sessions[2].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 2
+            <Box>
+              - Zoom Session: {sessions[3].zoomSession || sessions[3].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 3
+            <Box>
+              - Zoom Session: {sessions[4].zoomSession || sessions[4].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 4
+            <Box>
+              - Zoom Session: {sessions[5].zoomSession || sessions[5].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 5
+            <Box>
+              - Zoom Session: {sessions[6].zoomSession || sessions[6].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Finish Remaining Tasks
+            <Box>
+              - Zoom Session: {sessions[7].zoomSession || sessions[7].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Logging
+            <Box>
+              - Zoom Session: {sessions[8].zoomSession || sessions[8].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Manual E2E Testing
+            <Box>
+              - Zoom Session: {sessions[9].zoomSession || sessions[9].dueDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Automated Spec Testing{" "}
+            <Box>
+              - Zoom Session: {sessions[10].zoomSession || sessions[10].dueDate}
+            </Box>
+          </ListItem>
         </OrderedList>
         <Text color="#45446A" mb={4}>
           Prior to each session, you'll need to attempt the task on your own.
