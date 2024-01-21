@@ -150,4 +150,28 @@ export const sessions: Session[] = [
     startDate: "February 22, 2024",
     videoDate: "March 2, 2024",
   },
+  {
+    title: "Logging",
+    summary: "",
+    deliverable: "",
+    dueDate: "March 7, 2024",
+    startDate: "February 29, 2024",
+    videoDate: "March 9, 2024",
+  },
+  {
+    title: "Manual E2E Testing",
+    summary: "",
+    deliverable: "",
+    dueDate: "March 14, 2024",
+    startDate: "March 7, 2024",
+    videoDate: "March 16, 2024",
+  },
+  {
+    title: "Automated Spec Testing",
+    summary: "",
+    deliverable: "",
+    dueDate: "March 21, 2024",
+    startDate: "March 14, 2024",
+    videoDate: "March 23, 2024",
+  },
 ];
