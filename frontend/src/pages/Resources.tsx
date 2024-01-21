@@ -20,8 +20,8 @@ const Resources = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Todo List Resources</BodyHeading>
         <Text color="#45446A" mb={4}>
-          We will be building our Todo List application over the course of 10
-          weeks. I have broken the application into 10 corresponding tasks.
+          We will be building our Todo List application over the course of 11
+          weeks. I have broken the application into 11 corresponding tasks.
         </Text>
         <OrderedList color="#45446A" mb={4}>
           <ListItem>
