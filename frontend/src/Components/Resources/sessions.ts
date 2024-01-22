@@ -44,6 +44,11 @@ export const sessions: Session[] = [
         link: "https://coding-with-callie.s3.amazonaws.com/trello_template.mp4",
         label: "Trello Template Video Walkthrough",
       },
+      {
+        link: "https://miro.com/welcomeonboard/WXB3ajNEMnJoaTcwM085Wm9KMnRmU1lrVkVPQW1oUUhLZzV1VmE1OHlmbEVzdk1QR01iY3lraWl1TG5ma0dtTnwzNDU4NzY0NTczNzQzMzk0NTU3fDI=?share_link_id=916400630443",
+        label:
+          "Todo List Design (if you want to build the same application as Callie)",
+      },
     ],
     solutionText: "",
     solutionLinks: [
