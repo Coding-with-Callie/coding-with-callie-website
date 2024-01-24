@@ -5,6 +5,8 @@ import ReactPlayer from "react-player";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
 import Paragraph from "../Components/Paragraph";
+import ReviewForm from "../Components/Reviews/ReviewForm";
+import { useState } from "react";
 
 const CallieSubmission = () => {
   const sessionId = useLoaderData() as any;
@@ -12,6 +14,8 @@ const CallieSubmission = () => {
 
   const otherLinks = solutionLinks?.filter((link) => link.type !== "video");
   const videos = solutionLinks?.filter((link) => link.type === "video");
+
+  const [reviews, setReviews] = useState([]);
 
   return (
     <Box>
@@ -52,6 +56,11 @@ const CallieSubmission = () => {
             </Box>
           );
         })}
+        <ReviewForm
+          reviews={reviews}
+          setReviews={setReviews}
+          isLargerThan900={false}
+        />
       </Section>
     </Box>
   );
