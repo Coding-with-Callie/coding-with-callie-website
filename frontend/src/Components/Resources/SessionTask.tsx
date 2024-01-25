@@ -138,7 +138,18 @@ const SessionTask = ({
             <Text layerStyle="input" fontWeight="bold" minW="145px">
               Summary:
             </Text>
-            <Text layerStyle="input">{session.summary}</Text>
+            <Box>
+              {session.summary.map((line, index) => {
+                return (
+                  <Text
+                    layerStyle="input"
+                    mb={index < session.summary.length - 1 ? 2 : 0}
+                  >
+                    {line}
+                  </Text>
+                );
+              })}
+            </Box>
           </Box>
           <Box display="flex">
             <Text layerStyle="input" fontWeight="bold" minW="145px">

@@ -11,7 +11,7 @@ export type SolutionLink = {
 
 export type Session = {
   title: string;
-  summary: string;
+  summary: string[];
   deliverable: string;
   dueDate: string;
   zoomSession?: string;
@@ -26,8 +26,9 @@ export type Session = {
 export const sessions: Session[] = [
   {
     title: "Planning Your Project",
-    summary:
+    summary: [
       "Plan out 5 features for your Todo List. After we get the initial project set up, we will work on a feature a week. So, make sure each feature is about a week's worth of work (depending on however much time you have to spend on your application each week). Break the features into user stories and then developer tasks. Your features, stories, and tasks should be detailed enough to pass your trello board to another developer and have them code the project with little to no guidance from you.",
+    ],
     deliverable:
       "A link to your Trello board with all 5 features and corresponding stories and tasks.",
     dueDate: "January 18, 2024",
@@ -86,8 +87,9 @@ export const sessions: Session[] = [
   },
   {
     title: "Setting Your Project Up",
-    summary:
+    summary: [
       "Create a local project for your Todo List application and link it to a Github repository. Your project should have a React frontend with Chakra UI set up, a NestJS API, and a PostgreSQL database. Your goal is to successfully connect your frontend to your API and your api to your database. The way I would do it, is to make a button on the frontend that when clicked sends a hardcoded Todo to the API which then saves the Todo into a Todo table. Your repository should have a README that gives step-by-step instructions on how to pull down your application and start it.",
+    ],
     deliverable:
       "A link to your Todo List Github repository (please make it publicly accessible).",
     dueDate: "January 25, 2024",
@@ -113,17 +115,26 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 1",
-    summary:
-      "Complete the user stories and developer tasks for feature 1. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
-    deliverable: "A link to your feature-1 branch on your Github repository.",
+    summary: [
+      "Use your Trello board to complete your first feature. It's okay if you need to change the scope of your feature as the goal is to have your feature ready for review by the end of the week.",
+      "Imagine that you are submitting your feature to your Tech Lead, a QA engineer, or Product/Design for review. You want the feature to be complete and as bug-free as possible so you can move on to your next feature.",
+      "Take time to validate any input fields, manually test edge cases, and add catch blocks to your requests for error handling.",
+      "We are also going to start practicing our Github workflow. When you are ready to work on your feature, check out a new branch. Once you feel good about your progress and don't think you're introducing any big bugs to your main branch, create a pull request. It will feel a bit extra when you're working on your own, but it'll end up saving you down the line!",
+      "You'll submit your pull request as your deliverable. Once your receive your feedback, you can edit your code and then commit your edits and merge back into the main branch. Reviewers should pull down the code, checkout the feature branch, get the project runnning, and do manual testing in addition to reviewing the code. So, please update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README too.",
+    ],
+    deliverable:
+      "A link to your feature-1 pull request on your Github repository.",
     dueDate: "February 1, 2024",
     startDate: "January 25, 2024",
     videoDate: "February 3, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
   },
   {
     title: "Feature 2",
-    summary:
+    summary: [
       "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+    ],
     deliverable: "A link to your feature-2 branch on your Github repository.",
     dueDate: "February 8, 2024",
     startDate: "February 1, 2024",
@@ -131,8 +142,9 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 3",
-    summary:
+    summary: [
       "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+    ],
     deliverable: "A link to your feature-3 branch on your Github repository.",
     dueDate: "February 15, 2024",
     startDate: "February 8, 2024",
@@ -140,8 +152,9 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 4",
-    summary:
+    summary: [
       "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+    ],
     deliverable: "A link to your feature-4 branch on your Github repository.",
     dueDate: "February 22, 2024",
     startDate: "February 15, 2024",
@@ -149,8 +162,9 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 5",
-    summary:
+    summary: [
       "Complete the user stories and developer tasks for feature 5. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+    ],
     deliverable: "A link to your feature-5 branch on your Github repository.",
     dueDate: "February 29, 2024",
     startDate: "February 22, 2024",
@@ -158,7 +172,7 @@ export const sessions: Session[] = [
   },
   {
     title: "Finish Remaining Tasks",
-    summary: "",
+    summary: [""],
     deliverable: "",
     dueDate: "March 7, 2024",
     zoomSession: "March 6, 2024",
@@ -167,7 +181,7 @@ export const sessions: Session[] = [
   },
   {
     title: "Logging",
-    summary: "",
+    summary: [""],
     deliverable: "",
     dueDate: "March 14, 2024",
     zoomSession: "March 16, 2024",
@@ -176,7 +190,7 @@ export const sessions: Session[] = [
   },
   {
     title: "Manual E2E Testing",
-    summary: "",
+    summary: [""],
     deliverable: "",
     dueDate: "March 21, 2024",
     startDate: "March 14, 2024",
@@ -184,7 +198,7 @@ export const sessions: Session[] = [
   },
   {
     title: "Automated Spec Testing",
-    summary: "",
+    summary: [""],
     deliverable: "",
     dueDate: "March 28, 2024",
     startDate: "March 21, 2024",

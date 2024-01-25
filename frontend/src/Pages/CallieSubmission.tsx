@@ -56,11 +56,11 @@ const CallieSubmission = () => {
             </Box>
           );
         })}
-        <ReviewForm
+        {/* <ReviewForm
           reviews={reviews}
           setReviews={setReviews}
           isLargerThan900={false}
-        />
+        /> */}
       </Section>
     </Box>
   );
