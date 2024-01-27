@@ -6,7 +6,8 @@ import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
 import Paragraph from "../Components/Paragraph";
 import ReviewForm from "../Components/Reviews/ReviewForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CallieSubmission = () => {
   const sessionId = useLoaderData() as any;
@@ -16,6 +17,16 @@ const CallieSubmission = () => {
   const videos = solutionLinks?.filter((link) => link.type === "video");
 
   const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API || "http://localhost:3001/api"}/reviews`
+      )
+      .then((response) => {
+        setReviews(response.data);
+      });
+  }, []);
 
   return (
     <Box>
@@ -56,11 +67,12 @@ const CallieSubmission = () => {
             </Box>
           );
         })}
-        {/* <ReviewForm
+        <ReviewForm
           reviews={reviews}
           setReviews={setReviews}
           isLargerThan900={false}
-        /> */}
+          sessionId={sessionId}
+        />
       </Section>
     </Box>
   );

@@ -18,9 +18,15 @@ type Props = {
   reviews: any[];
   setReviews: React.Dispatch<React.SetStateAction<any>>;
   isLargerThan900: boolean;
+  sessionId?: number;
 };
 
-const ReviewForm = ({ reviews, setReviews, isLargerThan900 }: Props) => {
+const ReviewForm = ({
+  reviews,
+  setReviews,
+  isLargerThan900,
+  sessionId,
+}: Props) => {
   const context: Context = useOutletContext();
 
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -30,7 +36,7 @@ const ReviewForm = ({ reviews, setReviews, isLargerThan900 }: Props) => {
     course: "Todo List",
     comments: "",
     displayName: context.user.name,
-    session: 1,
+    session: sessionId,
     userId: context.user.id,
   });
   const [invalidDisplayName, setInvalidDisplayName] = useState(
@@ -49,7 +55,7 @@ const ReviewForm = ({ reviews, setReviews, isLargerThan900 }: Props) => {
         course: "Todo List",
         comments: "",
         displayName: context.user.name,
-        session: 1,
+        session: reviewFormData.session,
         userId: context.user.id,
       });
       const token = localStorage.getItem("token");
@@ -118,36 +124,39 @@ const ReviewForm = ({ reviews, setReviews, isLargerThan900 }: Props) => {
             value={reviewFormData.comments}
             isInvalid={false}
           />
-          <Box>
-            <FormLabel layerStyle="input">Workshop Session</FormLabel>
-            <Select
-              backgroundColor="#edf2f6"
-              color="#45446A"
-              value={reviewFormData.session}
-              onChange={handleSelectChange}
-            >
-              {sessions.map((session, index) => {
-                const sessionSubmissions = context.user.submissions.filter(
-                  (submission: Submission) => {
-                    if (submission.session === index + 1) {
-                      return submission;
-                    } else {
-                      return null;
-                    }
-                  }
-                );
+          {sessionId ? null : (
+            <Box>
+              <FormLabel layerStyle="input">Workshop Session</FormLabel>
 
-                if (
-                  sessionSubmissions.length > 0 ||
-                  context.user.role === "admin"
-                ) {
-                  return <option value={index + 1}>{session.title}</option>;
-                } else {
-                  return null;
-                }
-              })}
-            </Select>
-          </Box>
+              <Select
+                backgroundColor="#edf2f6"
+                color="#45446A"
+                value={reviewFormData.session}
+                onChange={handleSelectChange}
+              >
+                {sessions.map((session, index) => {
+                  const sessionSubmissions = context.user.submissions.filter(
+                    (submission: Submission) => {
+                      if (submission.session === index + 1) {
+                        return submission;
+                      } else {
+                        return null;
+                      }
+                    }
+                  );
+
+                  if (
+                    sessionSubmissions.length > 0 ||
+                    context.user.role === "admin"
+                  ) {
+                    return <option value={index + 1}>{session.title}</option>;
+                  } else {
+                    return null;
+                  }
+                })}
+              </Select>
+            </Box>
+          )}
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>
       </Section>

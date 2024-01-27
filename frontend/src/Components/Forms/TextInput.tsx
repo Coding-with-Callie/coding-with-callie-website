@@ -17,7 +17,6 @@ const TextInput = ({
   helperText,
   type,
 }: Props) => {
-  console.log(isInvalid);
   const makeLowerCase = (field: string) => {
     return field.split("").map((character) => character.toLowerCase());
   };

@@ -185,8 +185,11 @@ export class AuthService {
     return await this.submissionsService.getUserSubmissions(userId);
   }
 
-  async getAllSubmissions(sessionId) {
-    return await this.submissionsService.getAllSubmissions(sessionId);
+  async getAllSubmissions(sessionId, userId) {
+    const submissions =
+      await this.submissionsService.getAllSubmissions(sessionId);
+    const user = await this.usersService.findOneById(userId);
+    return { role: user.role, submissions };
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {

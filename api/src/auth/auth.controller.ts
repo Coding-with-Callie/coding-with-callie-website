@@ -158,7 +158,8 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('all-submissions/:id')
   getAllSubmissions(@Request() req) {
-    return this.authService.getAllSubmissions(req.params.id);
+    const userId = req.user.sub;
+    return this.authService.getAllSubmissions(req.params.id, userId);
   }
 
   @UseGuards(AuthGuard)
@@ -190,7 +191,10 @@ export class AuthController {
   @Post('submit-feedback')
   async submitFeedback(@Body() feedbackDto: FeedbackDto) {
     await this.authService.submitFeedback(feedbackDto);
-    return this.authService.getAllSubmissions(feedbackDto.sessionId);
+    return this.authService.getAllSubmissions(
+      feedbackDto.sessionId,
+      feedbackDto.feedbackProviderId,
+    );
   }
 
   @UseGuards(AuthGuard)

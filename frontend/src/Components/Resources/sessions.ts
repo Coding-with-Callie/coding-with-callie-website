@@ -112,6 +112,33 @@ export const sessions: Session[] = [
         label: "NestJS - How to set up a database",
       },
     ],
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/session_2_connect_fe_be.mp4",
+        label: "Frontend and Backend Creation and Connection",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/session_2_connect_database.mp4",
+        label: "Database Creation and Connection",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/session_2_db_migrations.mp4",
+        label: "Database Migration Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/zoom_session_2.mp4",
+        label: "Zoom Session",
+        type: "video",
+      },
+      {
+        link: "https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75",
+        label: "Helpful Database Migration Guide",
+        type: "how-to guide",
+      },
+    ],
   },
   {
     title: "Feature 1",

@@ -260,14 +260,6 @@ const router = createBrowserRouter([
             return redirect("/resources");
           }
 
-          if (today < new Date(sessions[parseInt(id) - 1].videoDate)) {
-            showNotification(
-              `Callie hasn't posted her submission for session ${id} yet!`,
-              "error"
-            );
-            return redirect("/resources");
-          }
-
           if (token) {
             try {
               const response = await axios.get(
@@ -281,7 +273,16 @@ const router = createBrowserRouter([
 
               const user = response.data as any;
 
-              console.log(user.role);
+              if (
+                today < new Date(sessions[parseInt(id) - 1].videoDate) &&
+                user.role === "user"
+              ) {
+                showNotification(
+                  `Callie hasn't posted her submission for session ${id} yet!`,
+                  "error"
+                );
+                return redirect("/resources");
+              }
 
               const userFeedbackForSession = user.feedback.filter(
                 (feedback: Feedback) =>
@@ -331,8 +332,11 @@ const router = createBrowserRouter([
                 }
               );
 
-              if (response.data.length > 0) {
-                return response.data;
+              const role = response.data.role as any;
+              const submissions = response.data.submissions;
+
+              if (role === "admin" || submissions.length > 0) {
+                return submissions;
               } else {
                 if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
                   showNotification(`There are only 10 sessions`, "error");
