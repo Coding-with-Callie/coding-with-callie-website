@@ -19,6 +19,7 @@ type Props = {
   setReviews: React.Dispatch<React.SetStateAction<any>>;
   isLargerThan900: boolean;
   sessionId?: number;
+  title?: string;
 };
 
 const ReviewForm = ({
@@ -26,6 +27,7 @@ const ReviewForm = ({
   setReviews,
   isLargerThan900,
   sessionId,
+  title,
 }: Props) => {
   const context: Context = useOutletContext();
 
@@ -105,7 +107,9 @@ const ReviewForm = ({
   return (
     <Box margin="0 auto" w={isLargerThan900 ? "65%" : "100%"}>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={true}>Post Your Own Review</BodyHeading>
+        <BodyHeading textAlignCenter={true}>
+          {title || "Post Your Own Review"}
+        </BodyHeading>
         <FormControl display="flex" flexDirection="column" gap={6}>
           <RatingInput
             rating={rating}

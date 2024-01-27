@@ -72,6 +72,9 @@ const CallieSubmission = () => {
           setReviews={setReviews}
           isLargerThan900={false}
           sessionId={sessionId}
+          title={`Review Session ${sessionId}: ${
+            sessions[sessionId - 1].title
+          }`}
         />
       </Section>
     </Box>
