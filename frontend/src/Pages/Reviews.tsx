@@ -113,8 +113,8 @@ const Reviews = () => {
           </Paragraph>
         )}{" "}
       </Section>
-      {context.user?.submissions?.length > 0 ||
-      context.user.role === "admin" ? (
+      {(context.user && context.user?.submissions?.length > 0) ||
+      (context.user && context.user.role === "admin") ? (
         <ReviewForm
           reviews={reviews}
           setReviews={setReviews}
