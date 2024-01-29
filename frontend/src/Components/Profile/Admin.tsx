@@ -1,4 +1,4 @@
-import { Box, Heading, Image } from "@chakra-ui/react";
+import { Avatar, Box, Heading, Image } from "@chakra-ui/react";
 import Section from "../Section";
 import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
@@ -43,27 +43,16 @@ const Admin = () => {
         <Paragraph>Users:</Paragraph>
         <Box>{users.length}</Box>
       </Box>
-      {users.map((user) => {
-        return (
-          <Box display="flex" alignItems="center" border="1px solid" gap={2}>
-            {user.photo ? (
-              <Image src={user.photo} h="50px" w="50px" borderRadius="50%" />
-            ) : (
-              <Box
-                h="50px"
-                w="50px"
-                borderRadius="50%"
-                backgroundColor="#45446A"
-              >
-                <Heading color="#E1E7CD" lineHeight="50px">
-                  {user.name[0].toUpperCase()}
-                </Heading>
-              </Box>
-            )}
-            <Paragraph margin={false}>{user.name}</Paragraph>
-          </Box>
-        );
-      })}
+      <Box display="flex" flexWrap="wrap">
+        {users.map((user) => {
+          return (
+            <Box display="flex" alignItems="center" gap={2} w="33.3%" mb={5}>
+              <Avatar name={user.name} src={user.photo ? user.photo : ""} />
+              <Paragraph margin={false}>{user.name}</Paragraph>
+            </Box>
+          );
+        })}
+      </Box>
     </Section>
   );
 };
