@@ -26,6 +26,7 @@ import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
+import Admin from "../Components/Profile/Admin";
 
 export type Feedback = {
   id: number;
@@ -283,6 +284,8 @@ const Profile = () => {
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
           return <SessionFeedback sessionNumber={sessionNumber} />;
         })}
+
+        {context.user.role === "admin" ? <Admin /> : null}
       </Box>
     </>
   );

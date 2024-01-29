@@ -23,38 +23,42 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
     (review) => review.submission.session === sessionNumber
   );
 
-  return (
-    <Section screenSizeParameter={false} alignItemsCenter={false}>
-      {submission || feedback.length > 0 ? (
-        <BodyHeading
-          textAlignCenter={true}
-        >{`Session ${sessionNumber}`}</BodyHeading>
-      ) : null}
-
-      {submission ? <SubmissionInfo submission={submission} /> : null}
-
-      {submission && submission?.feedback.length > 0 ? (
-        <Box mb={10} w="100%">
-          <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
-
-          {submission.feedback.map((feedback) => {
-            return <FeedbackReceived feedback={feedback} />;
-          })}
-        </Box>
-      ) : null}
-      <Box mb={4} w="100%">
-        {feedback.length > 0 ? (
-          <>
-            <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
-
-            {feedback.map((feedback) => {
-              return <FeedbackGiven feedback={feedback} />;
-            })}
-          </>
+  if (submission || feedback.length > 0) {
+    return (
+      <Section screenSizeParameter={false} alignItemsCenter={false}>
+        {submission || feedback.length > 0 ? (
+          <BodyHeading
+            textAlignCenter={true}
+          >{`Session ${sessionNumber}`}</BodyHeading>
         ) : null}
-      </Box>
-    </Section>
-  );
+
+        {submission ? <SubmissionInfo submission={submission} /> : null}
+
+        {submission && submission?.feedback.length > 0 ? (
+          <Box mb={10} w="100%">
+            <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
+
+            {submission.feedback.map((feedback) => {
+              return <FeedbackReceived feedback={feedback} />;
+            })}
+          </Box>
+        ) : null}
+        <Box mb={4} w="100%">
+          {feedback.length > 0 ? (
+            <>
+              <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
+
+              {feedback.map((feedback) => {
+                return <FeedbackGiven feedback={feedback} />;
+              })}
+            </>
+          ) : null}
+        </Box>
+      </Section>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default SessionFeedback;

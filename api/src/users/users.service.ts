@@ -96,4 +96,8 @@ export class UsersService {
       console.log(e);
     }
   }
+
+  async findAllUsers() {
+    return await this.usersRepository.find();
+  }
 }
