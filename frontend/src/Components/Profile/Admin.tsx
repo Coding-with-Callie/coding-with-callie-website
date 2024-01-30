@@ -29,8 +29,17 @@ const Admin = () => {
   ]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     axios
-      .get(`${process.env.REACT_APP_API || "http://localhost:3001/api"}/users`)
+      .get(
+        `${
+          process.env.REACT_APP_API || "http://localhost:3001/api"
+        }/auth/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((response) => {
         setUsers(response.data.filter((user: User) => user.name !== "deleted"));
       });

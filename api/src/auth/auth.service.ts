@@ -52,14 +52,12 @@ export class AuthService {
     }
   }
 
-  async checkPasswordAndCreateAccessToken(pass: string, user) {
-    const isMatch = await bcrypt.compare(pass, user.password);
-    if (!isMatch) {
-      this.logger.error('Unauthorized: Incorrect password', user.username);
-      throw new UnauthorizedException();
-    }
+  async verifyPasswordMatches(pass: string, user) {
+    return await bcrypt.compare(pass, user.password);
+  }
 
-    const payload = { sub: user.id, username: user.username };
+  async createAccessToken(user) {
+    const payload = { sub: user.id, username: user.username, role: user.role };
     this.logger.log('User logged in', user.username);
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -73,7 +71,18 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return this.checkPasswordAndCreateAccessToken(pass, user);
+    const isCorrectPassword = await this.verifyPasswordMatches(pass, user);
+
+    if (isCorrectPassword) {
+      return this.createAccessToken(user);
+    } else {
+      this.logger.error('Unauthorized: Incorrect password', user.username);
+      throw new UnauthorizedException();
+    }
+  }
+
+  async getAllUsers() {
+    return await this.usersService.findAllUsers();
   }
 
   async getUserProfile(id: number) {

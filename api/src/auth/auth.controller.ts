@@ -18,6 +18,7 @@ import { IsEmail, IsNotEmpty, IsUrl } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles, RolesGuard } from './refresh.guard';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -114,6 +115,13 @@ export class AuthController {
       userLoginDto.username,
       userLoginDto.password,
     );
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Get('users')
+  getAllUsers() {
+    return this.authService.getAllUsers();
   }
 
   @UseGuards(AuthGuard)
