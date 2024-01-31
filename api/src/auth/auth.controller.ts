@@ -199,10 +199,11 @@ export class AuthController {
   @Post('submit-feedback')
   async submitFeedback(@Body() feedbackDto: FeedbackDto) {
     await this.authService.submitFeedback(feedbackDto);
-    return this.authService.getAllSubmissions(
+    const submissions = await this.authService.getAllSubmissions(
       feedbackDto.sessionId,
       feedbackDto.feedbackProviderId,
     );
+    return submissions;
   }
 
   @UseGuards(AuthGuard)

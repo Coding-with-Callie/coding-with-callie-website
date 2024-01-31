@@ -67,12 +67,13 @@ const Submissions = () => {
           }
         )
         .then((response) => {
+          const submissions = response.data.submissions;
           setPositiveFeedback("");
           setImmediateChangesRequested("");
           setLongTermChangesRequested("");
           setSubmitClicked(false);
           showNotification("Your feedback has been submitted!", "success");
-          const sortedSubmissions = response.data.sort(
+          const sortedSubmissions = submissions.sort(
             (a: Submission, b: Submission) => {
               if (a.feedback.length < b.feedback.length) {
                 return -1;
