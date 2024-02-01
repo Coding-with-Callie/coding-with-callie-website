@@ -230,25 +230,23 @@ const SessionTask = ({
                 <MyButton onClick={submitDeliverable}>Submit</MyButton>
               </Box>
             )}
-            {feedbackCount >= 2 ? (
-              <Box flex={1}>
-                <MyButton
-                  widthSize="100%"
-                  onClick={
-                    solutionVideoPosted
-                      ? () => navigate(`/submissions/callie/${index + 1}`)
-                      : () => {
-                          showNotification(
-                            `Callie's solution video will be posted on ${session.videoDate}`,
-                            "error"
-                          );
-                        }
-                  }
-                >
-                  View Callie's Solution
-                </MyButton>
-              </Box>
-            ) : null}
+          </Box>
+          <Box>
+            <MyButton
+              widthSize="100%"
+              onClick={
+                solutionVideoPosted
+                  ? () => navigate(`/submissions/callie/${index + 1}`)
+                  : () => {
+                      showNotification(
+                        `Callie's solution video will be posted on ${session.videoDate}`,
+                        "error"
+                      );
+                    }
+              }
+            >
+              View Callie's Solution
+            </MyButton>
           </Box>
         </Box>
       </Section>

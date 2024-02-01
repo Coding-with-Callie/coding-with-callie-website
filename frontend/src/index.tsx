@@ -282,22 +282,24 @@ const router = createBrowserRouter([
                   "error"
                 );
                 return redirect("/resources");
-              }
-
-              const userFeedbackForSession = user.feedback.filter(
-                (feedback: Feedback) =>
-                  feedback.submission.session === parseInt(id)
-              );
-
-              if (userFeedbackForSession.length > 1 || user.role === "admin") {
-                return id;
               } else {
-                showNotification(
-                  `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
-                  "error"
-                );
-                return redirect("/resources");
+                return id;
               }
+
+              // const userFeedbackForSession = user.feedback.filter(
+              //   (feedback: Feedback) =>
+              //     feedback.submission.session === parseInt(id)
+              // );
+
+              // if (userFeedbackForSession.length > 1 || user.role === "admin") {
+              //   return id;
+              // } else {
+              //   showNotification(
+              //     `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
+              //     "error"
+              //   );
+              //   return redirect("/resources");
+              // }
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",
