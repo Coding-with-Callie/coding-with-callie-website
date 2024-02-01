@@ -81,8 +81,13 @@ export class AuthService {
     }
   }
 
-  async getAllUsers() {
-    return await this.usersService.findAllUsers();
+  async getAdminData() {
+    const users = await this.usersService.findAllUsers();
+    const submissionsCount =
+      await this.submissionsService.getSubmissionsCountBySession();
+    const feedbackCount =
+      await this.feedbackService.getFeedbackCountBySession();
+    return { users, submissionsCount, feedbackCount };
   }
 
   async getUserProfile(id: number) {

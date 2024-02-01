@@ -98,6 +98,13 @@ export class UsersService {
   }
 
   async findAllUsers() {
-    return await this.usersRepository.find();
+    return await this.usersRepository.find({
+      relations: [
+        'submissions',
+        'submissions.feedback',
+        'feedback',
+        'feedback.submission',
+      ],
+    });
   }
 }

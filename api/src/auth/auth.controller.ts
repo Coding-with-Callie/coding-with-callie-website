@@ -119,9 +119,9 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
-  @Get('users')
+  @Get('adminData')
   getAllUsers() {
-    return this.authService.getAllUsers();
+    return this.authService.getAdminData();
   }
 
   @UseGuards(AuthGuard)
