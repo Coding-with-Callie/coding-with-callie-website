@@ -27,67 +27,68 @@ const Resources = () => {
           <ListItem>
             Planning a Project{" "}
             <Box>
-              - Zoom Session: {sessions[0].zoomSession || sessions[0].dueDate}
+              - Zoom Session: {sessions[0].zoomSession || sessions[0].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Setting A Project Up
             <Box>
-              - Zoom Session: {sessions[1].zoomSession || sessions[1].dueDate}
+              - Zoom Session: {sessions[1].zoomSession || sessions[1].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Feature 1
             <Box>
-              - Zoom Session: {sessions[2].zoomSession || sessions[2].dueDate}
+              - Zoom Session: {sessions[2].zoomSession || sessions[2].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Feature 2
             <Box>
-              - Zoom Session: {sessions[3].zoomSession || sessions[3].dueDate}
+              - Zoom Session: {sessions[3].zoomSession || sessions[3].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Feature 3
             <Box>
-              - Zoom Session: {sessions[4].zoomSession || sessions[4].dueDate}
+              - Zoom Session: {sessions[4].zoomSession || sessions[4].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Feature 4
             <Box>
-              - Zoom Session: {sessions[5].zoomSession || sessions[5].dueDate}
+              - Zoom Session: {sessions[5].zoomSession || sessions[5].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Feature 5
             <Box>
-              - Zoom Session: {sessions[6].zoomSession || sessions[6].dueDate}
+              - Zoom Session: {sessions[6].zoomSession || sessions[6].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Finish Remaining Tasks
             <Box>
-              - Zoom Session: {sessions[7].zoomSession || sessions[7].dueDate}
+              - Zoom Session: {sessions[7].zoomSession || sessions[7].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Logging
             <Box>
-              - Zoom Session: {sessions[8].zoomSession || sessions[8].dueDate}
+              - Zoom Session: {sessions[8].zoomSession || sessions[8].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Manual E2E Testing
             <Box>
-              - Zoom Session: {sessions[9].zoomSession || sessions[9].dueDate}
+              - Zoom Session: {sessions[9].zoomSession || sessions[9].startDate}
             </Box>
           </ListItem>
           <ListItem>
             Automated Spec Testing{" "}
             <Box>
-              - Zoom Session: {sessions[10].zoomSession || sessions[10].dueDate}
+              - Zoom Session:{" "}
+              {sessions[10].zoomSession || sessions[10].startDate}
             </Box>
           </ListItem>
         </OrderedList>
