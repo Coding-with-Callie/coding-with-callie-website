@@ -153,9 +153,21 @@ export const sessions: Session[] = [
       "A link to your feature-1 pull request on your Github repository.",
     dueDate: "February 8, 2024",
     startDate: "February 1, 2024",
-    videoDate: "February 8, 2024",
+    videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/video1822359443.mp4",
+        label: "Zoom Session",
+        type: "video",
+      },
+      {
+        link: "https://docs.nestjs.com/security/authentication",
+        label: "NestJS Authentication Documentation",
+        type: "how-to guide",
+      },
+    ],
   },
   {
     title: "Feature 2",
