@@ -18,7 +18,7 @@ import { IsEmail, IsNotEmpty, IsUrl } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles, RolesGuard } from './refresh.guard';
+import { Roles, RolesGuard } from './roles.guard';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })

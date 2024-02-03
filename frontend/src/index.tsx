@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import App, { Context } from "./App";
+import App from "./App";
 import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
 import TodoList from "./Pages/TodoList";
@@ -17,12 +17,11 @@ import Resources from "./Pages/Resources";
 import ContactCallie from "./Pages/ContactCallie";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
-import Profile, { Feedback } from "./Pages/Profile";
+import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
-import UserDetails from "./Pages/UserDetails";
 
 export const showNotification = (
   message: string,
@@ -236,12 +235,20 @@ const router = createBrowserRouter([
                 }
               );
               return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view your account details!",
-                "error"
-              );
-              return redirect("/log-in");
+            } catch (error: any) {
+              if (error?.response.data.message === "Role") {
+                showNotification(
+                  "You are not authorized to view that page!",
+                  "error"
+                );
+                return redirect("/");
+              } else {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view your account details!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
             }
           } else {
             showNotification("You do not have access to that page!", "error");

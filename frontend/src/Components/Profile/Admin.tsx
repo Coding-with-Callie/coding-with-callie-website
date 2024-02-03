@@ -35,6 +35,7 @@ const Admin = () => {
   const [feedbackCount, setFeedbackCount] = useState<
     FeedbackCount[] | undefined[]
   >();
+  const [reviewCount, setReviewCount] = useState(0);
   const [users, setUsers] = useState<User[]>([
     {
       email: "",
@@ -60,12 +61,13 @@ const Admin = () => {
         }
       )
       .then((response) => {
-        console.log("RESPONSE", response.data);
         const feedbackCount = response.data.feedbackCount;
         const feedback: any = [];
 
         const submissionsCount = response.data.submissionsCount;
         const submissions: any = [];
+
+        const reviewCount = response.data.reviewCount;
 
         sessions.forEach((session, index) => {
           feedback.push({
@@ -80,6 +82,7 @@ const Admin = () => {
 
         setFeedbackCount(feedback);
         setSubmissionsCount(submissions);
+        setReviewCount(reviewCount);
 
         setUsers(
           response.data.users.filter((user: User) => user.name !== "deleted")
@@ -90,10 +93,20 @@ const Admin = () => {
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
       <BodyHeading textAlignCenter={false}>Admin</BodyHeading>
+      <Box w="100%">
+        <BodyHeading textAlignCenter={false}>Reviews</BodyHeading>
+        <Box display="flex" alignItems="center" mb={2}>
+          <Text w="275px" color="#45446A">
+            Todo List Workshop:
+          </Text>
+          <Text color="#45446A">{`${reviewCount}`}</Text>
+        </Box>
+      </Box>
       <Box
         w="100%"
         display="flex"
         flexWrap="wrap"
+        mt={6}
         gap={6}
         justifyContent="space-between"
       >

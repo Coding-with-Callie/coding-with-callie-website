@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 export const Roles = Reflector.createDecorator<string[]>();
@@ -17,7 +22,7 @@ export class RolesGuard implements CanActivate {
     if (user.role === 'admin') {
       return true;
     } else {
-      return false;
+      throw new UnauthorizedException('Role');
     }
   }
 }

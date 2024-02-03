@@ -87,7 +87,8 @@ export class AuthService {
       await this.submissionsService.getSubmissionsCountBySession();
     const feedbackCount =
       await this.feedbackService.getFeedbackCountBySession();
-    return { users, submissionsCount, feedbackCount };
+    const reviewCount = (await this.reviewService.getAllReviews()).length;
+    return { users, submissionsCount, feedbackCount, reviewCount };
   }
 
   async getUserProfile(id: number) {
