@@ -124,6 +124,13 @@ export class AuthController {
     return this.authService.getAdminData();
   }
 
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Get('user-details/:id')
+  getUserDetails(@Param('id') id: number) {
+    return this.authService.getUserProfile(id);
+  }
+
   @UseGuards(AuthGuard)
   @Get('profile')
   getUserProfile(@Request() req) {

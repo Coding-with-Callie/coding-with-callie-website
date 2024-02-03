@@ -10,9 +10,10 @@ import SubmissionInfo from "./SubmissionInfo";
 
 type Props = {
   sessionNumber: number;
+  admin: boolean;
 };
 
-const SessionFeedback = ({ sessionNumber }: Props) => {
+const SessionFeedback = ({ sessionNumber, admin }: Props) => {
   const context: Context = useOutletContext();
 
   const currentUser = context.user as Data;
@@ -32,7 +33,9 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
           >{`Session ${sessionNumber}`}</BodyHeading>
         ) : null}
 
-        {submission ? <SubmissionInfo submission={submission} /> : null}
+        {submission ? (
+          <SubmissionInfo submission={submission} admin={admin} />
+        ) : null}
 
         {submission && submission?.feedback.length > 0 ? (
           <Box mb={10} w="100%">
@@ -49,7 +52,7 @@ const SessionFeedback = ({ sessionNumber }: Props) => {
               <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
 
               {feedback.map((feedback) => {
-                return <FeedbackGiven feedback={feedback} />;
+                return <FeedbackGiven feedback={feedback} admin={admin} />;
               })}
             </>
           ) : null}

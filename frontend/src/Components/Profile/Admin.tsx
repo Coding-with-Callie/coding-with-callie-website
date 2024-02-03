@@ -5,6 +5,7 @@ import Paragraph from "../Paragraph";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { sessions } from "../Resources/sessions";
+import { useNavigate } from "react-router-dom";
 
 export type User = {
   email: string;
@@ -27,6 +28,8 @@ export type FeedbackCount = {
 };
 
 const Admin = () => {
+  const navigate = useNavigate();
+
   const [submissionsCount, setSubmissionsCount] =
     useState<SubmissionsCount[]>();
   const [feedbackCount, setFeedbackCount] = useState<
@@ -147,7 +150,14 @@ const Admin = () => {
       <Box display="flex" flexWrap="wrap" mt={6}>
         {users.map((user) => {
           return (
-            <Box display="flex" alignItems="center" gap={2} w="33.3%" mb={5}>
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={2}
+              w="33.3%"
+              mb={5}
+              onClick={() => navigate(`/user-details/${user.id}`)}
+            >
               <Avatar name={user.name} src={user.photo ? user.photo : ""} />
               <Paragraph margin={false}>{user.name}</Paragraph>
             </Box>

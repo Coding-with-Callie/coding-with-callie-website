@@ -12,9 +12,10 @@ import { Submission } from "../Resources/SessionTask";
 
 type Props = {
   submission: Submission;
+  admin: boolean;
 };
 
-const SubmissionInfo = ({ submission }: Props) => {
+const SubmissionInfo = ({ submission, admin }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
@@ -81,13 +82,15 @@ const SubmissionInfo = ({ submission }: Props) => {
               {submission.url}
             </Link>
           </Box>
-          <IconButton
-            backgroundColor="#45446A"
-            _hover={{ backgroundColor: "#363554" }}
-            aria-label="edit"
-            icon={<EditIcon color="#E1E7CD" />}
-            onClick={onOpen}
-          />
+          {!admin && (
+            <IconButton
+              backgroundColor="#45446A"
+              _hover={{ backgroundColor: "#363554" }}
+              aria-label="edit"
+              icon={<EditIcon color="#E1E7CD" />}
+              onClick={onOpen}
+            />
+          )}
         </Box>
       </Box>
       <EditSubmissionModal

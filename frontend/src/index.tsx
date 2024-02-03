@@ -22,6 +22,7 @@ import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
+import UserDetails from "./Pages/UserDetails";
 
 export const showNotification = (
   message: string,
@@ -186,7 +187,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <Profile admin={false} />,
         loader: async () => {
           const token = localStorage.getItem("token");
 
@@ -218,8 +219,39 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/user-details/:id",
+        element: <Profile admin={true} />,
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+          const id = params.id;
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/user-details/${id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view your account details!",
+                "error"
+              );
+              return redirect("/log-in");
+            }
+          } else {
+            showNotification("You do not have access to that page!", "error");
+            return redirect("/sign-up");
+          }
+        },
+      },
+      {
         path: "/profile/:token/:id",
-        element: <Profile />,
+        element: <Profile admin={false} />,
         loader: async ({ params }) => {
           const token = params.token as string;
           const id = params.id;
