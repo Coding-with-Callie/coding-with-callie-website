@@ -169,6 +169,7 @@ const Admin = () => {
               gap={2}
               w="33.3%"
               mb={5}
+              as="button"
               onClick={() => navigate(`/user-details/${user.id}`)}
             >
               <Avatar name={user.name} src={user.photo ? user.photo : ""} />

@@ -53,11 +53,7 @@ export type Data = {
   feedback: Feedback[];
 };
 
-export type Props = {
-  admin: boolean;
-};
-
-const Profile = ({ admin }: Props) => {
+const Profile = () => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -128,14 +124,9 @@ const Profile = ({ admin }: Props) => {
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={true}>
-        {admin ? (
-          <BodyHeading
-            textAlignCenter={true}
-          >{`${currentName}'s Account Details`}</BodyHeading>
-        ) : (
-          <BodyHeading textAlignCenter={true}>Account Details</BodyHeading>
-        )}
-        {currentName && !admin ? (
+        <BodyHeading textAlignCenter={true}>Account Details</BodyHeading>
+
+        {currentName ? (
           <Paragraph margin={false}>
             {`Welcome, ${currentName}! You can manage your account details here!`}
           </Paragraph>
@@ -153,15 +144,14 @@ const Profile = ({ admin }: Props) => {
               name={context.user.username}
               src={context.user.photo}
             />
-            {admin ? null : (
-              <Box position="relative" top="-130px" left="130px">
-                <IconButton
-                  aria-label="edit"
-                  icon={<EditIcon />}
-                  onClick={onOpenPhotoModal}
-                />
-              </Box>
-            )}
+
+            <Box position="relative" top="-130px" left="130px">
+              <IconButton
+                aria-label="edit"
+                icon={<EditIcon />}
+                onClick={onOpenPhotoModal}
+              />
+            </Box>
           </Box>
           <Box w={isLargerThan600 ? "75%" : "100%"}>
             <Box px={2}>
@@ -176,17 +166,15 @@ const Profile = ({ admin }: Props) => {
                   <Paragraph flexWeight={1} margin={false}>
                     {currentName}
                   </Paragraph>
-                  {admin ? null : (
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("name");
-                        setFieldValue(name);
-                        onOpen();
-                      }}
-                    />
-                  )}
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("name");
+                      setFieldValue(name);
+                      onOpen();
+                    }}
+                  />
                 </Box>
               </Box>
               <Box
@@ -200,17 +188,15 @@ const Profile = ({ admin }: Props) => {
                   <Paragraph flexWeight={1} margin={false}>
                     {currentUsername}
                   </Paragraph>
-                  {admin ? null : (
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("username");
-                        setFieldValue(username);
-                        onOpen();
-                      }}
-                    />
-                  )}
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("username");
+                      setFieldValue(username);
+                      onOpen();
+                    }}
+                  />
                 </Box>
               </Box>
               <Box
@@ -224,17 +210,15 @@ const Profile = ({ admin }: Props) => {
                   <Paragraph flexWeight={1} margin={false}>
                     ******
                   </Paragraph>
-                  {admin ? null : (
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("password");
-                        setFieldValue(password);
-                        onOpen();
-                      }}
-                    />
-                  )}
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("password");
+                      setFieldValue(password);
+                      onOpen();
+                    }}
+                  />
                 </Box>
               </Box>
               <Box
@@ -248,30 +232,26 @@ const Profile = ({ admin }: Props) => {
                   <Paragraph flexWeight={1} margin={false}>
                     {currentEmail}
                   </Paragraph>
-                  {admin ? null : (
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("email");
-                        setFieldValue(email);
-                        onOpen();
-                      }}
-                    />
-                  )}
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("email");
+                      setFieldValue(email);
+                      onOpen();
+                    }}
+                  />
                 </Box>
               </Box>
             </Box>
           </Box>
         </Section>
-        {!admin && (
-          <Section screenSizeParameter={false} alignItemsCenter={false}>
-            <Box display="flex" gap={4}>
-              <MyButton onClick={logout}>Log out</MyButton>
-              <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
-            </Box>
-          </Section>
-        )}
+        <Section screenSizeParameter={false} alignItemsCenter={false}>
+          <Box display="flex" gap={4}>
+            <MyButton onClick={logout}>Log out</MyButton>
+            <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
+          </Box>
+        </Section>
 
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -305,7 +285,7 @@ const Profile = ({ admin }: Props) => {
 
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
           return (
-            <SessionFeedback sessionNumber={sessionNumber} admin={admin} />
+            <SessionFeedback sessionNumber={sessionNumber} admin={false} />
           );
         })}
 
