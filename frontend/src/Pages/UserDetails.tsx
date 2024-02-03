@@ -6,7 +6,7 @@ import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
 
-type UserData = {
+export type UserData = {
   email: string;
   id: number;
   name: string;
@@ -83,7 +83,13 @@ const UserDetails = () => {
         </Section>
 
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
-          return <SessionFeedback sessionNumber={sessionNumber} admin={true} />;
+          return (
+            <SessionFeedback
+              sessionNumber={sessionNumber}
+              admin={true}
+              data={data}
+            />
+          );
         })}
       </Box>
     </>

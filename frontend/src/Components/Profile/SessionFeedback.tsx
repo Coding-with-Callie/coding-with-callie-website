@@ -7,16 +7,25 @@ import Section from "../Section";
 import FeedbackGiven from "./FeedbackGiven";
 import FeedbackReceived from "./FeedbackReceived";
 import SubmissionInfo from "./SubmissionInfo";
+import { UserData } from "../../Pages/UserDetails";
 
 type Props = {
   sessionNumber: number;
   admin: boolean;
+  data?: UserData;
 };
 
-const SessionFeedback = ({ sessionNumber, admin }: Props) => {
+const SessionFeedback = ({ sessionNumber, admin, data }: Props) => {
   const context: Context = useOutletContext();
 
-  const currentUser = context.user as Data;
+  let currentUser;
+
+  if (data) {
+    currentUser = data;
+  } else {
+    currentUser = context.user as Data;
+  }
+
   const submission = currentUser.submissions.find(
     (submission) => submission.session === sessionNumber
   );
