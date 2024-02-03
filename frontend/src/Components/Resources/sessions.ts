@@ -163,8 +163,29 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_git_workflow.mp4",
+        label: "Git/Github Workflow",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_1.mp4",
+        label:
+          "Sign-up Form: React Router, setting up the initial form fields, and sending form data to the API",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_2.mp4",
+        label: "Sign-up Form: Form control and error messages",
+        type: "video",
+      },
+      {
         link: "https://docs.nestjs.com/security/authentication",
         label: "NestJS Authentication Documentation",
+        type: "how-to guide",
+      },
+      {
+        link: "https://chakra-ui.com/docs/components/form-control",
+        label: "Chakra UI Form Control",
         type: "how-to guide",
       },
     ],
