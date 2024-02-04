@@ -99,6 +99,25 @@ export class FeedbackDto {
   sessionId: number;
 }
 
+export class ReviewDto {
+  @IsNotEmpty()
+  rating: number;
+
+  @IsNotEmpty()
+  course: string;
+
+  @Transform((params) => sanitizeHTML(params.value))
+  comments: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  displayName: string;
+
+  session: string;
+
+  userId: number;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -233,7 +252,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('submit-review')
-  async submitReview(@Body() review: any) {
+  async submitReview(@Body() review: ReviewDto) {
     return await this.authService.submitReview(review);
   }
 }

@@ -179,6 +179,16 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_3.mp4",
+        label: "Sign-up Form: Data validation",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_4.mp4",
+        label: "API: Sanitize, validate, and transform Sign-up DTO",
+        type: "video",
+      },
+      {
         link: "https://docs.nestjs.com/security/authentication",
         label: "NestJS Authentication Documentation",
         type: "how-to guide",

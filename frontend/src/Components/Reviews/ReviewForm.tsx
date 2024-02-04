@@ -38,7 +38,7 @@ const ReviewForm = ({
     course: "Todo List",
     comments: "",
     displayName: context.user.name,
-    session: sessionId,
+    session: sessionId || 1,
     userId: context.user.id,
   });
   const [invalidDisplayName, setInvalidDisplayName] = useState(
@@ -51,17 +51,9 @@ const ReviewForm = ({
       setSubmitClicked(true);
       showNotification("Please enter all the necessary information", "error");
     } else {
-      setRating(null);
-      setReviewFormData({
-        rating: rating,
-        course: "Todo List",
-        comments: "",
-        displayName: context.user.name,
-        session: reviewFormData.session,
-        userId: context.user.id,
-      });
       const token = localStorage.getItem("token");
       const numberOfReviews = reviews.length;
+      console.log("REVIEW", reviewFormData);
       axios
         .post(
           `${
@@ -73,6 +65,15 @@ const ReviewForm = ({
           }
         )
         .then((response) => {
+          setRating(null);
+          setReviewFormData({
+            rating: rating,
+            course: "Todo List",
+            comments: "",
+            displayName: context.user.name,
+            session: reviewFormData.session,
+            userId: context.user.id,
+          });
           if (numberOfReviews < response.data.length) {
             showNotification("Thank you for your review!", "success");
             setReviews(response.data);
