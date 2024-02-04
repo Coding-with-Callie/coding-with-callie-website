@@ -138,7 +138,18 @@ const SessionTask = ({
             <Text layerStyle="input" fontWeight="bold" minW="145px">
               Summary:
             </Text>
-            <Text layerStyle="input">{session.summary}</Text>
+            <Box>
+              {session.summary.map((line, index) => {
+                return (
+                  <Text
+                    layerStyle="input"
+                    mb={index < session.summary.length - 1 ? 2 : 0}
+                  >
+                    {line}
+                  </Text>
+                );
+              })}
+            </Box>
           </Box>
           <Box display="flex">
             <Text layerStyle="input" fontWeight="bold" minW="145px">
@@ -219,25 +230,23 @@ const SessionTask = ({
                 <MyButton onClick={submitDeliverable}>Submit</MyButton>
               </Box>
             )}
-            {feedbackCount >= 2 ? (
-              <Box flex={1}>
-                <MyButton
-                  widthSize="100%"
-                  onClick={
-                    solutionVideoPosted
-                      ? () => navigate(`/submissions/callie/${index + 1}`)
-                      : () => {
-                          showNotification(
-                            `Callie's solution video will be posted on ${session.videoDate}`,
-                            "error"
-                          );
-                        }
-                  }
-                >
-                  View Callie's Solution
-                </MyButton>
-              </Box>
-            ) : null}
+          </Box>
+          <Box>
+            <MyButton
+              widthSize="100%"
+              onClick={
+                solutionVideoPosted
+                  ? () => navigate(`/submissions/callie/${index + 1}`)
+                  : () => {
+                      showNotification(
+                        `Callie's solution video will be posted on ${session.videoDate}`,
+                        "error"
+                      );
+                    }
+              }
+            >
+              View Callie's Solution
+            </MyButton>
           </Box>
         </Box>
       </Section>

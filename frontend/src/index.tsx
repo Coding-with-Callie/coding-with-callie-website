@@ -19,7 +19,10 @@ import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
 import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
+import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
+import { sessions } from "./Components/Resources/sessions";
+import UserDetails from "./Pages/UserDetails";
 
 export const showNotification = (
   message: string,
@@ -68,6 +71,18 @@ const router = createBrowserRouter([
       {
         path: "/workshops/todo-list",
         element: <TodoList />,
+      },
+      {
+        path: "/reviews",
+        element: <Reviews />,
+        loader: async () => {
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/reviews`
+          );
+          return response.data;
+        },
       },
       {
         path: "/workshops/fullstack-deployment",
@@ -204,6 +219,45 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/user-details/:id",
+        element: <UserDetails />,
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+          const id = params.id;
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/user-details/${id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error: any) {
+              if (error?.response.data.message === "Role") {
+                showNotification(
+                  "You are not authorized to view that page!",
+                  "error"
+                );
+                return redirect("/");
+              } else {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view your account details!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
+            }
+          } else {
+            showNotification("You do not have access to that page!", "error");
+            return redirect("/sign-up");
+          }
+        },
+      },
+      {
         path: "/profile/:token/:id",
         element: <Profile />,
         loader: async ({ params }) => {
@@ -239,40 +293,63 @@ const router = createBrowserRouter([
           const token = localStorage.getItem("token");
           const id = params.id;
 
+          const today = new Date();
+
+          if (!id || parseInt(id) < 0 || parseInt(id) > 10 || !parseInt(id)) {
+            showNotification(`There are only 10 sessions`, "error");
+            return redirect("/resources");
+          }
+
           if (token) {
             try {
-              // get Callie's video for session # id
-              let url;
-
-              if (url) {
-                return url;
-              } else {
-                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
-                  showNotification(`There are only 10 sessions`, "error");
-                } else {
-                  showNotification(
-                    `Callie hasn't posted her submission for session ${id} yet!`,
-                    "error"
-                  );
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/profile`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
                 }
+              );
 
-                return redirect("/resources");
-              }
-            } catch (error: any) {
-              if (error.response.data.message === "Unauthorized") {
+              const user = response.data as any;
+
+              if (
+                today < new Date(sessions[parseInt(id) - 1].videoDate) &&
+                user.role === "user"
+              ) {
                 showNotification(
-                  "It looks like your session has expired. Please log in again to view Coding with Callie submissions!",
+                  `Callie hasn't posted her submission for session ${id} yet!`,
                   "error"
                 );
-                return redirect("/log-in");
+                return redirect("/resources");
               } else {
-                showNotification("That page doesn't seem to exist!", "error");
-                return redirect("/");
+                return id;
               }
+
+              // const userFeedbackForSession = user.feedback.filter(
+              //   (feedback: Feedback) =>
+              //     feedback.submission.session === parseInt(id)
+              // );
+
+              // if (userFeedbackForSession.length > 1 || user.role === "admin") {
+              //   return id;
+              // } else {
+              //   showNotification(
+              //     `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
+              //     "error"
+              //   );
+              //   return redirect("/resources");
+              // }
+            } catch (error) {
+              showNotification(
+                "It looks like your session has expired. Please log in again to view Callie's submissions!",
+                "error"
+              );
+              return redirect("/log-in");
             }
           } else {
             showNotification(
-              "You must sign up to view Conding with Callie submissions!",
+              "You must sign up to view Callie's submissions!",
               "error"
             );
             return redirect("/sign-up");
@@ -297,8 +374,11 @@ const router = createBrowserRouter([
                 }
               );
 
-              if (response.data.length > 0) {
-                return response.data;
+              const role = response.data.role as any;
+              const submissions = response.data.submissions;
+
+              if (role === "admin" || submissions.length > 0) {
+                return submissions;
               } else {
                 if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
                   showNotification(`There are only 10 sessions`, "error");

@@ -16,6 +16,24 @@ export class FeedbackService {
     });
   }
 
+  async getFeedbackCountBySession() {
+    const feedback = await this.feedbackRepository.find();
+
+    const countedFeedback = feedback.reduce(
+      (countedFeedback, currentItem: Feedback): any => {
+        const sessionId = currentItem.submission.session;
+        if (countedFeedback[sessionId]) {
+          countedFeedback[sessionId] += 1;
+        } else {
+          countedFeedback[sessionId] = 1;
+        }
+        return countedFeedback;
+      },
+      {},
+    );
+    return countedFeedback;
+  }
+
   async submitFeedback(feedbackDto: any) {
     const feedback = new Feedback();
     feedback.positiveFeedback = feedbackDto.positiveFeedback;

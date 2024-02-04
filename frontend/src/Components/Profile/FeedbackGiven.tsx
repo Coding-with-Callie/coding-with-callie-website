@@ -22,9 +22,10 @@ import Paragraph from "../Paragraph";
 
 type Props = {
   feedback: Feedback;
+  admin: boolean;
 };
 
-const FeedbackGiven = ({ feedback }: Props) => {
+const FeedbackGiven = ({ feedback, admin }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const context: Context = useOutletContext();
@@ -92,15 +93,17 @@ const FeedbackGiven = ({ feedback }: Props) => {
               {feedback.submission.user.username}
             </Paragraph>
           </Box>
-          <IconButton
-            backgroundColor="#45446A"
-            _hover={{ backgroundColor: "#363554" }}
-            aria-label="edit"
-            icon={<EditIcon color="#E1E7CD" />}
-            onClick={() => {
-              onOpen();
-            }}
-          />
+          {!admin && (
+            <IconButton
+              backgroundColor="#45446A"
+              _hover={{ backgroundColor: "#363554" }}
+              aria-label="edit"
+              icon={<EditIcon color="#E1E7CD" />}
+              onClick={() => {
+                onOpen();
+              }}
+            />
+          )}
         </Box>
         <Box>
           <Paragraph bold margin={false}>

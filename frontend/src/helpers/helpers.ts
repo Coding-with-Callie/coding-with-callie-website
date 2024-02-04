@@ -12,3 +12,8 @@ export const isInvalidEmail = (email: string) => {
   if (email === "" || email.indexOf("@") === -1) return true;
   return false;
 };
+
+export const isInvalidComments = (comments: string) => {
+  if (comments === "") return true;
+  return false;
+};

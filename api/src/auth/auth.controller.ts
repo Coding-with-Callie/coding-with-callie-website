@@ -18,6 +18,7 @@ import { IsEmail, IsNotEmpty, IsUrl } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles, RolesGuard } from './roles.guard';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -98,6 +99,25 @@ export class FeedbackDto {
   sessionId: number;
 }
 
+export class ReviewDto {
+  @IsNotEmpty()
+  rating: number;
+
+  @IsNotEmpty()
+  course: string;
+
+  @Transform((params) => sanitizeHTML(params.value))
+  comments: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  displayName: string;
+
+  session: string;
+
+  userId: number;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -114,6 +134,20 @@ export class AuthController {
       userLoginDto.username,
       userLoginDto.password,
     );
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Get('adminData')
+  getAllUsers() {
+    return this.authService.getAdminData();
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Get('user-details/:id')
+  getUserDetails(@Param('id') id: number) {
+    return this.authService.getUserProfile(id);
   }
 
   @UseGuards(AuthGuard)
@@ -158,7 +192,8 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('all-submissions/:id')
   getAllSubmissions(@Request() req) {
-    return this.authService.getAllSubmissions(req.params.id);
+    const userId = req.user.sub;
+    return this.authService.getAllSubmissions(req.params.id, userId);
   }
 
   @UseGuards(AuthGuard)
@@ -190,7 +225,11 @@ export class AuthController {
   @Post('submit-feedback')
   async submitFeedback(@Body() feedbackDto: FeedbackDto) {
     await this.authService.submitFeedback(feedbackDto);
-    return this.authService.getAllSubmissions(feedbackDto.sessionId);
+    const submissions = await this.authService.getAllSubmissions(
+      feedbackDto.sessionId,
+      feedbackDto.feedbackProviderId,
+    );
+    return submissions;
   }
 
   @UseGuards(AuthGuard)
@@ -209,5 +248,11 @@ export class AuthController {
   ) {
     await this.authService.uploadFile(id, file);
     return this.authService.getUserProfile(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('submit-review')
+  async submitReview(@Body() review: ReviewDto) {
+    return await this.authService.submitReview(review);
   }
 }

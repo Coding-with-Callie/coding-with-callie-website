@@ -26,6 +26,7 @@ import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
+import Admin from "../Components/Profile/Admin";
 
 export type Feedback = {
   id: number;
@@ -124,6 +125,7 @@ const Profile = () => {
     <>
       <Section screenSizeParameter={false} alignItemsCenter={true}>
         <BodyHeading textAlignCenter={true}>Account Details</BodyHeading>
+
         {currentName ? (
           <Paragraph margin={false}>
             {`Welcome, ${currentName}! You can manage your account details here!`}
@@ -142,6 +144,7 @@ const Profile = () => {
               name={context.user.username}
               src={context.user.photo}
             />
+
             <Box position="relative" top="-130px" left="130px">
               <IconButton
                 aria-label="edit"
@@ -281,8 +284,12 @@ const Profile = () => {
         />
 
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
-          return <SessionFeedback sessionNumber={sessionNumber} />;
+          return (
+            <SessionFeedback sessionNumber={sessionNumber} admin={false} />
+          );
         })}
+
+        {context.user.role === "admin" ? <Admin /> : null}
       </Box>
     </>
   );

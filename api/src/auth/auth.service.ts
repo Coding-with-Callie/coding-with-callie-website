@@ -7,6 +7,7 @@ import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
 import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
+import { ReviewService } from 'src/review/review.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     private submissionsService: SubmissionsService,
     private feedbackService: FeedbackService,
+    private reviewService: ReviewService,
     private logger: Logger,
   ) {}
 
@@ -50,14 +52,12 @@ export class AuthService {
     }
   }
 
-  async checkPasswordAndCreateAccessToken(pass: string, user) {
-    const isMatch = await bcrypt.compare(pass, user.password);
-    if (!isMatch) {
-      this.logger.error('Unauthorized: Incorrect password', user.username);
-      throw new UnauthorizedException();
-    }
+  async verifyPasswordMatches(pass: string, user) {
+    return await bcrypt.compare(pass, user.password);
+  }
 
-    const payload = { sub: user.id, username: user.username };
+  async createAccessToken(user) {
+    const payload = { sub: user.id, username: user.username, role: user.role };
     this.logger.log('User logged in', user.username);
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -71,7 +71,24 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return this.checkPasswordAndCreateAccessToken(pass, user);
+    const isCorrectPassword = await this.verifyPasswordMatches(pass, user);
+
+    if (isCorrectPassword) {
+      return this.createAccessToken(user);
+    } else {
+      this.logger.error('Unauthorized: Incorrect password', user.username);
+      throw new UnauthorizedException();
+    }
+  }
+
+  async getAdminData() {
+    const users = await this.usersService.findAllUsers();
+    const submissionsCount =
+      await this.submissionsService.getSubmissionsCountBySession();
+    const feedbackCount =
+      await this.feedbackService.getFeedbackCountBySession();
+    const reviewCount = (await this.reviewService.getAllReviews()).length;
+    return { users, submissionsCount, feedbackCount, reviewCount };
   }
 
   async getUserProfile(id: number) {
@@ -183,8 +200,11 @@ export class AuthService {
     return await this.submissionsService.getUserSubmissions(userId);
   }
 
-  async getAllSubmissions(sessionId) {
-    return await this.submissionsService.getAllSubmissions(sessionId);
+  async getAllSubmissions(sessionId, userId) {
+    const submissions =
+      await this.submissionsService.getAllSubmissions(sessionId);
+    const user = await this.usersService.findOneById(userId);
+    return { role: user.role, submissions };
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {
@@ -239,5 +259,17 @@ export class AuthService {
 
   async uploadFile(id, file) {
     return await this.usersService.uploadFile(id, file);
+  }
+
+  async submitReview(review) {
+    const existingReview = await this.reviewService.findReview(
+      review.userId,
+      review.session,
+    );
+    if (existingReview.length > 0) {
+      return await this.reviewService.getAllReviews();
+    } else {
+      return await this.reviewService.submitReview(review);
+    }
   }
 }

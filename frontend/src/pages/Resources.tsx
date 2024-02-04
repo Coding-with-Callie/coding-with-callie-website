@@ -20,20 +20,77 @@ const Resources = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Todo List Resources</BodyHeading>
         <Text color="#45446A" mb={4}>
-          We will be building our Todo List application over the course of 10
-          weeks. I have broken the application into 10 corresponding tasks.
+          We will be building our Todo List application over the course of 11
+          weeks. I have broken the application into 11 corresponding tasks.
         </Text>
         <OrderedList color="#45446A" mb={4}>
-          <ListItem>Planning a Project</ListItem>
-          <ListItem>Setting A Project Up</ListItem>
-          <ListItem>Feature 1</ListItem>
-          <ListItem>Feature 2</ListItem>
-          <ListItem>Feature 3</ListItem>
-          <ListItem>Feature 4</ListItem>
-          <ListItem>Feature 5</ListItem>
-          <ListItem>Logging</ListItem>
-          <ListItem>Manual E2E Testing</ListItem>
-          <ListItem>Automated Spec Testing</ListItem>
+          <ListItem>
+            Planning a Project{" "}
+            <Box>
+              - Zoom Session: {sessions[0].zoomSession || sessions[0].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Setting A Project Up
+            <Box>
+              - Zoom Session: {sessions[1].zoomSession || sessions[1].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 1
+            <Box>
+              - Zoom Session: {sessions[2].zoomSession || sessions[2].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 2
+            <Box>
+              - Zoom Session: {sessions[3].zoomSession || sessions[3].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 3
+            <Box>
+              - Zoom Session: {sessions[4].zoomSession || sessions[4].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 4
+            <Box>
+              - Zoom Session: {sessions[5].zoomSession || sessions[5].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Feature 5
+            <Box>
+              - Zoom Session: {sessions[6].zoomSession || sessions[6].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Finish Remaining Tasks
+            <Box>
+              - Zoom Session: {sessions[7].zoomSession || sessions[7].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Logging
+            <Box>
+              - Zoom Session: {sessions[8].zoomSession || sessions[8].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Manual E2E Testing
+            <Box>
+              - Zoom Session: {sessions[9].zoomSession || sessions[9].startDate}
+            </Box>
+          </ListItem>
+          <ListItem>
+            Automated Spec Testing{" "}
+            <Box>
+              - Zoom Session:{" "}
+              {sessions[10].zoomSession || sessions[10].startDate}
+            </Box>
+          </ListItem>
         </OrderedList>
         <Text color="#45446A" mb={4}>
           Prior to each session, you'll need to attempt the task on your own.
