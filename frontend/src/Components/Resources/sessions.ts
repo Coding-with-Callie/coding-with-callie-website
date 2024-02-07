@@ -203,6 +203,36 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_8.mp4",
+        label: "API: Auth Guard Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_9.mp4",
+        label: "NestJS: JWT Environment Variable Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_10.mp4",
+        label: "Frontend: Login Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_11.mp4",
+        label: "API: Login Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_12.mp4",
+        label: "Logout Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_13.mp4",
+        label: "Header: Initial Navigation Set-up",
+        type: "video",
+      },
+      {
         link: "https://docs.nestjs.com/security/authentication",
         label: "NestJS Authentication Documentation",
         type: "how-to guide",
