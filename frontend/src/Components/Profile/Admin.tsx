@@ -1,4 +1,4 @@
-import { Avatar, Box, Heading, Text } from "@chakra-ui/react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 import Section from "../Section";
 import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";

@@ -233,6 +233,21 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_14.mp4",
+        label: "Chakra UI: Standalone Toasts",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_15.mp4",
+        label: "Header: Finish Navigation",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_16.mp4",
+        label: "Git/Github: Review Pull Request and Merge into Main",
+        type: "video",
+      },
+      {
         link: "https://docs.nestjs.com/security/authentication",
         label: "NestJS Authentication Documentation",
         type: "how-to guide",
@@ -246,6 +261,8 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 2",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/feature_2_assignment.mp4",
     summary: [
       "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
     ],
