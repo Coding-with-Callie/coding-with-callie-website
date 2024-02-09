@@ -269,7 +269,29 @@ export const sessions: Session[] = [
     deliverable: "A link to your feature-2 branch on your Github repository.",
     dueDate: "February 15, 2024",
     startDate: "February 8, 2024",
-    videoDate: "February 15, 2024",
+    videoDate: "February 8, 2024",
+    solutionLinks: [
+      {
+        link: "https://melodiessim.netlify.app/Reset%20Password%20Flow%20Using%20JWT/",
+        label: "Implement Password Reset Using JWT",
+        type: "how-to guide",
+      },
+      {
+        link: "https://ahrjarrett.com/posts/2019-02-08-resetting-user-passwords-with-node-and-jwt",
+        label: "Resetting a User’s Password Using Node.js and JWT",
+        type: "how-to guide",
+      },
+      {
+        link: "https://www.smashingmagazine.com/2017/11/safe-password-resets-with-json-web-tokens/",
+        label: "Creating Secure Password Resets With JSON Web Tokens",
+        type: "how-to guide",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/video1096901020.mp4",
+        label: "Zoom Session",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Feature 3",

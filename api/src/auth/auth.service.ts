@@ -155,6 +155,7 @@ export class AuthService {
     return 'deleted';
   }
 
+  // create password reset JWT
   async forgotPassword(email: string) {
     const user = await this.usersService.findOneByEmail(email);
     if (user === null) {
@@ -176,6 +177,7 @@ export class AuthService {
     );
   }
 
+  // check password reset token
   async getProfileReset(token, id) {
     const user = await this.usersService.findOneById(id);
     const payload = await this.jwtService.verifyAsync(token, {
