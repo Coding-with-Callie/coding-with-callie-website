@@ -20,8 +20,9 @@ const Resources = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Todo List Resources</BodyHeading>
         <Text color="#45446A" mb={4}>
-          We will be building our Todo List application over the course of 11
-          weeks. I have broken the application into 11 corresponding tasks.
+          We will be building our Todo List application throughout the first
+          quarter of 2024. I have broken the application into 11 corresponding
+          tasks.
         </Text>
         <OrderedList color="#45446A" mb={4}>
           <ListItem>
@@ -93,24 +94,23 @@ const Resources = () => {
           </ListItem>
         </OrderedList>
         <Text color="#45446A" mb={4}>
-          Prior to each session, you'll need to attempt the task on your own.
           Each task has a summary of its requirements, the deliverable you must
           submit, and the date on which the deliverable is due. Once you give it
           your best shot, submit your deliverable on this page. Submitting your
-          deliverable will unlock options to see other participants'
-          submissions, and eventually my solution.
+          deliverable will unlock options to see and review other participants'
+          submissions.
         </Text>
         <Text color="#45446A" mb={4}>
-          During the in-person workshop, we'll spend a portion of the session
-          brainstorming the task and reviewing each other's work in groups. In
-          the latter portion of the in-person workshop, I will walk the group
-          through how I would have completed the task.
+          In each week's Zoom session, I'll show you how I would complete the
+          trickiest parts of that week's assignment. We'll go over the task's
+          requirements and you can ask any questions you have. During the week
+          that follows the Zoom session, you will give the task your best shot.
         </Text>
         <Text color="#45446A" mb={4}>
-          If you're going through the workshop asynchronously, you can review
-          other participants' work and share feedback on here once you submit
-          your own. I'll record my solution and post it on this page within 48
-          hours of the in-person session.
+          I will be building the Todo List at the same time. I'll record my
+          coding time and post videos as I work through the task. You can view
+          the available videos by clicking on the task's{" "}
+          <strong>View Callie's Solution</strong> button.
         </Text>
       </Section>
       <Box>

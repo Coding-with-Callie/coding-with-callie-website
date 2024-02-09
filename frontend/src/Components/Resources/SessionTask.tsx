@@ -43,7 +43,7 @@ const SessionTask = ({
     (submission: Submission) => submission.session === index + 1
   );
 
-  const feedbackCount = feedback.length;
+  // const feedbackCount = feedback.length;
 
   const navigate = useNavigate();
   const [url, setUrl] = useState("");

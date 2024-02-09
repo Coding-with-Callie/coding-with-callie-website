@@ -169,23 +169,82 @@ export const sessions: Session[] = [
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_1.mp4",
-        label:
-          "Sign-up Form: React Router, setting up the initial form fields, and sending form data to the API",
+        label: "Sign-up Form: React Router and Initial Form Set-up",
         type: "video",
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_2.mp4",
-        label: "Sign-up Form: Form control and error messages",
+        label: "Sign-up Form: Form control and Error Messages",
         type: "video",
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_3.mp4",
-        label: "Sign-up Form: Data validation",
+        label: "Sign-up Form: Data Validation",
         type: "video",
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_4.mp4",
-        label: "API: Sanitize, validate, and transform Sign-up DTO",
+        label: "API: Sanitize, Validate, and Transform Sign-up DTO",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_5.mp4",
+        label: "Sign-up Form: Finish FE Work",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_6.mp4",
+        label: "API: Password Hashing and Saving New Users in DB",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_7.mp4",
+        label: "API: JWT and Sign-up Error Handling",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_8.mp4",
+        label: "API: Auth Guard Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_9.mp4",
+        label: "NestJS: JWT Environment Variable Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_10.mp4",
+        label: "Frontend: Login Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_11.mp4",
+        label: "API: Login Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_12.mp4",
+        label: "Logout Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_13.mp4",
+        label: "Header: Initial Navigation Set-up",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_14.mp4",
+        label: "Chakra UI: Standalone Toasts",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_15.mp4",
+        label: "Header: Finish Navigation",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_1_part_16.mp4",
+        label: "Git/Github: Review Pull Request and Merge into Main",
         type: "video",
       },
       {
@@ -202,6 +261,8 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 2",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/feature_2_assignment.mp4",
     summary: [
       "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
     ],
