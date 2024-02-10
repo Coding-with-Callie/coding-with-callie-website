@@ -156,6 +156,12 @@ export const sessions: Session[] = [
     videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/nRa5Z9RJ/user-account-creation",
+        label: "Callie's User Account Creation Trello Board",
+      },
+    ],
     solutionLinks: [
       {
         link: "https://coding-with-callie.s3.amazonaws.com/video1822359443.mp4",
@@ -264,7 +270,13 @@ export const sessions: Session[] = [
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/feature_2_assignment.mp4",
     summary: [
-      "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
+    ],
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/8I2sGaO1/user-account-maintenance",
+        label: "Callie's User Account Maintenance Trello Board",
+      },
     ],
     deliverable: "A link to your feature-2 branch on your Github repository.",
     dueDate: "February 15, 2024",
@@ -289,6 +301,11 @@ export const sessions: Session[] = [
       {
         link: "https://coding-with-callie.s3.amazonaws.com/video1096901020.mp4",
         label: "Zoom Session",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_1.mp4",
+        label: "UI: Create Account Details Components",
         type: "video",
       },
     ],

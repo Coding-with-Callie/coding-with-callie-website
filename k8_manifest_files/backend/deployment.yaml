@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:v8
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:v9
         readinessProbe:
           httpGet:
             path: /api/readyz
