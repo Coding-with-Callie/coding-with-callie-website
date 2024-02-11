@@ -308,6 +308,11 @@ export const sessions: Session[] = [
         label: "UI: Create Account Details Components",
         type: "video",
       },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_2.mp4",
+        label: "UI: Create Account Details Components",
+        type: "video",
+      },
     ],
   },
   {
