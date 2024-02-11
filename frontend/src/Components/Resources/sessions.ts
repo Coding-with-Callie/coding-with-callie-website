@@ -310,7 +310,12 @@ export const sessions: Session[] = [
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_2.mp4",
-        label: "UI: Create Account Details Components",
+        label: "Add Edit Account Details Functionality to UI and API",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_3.mp4",
+        label: "Refresh Profile Date on Account Details Edit",
         type: "video",
       },
     ],
