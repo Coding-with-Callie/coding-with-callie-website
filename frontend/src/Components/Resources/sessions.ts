@@ -294,6 +294,11 @@ export const sessions: Session[] = [
         type: "how-to guide",
       },
       {
+        link: "https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628",
+        label: "How to Send an Email from Your Gmail Account with Nodemailer",
+        type: "how-to guide",
+      },
+      {
         link: "https://www.smashingmagazine.com/2017/11/safe-password-resets-with-json-web-tokens/",
         label: "Creating Secure Password Resets With JSON Web Tokens",
         type: "how-to guide",
@@ -315,7 +320,17 @@ export const sessions: Session[] = [
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_3.mp4",
-        label: "Refresh Profile Date on Account Details Edit",
+        label: "Refresh Profile Data on Account Details Edit",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_4.mp4",
+        label: "UI: Forgot Password Button and Modal",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_5.mp4",
+        label: "Create Password Reset JWT and Initialize Mail Module",
         type: "video",
       },
     ],
