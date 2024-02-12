@@ -161,6 +161,11 @@ export class AuthController {
     return this.authService.getProfileReset(token, id);
   }
 
+  @Post('forgot-password')
+  forgotPassword(@Body() body: Email) {
+    return this.authService.forgotPassword(body.email);
+  }
+
   @UseGuards(AuthGuard)
   @Post('change-account-detail')
   changeAccountDetail(@Body() accountDetailDto: AccountDetailDto) {
@@ -175,11 +180,6 @@ export class AuthController {
   @Post('delete-account')
   deleteAccount(@Body('id') id: number) {
     return this.authService.deleteUser(id);
-  }
-
-  @Post('forgot-password')
-  forgotPassword(@Body() body: Email) {
-    return this.authService.forgotPassword(body.email);
   }
 
   @UseGuards(AuthGuard)

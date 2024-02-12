@@ -156,6 +156,12 @@ export const sessions: Session[] = [
     videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/nRa5Z9RJ/user-account-creation",
+        label: "Callie's User Account Creation Trello Board",
+      },
+    ],
     solutionLinks: [
       {
         link: "https://coding-with-callie.s3.amazonaws.com/video1822359443.mp4",
@@ -264,12 +270,85 @@ export const sessions: Session[] = [
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/feature_2_assignment.mp4",
     summary: [
-      "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 2. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
+    ],
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/8I2sGaO1/user-account-maintenance",
+        label: "Callie's User Account Maintenance Trello Board",
+      },
     ],
     deliverable: "A link to your feature-2 branch on your Github repository.",
     dueDate: "February 15, 2024",
     startDate: "February 8, 2024",
-    videoDate: "February 15, 2024",
+    videoDate: "February 8, 2024",
+    solutionLinks: [
+      {
+        link: "https://melodiessim.netlify.app/Reset%20Password%20Flow%20Using%20JWT/",
+        label: "Implement Password Reset Using JWT",
+        type: "how-to guide",
+      },
+      {
+        link: "https://ahrjarrett.com/posts/2019-02-08-resetting-user-passwords-with-node-and-jwt",
+        label: "Resetting a User’s Password Using Node.js and JWT",
+        type: "how-to guide",
+      },
+      {
+        link: "https://medium.com/@y.mehnati_49486/how-to-send-an-email-from-your-gmail-account-with-nodemailer-837bf09a7628",
+        label: "How to Send an Email from Your Gmail Account with Nodemailer",
+        type: "how-to guide",
+      },
+      {
+        link: "https://www.smashingmagazine.com/2017/11/safe-password-resets-with-json-web-tokens/",
+        label: "Creating Secure Password Resets With JSON Web Tokens",
+        type: "how-to guide",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/video1096901020.mp4",
+        label: "Zoom Session",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_1.mp4",
+        label: "UI: Create Account Details Components",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_2.mp4",
+        label: "Add Edit Account Details Functionality to UI and API",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_3.mp4",
+        label: "Refresh Profile Data on Account Details Edit",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_4.mp4",
+        label: "UI: Forgot Password Button and Modal",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_5.mp4",
+        label: "Create Password Reset JWT and Initialize Mail Module",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_6.mp4",
+        label: "Send Password Reset Email with Nodemailer",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_7.mp4",
+        label: "Verify Reset Password Token and Save New Password",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_8.mp4",
+        label: "Add Delete Account Functionality",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Feature 3",
