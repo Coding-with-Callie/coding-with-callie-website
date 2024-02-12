@@ -333,6 +333,21 @@ export const sessions: Session[] = [
         label: "Create Password Reset JWT and Initialize Mail Module",
         type: "video",
       },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_6.mp4",
+        label: "Send Password Reset Email with Nodemailer",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_7.mp4",
+        label: "Verify Reset Password Token and Save New Password",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_2_part_8.mp4",
+        label: "Add Delete Account Functionality",
+        type: "video",
+      },
     ],
   },
   {
