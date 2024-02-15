@@ -15,18 +15,31 @@ const homeText = [
 ];
 
 const workshopText = [
-  "Coding with Callie's first workshop starts Thursday, January 18.",
-  "Over the course of 10 weeks, we'll build a Todo List application. This is a guided workshop meant for those who want to learn how to build usable applications.",
+  "Coding with Callie currently offers 1 self-paced workshop: Fullstack Todo List.",
+  "Use my wireframe designs and project plans to build a fullstack, usable Todo List application with user authentication, error handling, data validation, logging, and more.",
+  "This workshop is broken into 11 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
 ];
 
-const codeReviewsText = [
-  "Sometimes it's hard to know where to refactor or what to work on next when you're coding alone.",
-  "Having someone else take a look at your code can help you level up! Plus, learning how to do a code review yourself is a necessary a part of the day-to-day work for a software engineer.",
+// const codeReviewsText = [
+//   "Sometimes it's hard to know where to refactor or what to work on next when you're coding alone.",
+//   "Having someone else take a look at your code can help you level up! Plus, learning how to do a code review yourself is a necessary a part of the day-to-day work for a software engineer.",
+// ];
+
+// const coffeeChatsText = [
+//   "Networking was an essential part of my breaking into tech. So many software engineers took time out of their day to talk with me about their experience and answer some of my questions.",
+//   "Use coffee chats to learn what it's like on the job, find potentials mentors, and practice talking about code.",
+// ];
+
+const zoomSessions = [
+  "We meet on Thursdays from 7PM to 9PM EST to review the trickiest concepts of fullstack web development, review each other's code, and debug our projects.",
+  "From time-to-time, we have guest speakers come to lead a mini-workshop!",
+  "All Coding with Callie members are eligible to join the weekly sessions! You will received a zoom link via email when your sign up.",
 ];
 
-const coffeeChatsText = [
-  "Networking was an essential part of my breaking into tech. So many software engineers took time out of their day to talk with me about their experience and answer some of my questions.",
-  "Use coffee chats to learn what it's like on the job, find potentials mentors, and practice talking about code.",
+const interviewDay = [
+  "Want to help entry-level developers level up? Consider signing up to conduct practice interviews on Coding with Callie Interview day!",
+  "Any Coding with Callie member that completes their Todo List application by April 11, 2023 will be eligible to attend.",
+  "I am looking for each developer to have the opportunity to practice three types of interviews: phone screen, soft skills, and technical/whiteboard.",
 ];
 
 const Home = () => {
@@ -58,21 +71,25 @@ const Home = () => {
         gapSize={10}
       >
         <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
+          <BodyHeading textAlignCenter={true}>Fullstack Workshops</BodyHeading>
           <BodyText textBlocks={workshopText} textAlignCenter={true} />
           <Link to="/workshop-details">
             <MyButton>Learn More</MyButton>
           </Link>
         </CenteredColumn>
         <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Code Reviews</BodyHeading>
-          <BodyText textBlocks={codeReviewsText} textAlignCenter={true} />
-          <MyButton>Learn More</MyButton>
+          <BodyHeading textAlignCenter={true}>Zoom Sessions</BodyHeading>
+          <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
+          <Link to="/sign-up">
+            <MyButton>Join the Fun!</MyButton>
+          </Link>
         </CenteredColumn>
         <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Coffee Chats</BodyHeading>
-          <BodyText textBlocks={coffeeChatsText} textAlignCenter={true} />
-          <MyButton>Learn More</MyButton>
+          <BodyHeading textAlignCenter={true}>Interview Day</BodyHeading>
+          <BodyText textBlocks={interviewDay} textAlignCenter={true} />
+          <Link to="https://forms.gle/ExTwAedgTQYeQkem8" target="_blank">
+            <MyButton>Learn More</MyButton>
+          </Link>
         </CenteredColumn>
       </Section>
     </Box>
