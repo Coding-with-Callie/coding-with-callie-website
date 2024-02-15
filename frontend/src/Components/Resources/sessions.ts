@@ -354,6 +354,16 @@ export const sessions: Session[] = [
     title: "Feature 3",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1929162466.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/fip2iHxH/create-project-workflow",
+        label: "Callie's Create Project Workflow Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
     summary: [
       "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
@@ -386,6 +396,16 @@ export const sessions: Session[] = [
         link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_5.mp4",
         label: "Create Project Details Page with Loader Function",
         type: "video",
+      },
+      {
+        link: "https://chakra-ui.com/docs/components/accordion/usage",
+        label: "Chakra UI Accordion Component",
+        type: "how-to",
+      },
+      {
+        link: "https://orkhan.gitbook.io/typeorm/docs/many-to-one-one-to-many-relations",
+        label: "Typeorm Relations",
+        type: "how-to",
       },
     ],
   },
