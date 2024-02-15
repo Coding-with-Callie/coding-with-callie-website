@@ -352,13 +352,42 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 3",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1929162466.mp4",
     summary: [
-      "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-3 branch on your Github repository.",
     dueDate: "February 22, 2024",
     startDate: "February 15, 2024",
-    videoDate: "February 22, 2024",
+    videoDate: "February 15, 2024",
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_1.mp4",
+        label: "UI: Projects Page",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_2.mp4",
+        label: "UI: Created Project Accordion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_3.mp4",
+        label: "API: Create Project Route and Project Table",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_4.mp4",
+        label: "Wrapped Up Create Project User Story",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_5.mp4",
+        label: "Create Project Details Page with Loader Function",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Feature 4",
