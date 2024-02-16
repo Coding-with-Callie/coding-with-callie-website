@@ -15,9 +15,11 @@ const homeText = [
 ];
 
 const workshopText = [
-  "Coding with Callie currently offers 1 self-paced workshop: Fullstack Todo List.",
-  "Use my wireframe designs and project plans to build a fullstack, usable Todo List application with user authentication, error handling, data validation, logging, and more.",
+  "I'm currently offering 1 self-paced workshop: Fullstack Todo List.",
+  "You can use my wireframe designs and project plans to build a fullstack, usable Todo List application with user authentication, error handling, data validation, logging, and more.",
   "This workshop is broken into 11 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
+  "Want to level up? Try to build the application in a different tech stack! Or add a few bonus features!",
+  "I have plans for many more workshops, so check back in to see new offerings as they are available.",
 ];
 
 // const codeReviewsText = [
@@ -31,9 +33,10 @@ const workshopText = [
 // ];
 
 const zoomSessions = [
-  "We meet on Thursdays from 7PM to 9PM EST to review the trickiest concepts of fullstack web development, review each other's code, and debug our projects.",
-  "From time-to-time, we have guest speakers come to lead a mini-workshop!",
-  "All Coding with Callie members are eligible to join the weekly sessions! You will received a zoom link via email when your sign up.",
+  "We meet on Thursdays from 7PM to 9PM EST.",
+  "The first hour of our meet-up is dedicated to peer code reviews and office hours with me! I'm available to answer any questions about Coding with Callie, the Todo List Workshop, or to help debug your code or explain a complicated topic.",
+  "For the second hour of the meet-up, we will have a guest speaker come to lead a mini-workshop and answer all of your questions about their experience in the software developement industry!",
+  "All Coding with Callie members are eligible to join the weekly meet-ups! You will received a zoom link via email when you sign up.",
 ];
 
 const interviewDay = [
@@ -53,6 +56,7 @@ const Home = () => {
         screenSizeParameter={isLargerThan700}
         alignItemsCenter={true}
         gapSize={10}
+        direction={isLargerThan900 ? "row" : "column"}
       >
         <Image
           src={callie}
@@ -65,32 +69,47 @@ const Home = () => {
           <BodyText textBlocks={homeText} textAlignCenter={false} />
         </Box>
       </Section>
-      <Section
-        screenSizeParameter={isLargerThan900}
-        alignItemsCenter={false}
-        gapSize={10}
-      >
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Fullstack Workshops</BodyHeading>
-          <BodyText textBlocks={workshopText} textAlignCenter={true} />
-          <Link to="/workshop-details">
-            <MyButton>Learn More</MyButton>
-          </Link>
-        </CenteredColumn>
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Zoom Sessions</BodyHeading>
-          <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
-          <Link to="/sign-up">
-            <MyButton>Join the Fun!</MyButton>
-          </Link>
-        </CenteredColumn>
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Interview Day</BodyHeading>
-          <BodyText textBlocks={interviewDay} textAlignCenter={true} />
-          <Link to="https://forms.gle/ExTwAedgTQYeQkem8" target="_blank">
-            <MyButton>Learn More</MyButton>
-          </Link>
-        </CenteredColumn>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <BodyHeading textAlignCenter={false}>Junior Developers 👩🏻‍💻</BodyHeading>
+        <Box display="flex" mt={4} gap={20}>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>
+              Fullstack Workshops
+            </BodyHeading>
+            <BodyText textBlocks={workshopText} textAlignCenter={true} />
+            <Link to="/workshop-details">
+              <MyButton>Learn More</MyButton>
+            </Link>
+          </CenteredColumn>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Meet-ups</BodyHeading>
+            <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
+            <Link to="/sign-up">
+              <MyButton>Join the Fun!</MyButton>
+            </Link>
+          </CenteredColumn>
+        </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <BodyHeading textAlignCenter={false}>
+          Mid-Senior Level Developers 🙋🏻‍♀️
+        </BodyHeading>
+        <Box display="flex" mt={4} gap={20}>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Guest Speaker</BodyHeading>
+            <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
+            <Link to="/sign-up">
+              <MyButton>Join the Fun!</MyButton>
+            </Link>
+          </CenteredColumn>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Interview Day</BodyHeading>
+            <BodyText textBlocks={interviewDay} textAlignCenter={true} />
+            <Link to="https://forms.gle/ExTwAedgTQYeQkem8" target="_blank">
+              <MyButton>Learn More</MyButton>
+            </Link>
+          </CenteredColumn>
+        </Box>
       </Section>
     </Box>
   );

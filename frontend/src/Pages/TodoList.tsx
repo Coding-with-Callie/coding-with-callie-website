@@ -44,7 +44,6 @@ const TodoList = () => {
       <Section
         screenSizeParameter={isLargerThan1090}
         alignItemsCenter={false}
-        justifyContentCenter={true}
         gapSize={20}
       >
         <Box w="50%">

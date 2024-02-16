@@ -6,7 +6,13 @@ type Props = {
 
 const CenteredColumn = ({ children }: Props) => {
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" minH="100%">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      minH="100%"
+      flex={1}
+    >
       {children}
     </Box>
   );
