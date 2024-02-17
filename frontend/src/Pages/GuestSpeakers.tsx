@@ -70,7 +70,7 @@ const GuestSpeakers = () => {
         console.log("SPEAKER", speaker);
         return (
           <Section
-            screenSizeParameter={isLargerThan700}
+            screenSizeParameter={isLargerThan900}
             alignItemsCenter={false}
             gapSize={10}
             direction={isLargerThan900 ? "row" : "column"}
@@ -78,10 +78,15 @@ const GuestSpeakers = () => {
             <Image
               src={michaelduran}
               borderRadius="50%"
-              h={isLargerThan500 ? "250px" : "280px"}
+              h={"250px"}
               boxShadow="lg"
             />
-            <Box w="60%" display="flex" flexDirection="column" gap={6}>
+            <Box
+              w={isLargerThan900 ? "60%" : "100%"}
+              display="flex"
+              flexDirection="column"
+              gap={6}
+            >
               <BodyHeading textAlignCenter={false} removeMargin>
                 {speaker.name}
               </BodyHeading>
