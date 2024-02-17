@@ -327,7 +327,7 @@ const router = createBrowserRouter([
               const user = response.data as any;
 
               if (
-                today < new Date(sessions[parseInt(id) - 1].videoDate) &&
+                today < new Date(sessions[parseInt(id) - 1].startDate) &&
                 user.role === "user"
               ) {
                 showNotification(
@@ -338,21 +338,6 @@ const router = createBrowserRouter([
               } else {
                 return id;
               }
-
-              // const userFeedbackForSession = user.feedback.filter(
-              //   (feedback: Feedback) =>
-              //     feedback.submission.session === parseInt(id)
-              // );
-
-              // if (userFeedbackForSession.length > 1 || user.role === "admin") {
-              //   return id;
-              // } else {
-              //   showNotification(
-              //     `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
-              //     "error"
-              //   );
-              //   return redirect("/resources");
-              // }
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",

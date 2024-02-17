@@ -13,10 +13,7 @@ export type Session = {
   title: string;
   summary: string[];
   deliverable: string;
-  dueDate: string;
-  zoomSession?: string;
   startDate: string;
-  videoDate: string;
   instructionVideo?: string;
   helpfulLinks?: HelpfulLink[];
   solutionText?: string;
@@ -31,9 +28,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your Trello board with all 5 features and corresponding stories and tasks.",
-    dueDate: "January 25, 2024",
-    startDate: "January 18, 2024",
-    videoDate: "January 25, 2024",
+    startDate: "January 25, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4",
     helpfulLinks: [
@@ -92,9 +87,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your Todo List Github repository (please make it publicly accessible).",
-    dueDate: "February 1, 2024",
     startDate: "January 25, 2024",
-    videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/session-2.mp4",
     helpfulLinks: [
@@ -151,9 +144,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your feature-1 pull request on your Github repository.",
-    dueDate: "February 8, 2024",
     startDate: "February 1, 2024",
-    videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
     helpfulLinks: [
@@ -279,9 +270,7 @@ export const sessions: Session[] = [
       },
     ],
     deliverable: "A link to your feature-2 branch on your Github repository.",
-    dueDate: "February 15, 2024",
     startDate: "February 8, 2024",
-    videoDate: "February 8, 2024",
     solutionLinks: [
       {
         link: "https://melodiessim.netlify.app/Reset%20Password%20Flow%20Using%20JWT/",
@@ -368,9 +357,7 @@ export const sessions: Session[] = [
       "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-3 branch on your Github repository.",
-    dueDate: "February 22, 2024",
     startDate: "February 15, 2024",
-    videoDate: "February 15, 2024",
     solutionLinks: [
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_1.mp4",
@@ -415,9 +402,7 @@ export const sessions: Session[] = [
       "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-4 branch on your Github repository.",
-    dueDate: "February 29, 2024",
     startDate: "February 22, 2024",
-    videoDate: "February 29, 2024",
   },
   {
     title: "Feature 5",
@@ -425,41 +410,30 @@ export const sessions: Session[] = [
       "Complete the user stories and developer tasks for feature 5. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-5 branch on your Github repository.",
-    dueDate: "March 7, 2024",
     startDate: "February 29, 2024",
-    videoDate: "March 7, 2024",
   },
   {
     title: "Finish Remaining Tasks",
     summary: [""],
     deliverable: "",
-    dueDate: "March 21, 2024",
-    zoomSession: "N/A - work independently to wrap your features up!",
     startDate: "March 7, 2024",
-    videoDate: "March 21, 2024",
   },
   {
     title: "Logging",
     summary: [""],
     deliverable: "",
-    dueDate: "March 28, 2024",
     startDate: "March 21, 2024",
-    videoDate: "March 28, 2024",
   },
   {
     title: "Manual E2E Testing",
     summary: [""],
     deliverable: "",
-    dueDate: "April 4, 2024",
     startDate: "March 28, 2024",
-    videoDate: "April 4, 2024",
   },
   {
     title: "Automated Spec Testing",
     summary: [""],
     deliverable: "",
-    dueDate: "April 11, 2024",
     startDate: "April 4, 2024",
-    videoDate: "April 11, 2024",
   },
 ];

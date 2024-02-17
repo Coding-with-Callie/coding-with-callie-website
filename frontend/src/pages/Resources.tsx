@@ -5,15 +5,13 @@ import BodyHeading from "../Components/BodyHeading";
 import { sessions } from "../Components/Resources/sessions";
 import SessionTask from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
-import { Data, Feedback } from "./Profile";
+import { Data } from "./Profile";
 
 const Resources = () => {
   const data = useLoaderData() as Data;
   const context: Context = useOutletContext();
 
   const role = context.user.role;
-
-  const feedback: Feedback[] = data.feedback;
 
   return (
     <>
@@ -58,14 +56,8 @@ const Resources = () => {
       </Section>
       <Box>
         {sessions.map((session, index) => {
-          const sessionFeedback = feedback.filter((feedback) => {
-            return feedback.submission.session === index + 1;
-          });
-
           const today = new Date();
           const startDate = new Date(session.startDate);
-          const videoDate = new Date(session.videoDate);
-          const solutionVideoPosted = today > videoDate;
 
           if (today > startDate || role === "admin") {
             return (
@@ -74,8 +66,6 @@ const Resources = () => {
                 index={index}
                 userId={context.user.id}
                 submissions={data.submissions}
-                feedback={sessionFeedback}
-                solutionVideoPosted={solutionVideoPosted}
               />
             );
           } else {

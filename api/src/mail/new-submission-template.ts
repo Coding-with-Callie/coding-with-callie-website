@@ -57,7 +57,7 @@ export const HTML_TEMPLATE = (data) => {
             </div>
             <div class="email-body">
               <p>Thank you for submitting your <a href="${data.url}">deliverable</a>, ${data.user.name}!</p>
-              <p>Please make sure to review two other participant submissions in order to see Callie's video when it is available on ${data.videoDate}.</p>
+              <p>Please make sure to review two other participant submissions in order to complete this assignment.</p>
               <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
