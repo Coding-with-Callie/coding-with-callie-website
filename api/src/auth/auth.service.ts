@@ -8,6 +8,8 @@ import { FeedbackService } from 'src/feedback/feedback.service';
 import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
+import { SpeakersService } from 'src/speakers/speakers.service';
+import { Speaker } from 'src/speakers/entities/speaker.entity';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +20,7 @@ export class AuthService {
     private submissionsService: SubmissionsService,
     private feedbackService: FeedbackService,
     private reviewService: ReviewService,
+    private speakersService: SpeakersService,
     private logger: Logger,
   ) {}
 
@@ -273,5 +276,13 @@ export class AuthService {
     } else {
       return await this.reviewService.submitReview(review);
     }
+  }
+
+  async createSpeaker(speaker: Speaker) {
+    return await this.speakersService.createSpeaker(speaker);
+  }
+
+  async getSpeakers() {
+    return await this.speakersService.findAllSpeakers();
   }
 }

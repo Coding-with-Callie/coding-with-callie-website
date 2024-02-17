@@ -19,6 +19,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
+import { Speaker } from 'src/speakers/entities/speaker.entity';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -254,5 +255,17 @@ export class AuthController {
   @Post('submit-review')
   async submitReview(@Body() review: ReviewDto) {
     return await this.authService.submitReview(review);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post('speaker')
+  async createSpeaker(@Body() speaker: Speaker) {
+    return await this.authService.createSpeaker(speaker);
+  }
+
+  @Get('speakers')
+  async getSpeakers() {
+    return await this.authService.getSpeakers();
   }
 }
