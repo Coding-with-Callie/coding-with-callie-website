@@ -23,16 +23,6 @@ const workshopText = [
   "I have plans for many more workshops, so check back in to see new offerings as they are available.",
 ];
 
-// const codeReviewsText = [
-//   "Sometimes it's hard to know where to refactor or what to work on next when you're coding alone.",
-//   "Having someone else take a look at your code can help you level up! Plus, learning how to do a code review yourself is a necessary a part of the day-to-day work for a software engineer.",
-// ];
-
-// const coffeeChatsText = [
-//   "Networking was an essential part of my breaking into tech. So many software engineers took time out of their day to talk with me about their experience and answer some of my questions.",
-//   "Use coffee chats to learn what it's like on the job, find potentials mentors, and practice talking about code.",
-// ];
-
 const zoomSessions = [
   "We meet on Thursdays from 7PM to 9PM EST.",
   "The first hour of our meet-up is dedicated to peer code reviews and office hours with me! I'm available to answer any questions about Coding with Callie, the Todo List Workshop, or to help debug your code or explain a complicated topic.",

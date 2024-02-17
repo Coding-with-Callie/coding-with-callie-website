@@ -1,19 +1,13 @@
 import { Box, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
-import Paragraph from "../Components/Paragraph";
 
 const todoListDetails = [
-  "We are currently working our way through the Todo List Workshop!",
-  "We meet on Thursdays (7PM - 9PM EST) via Zoom to go over some of the trickier parts of the project together. All Coding with Callie members are welcome to join the Zoom sessions.",
-  "There are also dozens of how-to videos for each portion of the project for those who prefer to go through the course on their own!",
-];
-
-const deploymentDetails = [
-  "I am still in the initial planning stages of the Fullstack Deployment Workshop.",
+  "I currently offer 1 fullstack developer workshop: Todo List!",
+  "The workshop is completely self-paced with 11 assignments and corresponding solution videos.",
+  "If you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day!",
 ];
 
 const Workshops = () => {

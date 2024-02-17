@@ -143,8 +143,8 @@ const router = createBrowserRouter([
         loader: async () => {
           const response = await axios.get(
             `${
-              process.env.REACT_APP_API || "http://localhost:3001/api/auth"
-            }/speakers`
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/auth/speakers`
           );
           return response.data;
         },
