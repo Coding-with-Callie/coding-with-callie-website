@@ -1,10 +1,11 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import CenteredColumn from "../Components/CenteredColumn";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
+import { Context } from "../App";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -39,6 +40,12 @@ const zoomSessions = [
   "All Coding with Callie members are eligible to join the weekly meet-ups! You will received a zoom link via email when you sign up.",
 ];
 
+const guestSpeaker = [
+  "I'm looking for volunteer guest speakers!",
+  "Every Thursday, the Coding with Callie community meets from 7PM to 9PM EST. While the first hour of the meet-up is reserved for office hours and peer code reviews, the 8PM to 9PM time slot is reserved for a guest speaker!",
+  "Guest speakers will have 30 minutes to give a talk about their specialty and then take questions for 30 minutes.",
+];
+
 const interviewDay = [
   "Want to help entry-level developers level up? Consider signing up to conduct practice interviews on Coding with Callie Interview day!",
   "Any Coding with Callie member that completes their Todo List application by April 11, 2023 will be eligible to attend.",
@@ -46,6 +53,10 @@ const interviewDay = [
 ];
 
 const Home = () => {
+  const context: Context = useOutletContext();
+  const loggedIn =
+    context.user === null ? false : context.user.username !== undefined;
+
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
@@ -71,7 +82,12 @@ const Home = () => {
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>Junior Developers 👩🏻‍💻</BodyHeading>
-        <Box display="flex" mt={4} gap={20}>
+        <Box
+          display="flex"
+          mt={4}
+          gap={20}
+          flexDirection={isLargerThan900 ? "row" : "column"}
+        >
           <CenteredColumn>
             <BodyHeading textAlignCenter={true}>
               Fullstack Workshops
@@ -84,29 +100,36 @@ const Home = () => {
           <CenteredColumn>
             <BodyHeading textAlignCenter={true}>Meet-ups</BodyHeading>
             <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
-            <Link to="/sign-up">
-              <MyButton>Join the Fun!</MyButton>
+            <Link to={loggedIn ? "/guest-speakers" : "/sign-up"}>
+              <MyButton>
+                {loggedIn ? "View Guest Speakers" : "Join the Fun!"}
+              </MyButton>
             </Link>
           </CenteredColumn>
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>
-          Mid-Senior Level Developers 🙋🏻‍♀️
+          Mid-Senior Level Industry Professionals 🙋🏻‍♀️
         </BodyHeading>
-        <Box display="flex" mt={4} gap={20}>
+        <Box
+          display="flex"
+          mt={4}
+          gap={20}
+          flexDirection={isLargerThan900 ? "row" : "column"}
+        >
           <CenteredColumn>
             <BodyHeading textAlignCenter={true}>Guest Speaker</BodyHeading>
-            <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
-            <Link to="/sign-up">
-              <MyButton>Join the Fun!</MyButton>
+            <BodyText textBlocks={guestSpeaker} textAlignCenter={true} />
+            <Link to="https://forms.gle/82eVomETpuxZvYvq9" target="_blank">
+              <MyButton>Volunteer!</MyButton>
             </Link>
           </CenteredColumn>
           <CenteredColumn>
             <BodyHeading textAlignCenter={true}>Interview Day</BodyHeading>
             <BodyText textBlocks={interviewDay} textAlignCenter={true} />
             <Link to="https://forms.gle/ExTwAedgTQYeQkem8" target="_blank">
-              <MyButton>Learn More</MyButton>
+              <MyButton>Volunteer!</MyButton>
             </Link>
           </CenteredColumn>
         </Box>

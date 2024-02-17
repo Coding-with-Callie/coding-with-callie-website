@@ -23,6 +23,8 @@ import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
+import GuestSpeaker from "./Pages/GuestSpeakers";
+import GuestSpeakers from "./Pages/GuestSpeakers";
 
 export const showNotification = (
   message: string,
@@ -135,6 +137,10 @@ const router = createBrowserRouter([
       {
         path: "/contact-callie",
         element: <ContactCallie />,
+      },
+      {
+        path: "/guest-speakers",
+        element: <GuestSpeakers />,
       },
       {
         path: "/sign-up",
