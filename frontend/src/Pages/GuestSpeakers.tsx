@@ -1,4 +1,14 @@
-import { Box, useMediaQuery, Image } from "@chakra-ui/react";
+import {
+  Box,
+  useMediaQuery,
+  Image,
+  Text,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+} from "@chakra-ui/react";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
@@ -22,6 +32,14 @@ const GuestSpeakers = () => {
       <Section
         screenSizeParameter={isLargerThan700}
         alignItemsCenter={true}
+        direction={isLargerThan900 ? "row" : "column"}
+      >
+        <BodyHeading textAlignCenter={false}>Michael Duran</BodyHeading>
+      </Section>
+
+      <Section
+        screenSizeParameter={isLargerThan700}
+        alignItemsCenter={true}
         gapSize={10}
         direction={isLargerThan900 ? "row" : "column"}
       >
@@ -31,13 +49,67 @@ const GuestSpeakers = () => {
           h={isLargerThan500 ? "250px" : "280px"}
           boxShadow="lg"
         />
-        <Box>
-          <BodyHeading textAlignCenter={false}>Michael Duran</BodyHeading>
-          <BodyText textBlocks={homeText} textAlignCenter={false} />
+        <Box w="60%">
+          <Box display="flex" w="100%">
+            <Text w="30%">Meet-up Date:</Text>
+            <Text>February 29, 2024</Text>
+          </Box>
+          <Accordion defaultIndex={[0]} allowMultiple borderColor="black">
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    Session Description
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}></AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    About Michael
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                {homeText.map((item) => {
+                  return <Text mb={3}>{item}</Text>;
+                })}
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </Box>
       </Section>
+      <Box>
+        <BodyText textBlocks={homeText} textAlignCenter={false} />
+      </Box>
     </Box>
   );
 };
 
 export default GuestSpeakers;
+
+{
+  /* <Box display="flex" border="1px" justifyContent="space-between">
+<Paragraph bold>Meet-up Date:</Paragraph>
+<Paragraph>February 29, 2024</Paragraph>
+</Box>
+<Box display="flex" border="1px" justifyContent="space-between">
+<Paragraph bold>Topic:</Paragraph>
+<Paragraph>
+  Join me as I break down the cool ways we use HTML, CSS, and
+  JavaScript to make sure everyone can get around our digital world
+  at USAA, no matter what. We're all about knocking down barriers
+  and building up a web that's open for all. I'll share some
+  behind-the-scenes tricks and tales of how these tech tools help us
+  roll out the welcome mat online. Get ready for a casual chat on
+  making tech accessible and why it matters to everyone in our
+  community. See you there!
+</Paragraph>
+</Box> */
+}
