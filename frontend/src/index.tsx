@@ -23,12 +23,11 @@ import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
-import GuestSpeaker from "./Pages/GuestSpeakers";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 
 export const showNotification = (
   message: string,
-  type: "success" | "error"
+  type: "success" | "error" | "info"
 ) => {
   toast[type](message, { toastId: `${type}-${message}` });
 };

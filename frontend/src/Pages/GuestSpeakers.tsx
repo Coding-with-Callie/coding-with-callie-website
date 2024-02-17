@@ -12,9 +12,11 @@ import BodyHeading from "../Components/BodyHeading";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import Paragraph from "../Components/Paragraph";
+import { Context } from "../App";
+import { showNotification } from "..";
 const michaelduran = require("../../src/images/michaelduran.jpeg");
 
 type Speaker = {
@@ -48,11 +50,19 @@ const data: Speaker[] = [
 ];
 
 const GuestSpeakers = () => {
+  const context: Context = useOutletContext();
+  const loggedIn =
+    context.user === null ? false : context.user.username !== undefined;
+
   const [speakers, setSpeakers] = useState(data);
 
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+
+  const showToast = () => {
+    showNotification("Sign-up to receive the Zoom link!", "info");
+  };
 
   return (
     <Box m={"0 auto"}>
@@ -142,12 +152,19 @@ const GuestSpeakers = () => {
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
-              <Link
-                to="https://www.linkedin.com/in/michael-duran-b5b002203/"
-                target="_blank"
-              >
-                <MyButton widthSize="100%">Contact Michael</MyButton>
-              </Link>
+              <Box display="flex" gap={4} w="100%" justifyContent="center">
+                <Link
+                  to="https://www.linkedin.com/in/michael-duran-b5b002203/"
+                  target="_blank"
+                >
+                  <MyButton>Contact Michael</MyButton>
+                </Link>
+                {loggedIn ? null : (
+                  <Link to="/sign-up">
+                    <MyButton onClick={showToast}>Get Zoom Link</MyButton>
+                  </Link>
+                )}
+              </Box>
             </Box>
           </Section>
         );
