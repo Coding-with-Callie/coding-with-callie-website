@@ -100,11 +100,16 @@ const Home = () => {
           <CenteredColumn>
             <BodyHeading textAlignCenter={true}>Meet-ups</BodyHeading>
             <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
-            <Link to={loggedIn ? "/guest-speakers" : "/sign-up"}>
-              <MyButton>
-                {loggedIn ? "View Guest Speakers" : "Join the Fun!"}
-              </MyButton>
-            </Link>
+            <Box display="flex" gap={4}>
+              <Link to="/guest-speakers">
+                <MyButton>View Guest Speakers</MyButton>
+              </Link>
+              {loggedIn ? null : (
+                <Link to="/sign-up">
+                  <MyButton>Join the Fun!</MyButton>
+                </Link>
+              )}
+            </Box>
           </CenteredColumn>
         </Box>
       </Section>
