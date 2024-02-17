@@ -385,6 +385,32 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_6.mp4",
+        label: "UI: Build Project Page Components",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_7.mp4",
+        label: "UI: Create Feature Accordion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_8.mp4",
+        label:
+          "API: Add Feature Table to Database and Necessary Feature Functions",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_9.mp4",
+        label: "Created Feature Modal with List of User Stories",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_10.mp4",
+        label: "UI: Create User Story Accordion",
+        type: "video",
+      },
+      {
         link: "https://chakra-ui.com/docs/components/accordion/usage",
         label: "Chakra UI Accordion Component",
         type: "how-to",
