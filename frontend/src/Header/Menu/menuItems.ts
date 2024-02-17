@@ -19,6 +19,12 @@ export const menuItems = [
     hiddenWhenLoggedOut: false,
   },
   {
+    name: "Guest Speakers",
+    path: "guest-speakers",
+    hiddenWhenLoggedIn: false,
+    hiddenWhenLoggedOut: false,
+  },
+  {
     name: "Reviews",
     path: "reviews",
     hiddenWhenLoggedIn: false,
