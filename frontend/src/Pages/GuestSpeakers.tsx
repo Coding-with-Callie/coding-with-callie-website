@@ -13,11 +13,9 @@ import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
-import { useState } from "react";
 import Paragraph from "../Components/Paragraph";
 import { Context } from "../App";
 import { showNotification } from "..";
-const michaelduran = require("../../src/images/michaelduran.jpeg");
 
 type Speaker = {
   name: string;
@@ -93,7 +91,7 @@ const GuestSpeakers = () => {
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={4}>
-                    <Paragraph>{speaker.date}</Paragraph>
+                    <Paragraph>{`${speaker.date} 8PM EST`}</Paragraph>
                   </AccordionPanel>
                 </AccordionItem>
 
