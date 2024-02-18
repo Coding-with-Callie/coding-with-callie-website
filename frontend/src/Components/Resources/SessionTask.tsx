@@ -104,7 +104,7 @@ const SessionTask = ({ session, index, userId }: Props) => {
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>
-          {`Session ${index + 1}: ${session.title}`}
+          {`Task ${index + 1}: ${session.title}`}
         </BodyHeading>
         {session.instructionVideo ? (
           <Box

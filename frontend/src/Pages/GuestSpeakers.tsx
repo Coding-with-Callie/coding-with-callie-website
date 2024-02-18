@@ -52,7 +52,7 @@ const GuestSpeakers = () => {
             direction={isLargerThan900 ? "row" : "column"}
           >
             <Image
-              src={michaelduran}
+              src={speaker.photoUrl}
               borderRadius="50%"
               h={"250px"}
               boxShadow="lg"
@@ -120,7 +120,7 @@ const GuestSpeakers = () => {
                         color={"#45446A"}
                         fontWeight="900"
                       >
-                        About Michael
+                        About {speaker.name.split(" ")[0]}
                       </Box>
                       <AccordionIcon color={"#45446A"} />
                     </AccordionButton>
