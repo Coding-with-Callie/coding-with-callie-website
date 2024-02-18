@@ -29,7 +29,17 @@ type Speaker = {
 };
 
 const GuestSpeakers = () => {
-  const speakers = useLoaderData() as Speaker[];
+  let speakers = useLoaderData() as Speaker[];
+
+  speakers = speakers.sort((a, b) => {
+    const aDate = new Date(a.date);
+    const bDate = new Date(b.date);
+    if (aDate < bDate) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
 
   const context: Context = useOutletContext();
   const loggedIn =
@@ -134,11 +144,8 @@ const GuestSpeakers = () => {
                 </AccordionItem>
               </Accordion>
               <Box display="flex" gap={4} w="100%" justifyContent="center">
-                <Link
-                  to="https://www.linkedin.com/in/michael-duran-b5b002203/"
-                  target="_blank"
-                >
-                  <MyButton>Contact Michael</MyButton>
+                <Link to={speaker.websiteUrl} target="_blank">
+                  <MyButton>{`Contact ${speaker.name.split(" ")[0]}`}</MyButton>
                 </Link>
                 {loggedIn ? null : (
                   <Link to="/sign-up">
