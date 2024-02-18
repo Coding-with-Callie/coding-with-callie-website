@@ -411,6 +411,28 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_11.mp4",
+        label:
+          "API: Add User Story Table to Database and Necessary User Story Function",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_12.mp4",
+        label: "Bug: Fixed User Story List Update",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_13.mp4",
+        label: "UI: Create Developer Tasks",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_14.mp4",
+        label:
+          "API: Add Developer Task Table to Database and Necessary Task Functions",
+        type: "video",
+      },
+      {
         link: "https://chakra-ui.com/docs/components/accordion/usage",
         label: "Chakra UI Accordion Component",
         type: "how-to",
