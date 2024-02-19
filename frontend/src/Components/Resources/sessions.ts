@@ -433,6 +433,17 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_15.mp4",
+        label: "In-Depth Refactor of How Data Flows Through Components",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_16.mp4",
+        label:
+          "API: Used Postman to Test Create Routes and Edited Functions so Unauthorized Errors are Thrown Correctly",
+        type: "video",
+      },
+      {
         link: "https://chakra-ui.com/docs/components/accordion/usage",
         label: "Chakra UI Accordion Component",
         type: "how-to",
