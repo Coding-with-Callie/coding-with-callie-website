@@ -444,6 +444,12 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_17.mp4",
+        label:
+          "API: Added Logic To Calculate Project, Feature, and User Story Statuses",
+        type: "video",
+      },
+      {
         link: "https://chakra-ui.com/docs/components/accordion/usage",
         label: "Chakra UI Accordion Component",
         type: "how-to",
