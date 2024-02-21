@@ -464,10 +464,22 @@ export const sessions: Session[] = [
   {
     title: "Feature 4",
     summary: [
-      "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-4 branch on your Github repository.",
-    startDate: "February 22, 2024",
+    startDate: "February 21, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1039934819.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/IasXbjoo/edit-project-workflow",
+        label: "Callie's Edit Project Workflow Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
     solutionLinks: [
       {
         link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_1.mp4",
