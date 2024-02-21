@@ -468,6 +468,45 @@ export const sessions: Session[] = [
     ],
     deliverable: "A link to your feature-4 branch on your Github repository.",
     startDate: "February 22, 2024",
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_1.mp4",
+        label: "Started Work on Update Task Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_2.mp4",
+        label: "API: Finished Backend Logic to Update a Task",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_3.mp4",
+        label: "UI: Added Components Necessary to Edit Task Name",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_4.mp4",
+        label:
+          "Bug: Fixed Bug Where Modal Would Close When Task Status Changed Feature Status",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_5.mp4",
+        label: "UI: Added Components Necessary to Edit User Story Name",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_6.mp4",
+        label:
+          "Bug/API: Refactored User Story Name UI and Added Backend Logic to Update User Story",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_7.mp4",
+        label: "UI: Added Components Necessary to Edit User Story Description",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Feature 5",
