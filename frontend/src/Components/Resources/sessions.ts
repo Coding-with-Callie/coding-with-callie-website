@@ -506,6 +506,22 @@ export const sessions: Session[] = [
         label: "UI: Added Components Necessary to Edit User Story Description",
         type: "video",
       },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_8.mp4",
+        label:
+          "UI: Added Components and Logic to Edit Feature Name and Description",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_9.mp4",
+        label: "API: Added Backend Logic to Update Feature",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_10.mp4",
+        label: "Added All Logic and Components to Update Project",
+        type: "video",
+      },
     ],
   },
   {
