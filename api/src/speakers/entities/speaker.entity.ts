@@ -11,6 +11,9 @@ export class Speaker {
   @Column()
   date: string;
 
+  @Column({ default: '8PM EST' })
+  time: string;
+
   @Column('text', { array: true })
   sessionText: string[];
 
@@ -22,4 +25,7 @@ export class Speaker {
 
   @Column()
   photoUrl: string;
+
+  @Column({ nullable: true })
+  sessionRecordingUrl: string;
 }
