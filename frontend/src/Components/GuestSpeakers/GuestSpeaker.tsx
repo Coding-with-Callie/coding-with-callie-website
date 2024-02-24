@@ -129,14 +129,7 @@ const GuestSpeaker = ({ speaker }: Props) => {
           </Link>
           {loggedIn ? (
             speaker.sessionRecordingUrl ? (
-              <MyButton
-                onClick={() => {
-                  console.log("video", speaker.sessionRecordingUrl);
-                  onOpen();
-                }}
-              >
-                Watch Recording
-              </MyButton>
+              <MyButton onClick={onOpen}>Watch Recording</MyButton>
             ) : null
           ) : (
             <Link to="/sign-up">
