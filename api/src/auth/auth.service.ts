@@ -10,6 +10,10 @@ import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const stripe = require('stripe')(
+  'sk_test_51OnUh9GPYyWkM7JWnPIpLMhkYb21iJSB6ZHLm82ua0YTvTa7nj9AleXdx2KBb5Gn5tFRjzE4DxEgbEdeYJObDJDj00CU7eZaJQ',
+);
 
 @Injectable()
 export class AuthService {
@@ -284,5 +288,32 @@ export class AuthService {
 
   async getSpeakers() {
     return await this.speakersService.findAllSpeakers();
+  }
+
+  async createCheckoutSession() {
+    const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
+      line_items: [
+        {
+          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+          price: 'price_1OnUl6GPYyWkM7JWkro36cjn',
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`,
+      automatic_tax: { enabled: true },
+    });
+
+    return { clientSecret: session.client_secret };
+  }
+
+  async getSessionStatus(session_id) {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    return {
+      status: session.status,
+      customer_email: await stripe.checkout.sessions.retrieve(session_id),
+    };
   }
 }

@@ -24,6 +24,8 @@ import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
+import CheckoutForm from "./Pages/CheckoutForm";
+import Return from "./Pages/Return";
 
 export const showNotification = (
   message: string,
@@ -72,6 +74,14 @@ const router = createBrowserRouter([
       {
         path: "/workshops/todo-list",
         element: <TodoList />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutForm />,
+      },
+      {
+        path: "/return",
+        element: <Return />,
       },
       {
         path: "/reviews",

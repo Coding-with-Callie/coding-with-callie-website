@@ -268,4 +268,14 @@ export class AuthController {
   async getSpeakers() {
     return await this.authService.getSpeakers();
   }
+
+  @Post('create-checkout-session')
+  async createCheckoutSession() {
+    return await this.authService.createCheckoutSession();
+  }
+
+  @Get('session-status')
+  async getSessionStatus(@Request() req) {
+    return await this.authService.getSessionStatus(req.query.session_id);
+  }
 }
