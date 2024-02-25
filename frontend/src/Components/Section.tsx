@@ -5,17 +5,17 @@ type Props = {
   screenSizeParameter: boolean;
   alignItemsCenter: boolean;
   gapSize?: number;
-  justifyContentCenter?: boolean;
   maxWidthSize?: string;
+  direction?: "row" | "column";
 };
 
 const Section = ({
   children,
   screenSizeParameter,
   alignItemsCenter,
-  justifyContentCenter,
   gapSize,
   maxWidthSize,
+  direction,
 }: Props) => {
   return (
     <Box
@@ -28,7 +28,7 @@ const Section = ({
         alignItemsCenter ? "center" : screenSizeParameter ? "left" : "center"
       }
       justifyContent="center"
-      flexDirection={screenSizeParameter ? "row" : "column"}
+      flexDirection={direction || "column"}
       maxW={maxWidthSize || "100%"}
     >
       {children}

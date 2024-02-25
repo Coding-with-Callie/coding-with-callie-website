@@ -23,10 +23,11 @@ import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
+import GuestSpeakers from "./Pages/GuestSpeakers";
 
 export const showNotification = (
   message: string,
-  type: "success" | "error"
+  type: "success" | "error" | "info"
 ) => {
   toast[type](message, { toastId: `${type}-${message}` });
 };
@@ -135,6 +136,18 @@ const router = createBrowserRouter([
       {
         path: "/contact-callie",
         element: <ContactCallie />,
+      },
+      {
+        path: "/guest-speakers",
+        element: <GuestSpeakers />,
+        loader: async () => {
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/auth/speakers`
+          );
+          return response.data;
+        },
       },
       {
         path: "/sign-up",
@@ -314,7 +327,7 @@ const router = createBrowserRouter([
               const user = response.data as any;
 
               if (
-                today < new Date(sessions[parseInt(id) - 1].videoDate) &&
+                today < new Date(sessions[parseInt(id) - 1].startDate) &&
                 user.role === "user"
               ) {
                 showNotification(
@@ -325,21 +338,6 @@ const router = createBrowserRouter([
               } else {
                 return id;
               }
-
-              // const userFeedbackForSession = user.feedback.filter(
-              //   (feedback: Feedback) =>
-              //     feedback.submission.session === parseInt(id)
-              // );
-
-              // if (userFeedbackForSession.length > 1 || user.role === "admin") {
-              //   return id;
-              // } else {
-              //   showNotification(
-              //     `To view Callie's submission, you must submit your session ${id} deliverable and review at least 2 other participant submissions!`,
-              //     "error"
-              //   );
-              //   return redirect("/resources");
-              // }
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",

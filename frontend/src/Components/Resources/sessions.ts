@@ -13,10 +13,7 @@ export type Session = {
   title: string;
   summary: string[];
   deliverable: string;
-  dueDate: string;
-  zoomSession?: string;
   startDate: string;
-  videoDate: string;
   instructionVideo?: string;
   helpfulLinks?: HelpfulLink[];
   solutionText?: string;
@@ -31,9 +28,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your Trello board with all 5 features and corresponding stories and tasks.",
-    dueDate: "January 25, 2024",
-    startDate: "January 18, 2024",
-    videoDate: "January 25, 2024",
+    startDate: "January 25, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/planning-a-project-assignment.mp4",
     helpfulLinks: [
@@ -92,9 +87,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your Todo List Github repository (please make it publicly accessible).",
-    dueDate: "February 1, 2024",
     startDate: "January 25, 2024",
-    videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/session-2.mp4",
     helpfulLinks: [
@@ -151,9 +144,7 @@ export const sessions: Session[] = [
     ],
     deliverable:
       "A link to your feature-1 pull request on your Github repository.",
-    dueDate: "February 8, 2024",
     startDate: "February 1, 2024",
-    videoDate: "February 1, 2024",
     instructionVideo:
       "https://coding-with-callie.s3.amazonaws.com/video1451208720.mp4",
     helpfulLinks: [
@@ -279,9 +270,7 @@ export const sessions: Session[] = [
       },
     ],
     deliverable: "A link to your feature-2 branch on your Github repository.",
-    dueDate: "February 15, 2024",
     startDate: "February 8, 2024",
-    videoDate: "February 8, 2024",
     solutionLinks: [
       {
         link: "https://melodiessim.netlify.app/Reset%20Password%20Flow%20Using%20JWT/",
@@ -352,23 +341,200 @@ export const sessions: Session[] = [
   },
   {
     title: "Feature 3",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1929162466.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/fip2iHxH/create-project-workflow",
+        label: "Callie's Create Project Workflow Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
     summary: [
-      "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 3. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-3 branch on your Github repository.",
-    dueDate: "February 22, 2024",
     startDate: "February 15, 2024",
-    videoDate: "February 22, 2024",
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_1.mp4",
+        label: "UI: Projects Page",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_2.mp4",
+        label: "UI: Created Project Accordion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_3.mp4",
+        label: "API: Create Project Route and Project Table",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_4.mp4",
+        label: "Wrapped Up Create Project User Story",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_5.mp4",
+        label: "Create Project Details Page with Loader Function",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_6.mp4",
+        label: "UI: Build Project Page Components",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_7.mp4",
+        label: "UI: Create Feature Accordion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_8.mp4",
+        label:
+          "API: Add Feature Table to Database and Necessary Feature Functions",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_9.mp4",
+        label: "Created Feature Modal with List of User Stories",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_10.mp4",
+        label: "UI: Create User Story Accordion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_11.mp4",
+        label:
+          "API: Add User Story Table to Database and Necessary User Story Function",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_12.mp4",
+        label: "Bug: Fixed User Story List Update",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_13.mp4",
+        label: "UI: Create Developer Tasks",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_14.mp4",
+        label:
+          "API: Add Developer Task Table to Database and Necessary Task Functions",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_15.mp4",
+        label: "In-Depth Refactor of How Data Flows Through Components",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_16.mp4",
+        label:
+          "API: Used Postman to Test Create Routes and Edited Functions so Unauthorized Errors are Thrown Correctly",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_3_part_17.mp4",
+        label:
+          "API: Added Logic To Calculate Project, Feature, and User Story Statuses",
+        type: "video",
+      },
+      {
+        link: "https://chakra-ui.com/docs/components/accordion/usage",
+        label: "Chakra UI Accordion Component",
+        type: "how-to",
+      },
+      {
+        link: "https://orkhan.gitbook.io/typeorm/docs/many-to-one-one-to-many-relations",
+        label: "Typeorm Relations",
+        type: "how-to",
+      },
+    ],
   },
   {
     title: "Feature 4",
     summary: [
-      "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 4. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-4 branch on your Github repository.",
-    dueDate: "February 29, 2024",
-    startDate: "February 22, 2024",
-    videoDate: "February 29, 2024",
+    startDate: "February 21, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1039934819.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/IasXbjoo/edit-project-workflow",
+        label: "Callie's Edit Project Workflow Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_1.mp4",
+        label: "Started Work on Update Task Functionality",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_2.mp4",
+        label: "API: Finished Backend Logic to Update a Task",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_3.mp4",
+        label: "UI: Added Components Necessary to Edit Task Name",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_4.mp4",
+        label:
+          "Bug: Fixed Bug Where Modal Would Close When Task Status Changed Feature Status",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_5.mp4",
+        label: "UI: Added Components Necessary to Edit User Story Name",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_6.mp4",
+        label:
+          "Bug/API: Refactored User Story Name UI and Added Backend Logic to Update User Story",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_7.mp4",
+        label: "UI: Added Components Necessary to Edit User Story Description",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_8.mp4",
+        label:
+          "UI: Added Components and Logic to Edit Feature Name and Description",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_9.mp4",
+        label: "API: Added Backend Logic to Update Feature",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_4_part_10.mp4",
+        label: "Added All Logic and Components to Update Project",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Feature 5",
@@ -376,41 +542,30 @@ export const sessions: Session[] = [
       "Complete the user stories and developer tasks for feature 5. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-5 branch on your Github repository.",
-    dueDate: "March 7, 2024",
     startDate: "February 29, 2024",
-    videoDate: "March 7, 2024",
   },
   {
     title: "Finish Remaining Tasks",
     summary: [""],
     deliverable: "",
-    dueDate: "March 21, 2024",
-    zoomSession: "N/A - work independently to wrap your features up!",
     startDate: "March 7, 2024",
-    videoDate: "March 21, 2024",
   },
   {
     title: "Logging",
     summary: [""],
     deliverable: "",
-    dueDate: "March 28, 2024",
     startDate: "March 21, 2024",
-    videoDate: "March 28, 2024",
   },
   {
     title: "Manual E2E Testing",
     summary: [""],
     deliverable: "",
-    dueDate: "April 4, 2024",
     startDate: "March 28, 2024",
-    videoDate: "April 4, 2024",
   },
   {
     title: "Automated Spec Testing",
     summary: [""],
     deliverable: "",
-    dueDate: "April 11, 2024",
     startDate: "April 4, 2024",
-    videoDate: "April 11, 2024",
   },
 ];

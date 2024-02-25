@@ -1,10 +1,11 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import CenteredColumn from "../Components/CenteredColumn";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
+import { Context } from "../App";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -15,21 +16,37 @@ const homeText = [
 ];
 
 const workshopText = [
-  "Coding with Callie's first workshop starts Thursday, January 18.",
-  "Over the course of 10 weeks, we'll build a Todo List application. This is a guided workshop meant for those who want to learn how to build usable applications.",
+  "I'm currently offering 1 self-paced workshop: Fullstack Todo List.",
+  "You can use my wireframe designs and project plans to build a fullstack, usable Todo List application with user authentication, error handling, data validation, logging, and more.",
+  "This workshop is broken into 11 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
+  "Want to level up? Try to build the application in a different tech stack! Or add a few bonus features!",
+  "I have plans for many more workshops, so check back in to see new offerings as they are available.",
 ];
 
-const codeReviewsText = [
-  "Sometimes it's hard to know where to refactor or what to work on next when you're coding alone.",
-  "Having someone else take a look at your code can help you level up! Plus, learning how to do a code review yourself is a necessary a part of the day-to-day work for a software engineer.",
+const zoomSessions = [
+  "We meet on Thursdays from 7PM to 9PM EST.",
+  "The first hour of our meet-up is dedicated to peer code reviews and office hours with me! I'm available to answer any questions about Coding with Callie, the Todo List Workshop, or to help debug your code or explain a complicated topic.",
+  "For the second hour of the meet-up, we will have a guest speaker come to lead a mini-workshop and answer all of your questions about their experience in the software developement industry!",
+  "All Coding with Callie members are eligible to join the weekly meet-ups! You will received a zoom link via email when you sign up.",
 ];
 
-const coffeeChatsText = [
-  "Networking was an essential part of my breaking into tech. So many software engineers took time out of their day to talk with me about their experience and answer some of my questions.",
-  "Use coffee chats to learn what it's like on the job, find potentials mentors, and practice talking about code.",
+const guestSpeaker = [
+  "I'm looking for volunteer guest speakers!",
+  "Every Thursday, the Coding with Callie community meets from 7PM to 9PM EST. While the first hour of the meet-up is reserved for office hours and peer code reviews, the 8PM to 9PM time slot is reserved for a guest speaker!",
+  "Guest speakers will have 30 minutes to give a talk about their specialty and then take questions for 30 minutes.",
+];
+
+const interviewDay = [
+  "Want to help entry-level developers level up? Consider signing up to conduct practice interviews on Coding with Callie Interview day!",
+  "Any Coding with Callie member that completes their Todo List application by April 11, 2023 will be eligible to attend.",
+  "I am looking for each developer to have the opportunity to practice three types of interviews: phone screen, soft skills, and technical/whiteboard.",
 ];
 
 const Home = () => {
+  const context: Context = useOutletContext();
+  const loggedIn =
+    context.user === null ? false : context.user.username !== undefined;
+
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
@@ -40,6 +57,7 @@ const Home = () => {
         screenSizeParameter={isLargerThan700}
         alignItemsCenter={true}
         gapSize={10}
+        direction={isLargerThan900 ? "row" : "column"}
       >
         <Image
           src={callie}
@@ -52,28 +70,64 @@ const Home = () => {
           <BodyText textBlocks={homeText} textAlignCenter={false} />
         </Box>
       </Section>
-      <Section
-        screenSizeParameter={isLargerThan900}
-        alignItemsCenter={false}
-        gapSize={10}
-      >
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
-          <BodyText textBlocks={workshopText} textAlignCenter={true} />
-          <Link to="/workshop-details">
-            <MyButton>Learn More</MyButton>
-          </Link>
-        </CenteredColumn>
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Code Reviews</BodyHeading>
-          <BodyText textBlocks={codeReviewsText} textAlignCenter={true} />
-          <MyButton>Learn More</MyButton>
-        </CenteredColumn>
-        <CenteredColumn>
-          <BodyHeading textAlignCenter={true}>Coffee Chats</BodyHeading>
-          <BodyText textBlocks={coffeeChatsText} textAlignCenter={true} />
-          <MyButton>Learn More</MyButton>
-        </CenteredColumn>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <BodyHeading textAlignCenter={false}>Junior Developers 👩🏻‍💻</BodyHeading>
+        <Box
+          display="flex"
+          mt={4}
+          gap={20}
+          flexDirection={isLargerThan900 ? "row" : "column"}
+        >
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>
+              Fullstack Workshops
+            </BodyHeading>
+            <BodyText textBlocks={workshopText} textAlignCenter={true} />
+            <Link to="/workshop-details">
+              <MyButton>Learn More</MyButton>
+            </Link>
+          </CenteredColumn>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Meet-ups</BodyHeading>
+            <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
+            <Box display="flex" gap={4}>
+              <Link to="/guest-speakers">
+                <MyButton>View Guest Speakers</MyButton>
+              </Link>
+              {loggedIn ? null : (
+                <Link to="/sign-up">
+                  <MyButton>Join the Fun!</MyButton>
+                </Link>
+              )}
+            </Box>
+          </CenteredColumn>
+        </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <BodyHeading textAlignCenter={false}>
+          Mid-Senior Level Industry Professionals 🙋🏻‍♀️
+        </BodyHeading>
+        <Box
+          display="flex"
+          mt={4}
+          gap={20}
+          flexDirection={isLargerThan900 ? "row" : "column"}
+        >
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Guest Speaker</BodyHeading>
+            <BodyText textBlocks={guestSpeaker} textAlignCenter={true} />
+            <Link to="https://forms.gle/82eVomETpuxZvYvq9" target="_blank">
+              <MyButton>Volunteer!</MyButton>
+            </Link>
+          </CenteredColumn>
+          <CenteredColumn>
+            <BodyHeading textAlignCenter={true}>Interview Day</BodyHeading>
+            <BodyText textBlocks={interviewDay} textAlignCenter={true} />
+            <Link to="https://forms.gle/ExTwAedgTQYeQkem8" target="_blank">
+              <MyButton>Volunteer!</MyButton>
+            </Link>
+          </CenteredColumn>
+        </Box>
       </Section>
     </Box>
   );

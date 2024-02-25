@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { showNotification } from "../..";
 import { Context } from "../../App";
-import { Feedback } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
 import Section from "../Section";
@@ -25,25 +24,15 @@ type Props = {
   index: number;
   userId: number;
   submissions: any;
-  feedback: Feedback[];
-  solutionVideoPosted: boolean;
 };
 
-const SessionTask = ({
-  session,
-  index,
-  userId,
-  feedback,
-  solutionVideoPosted,
-}: Props) => {
+const SessionTask = ({ session, index, userId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
   const sessionSubmissions = context.user.submissions.filter(
     (submission: Submission) => submission.session === index + 1
   );
-
-  // const feedbackCount = feedback.length;
 
   const navigate = useNavigate();
   const [url, setUrl] = useState("");
@@ -56,7 +45,7 @@ const SessionTask = ({
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/submit-deliverable`,
-        { session: index + 1, url, userId, videoDate: session.videoDate },
+        { session: index + 1, url, userId, videoDate: session.startDate },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -115,7 +104,7 @@ const SessionTask = ({
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>
-          {`Session ${index + 1}: ${session.title}`}
+          {`Task ${index + 1}: ${session.title}`}
         </BodyHeading>
         {session.instructionVideo ? (
           <Box
@@ -156,12 +145,6 @@ const SessionTask = ({
               Deliverable:
             </Text>
             <Text layerStyle="input">{session.deliverable}</Text>
-          </Box>
-          <Box display="flex">
-            <Text layerStyle="input" fontWeight="bold" minW="145px">
-              Due Date:
-            </Text>
-            <Text layerStyle="input">{session.dueDate}</Text>
           </Box>
           {session.helpfulLinks ? (
             <Box display="flex">
@@ -234,16 +217,7 @@ const SessionTask = ({
           <Box>
             <MyButton
               widthSize="100%"
-              onClick={
-                solutionVideoPosted
-                  ? () => navigate(`/submissions/callie/${index + 1}`)
-                  : () => {
-                      showNotification(
-                        `Callie's solution video will be posted on ${session.videoDate}`,
-                        "error"
-                      );
-                    }
-              }
+              onClick={() => navigate(`/submissions/callie/${index + 1}`)}
             >
               View Callie's Solution
             </MyButton>

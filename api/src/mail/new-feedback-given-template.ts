@@ -57,7 +57,7 @@ export const HTML_TEMPLATE_1 = (data) => {
             </div>
             <div class="email-body">
               <p>Thank you for reviewing ${data.feedbackReceiver}'s <a href="${data.url}">deliverable</a>, ${data.feedbackProvider.name}!</p>
-              <p>Please make sure to review at least 1 other participant submission in order to see Callie's video when it is posted.</p>
+              <p>Please make sure to review at least 1 other participant submission to "complete" this assignment.</p>
               <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
@@ -141,7 +141,7 @@ export const HTML_TEMPLATE_2 = (data) => {
             </div>
             <div class="email-body">
               <p>Thank you for reviewing ${data.feedbackReceiver}'s <a href="${data.url}">deliverable</a>, ${data.feedbackProvider.name}!</p>
-              <p>You have unlocked access to see Callie's video when it is posted.</p>
+              <p>You have completed this sessions assignment.</p>
               <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
