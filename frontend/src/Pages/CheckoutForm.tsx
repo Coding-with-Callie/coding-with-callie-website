@@ -5,6 +5,7 @@ import {
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { Box } from "@chakra-ui/react";
 
 // This is your test public API key.
 const stripePromise = loadStripe(
@@ -23,16 +24,18 @@ const CheckoutForm = () => {
   }, []);
 
   return (
-    <div id="checkout">
-      {clientSecret && (
-        <EmbeddedCheckoutProvider
-          stripe={stripePromise}
-          options={{ clientSecret }}
-        >
-          <EmbeddedCheckout />
-        </EmbeddedCheckoutProvider>
-      )}
-    </div>
+    <Box m={10}>
+      <div id="checkout">
+        {clientSecret && (
+          <EmbeddedCheckoutProvider
+            stripe={stripePromise}
+            options={{ clientSecret }}
+          >
+            <EmbeddedCheckout />
+          </EmbeddedCheckoutProvider>
+        )}
+      </div>
+    </Box>
   );
 };
 

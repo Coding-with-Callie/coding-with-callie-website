@@ -18,11 +18,12 @@ const Return = () => {
       .then((response) => {
         console.log("RESPONSE", response.data);
         setStatus(response.data.status);
-        setCustomerEmail(response.data.customer_email);
+        setCustomerEmail(response.data.customer_email.customer_details.email);
       });
   }, []);
 
   console.log("STATUS", status);
+  console.log("customer email", customerEmail);
 
   if (status === "open") {
     return <Navigate to="/checkout" />;

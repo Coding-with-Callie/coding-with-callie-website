@@ -296,13 +296,14 @@ export class AuthService {
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: 'price_1OnUl6GPYyWkM7JWkro36cjn',
+          price: 'price_1OnidbGPYyWkM7JWJTd9qrR3',
           quantity: 1,
         },
       ],
       mode: 'payment',
       return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`,
       automatic_tax: { enabled: true },
+      allow_promotion_codes: true,
     });
 
     return { clientSecret: session.client_secret };
