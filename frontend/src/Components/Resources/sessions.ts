@@ -539,10 +539,64 @@ export const sessions: Session[] = [
   {
     title: "Feature 5",
     summary: [
-      "Complete the user stories and developer tasks for feature 5. Make sure to update your README with any instructions necessary for reviewers to pull and run your branch. Include your trello board link in your README.",
+      "Complete the user stories and developer tasks for feature 5. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
     ],
     deliverable: "A link to your feature-5 branch on your Github repository.",
-    startDate: "February 29, 2024",
+    startDate: "February 28, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/video1857553594.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/c62G8Szs/delete-project-workflow",
+        label: "Callie's Delete Project Workflow Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_1.mp4",
+        label: "Bug: Fixed Create Task User Story Status Update",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_2.mp4",
+        label: "Completed Task Deletion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_3.mp4",
+        label: "Bug: Fixed Task List on Task Deletion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_4.mp4",
+        label: "UI/API: Started User Story Deletion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_5.mp4",
+        label: "UI: Added Agnostic Delete Confirmation Modal",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_6.mp4",
+        label: "UI/Bug: Fixed Accordion Automatically Opening on Delete Click",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_7.mp4",
+        label: "UI/API: Feature Deletion",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/feature_5_part_8.mp4",
+        label: "UI/API: Project Deletion",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Finish Remaining Tasks",
