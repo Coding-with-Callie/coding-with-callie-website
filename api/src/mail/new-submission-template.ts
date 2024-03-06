@@ -50,7 +50,7 @@ export const HTML_TEMPLATE = (data) => {
             font-size: 16px;
             text-align: center;
             display: block;
-            margin: 10px;
+            margin-top: 20px;
           }
           .button:hover {
             background-color: #E1E7CD;
@@ -61,6 +61,10 @@ export const HTML_TEMPLATE = (data) => {
           }
           p {
             font-size: 20px
+          }
+          h2 {
+            color: #45446A;
+            font-size: 24px;
           }
         </style>
       </head>
@@ -73,12 +77,28 @@ export const HTML_TEMPLATE = (data) => {
             </div>
             <div class="email-body">
               <p>Thank you for submitting your <a href="${data.url}">deliverable</a>, ${data.user.name}!</p>
-              <p>Next steps:</p>
-              <div class="button-group">
-                <a href="https://coding-with-callie.com/submissions/callie/${data.session}" class="button">Watch Callie's Solution!</a>
-                <a href="https://coding-with-callie.com/reviews" class="button">Leave Coding with Callie a Review!</a>
-                <a href="https://coding-with-callie.com/submissions/${data.session}" class="button">Review Other Participant Submissions!</a>
+              <div class="email-body">
+                <h2>Next steps:</h2>
+                <ol>
+                  <li>
+                    <p>Make sure to post your progress to <a href="https://www.linkedin.com">LinkedIn</a>!</p>
+                    <p>Building in public is an essential piece of the breaking into tech puzzle. Tag me (<a href="https://www.linkedin.com/in/cstoscup/">Callie Stoscup</a>) in the post so I can take a look too! I'll be sure to comment 🥳</p>
+                  </li>
+                  <li>
+                    <p>Review other participants' <a href="https://coding-with-callie.com/submissions/${data.session}">submissions</a>!</p>
+                    <p>You learn so much when reviewing other peoples' code! Helping others write better code helps you write better code too 🙋🏻‍♀️</p>
+                  </li>
+                  <li>
+                    <p>Watch Callie's solution <a href="https://coding-with-callie.com/submissions/callie/${data.session}">videos</a>!</p>
+                    <p>If you're unsure about any of your code, feel free to watch how I tackled it 💃🏼</p>
+                  </li>
+                </ol>
               </div>
+              <div class="email-body">
+                <h2>Enjoying Coding with Callie?!</h2>
+                <p>Consider leaving Coding with Callie a review! It helps the community grow and motivates me to keep recording all these videos
+                <a href="https://coding-with-callie.com/reviews" class="button">Leave Coding with Callie a Review!</a>
+                </div>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>
