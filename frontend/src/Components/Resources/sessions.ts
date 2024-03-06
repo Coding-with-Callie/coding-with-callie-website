@@ -599,7 +599,7 @@ export const sessions: Session[] = [
     ],
   },
   {
-    title: "Finish Remaining Tasks",
+    title: "Styling and Responsive Design",
     summary: [""],
     deliverable: "",
     startDate: "March 7, 2024",
