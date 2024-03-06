@@ -40,6 +40,22 @@ export const HTML_TEMPLATE = (data) => {
             justify-content: space-evenly;
             width: 100%;
           }
+          .button {
+            border: 1px solid #45446A;
+            border-radius: 4px;
+            padding: 15px;
+            background-color: #45446A;
+            color: #E1E7CD !important;
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            margin: 10px;
+          }
+          .button:hover {
+            background-color: #E1E7CD;
+            color: #45446A !important;
+          }
           li {
             font-size: 20px
           }
@@ -57,8 +73,12 @@ export const HTML_TEMPLATE = (data) => {
             </div>
             <div class="email-body">
               <p>Thank you for submitting your <a href="${data.url}">deliverable</a>, ${data.user.name}!</p>
-              <p>Please make sure to review two other participant submissions in order to complete this assignment.</p>
-              <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
+              <p>Next steps:</p>
+              <div class="button-group">
+                <a href="https://coding-with-callie.com/submissions/callie/${data.session}" class="button">Watch Callie's Solution!</a>
+                <a href="https://coding-with-callie.com/reviews" class="button">Leave Coding with Callie a Review!</a>
+                <a href="https://coding-with-callie.com/submissions/${data.session}" class="button">Review Other Participant Submissions!</a>
+              </div>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>
