@@ -29,6 +29,14 @@ const Reviews = () => {
 
   return (
     <Box>
+      {(context.user && context.user?.submissions?.length > 0) ||
+      (context.user && context.user.role === "admin") ? (
+        <ReviewForm
+          reviews={reviews}
+          setReviews={setReviews}
+          isLargerThan900={isLargerThan900}
+        />
+      ) : null}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
         {reviews.length > 0 ? (
@@ -113,14 +121,6 @@ const Reviews = () => {
           </Paragraph>
         )}{" "}
       </Section>
-      {(context.user && context.user?.submissions?.length > 0) ||
-      (context.user && context.user.role === "admin") ? (
-        <ReviewForm
-          reviews={reviews}
-          setReviews={setReviews}
-          isLargerThan900={isLargerThan900}
-        />
-      ) : null}
     </Box>
   );
 };
