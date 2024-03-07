@@ -20,7 +20,7 @@ const Resources = () => {
         <Text color="#45446A" mb={4}>
           I will be building my Todo List application throughout the first
           quarter of 2024 and posting solution videos each week as I build out
-          my features. There are 11 assignments and corresponding solution pages
+          my features. There are 10 assignments and corresponding solution pages
           with hours worth of step-by-step videos.
         </Text>
         <Text color="#45446A" mb={4}>
@@ -35,8 +35,7 @@ const Resources = () => {
           <ListItem>Feature 3</ListItem>
           <ListItem>Feature 4</ListItem>
           <ListItem>Feature 5</ListItem>
-          <ListItem>Finish Remaining Tasks</ListItem>
-          <ListItem>Logging</ListItem>
+          <ListItem>Styling and Responsive Design</ListItem>
           <ListItem>Manual E2E Testing</ListItem>
           <ListItem>Automated Spec Testing</ListItem>
         </OrderedList>
