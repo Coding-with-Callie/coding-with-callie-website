@@ -600,15 +600,112 @@ export const sessions: Session[] = [
   },
   {
     title: "Styling and Responsive Design",
-    summary: [""],
-    deliverable: "",
-    startDate: "March 7, 2024",
-  },
-  {
-    title: "Logging",
-    summary: [""],
-    deliverable: "",
-    startDate: "March 21, 2024",
+    summary: [
+      "Now that your project works as intended, it's time to make it look good on all devices. You can match my styling, but that's not super fun. Go ahead and be creative and make your project look exactly how you want it too! Use your browser's DevTools to test how each page and component looks on different screen sizes. Make sure to update your README with any instructions necessary for reviewers to clone your project and get it running on their computer. Include your trello board link in your README.",
+    ],
+    deliverable: "A link to your style branch on your Github repository.",
+    startDate: "March 6, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/style_and_responsive_task.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/qjc8wP5R/todo-list-main",
+        label: "Callie's Todo List Main Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_1.mp4",
+        label: "UI: Added Body Background Color and Edited Sloth Logo",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_1.mp4",
+        label: "UI: Added Body Background Color and Edited Sloth Logo",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_2.mp4",
+        label: "UI: Added Fonts and Font Colors for Heading and Text",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_3.mp4",
+        label: "UI: Styled Projects Page",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_4.mp4",
+        label:
+          "UI: Styled Project Status Columns and Buttons on Individual Project Page",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_5.mp4",
+        label:
+          "UI: Continued Updating Buttons and Started Styling Feature Modal",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_6.mp4",
+        label: "UI: Styled Log-in, Sign-up, and Reset Password Pages",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_7.mp4",
+        label: "UI: Styled Create Task Accordion and Task Box",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_8.mp4",
+        label: "UI: Started Making Header Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_9.mp4",
+        label: "UI: Finished Making Header Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_10.mp4",
+        label: "UI: Made Log-in and Sign-up Pages Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_11.mp4",
+        label: "UI: Made Account Details Page Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_12.mp4",
+        label: "UI: Made Projects Page Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_13.mp4",
+        label: "UI: Made Individual Project Page Responsive",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_14.mp4",
+        label: "UI: Made Feature Modal Responsive",
+        type: "video",
+      },
+      {
+        link: "https://chakra-ui.com/docs/styled-system/customize-theme",
+        label: "Chakra UI Customize Theme",
+        type: "how-to",
+      },
+      {
+        link: "https://chakra-ui.com/docs/hooks/use-media-query",
+        label: "Chakra UI Media Queries",
+        type: "how-to",
+      },
+    ],
   },
   {
     title: "Manual E2E Testing",
