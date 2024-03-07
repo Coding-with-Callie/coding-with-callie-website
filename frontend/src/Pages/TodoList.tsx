@@ -13,7 +13,8 @@ const workshopDetails = [
 ];
 
 const moreInformation = [
-  "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck! For some extra motivation, if you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day!",
+  "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
+  "For some extra motivation, if you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day! During Interview Day, you will be interviewing for one of two open internships at Anchor Web Studio.",
   "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
 ];
 

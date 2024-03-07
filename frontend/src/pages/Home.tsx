@@ -18,7 +18,7 @@ const homeText = [
 const workshopText = [
   "I'm currently offering 1 self-paced workshop: Fullstack Todo List.",
   "You can use my wireframe designs and project plans to build a fullstack, usable Todo List application with user authentication, error handling, data validation, logging, and more.",
-  "This workshop is broken into 11 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
+  "This workshop is broken into 10 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
   "Want to level up? Try to build the application in a different tech stack! Or add a few bonus features!",
   "I have plans for many more workshops, so check back in to see new offerings as they are available.",
 ];

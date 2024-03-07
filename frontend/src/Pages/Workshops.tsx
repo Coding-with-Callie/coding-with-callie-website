@@ -5,8 +5,8 @@ import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 
 const todoListDetails = [
-  "I currently offer 1 fullstack developer workshop: Todo List!",
-  "The workshop is completely self-paced with 11 assignments and corresponding solution videos.",
+  "I currently offer 1 fullstack development workshop: Todo List!",
+  "The workshop is completely self-paced with 10 assignments and corresponding solution videos.",
   "If you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day!",
 ];
 

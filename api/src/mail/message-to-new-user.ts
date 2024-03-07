@@ -24,6 +24,10 @@ export const HTML_TEMPLATE = (data) => {
             padding: 20px;
             text-align: center;
           }
+          .body-heading {
+            color: #45446A;
+            text-align: center;
+          }
           .email-body {
             padding: 20px;
             background-color: #E1E7CD;
@@ -41,10 +45,12 @@ export const HTML_TEMPLATE = (data) => {
             width: 100%;
           }
           li {
-            font-size: 20px
+            font-size: 20px;
           }
           p {
-            font-size: 20px
+            font-size: 16px;
+            text-align: center;
+            font-weight: 100;
           }
         </style>
       </head>
@@ -56,9 +62,15 @@ export const HTML_TEMPLATE = (data) => {
               <h1>Welcome to Coding with Callie, ${data.name}!</h1>
             </div>
             <div class="email-body">
-              <p>We are currently working through the Todo List Workshop. Each Thursday, a new task is posted. You can learn more about the tasks and submit your attempts on the Todo List Resources page.</p>
-              <p>Once you submit your attempt at the task, you will have access to all of other task submissions. You can even leave feedback on the submissions!</p>
-              <p>If you provide feedback for at least 2 submissions, you will have access to a video of me attempting the task!</p>
+              <h2 class="body-heading">Meet-ups</h3>
+              <p>We have weekly meet-ups via Zoom on Thursdays from 7PM EST to 9PM EST.</p>
+              <p>Click <a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">here</a> to join the Zoom room!</p>
+            </div>
+            <div class="email-body">
+              <h2 class="body-heading">Todo List Workshop</h3>
+              <p>I am currently recording myself building a Todo List. Each Thursday, a new task is posted with recordings of my coding time to complete that task.</p>
+              <p>You can learn more about the tasks, view my solutions, and submit your attempts on the <a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a> page.</p>
+              <p>Once you submit your attempt at the task, you will have access to all of other task submissions. You can even leave feedback on your peers' submissions!</p>
               <p>Please let me know if you have any questions or concerns 🙂</p>
             </div>
             <div class="email-footer">
