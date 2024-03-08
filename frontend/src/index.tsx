@@ -10,7 +10,6 @@ import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
-import TodoList from "./Pages/TodoList";
 import FullstackDeployment from "./Pages/FullstackDeployment";
 import Apply from "./Pages/Apply";
 import Resources from "./Pages/Resources";
@@ -26,6 +25,7 @@ import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import CheckoutForm from "./Pages/CheckoutForm";
 import Return from "./Pages/Return";
+import WorkshopDetails from "./Pages/WorkshopDetails";
 
 export const showNotification = (
   message: string,
@@ -66,14 +66,27 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
+        loader: async () => {
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/workshops`
+          );
+          return response.data;
+        },
       },
       {
-        path: "/workshop-details",
-        element: <TodoList />,
-      },
-      {
-        path: "/workshops/todo-list",
-        element: <TodoList />,
+        path: "/workshops/:id",
+        element: <WorkshopDetails />,
+        loader: async ({ params }) => {
+          const id = params.id;
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/workshop/${id}`
+          );
+          return response.data;
+        },
       },
       {
         path: "/checkout",

@@ -40,25 +40,4 @@ export class ReviewService {
 
     return await this.getAllReviews();
   }
-
-  // async editDeliverable(deliverable: any) {
-  //   const deliverableToUpdate = await this.submissionsRepository.findOne({
-  //     where: {
-  //       session: deliverable.session,
-  //       user: { id: deliverable.userId },
-  //     },
-  //   });
-
-  //   deliverableToUpdate.url = deliverable.url;
-
-  //   return await this.submissionsRepository.save(deliverableToUpdate);
-  // }
-
-  // async deleteSubmission(id: number) {
-  //   const submissionToDelete = await this.submissionsRepository.findOne({
-  //     where: { id },
-  //   });
-
-  //   return await this.submissionsRepository.remove(submissionToDelete);
-  // }
 }

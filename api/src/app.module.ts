@@ -15,6 +15,7 @@ import { ServerResponse } from 'http';
 import { ReviewModule } from './review/review.module';
 import { ReviewController } from './review/review.controller';
 import { SpeakersModule } from './speakers/speakers.module';
+import { WorkshopsModule } from './workshops/workshops.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { SpeakersModule } from './speakers/speakers.module';
     MailModule,
     ReviewModule,
     SpeakersModule,
+    WorkshopsModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],
