@@ -29,7 +29,7 @@ const WorkshopDetails = () => {
         <BodyHeading textAlignCenter={true}>
           {`${workshop.name} Workshop Details`}
         </BodyHeading>
-        <BodyText textBlocks={workshop.details} textAlignCenter={true} />
+        <BodyText textBlocks={workshop.details} textAlignCenter={false} />
       </Section>
       <Section
         screenSizeParameter={isLargerThan1090}
@@ -60,8 +60,6 @@ const WorkshopDetails = () => {
       </Section>
 
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={true}>More Information</BodyHeading>
-        <BodyText textBlocks={moreInformation} textAlignCenter={true} />
         <Box display="flex" gap={10}>
           <MyButton>Add to Cart</MyButton>
           <Link

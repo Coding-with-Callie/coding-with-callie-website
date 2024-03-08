@@ -54,10 +54,10 @@ const Workshops = () => {
         </Heading>
         <Box
           display="flex"
-          gap={10}
+          gap={20}
           flexWrap="wrap"
           justifyContent="center"
-          maxW="900px"
+          maxW="1000px"
         >
           {workshops.map((workshop) => {
             return (
@@ -71,7 +71,7 @@ const Workshops = () => {
                 flexDirection="column"
                 gap={10}
                 minW="400px"
-                maxW="400px"
+                maxW="600px"
               >
                 <Heading fontSize={28} color="#79A9CD" textAlign="center">
                   {workshop.name}
