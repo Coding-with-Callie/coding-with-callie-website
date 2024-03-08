@@ -1,6 +1,8 @@
 import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
+import { FaShoppingCart } from "react-icons/fa";
+import Cart from "./Cart";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
@@ -35,6 +37,7 @@ const Header = ({ user }: Props) => {
         </Link>
       </Box>
       <Menus user={user} />
+      <Cart />
       {user?.name ? (
         <Avatar
           name={user.username}
