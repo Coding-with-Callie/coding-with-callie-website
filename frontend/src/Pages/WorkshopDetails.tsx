@@ -49,7 +49,7 @@ const WorkshopDetails = () => {
         </Box>
         <Box>
           <BodyHeading textAlignCenter={!isLargerThan1090}>
-            To build this application, I will be using:
+            To complete this workshop, I will be using:
           </BodyHeading>
           <UnorderedList color="#45446A">
             {workshop.techStack.map((tool) => {
@@ -61,18 +61,23 @@ const WorkshopDetails = () => {
 
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <Box display="flex" gap={10}>
-          <MyButton>Add to Cart</MyButton>
-          <Link
-            to={loggedIn ? "/resources" : tokenExists ? "/log-in" : "/sign-up"}
-          >
-            <MyButton>
-              {loggedIn
-                ? "View Todo List Resources"
-                : tokenExists
-                  ? "Sign in"
-                  : "Create an Account"}
-            </MyButton>
-          </Link>
+          {workshop.available ? (
+            <MyButton>Add to Cart</MyButton>
+          ) : (
+            <Link
+              to={
+                loggedIn ? "/resources" : tokenExists ? "/log-in" : "/sign-up"
+              }
+            >
+              <MyButton>
+                {loggedIn
+                  ? "View Todo List Resources"
+                  : tokenExists
+                    ? "Sign in"
+                    : "Create an Account"}
+              </MyButton>
+            </Link>
+          )}
           <Link to="/workshops">
             <MyButton>Return to Workshops</MyButton>
           </Link>

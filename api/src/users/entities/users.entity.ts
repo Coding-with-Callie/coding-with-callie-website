@@ -1,7 +1,15 @@
+import { Cart } from 'src/cart/entities/cart.entity';
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Review } from 'src/review/entities/review.entity';
 import { Submissions } from 'src/submissions/entities/submissions.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Users {
@@ -37,4 +45,8 @@ export class Users {
 
   @OneToMany(() => Review, (review) => review.user)
   review: Review[];
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  @JoinColumn({ name: 'cartId' })
+  cart: Cart;
 }

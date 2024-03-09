@@ -26,7 +26,6 @@ export class AuthService {
     private feedbackService: FeedbackService,
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
-    private workshopsService: WorkshopsService,
     private logger: Logger,
   ) {}
 

@@ -24,6 +24,7 @@ export type Workshop = {
   objectives: string[];
   techStack: string[];
   price: number;
+  available: boolean;
 };
 
 const Workshops = () => {

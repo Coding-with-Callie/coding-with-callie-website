@@ -25,4 +25,7 @@ export class Workshop {
 
   @Column()
   price: number;
+
+  @Column({ default: false })
+  available: boolean;
 }
