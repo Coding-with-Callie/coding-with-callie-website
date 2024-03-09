@@ -5,12 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
-import {
-  DeliverableDto,
-  FeedbackDto,
-  NewUserDto,
-  UserLoginDto,
-} from './auth.controller';
+import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
@@ -335,7 +330,7 @@ export class AuthService {
       user.cart.id,
     );
     user.cart = cart;
-    await this.usersService.createUser(user);
-    return cart;
+    const updatedUser = await this.usersService.createUser(user);
+    return updatedUser;
   }
 }

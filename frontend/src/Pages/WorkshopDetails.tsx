@@ -8,15 +8,14 @@ import Section from "../Components/Section";
 import { Workshop } from "./Workshops";
 import axios from "axios";
 
-const moreInformation = [
-  "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
-  "For some extra motivation, if you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day! During Interview Day, you will be interviewing for one of two open internships at Anchor Web Studio.",
-  "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
-];
+// const moreInformation = [
+//   "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
+//   "For some extra motivation, if you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day! During Interview Day, you will be interviewing for one of two open internships at Anchor Web Studio.",
+//   "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
+// ];
 
 const WorkshopDetails = () => {
   const workshop = useLoaderData() as Workshop;
-  console.log("WORKSHOP", workshop);
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
   const context: Context = useOutletContext();
@@ -37,7 +36,10 @@ const WorkshopDetails = () => {
         }
       )
       .then((response) => {
-        console.log("RESPONSE", response.data);
+        context.updateUser(response.data);
+      })
+      .catch((error) => {
+        console.log("ERROR", error.response.data.message);
       });
   };
 

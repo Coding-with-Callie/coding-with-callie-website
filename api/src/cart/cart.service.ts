@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cart } from './entities/cart.entity';
@@ -15,23 +15,22 @@ export class CartService {
   async addWorkshopToCart(workshopId: number, cartId: number) {
     const workshop = await this.workshopsService.findOneById(workshopId);
 
-    console.log('CART ID', cartId);
-
     const cart = await this.cartRepository.findOne({
       where: { id: cartId },
       relations: { workshops: true },
     });
 
-    console.log('CART', cart);
-
     if (!cart.workshops) {
-      console.log('HERE');
       cart.workshops = [];
+    } else {
+      if (cart.workshops.find((workshop) => workshop.id === workshopId)) {
+        throw new BadRequestException(
+          'You are already registered for that workshop!',
+        );
+      }
     }
 
     cart.workshops = [...cart.workshops, workshop];
-
-    console.log('CART', cart.workshops);
 
     return await this.cartRepository.save(cart);
   }

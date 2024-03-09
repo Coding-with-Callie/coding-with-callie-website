@@ -2,7 +2,7 @@ import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
 import Cart from "./Cart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
@@ -12,10 +12,6 @@ type Props = {
 const Header = ({ user }: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
-
-  const [count, setCount] = useState(user.cart.workshops.length || 0);
-
-  console.log("USER", user);
 
   return (
     <Box
@@ -41,7 +37,10 @@ const Header = ({ user }: Props) => {
         </Link>
       </Box>
       <Menus user={user} />
-      <Cart count={count} />
+      <Cart
+        count={user?.cart?.workshops.length || 0}
+        workshops={user?.cart?.workshops}
+      />
       {user?.name ? (
         <Avatar
           name={user.username}
