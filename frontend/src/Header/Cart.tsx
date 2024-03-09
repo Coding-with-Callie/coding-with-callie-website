@@ -1,9 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 
-const Cart = () => {
-  const [count, setCount] = useState(0);
+type Props = {
+  count: number;
+};
+
+const Cart = ({ count }: Props) => {
   return (
     <Box position={count !== 0 ? "relative" : "inherit"} top="-10px">
       {count !== 0 && (

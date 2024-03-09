@@ -108,6 +108,7 @@ export class AuthService {
 
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
+
     return {
       id: user.id,
       name: user.name,
@@ -117,6 +118,7 @@ export class AuthService {
       submissions: user.submissions,
       feedback: user.feedback,
       photo: user.photo,
+      cart: user.cart,
     };
   }
 
@@ -328,6 +330,12 @@ export class AuthService {
 
   async addWorkshopToCart(workshopId: number, userId: number) {
     const user = await this.usersService.findOneById(userId);
-    return await this.cartService.addWorkshopToCart(workshopId, user);
+    const cart = await this.cartService.addWorkshopToCart(
+      workshopId,
+      user.cart.id,
+    );
+    user.cart = cart;
+    await this.usersService.createUser(user);
+    return cart;
   }
 }

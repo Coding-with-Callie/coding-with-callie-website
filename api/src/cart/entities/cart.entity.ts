@@ -4,7 +4,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
@@ -15,7 +14,6 @@ export class Cart {
   id: number;
 
   @OneToOne(() => Users, (user) => user.cart)
-  @JoinColumn({ name: 'userId' })
   user: Users;
 
   @ManyToMany(() => Workshop)
