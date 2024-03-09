@@ -6,6 +6,7 @@ import BodyText from "../Components/BodyText";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import { Workshop } from "./Workshops";
+import axios from "axios";
 
 const moreInformation = [
   "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
@@ -22,6 +23,23 @@ const WorkshopDetails = () => {
   const loggedIn =
     context.user === null ? false : context.user.username !== undefined;
   const tokenExists = localStorage.getItem("token") !== null;
+
+  const addToCart = () => {
+    const token = window.localStorage.getItem("token");
+    axios
+      .post(
+        "http://localhost:3001/api/auth/add-workshop-to-cart",
+        {
+          workshopId: workshop.id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        console.log("RESPONSE", response.data);
+      });
+  };
 
   return (
     <>
@@ -61,8 +79,8 @@ const WorkshopDetails = () => {
 
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <Box display="flex" gap={10}>
-          {workshop.available ? (
-            <MyButton>Add to Cart</MyButton>
+          {workshop ? (
+            <MyButton onClick={addToCart}>Add to Cart</MyButton>
           ) : (
             <Link
               to={

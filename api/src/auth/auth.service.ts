@@ -5,12 +5,18 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
-import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
+import {
+  DeliverableDto,
+  FeedbackDto,
+  NewUserDto,
+  UserLoginDto,
+} from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
-import { WorkshopsService } from 'src/workshops/workshops.service';
+import { CartService } from 'src/cart/cart.service';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(
   'sk_test_51OnUh9GPYyWkM7JWnPIpLMhkYb21iJSB6ZHLm82ua0YTvTa7nj9AleXdx2KBb5Gn5tFRjzE4DxEgbEdeYJObDJDj00CU7eZaJQ',
@@ -26,6 +32,7 @@ export class AuthService {
     private feedbackService: FeedbackService,
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
+    private cartService: CartService,
     private logger: Logger,
   ) {}
 
@@ -317,5 +324,10 @@ export class AuthService {
       status: session.status,
       customer_email: await stripe.checkout.sessions.retrieve(session_id),
     };
+  }
+
+  async addWorkshopToCart(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+    return await this.cartService.addWorkshopToCart(workshopId, user);
   }
 }

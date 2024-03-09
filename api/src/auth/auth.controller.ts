@@ -278,4 +278,10 @@ export class AuthController {
   async getSessionStatus(@Request() req) {
     return await this.authService.getSessionStatus(req.query.session_id);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('add-workshop-to-cart')
+  async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
+    return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
+  }
 }
