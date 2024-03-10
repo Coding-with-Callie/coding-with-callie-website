@@ -46,10 +46,11 @@ const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
+            <Box display="flex" justifyContent="space-between">
+              <Box>Total:</Box>
+              <Box>0</Box>
+            </Box>
+            <Button colorScheme="green">Checkout</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

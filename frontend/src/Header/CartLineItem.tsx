@@ -49,8 +49,8 @@ const CartLineItem = ({ workshop, updateUser }: Props) => {
 
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center">
-      <Box>{workshop.name}</Box>
-      <Box>${workshop.price}.00</Box>
+      <Box flex={1}>{workshop.name}</Box>
+      <Box px={4}>${workshop.price}.00</Box>
       <IconButton
         aria-label="Delete workshop from cart"
         icon={<DeleteIcon />}
