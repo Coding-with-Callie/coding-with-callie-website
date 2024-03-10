@@ -7,9 +7,10 @@ import { Workshop } from "../Pages/Workshops";
 type Props = {
   count: number;
   workshops: Workshop[];
+  updateUser: (newUser: any) => void;
 };
 
-const Cart = ({ count, workshops }: Props) => {
+const Cart = ({ count, workshops, updateUser }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -38,7 +39,12 @@ const Cart = ({ count, workshops }: Props) => {
         )}
         <FaShoppingCart size="40px" color="#45446A" />
       </Box>
-      <CartDrawer isOpen={isOpen} onClose={onClose} workshops={workshops} />
+      <CartDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        workshops={workshops}
+        updateUser={updateUser}
+      />
     </>
   );
 };

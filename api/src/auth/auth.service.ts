@@ -333,4 +333,23 @@ export class AuthService {
     const updatedUser = await this.usersService.createUser(user);
     return updatedUser;
   }
+
+  async deleteWorkshopFromCart(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+    const workshops = user.cart.workshops;
+
+    const workshopToDelete = workshops.find(
+      (workshop) => workshop.id === workshopId,
+    );
+
+    const index = workshops.indexOf(workshopToDelete);
+    workshops.splice(index, 1);
+
+    await this.cartService.updateCart(workshops, user.cart.id);
+
+    const updatedUser = await this.usersService.findOneById(userId);
+    console.log('USER', updatedUser);
+
+    return updatedUser;
+  }
 }

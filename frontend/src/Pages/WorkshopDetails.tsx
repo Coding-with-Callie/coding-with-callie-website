@@ -39,7 +39,7 @@ const WorkshopDetails = () => {
         context.updateUser(response.data);
       })
       .catch((error) => {
-        console.log("ERROR", error.response.data.message);
+        // console.log("ERROR", error.response.data.message);
       });
   };
 

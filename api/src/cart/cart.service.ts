@@ -34,4 +34,15 @@ export class CartService {
 
     return await this.cartRepository.save(cart);
   }
+
+  async updateCart(workshops: any, cartId: number) {
+    const cartToUpdate = await this.cartRepository.findOne({
+      where: { id: cartId },
+      relations: { workshops: true },
+    });
+
+    cartToUpdate.workshops = workshops;
+
+    await this.cartRepository.save(cartToUpdate);
+  }
 }

@@ -7,9 +7,10 @@ const sloth = require("../../src/images/sloth.png");
 
 type Props = {
   user: any;
+  updateUser: (newUser: any) => void;
 };
 
-const Header = ({ user }: Props) => {
+const Header = ({ user, updateUser }: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const Header = ({ user }: Props) => {
       <Cart
         count={user?.cart?.workshops.length || 0}
         workshops={user?.cart?.workshops}
+        updateUser={updateUser}
       />
       {user?.name ? (
         <Avatar

@@ -8,17 +8,21 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Box,
+  IconButton,
 } from "@chakra-ui/react";
-import React from "react";
 import { Workshop } from "../Pages/Workshops";
+import { DeleteIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import CartLineItem from "./CartLineItem";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   workshops: Workshop[];
+  updateUser: (newUser: any) => void;
 };
 
-const CartDrawer = ({ isOpen, onClose, workshops }: Props) => {
+const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
   return (
     <>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="lg">
@@ -28,9 +32,13 @@ const CartDrawer = ({ isOpen, onClose, workshops }: Props) => {
           <DrawerHeader>Cart</DrawerHeader>
 
           <DrawerBody>
-            {workshops.map((workshop) => {
-              return <Box>{workshop.name}</Box>;
-            })}
+            <Box display="flex" flexDirection="column" gap={4}>
+              {workshops.map((workshop) => {
+                return (
+                  <CartLineItem workshop={workshop} updateUser={updateUser} />
+                );
+              })}
+            </Box>
           </DrawerBody>
 
           <DrawerFooter>

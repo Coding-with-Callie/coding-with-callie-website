@@ -284,4 +284,13 @@ export class AuthController {
   async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
     return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-workshop-from-cart')
+  async deleteWorkshopFromCart(@Request() req, @Body('workshopId') workshopId) {
+    return await this.authService.deleteWorkshopFromCart(
+      workshopId,
+      req.user.sub,
+    );
+  }
 }
