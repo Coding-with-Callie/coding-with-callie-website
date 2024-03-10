@@ -270,8 +270,9 @@ export class AuthController {
   }
 
   @Post('create-checkout-session')
-  async createCheckoutSession() {
-    return await this.authService.createCheckoutSession();
+  async createCheckoutSession(@Body('lineItems') lineItems: any[]) {
+    console.log('LINE ITEMS', lineItems);
+    return await this.authService.createCheckoutSession(lineItems);
   }
 
   @Get('session-status')

@@ -295,16 +295,10 @@ export class AuthService {
     return await this.speakersService.findAllSpeakers();
   }
 
-  async createCheckoutSession() {
+  async createCheckoutSession(lineItems: any[]) {
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
-      line_items: [
-        {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: 'price_1OnidbGPYyWkM7JWJTd9qrR3',
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: 'payment',
       return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`,
       automatic_tax: { enabled: true },

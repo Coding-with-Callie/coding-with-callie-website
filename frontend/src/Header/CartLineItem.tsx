@@ -56,6 +56,7 @@ const CartLineItem = ({ workshop, updateUser }: Props) => {
         icon={<DeleteIcon />}
         size="sm"
         onClick={deleteFromCart}
+        colorScheme="green"
       />
     </Box>
   );

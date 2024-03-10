@@ -17,14 +17,21 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/api/auth/create-checkout-session")
+      .post("http://localhost:3001/api/auth/create-checkout-session", {
+        lineItems: [
+          {
+            price: "price_1OsukKGPYyWkM7JW1u0lRQhh",
+            quantity: 1,
+          },
+        ],
+      })
       .then((response) => {
         setClientSecret(response.data.clientSecret);
       });
   }, []);
 
   return (
-    <Box m={10}>
+    <Box>
       <div id="checkout">
         {clientSecret && (
           <EmbeddedCheckoutProvider
