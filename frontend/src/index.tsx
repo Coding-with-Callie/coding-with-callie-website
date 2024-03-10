@@ -89,10 +89,6 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/checkout",
-        element: <CheckoutForm />,
-      },
-      {
         path: "/return",
         element: <Return />,
       },

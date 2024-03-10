@@ -28,4 +28,7 @@ export class Workshop {
 
   @Column({ default: false })
   available: boolean;
+
+  @Column({ nullable: true })
+  stripe_id: string;
 }

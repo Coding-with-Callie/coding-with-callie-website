@@ -25,6 +25,7 @@ export type Workshop = {
   techStack: string[];
   price: number;
   available: boolean;
+  stripe_id: string;
 };
 
 const Workshops = () => {

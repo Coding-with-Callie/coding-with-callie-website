@@ -8,13 +8,9 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Box,
-  IconButton,
 } from "@chakra-ui/react";
 import { Workshop } from "../Pages/Workshops";
-import { DeleteIcon } from "@chakra-ui/icons";
-import axios from "axios";
 import CartLineItem from "./CartLineItem";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CheckoutForm from "../Pages/CheckoutForm";
 
@@ -79,7 +75,7 @@ const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerBody>
-              <CheckoutForm />
+              <CheckoutForm workshops={workshops} />
             </DrawerBody>
           </DrawerContent>
         )}
