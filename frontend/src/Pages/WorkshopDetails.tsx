@@ -1,5 +1,10 @@
 import { Box, ListItem, UnorderedList, useMediaQuery } from "@chakra-ui/react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
@@ -7,6 +12,7 @@ import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import { Workshop } from "./Workshops";
 import axios from "axios";
+import { showNotification } from "..";
 
 // const moreInformation = [
 //   "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
@@ -19,6 +25,7 @@ const WorkshopDetails = () => {
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
   const context: Context = useOutletContext();
+  const navigate = useNavigate();
   const loggedIn =
     context.user === null ? false : context.user.username !== undefined;
   const tokenExists = localStorage.getItem("token") !== null;
@@ -37,9 +44,19 @@ const WorkshopDetails = () => {
       )
       .then((response) => {
         context.updateUser(response.data);
+        showNotification("The workshop has been added to your cart", "success");
       })
       .catch((error) => {
-        // console.log("ERROR", error.response.data.message);
+        if (error.response.data.message === "Unauthorized") {
+          showNotification(
+            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+            "error"
+          );
+          navigate("/log-in");
+        } else {
+          let message: string = error.response.data.message;
+          showNotification(`${message}`, "error");
+        }
       });
   };
 

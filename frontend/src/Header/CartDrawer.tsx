@@ -32,13 +32,17 @@ const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
           <DrawerHeader>Cart</DrawerHeader>
 
           <DrawerBody>
-            <Box display="flex" flexDirection="column" gap={4}>
-              {workshops.map((workshop) => {
-                return (
-                  <CartLineItem workshop={workshop} updateUser={updateUser} />
-                );
-              })}
-            </Box>
+            {workshops.length > 0 ? (
+              <Box display="flex" flexDirection="column" gap={4}>
+                {workshops.map((workshop) => {
+                  return (
+                    <CartLineItem workshop={workshop} updateUser={updateUser} />
+                  );
+                })}
+              </Box>
+            ) : (
+              <Box>You haven't added any workshops to your cart yet!</Box>
+            )}
           </DrawerBody>
 
           <DrawerFooter>
