@@ -332,15 +332,17 @@ export class AuthService {
 
       lineItems = lineItems.data;
 
-      lineItems.forEach(async (item) => {
-        const workshop = await this.workshopsService.findOneByPriceId(
-          item.price.id,
-        );
-
-        const userToUpdate = await this.usersService.findOneById(userId);
-        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
-        this.usersService.createUser(userToUpdate);
+      const workshops = lineItems.map(async (item) => {
+        return await this.workshopsService.findOneByPriceId(item.price.id);
       });
+
+      for (let i = 0; i < workshops.length; i++) {
+        const userToUpdate = await this.usersService.findOneById(userId);
+        userToUpdate.workshops = [...userToUpdate.workshops, workshops[i]];
+        await this.usersService.createUser(userToUpdate);
+
+        await this.deleteWorkshopFromCart(workshops[i].id, userToUpdate.id);
+      }
     }
   }
 
@@ -369,7 +371,6 @@ export class AuthService {
     await this.cartService.updateCart(workshops, user.cart.id);
 
     const updatedUser = await this.usersService.findOneById(userId);
-    console.log('USER', updatedUser);
 
     return updatedUser;
   }

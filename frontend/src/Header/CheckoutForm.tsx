@@ -19,8 +19,6 @@ type Props = {
 };
 
 const CheckoutForm = ({ workshops, userId }: Props) => {
-  console.log("USER ID", userId);
-
   const [clientSecret, setClientSecret] = useState("");
 
   const lineItems = workshops.map((workshop) => {

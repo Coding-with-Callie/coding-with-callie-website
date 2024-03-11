@@ -53,7 +53,7 @@ const ReviewForm = ({
     } else {
       const token = localStorage.getItem("token");
       const numberOfReviews = reviews.length;
-      console.log("REVIEW", reviewFormData);
+
       axios
         .post(
           `${
