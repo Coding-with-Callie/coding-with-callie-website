@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-frontend:v57
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-frontend:v59
         readinessProbe:
           httpGet:
             path: /

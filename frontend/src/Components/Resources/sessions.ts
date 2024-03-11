@@ -624,11 +624,6 @@ export const sessions: Session[] = [
         type: "video",
       },
       {
-        link: "https://coding-with-callie.s3.amazonaws.com/style_part_1.mp4",
-        label: "UI: Added Body Background Color and Edited Sloth Logo",
-        type: "video",
-      },
-      {
         link: "https://coding-with-callie.s3.amazonaws.com/style_part_2.mp4",
         label: "UI: Added Fonts and Font Colors for Heading and Text",
         type: "video",
