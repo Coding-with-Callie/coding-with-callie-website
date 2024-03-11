@@ -16,9 +16,10 @@ const stripePromise = loadStripe(
 type Props = {
   workshops: Workshop[];
   userId: number;
+  updateUser: (newUser: any) => void;
 };
 
-const CheckoutForm = ({ workshops, userId }: Props) => {
+const CheckoutForm = ({ workshops, userId, updateUser }: Props) => {
   const [clientSecret, setClientSecret] = useState("");
 
   const lineItems = workshops.map((workshop) => {

@@ -82,7 +82,11 @@ const CartDrawer = ({
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerBody>
-              <CheckoutForm workshops={workshops} userId={userId} />
+              <CheckoutForm
+                workshops={workshops}
+                userId={userId}
+                updateUser={updateUser}
+              />
             </DrawerBody>
           </DrawerContent>
         )}
