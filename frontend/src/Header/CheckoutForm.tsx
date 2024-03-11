@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Box } from "@chakra-ui/react";
-import { Workshop } from "./Workshops";
+import { Workshop } from "../Pages/Workshops";
 
 // This is your test public API key.
 const stripePromise = loadStripe(
@@ -15,9 +15,12 @@ const stripePromise = loadStripe(
 
 type Props = {
   workshops: Workshop[];
+  userId: number;
 };
 
-const CheckoutForm = ({ workshops }: Props) => {
+const CheckoutForm = ({ workshops, userId }: Props) => {
+  console.log("USER ID", userId);
+
   const [clientSecret, setClientSecret] = useState("");
 
   const lineItems = workshops.map((workshop) => {
@@ -28,6 +31,7 @@ const CheckoutForm = ({ workshops }: Props) => {
     axios
       .post("http://localhost:3001/api/auth/create-checkout-session", {
         lineItems,
+        userId,
       })
       .then((response) => {
         setClientSecret(response.data.clientSecret);

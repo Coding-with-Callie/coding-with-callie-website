@@ -11,6 +11,7 @@ import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
 import { CartService } from 'src/cart/cart.service';
+import { WorkshopsService } from 'src/workshops/workshops.service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(
@@ -28,6 +29,7 @@ export class AuthService {
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
     private cartService: CartService,
+    private workshopsService: WorkshopsService,
     private logger: Logger,
   ) {}
 
@@ -114,6 +116,7 @@ export class AuthService {
       feedback: user.feedback,
       photo: user.photo,
       cart: user.cart,
+      workshops: user.workshops,
     };
   }
 
@@ -295,7 +298,7 @@ export class AuthService {
     return await this.speakersService.findAllSpeakers();
   }
 
-  async createCheckoutSession(lineItems: any[]) {
+  async createCheckoutSession(lineItems: any[], userId: number) {
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items: lineItems,
@@ -303,6 +306,9 @@ export class AuthService {
       return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`,
       automatic_tax: { enabled: true },
       allow_promotion_codes: true,
+      metadata: {
+        user: userId,
+      },
     });
 
     return { clientSecret: session.client_secret };
@@ -315,6 +321,27 @@ export class AuthService {
       status: session.status,
       customer_email: await stripe.checkout.sessions.retrieve(session_id),
     };
+  }
+
+  async receiveWebhook(data) {
+    if (data.type === 'checkout.session.completed') {
+      const userId = data.data.object.metadata.user;
+      let lineItems = await stripe.checkout.sessions.listLineItems(
+        data.data.object.id,
+      );
+
+      lineItems = lineItems.data;
+
+      lineItems.forEach(async (item) => {
+        const workshop = await this.workshopsService.findOneByPriceId(
+          item.price.id,
+        );
+
+        const userToUpdate = await this.usersService.findOneById(userId);
+        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+        this.usersService.createUser(userToUpdate);
+      });
+    }
   }
 
   async addWorkshopToCart(workshopId: number, userId: number) {

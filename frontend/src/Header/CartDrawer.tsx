@@ -12,16 +12,23 @@ import {
 import { Workshop } from "../Pages/Workshops";
 import CartLineItem from "./CartLineItem";
 import { useState } from "react";
-import CheckoutForm from "../Pages/CheckoutForm";
+import CheckoutForm from "./CheckoutForm";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   workshops: Workshop[];
   updateUser: (newUser: any) => void;
+  userId: number;
 };
 
-const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
+const CartDrawer = ({
+  isOpen,
+  onClose,
+  workshops,
+  updateUser,
+  userId,
+}: Props) => {
   const [checkout, setCheckout] = useState(false);
 
   const totalPrice = workshops.reduce(
@@ -75,7 +82,7 @@ const CartDrawer = ({ isOpen, onClose, workshops, updateUser }: Props) => {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerBody>
-              <CheckoutForm workshops={workshops} />
+              <CheckoutForm workshops={workshops} userId={userId} />
             </DrawerBody>
           </DrawerContent>
         )}

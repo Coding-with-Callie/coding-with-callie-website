@@ -23,7 +23,7 @@ import CallieSubmission from "./Pages/CallieSubmission";
 import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
-import CheckoutForm from "./Pages/CheckoutForm";
+import CheckoutForm from "./Header/CheckoutForm";
 import Return from "./Pages/Return";
 import WorkshopDetails from "./Pages/WorkshopDetails";
 

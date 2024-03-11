@@ -17,4 +17,10 @@ export class WorkshopsService {
   async findAll() {
     return await this.workshopsRepository.find();
   }
+
+  async findOneByPriceId(priceId) {
+    return await this.workshopsRepository.findOne({
+      where: { stripe_id: priceId },
+    });
+  }
 }

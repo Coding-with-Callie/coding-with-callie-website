@@ -8,9 +8,10 @@ type Props = {
   count: number;
   workshops: Workshop[];
   updateUser: (newUser: any) => void;
+  userId: number;
 };
 
-const Cart = ({ count, workshops, updateUser }: Props) => {
+const Cart = ({ count, workshops, updateUser, userId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -44,6 +45,7 @@ const Cart = ({ count, workshops, updateUser }: Props) => {
         onClose={onClose}
         workshops={workshops}
         updateUser={updateUser}
+        userId={userId}
       />
     </>
   );

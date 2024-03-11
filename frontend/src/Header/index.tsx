@@ -42,6 +42,7 @@ const Header = ({ user, updateUser }: Props) => {
         count={user?.cart?.workshops.length || 0}
         workshops={user?.cart?.workshops}
         updateUser={updateUser}
+        userId={user.id}
       />
       {user?.name ? (
         <Avatar

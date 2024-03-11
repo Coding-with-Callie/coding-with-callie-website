@@ -270,14 +270,21 @@ export class AuthController {
   }
 
   @Post('create-checkout-session')
-  async createCheckoutSession(@Body('lineItems') lineItems: any[]) {
-    console.log('LINE ITEMS', lineItems);
-    return await this.authService.createCheckoutSession(lineItems);
+  async createCheckoutSession(
+    @Body('lineItems') lineItems: any[],
+    @Body('userId') userId: number,
+  ) {
+    return await this.authService.createCheckoutSession(lineItems, userId);
   }
 
   @Get('session-status')
   async getSessionStatus(@Request() req) {
     return await this.authService.getSessionStatus(req.query.session_id);
+  }
+
+  @Post('/webhook')
+  async receiveWebhook(@Body() body) {
+    return await this.authService.receiveWebhook(body);
   }
 
   @UseGuards(AuthGuard)

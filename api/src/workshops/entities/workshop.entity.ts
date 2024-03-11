@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Users } from 'src/users/entities/users.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Workshop {
@@ -31,4 +32,7 @@ export class Workshop {
 
   @Column({ nullable: true })
   stripe_id: string;
+
+  @ManyToOne(() => Users)
+  user: Users;
 }

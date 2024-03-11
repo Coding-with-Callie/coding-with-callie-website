@@ -2,6 +2,7 @@ import { Cart } from 'src/cart/entities/cart.entity';
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Review } from 'src/review/entities/review.entity';
 import { Submissions } from 'src/submissions/entities/submissions.entity';
+import { Workshop } from 'src/workshops/entities/workshop.entity';
 import {
   Entity,
   Column,
@@ -49,4 +50,7 @@ export class Users {
   @OneToOne(() => Cart, (cart) => cart.user)
   @JoinColumn({ name: 'cartId' })
   cart: Cart;
+
+  @OneToMany(() => Workshop, (workshop) => workshop.user)
+  workshops: Workshop[];
 }
