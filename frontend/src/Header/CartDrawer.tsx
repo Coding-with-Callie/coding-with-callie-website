@@ -13,6 +13,7 @@ import { Workshop } from "../Pages/Workshops";
 import CartLineItem from "./CartLineItem";
 import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
+import LogIn from "../Pages/LogIn";
 
 type Props = {
   isOpen: boolean;
@@ -29,22 +30,29 @@ const CartDrawer = ({
   updateUser,
   userId,
 }: Props) => {
-  const [checkout, setCheckout] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(0);
 
   const totalPrice = workshops.reduce(
     (accumlator, currentValue) => accumlator + currentValue.price,
     0
   );
 
+  const hasAccount = window.localStorage.getItem("token") !== undefined;
+
   const startCheckout = () => {
-    setCheckout(true);
+    if (userId > 0) {
+      setCheckoutStep(2);
+    } else {
+      setCheckoutStep(1);
+      console.log("NOT LOGGED IN START CHECKOUT");
+    }
   };
 
   return (
     <>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="lg">
         <DrawerOverlay />
-        {!checkout ? (
+        {checkoutStep === 0 ? (
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader>Cart</DrawerHeader>
@@ -78,6 +86,20 @@ const CartDrawer = ({
                 </Button>
               </Box>
             </DrawerFooter>
+          </DrawerContent>
+        ) : checkoutStep === 1 ? (
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Cart</DrawerHeader>
+            <DrawerBody>
+              {hasAccount ? (
+                <Box>You must log in to complete the checkout process!</Box>
+              ) : (
+                <Box>
+                  You must create an account to complete the checkout process!
+                </Box>
+              )}
+            </DrawerBody>
           </DrawerContent>
         ) : (
           <DrawerContent>
