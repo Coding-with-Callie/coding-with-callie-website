@@ -81,8 +81,9 @@ const WorkshopDetails = () => {
         cart = JSON.stringify([workshop]);
       }
 
-      console.log("CART", cart);
       window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+      context.updateUser({});
+      showNotification("The workshop has been added to your cart", "success");
     }
   };
 

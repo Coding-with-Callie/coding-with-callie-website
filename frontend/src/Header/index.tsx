@@ -15,6 +15,13 @@ const Header = ({ user, updateUser }: Props) => {
 
   const loggedIn = user.name !== undefined;
 
+  let tempCart: any = window.localStorage.getItem("temp-cart");
+  if (tempCart) {
+    tempCart = JSON.parse(tempCart);
+  } else {
+    tempCart = [];
+  }
+
   return (
     <Box
       py={4}
@@ -39,14 +46,12 @@ const Header = ({ user, updateUser }: Props) => {
         </Link>
       </Box>
       <Menus user={user} />
-      {loggedIn ? (
-        <Cart
-          count={user?.cart?.workshops.length || 0}
-          workshops={user?.cart?.workshops}
-          updateUser={updateUser}
-          userId={user.id}
-        />
-      ) : null}
+      <Cart
+        count={loggedIn ? user?.cart?.workshops.length || 0 : tempCart.length}
+        workshops={loggedIn ? user?.cart?.workshops : tempCart}
+        updateUser={updateUser}
+        userId={loggedIn ? user.id : 0}
+      />
       {loggedIn ? (
         <Avatar
           name={user.username}

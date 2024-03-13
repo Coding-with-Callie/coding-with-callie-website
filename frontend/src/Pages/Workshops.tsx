@@ -36,8 +36,6 @@ const Workshops = () => {
 
   const purchasedWorkshops = context.user.workshops || [];
 
-  console.log("USER", context.user);
-
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>

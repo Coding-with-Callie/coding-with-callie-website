@@ -57,6 +57,7 @@ const CartDrawer = ({
                       <CartLineItem
                         workshop={workshop}
                         updateUser={updateUser}
+                        userId={userId}
                       />
                     );
                   })}
