@@ -32,7 +32,9 @@ const Workshops = () => {
   const workshops = useLoaderData() as Workshop[];
 
   const context = useOutletContext() as Context;
-  const purchasedWorkshops = context.user.workshops;
+  const loggedIn = context.user.name !== undefined;
+
+  const purchasedWorkshops = context.user.workshops || [];
 
   console.log("USER", context.user);
 
@@ -69,6 +71,7 @@ const Workshops = () => {
           {workshops.map((workshop) => {
             let access = false;
             if (
+              loggedIn &&
               purchasedWorkshops.find((purchasedWorkshop: Workshop) => {
                 return purchasedWorkshop.name === workshop.name;
               })

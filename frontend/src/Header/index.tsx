@@ -13,7 +13,7 @@ const Header = ({ user, updateUser }: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
-  console.log("USER", user);
+  const loggedIn = user.name !== undefined;
 
   return (
     <Box
@@ -39,7 +39,7 @@ const Header = ({ user, updateUser }: Props) => {
         </Link>
       </Box>
       <Menus user={user} />
-      {user?.name ? (
+      {loggedIn ? (
         <Cart
           count={user?.cart?.workshops.length || 0}
           workshops={user?.cart?.workshops}
@@ -47,7 +47,7 @@ const Header = ({ user, updateUser }: Props) => {
           userId={user.id}
         />
       ) : null}
-      {user?.name ? (
+      {loggedIn ? (
         <Avatar
           name={user.username}
           src={user.photo}
