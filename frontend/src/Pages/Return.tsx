@@ -1,19 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate, useLoaderData, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLoaderData,
+  useOutletContext,
+} from "react-router-dom";
 import { Context } from "../App";
-import { Heading, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
-import { User } from "../Components/Profile/Admin";
 import { Workshop } from "./Workshops";
+import MyButton from "../Components/MyButton";
 
 const purchase = [
   "You officially have access to the following Coding with Callie workshops:",
 ];
 
 const Return = () => {
-  const user = useLoaderData() as any;
   const context = useOutletContext() as Context;
 
   const [status, setStatus] = useState(null);
@@ -23,14 +27,28 @@ const Return = () => {
     const urlParams = new URLSearchParams(queryString);
     const sessionId = urlParams.get("session_id");
 
-    context.updateUser(user);
-
     axios
       .get(
         `http://localhost:3001/api/auth/session-status?session_id=${sessionId}`
       )
       .then((response) => {
         setStatus(response.data.status);
+
+        const token = window.localStorage.getItem("token");
+
+        axios
+          .get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/auth/profile`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+          .then((response) => {
+            context.updateUser(response.data);
+            console.log("RESPONSE", response.data);
+          });
       });
   }, []);
 
@@ -51,11 +69,18 @@ const Return = () => {
           Thank you for your business!
         </Heading>
         <BodyText textBlocks={purchase} textAlignCenter={false} />
-        <UnorderedList>
-          {user.workshops.map((workshop: Workshop) => {
-            return <ListItem>{workshop.name}</ListItem>;
+        <Box w="60%" mt={6}>
+          {context.user.workshops.map((workshop: Workshop) => {
+            return (
+              <Box display="flex" justifyContent="space-between">
+                <Text color="#45446A">{workshop.name}</Text>
+                <Link to={`/resources/${workshop.id}`}>
+                  <MyButton>Resources</MyButton>
+                </Link>
+              </Box>
+            );
           })}
-        </UnorderedList>
+        </Box>
       </Section>
     );
   }

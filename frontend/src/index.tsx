@@ -148,7 +148,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/resources",
+        path: "/resources/:id",
         element: <Resources />,
         loader: async () => {
           const token = localStorage.getItem("token");

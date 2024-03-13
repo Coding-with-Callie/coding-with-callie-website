@@ -16,7 +16,9 @@ const Resources = () => {
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={true}>Todo List Resources</BodyHeading>
+        <BodyHeading textAlignCenter={true}>
+          Project Planning Tool: Fullstack Resources
+        </BodyHeading>
         <Text color="#45446A" mb={4}>
           I will be building my Todo List application throughout the first
           quarter of 2024 and posting solution videos each week as I build out
