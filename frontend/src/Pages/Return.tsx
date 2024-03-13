@@ -1,11 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  Link,
-  Navigate,
-  useLoaderData,
-  useOutletContext,
-} from "react-router-dom";
+import { Link, Navigate, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import Section from "../Components/Section";
@@ -47,7 +42,6 @@ const Return = () => {
           )
           .then((response) => {
             context.updateUser(response.data);
-            console.log("RESPONSE", response.data);
           });
       });
   }, []);

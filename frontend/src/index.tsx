@@ -90,35 +90,6 @@ const router = createBrowserRouter([
       {
         path: "/return",
         element: <Return />,
-        loader: async () => {
-          const token = localStorage.getItem("token");
-
-          if (token) {
-            try {
-              const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              );
-              return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view your account details!",
-                "error"
-              );
-              return redirect("/log-in");
-            }
-          } else {
-            showNotification(
-              "You must have an account to view account details!",
-              "error"
-            );
-            return redirect("/sign-up");
-          }
-        },
       },
       {
         path: "/reviews",

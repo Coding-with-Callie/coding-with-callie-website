@@ -1,9 +1,9 @@
 import { Box, Heading, Text, Image } from "@chakra-ui/react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
-const fullstack = require("../images/fullstack.png");
+import { Context } from "../App";
 
 const why = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store.",
@@ -30,6 +30,11 @@ export type Workshop = {
 
 const Workshops = () => {
   const workshops = useLoaderData() as Workshop[];
+
+  const context = useOutletContext() as Context;
+  const purchasedWorkshops = context.user.workshops;
+
+  console.log("USER", context.user);
 
   return (
     <>
@@ -62,6 +67,14 @@ const Workshops = () => {
           maxW="1000px"
         >
           {workshops.map((workshop) => {
+            let access = false;
+            if (
+              purchasedWorkshops.find((purchasedWorkshop: Workshop) => {
+                return purchasedWorkshop.name === workshop.name;
+              })
+            ) {
+              access = true;
+            }
             return (
               <Box
                 backgroundColor="white"
@@ -90,10 +103,15 @@ const Workshops = () => {
                   objectFit="cover"
                 />
 
-                <Box m="0 auto">
+                <Box m="0 auto" display="flex" gap={4}>
                   <Link to={`/workshops/${workshop.id}`}>
                     <MyButton>Learn More</MyButton>
                   </Link>
+                  {access && (
+                    <Link to={`/resources/${workshop.id}`}>
+                      <MyButton>View Resources</MyButton>
+                    </Link>
+                  )}
                 </Box>
               </Box>
             );
