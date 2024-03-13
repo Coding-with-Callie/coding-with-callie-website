@@ -31,33 +31,59 @@ const WorkshopDetails = () => {
   const tokenExists = localStorage.getItem("token") !== null;
 
   const addToCart = () => {
-    const token = window.localStorage.getItem("token");
-    axios
-      .post(
-        "http://localhost:3001/api/auth/add-workshop-to-cart",
-        {
-          workshopId: workshop.id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        context.updateUser(response.data);
-        showNotification("The workshop has been added to your cart", "success");
-      })
-      .catch((error) => {
-        if (error.response.data.message === "Unauthorized") {
+    if (loggedIn) {
+      const token = window.localStorage.getItem("token");
+      axios
+        .post(
+          "http://localhost:3001/api/auth/add-workshop-to-cart",
+          {
+            workshopId: workshop.id,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((response) => {
+          context.updateUser(response.data);
           showNotification(
-            "It looks like your session has expired. Please log in again to add a Coding with Callie workshop to your cart!",
-            "error"
+            "The workshop has been added to your cart",
+            "success"
           );
-          navigate("/log-in");
-        } else {
-          let message: string = error.response.data.message;
-          showNotification(`${message}`, "error");
+        })
+        .catch((error) => {
+          if (error.response.data.message === "Unauthorized") {
+            showNotification(
+              "It looks like your session has expired. Please log in again to add a Coding with Callie workshop to your cart!",
+              "error"
+            );
+            navigate("/log-in");
+          } else {
+            let message: string = error.response.data.message;
+            showNotification(`${message}`, "error");
+          }
+        });
+    } else {
+      let cart = window.localStorage.getItem("temp-cart");
+
+      if (cart) {
+        cart = JSON.parse(cart);
+        if (Array.isArray(cart)) {
+          if (cart.find((item) => item.name === workshop.name)) {
+            showNotification(
+              "You already have ths workshop in this cart",
+              "error"
+            );
+          } else {
+            cart.push(workshop);
+          }
         }
-      });
+      } else {
+        cart = JSON.stringify([workshop]);
+      }
+
+      console.log("CART", cart);
+      window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+    }
   };
 
   return (
