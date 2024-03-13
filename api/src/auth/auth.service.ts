@@ -348,10 +348,15 @@ export class AuthService {
 
   async addWorkshopToCart(workshopId: number, userId: number) {
     const user = await this.usersService.findOneById(userId);
-    const cart = await this.cartService.addWorkshopToCart(
-      workshopId,
-      user.cart.id,
-    );
+    let cartId: number;
+
+    if (!user.cart) {
+      cartId = await this.cartService.createCart(userId);
+    } else {
+      cartId = user.cart.id;
+    }
+
+    const cart = await this.cartService.addWorkshopToCart(workshopId, cartId);
     user.cart = cart;
     const updatedUser = await this.usersService.createUser(user);
     return updatedUser;

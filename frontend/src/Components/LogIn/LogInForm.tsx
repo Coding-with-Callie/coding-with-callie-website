@@ -2,15 +2,17 @@ import { FormControl } from "@chakra-ui/react";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { showNotification } from "../..";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Context } from "../../App";
+import { Workshop } from "../../Pages/Workshops";
 
 type Props = {
   userData: any;
   setUserData: React.Dispatch<any>;
   submitClicked: boolean;
   setSubmitClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  updateUser: (newUser: any) => void;
+  setCheckoutStep?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const LogInForm = ({
@@ -18,9 +20,10 @@ const LogInForm = ({
   setUserData,
   submitClicked,
   setSubmitClicked,
+  updateUser,
+  setCheckoutStep,
 }: Props) => {
   const navigate = useNavigate();
-  const context: Context = useOutletContext();
 
   const onChangeUsername = (e: any) => {
     setSubmitClicked(false);
@@ -31,6 +34,8 @@ const LogInForm = ({
     setSubmitClicked(false);
     setUserData({ ...userData, password: e.target.value });
   };
+
+  const transferCart = (workshops: Workshop[]) => {};
 
   const onSubmit = () => {
     if (
@@ -59,13 +64,46 @@ const LogInForm = ({
               }
             )
             .then((response) => {
-              context.updateUser(response.data);
-              showNotification(
-                `Welcome back, ${response.data.username}!`,
-                "success"
-              );
+              updateUser(response.data);
 
-              navigate("/");
+              if (setCheckoutStep) {
+                let cart = window.localStorage.getItem("temp-cart");
+
+                if (cart) {
+                  cart = JSON.parse(cart);
+                  if (Array.isArray(cart)) {
+                    for (let i = 0; i < cart.length; i++) {
+                      axios
+                        .post(
+                          `${
+                            process.env.REACT_APP_API ||
+                            "http://localhost:3001/api"
+                          }/auth/add-workshop-to-cart`,
+                          {
+                            workshopId: cart[i].id,
+                          },
+                          {
+                            headers: { Authorization: `Bearer ${token}` },
+                          }
+                        )
+                        .then((response) => {
+                          console.log("response", response.data);
+                        });
+                    }
+                  }
+                }
+              } else {
+                showNotification(
+                  `Welcome back, ${response.data.username}!`,
+                  "success"
+                );
+                navigate("/");
+              }
+            })
+            .then(() => {
+              if (setCheckoutStep) {
+                setCheckoutStep(2);
+              }
             });
         })
         .catch((error) => {

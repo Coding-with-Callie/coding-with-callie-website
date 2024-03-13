@@ -13,7 +13,7 @@ import { Workshop } from "../Pages/Workshops";
 import CartLineItem from "./CartLineItem";
 import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
-import LogIn from "../Pages/LogIn";
+import LogInForm from "../Components/LogIn/LogInForm";
 
 type Props = {
   isOpen: boolean;
@@ -21,6 +21,18 @@ type Props = {
   workshops: Workshop[];
   updateUser: (newUser: any) => void;
   userId: number;
+};
+
+const getTotalPrice = (workshops: Workshop[]) => {
+  console.log("WORKSHOPS", workshops);
+  if (workshops) {
+    return workshops.reduce(
+      (accumlator, currentValue) => accumlator + currentValue.price,
+      0
+    );
+  } else {
+    return 0;
+  }
 };
 
 const CartDrawer = ({
@@ -31,11 +43,10 @@ const CartDrawer = ({
   userId,
 }: Props) => {
   const [checkoutStep, setCheckoutStep] = useState(0);
+  const [userData, setUserData] = useState<any>({});
+  const [submitClicked, setSubmitClicked] = useState(false);
 
-  const totalPrice = workshops.reduce(
-    (accumlator, currentValue) => accumlator + currentValue.price,
-    0
-  );
+  const totalPrice = getTotalPrice(workshops);
 
   const hasAccount = window.localStorage.getItem("token") !== undefined;
 
@@ -44,7 +55,6 @@ const CartDrawer = ({
       setCheckoutStep(2);
     } else {
       setCheckoutStep(1);
-      console.log("NOT LOGGED IN START CHECKOUT");
     }
   };
 
@@ -93,7 +103,17 @@ const CartDrawer = ({
             <DrawerHeader>Cart</DrawerHeader>
             <DrawerBody>
               {hasAccount ? (
-                <Box>You must log in to complete the checkout process!</Box>
+                <>
+                  <Box>You must log in to complete the checkout process!</Box>
+                  <LogInForm
+                    userData={userData}
+                    setUserData={setUserData}
+                    submitClicked={submitClicked}
+                    setSubmitClicked={setSubmitClicked}
+                    updateUser={updateUser}
+                    setCheckoutStep={setCheckoutStep}
+                  />
+                </>
               ) : (
                 <Box>
                   You must create an account to complete the checkout process!

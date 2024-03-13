@@ -15,6 +15,8 @@ const Header = ({ user, updateUser }: Props) => {
 
   const loggedIn = user.name !== undefined;
 
+  console.log("USER", user);
+
   let tempCart: any = window.localStorage.getItem("temp-cart");
   if (tempCart) {
     tempCart = JSON.parse(tempCart);
@@ -48,7 +50,7 @@ const Header = ({ user, updateUser }: Props) => {
       <Menus user={user} />
       <Cart
         count={loggedIn ? user?.cart?.workshops.length || 0 : tempCart.length}
-        workshops={loggedIn ? user?.cart?.workshops : tempCart}
+        workshops={loggedIn ? user?.cart?.workshops || [] : tempCart}
         updateUser={updateUser}
         userId={loggedIn ? user.id : 0}
       />

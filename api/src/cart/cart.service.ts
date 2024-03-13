@@ -12,6 +12,11 @@ export class CartService {
     private readonly workshopsService: WorkshopsService,
   ) {}
 
+  async createCart(userId: number) {
+    const cart = await this.cartRepository.save({ user: { id: userId } });
+    return cart.id;
+  }
+
   async addWorkshopToCart(workshopId: number, cartId: number) {
     const workshop = await this.workshopsService.findOneById(workshopId);
 

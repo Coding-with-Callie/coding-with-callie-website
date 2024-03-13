@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
@@ -72,6 +72,7 @@ const LogIn = () => {
         setUserData={setUserData}
         submitClicked={submitClicked}
         setSubmitClicked={setSubmitClicked}
+        updateUser={context.updateUser}
       />
       <Box
         display="flex"
