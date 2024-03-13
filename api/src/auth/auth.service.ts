@@ -358,6 +358,7 @@ export class AuthService {
   }
 
   async deleteWorkshopFromCart(workshopId: number, userId: number) {
+    console.log('DELETE', workshopId);
     const user = await this.usersService.findOneById(userId);
     const workshops = user.cart.workshops;
 

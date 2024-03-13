@@ -84,7 +84,7 @@ const Workshops = () => {
                 </Text>
 
                 <Image
-                  src={fullstack || workshop.photo}
+                  src={workshop.photo}
                   boxShadow="lg"
                   borderRadius={4}
                   objectFit="cover"

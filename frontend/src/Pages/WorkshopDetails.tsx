@@ -49,7 +49,7 @@ const WorkshopDetails = () => {
       .catch((error) => {
         if (error.response.data.message === "Unauthorized") {
           showNotification(
-            "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+            "It looks like your session has expired. Please log in again to add a Coding with Callie workshop to your cart!",
             "error"
           );
           navigate("/log-in");
