@@ -41,14 +41,12 @@ const Return = () => {
             }
           )
           .then((response) => {
+            window.localStorage.removeItem("temp-cart");
             context.updateUser(response.data);
           });
       });
-  }, []);
-
-  if (status === "open") {
-    return <Navigate to="/checkout" />;
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   if (status === "complete") {
     return (
@@ -77,9 +75,9 @@ const Return = () => {
         </Box>
       </Section>
     );
+  } else {
+    return null;
   }
-
-  return null;
 };
 
 export default Return;

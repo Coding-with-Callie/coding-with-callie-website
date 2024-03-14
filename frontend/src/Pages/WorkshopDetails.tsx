@@ -45,10 +45,6 @@ const WorkshopDetails = () => {
         )
         .then((response) => {
           context.updateUser(response.data);
-          showNotification(
-            "The workshop has been added to your cart",
-            "success"
-          );
         })
         .catch((error) => {
           if (error.response.data.message === "Unauthorized") {
@@ -62,29 +58,29 @@ const WorkshopDetails = () => {
             showNotification(`${message}`, "error");
           }
         });
-    } else {
-      let cart = window.localStorage.getItem("temp-cart");
-
-      if (cart) {
-        cart = JSON.parse(cart);
-        if (Array.isArray(cart)) {
-          if (cart.find((item) => item.name === workshop.name)) {
-            showNotification(
-              "You already have ths workshop in this cart",
-              "error"
-            );
-          } else {
-            cart.push(workshop);
-          }
-        }
-      } else {
-        cart = JSON.stringify([workshop]);
-      }
-
-      window.localStorage.setItem("temp-cart", JSON.stringify(cart));
-      context.updateUser({});
-      showNotification("The workshop has been added to your cart", "success");
     }
+
+    let cart = window.localStorage.getItem("temp-cart");
+
+    if (cart) {
+      cart = JSON.parse(cart);
+      if (Array.isArray(cart)) {
+        if (cart.find((item) => item.name === workshop.name)) {
+          showNotification(
+            "You already have ths workshop in this cart",
+            "error"
+          );
+        } else {
+          cart.push(workshop);
+        }
+      }
+    } else {
+      cart = JSON.stringify([workshop]);
+    }
+
+    window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+    context.updateUser({});
+    showNotification("The workshop has been added to your cart", "success");
   };
 
   return (
