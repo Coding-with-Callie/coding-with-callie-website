@@ -24,7 +24,6 @@ type Props = {
 };
 
 const getTotalPrice = (workshops: Workshop[]) => {
-  console.log("WORKSHOPS", workshops);
   if (workshops) {
     return workshops.reduce(
       (accumlator, currentValue) => accumlator + currentValue.price,

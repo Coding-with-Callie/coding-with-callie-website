@@ -35,7 +35,24 @@ const LogInForm = ({
     setUserData({ ...userData, password: e.target.value });
   };
 
-  const transferCart = (workshops: Workshop[]) => {};
+  const transferCart = async (cart: Workshop[]) => {
+    const token = window.localStorage.getItem("token");
+
+    for (let i = 0; i < cart.length; i++) {
+      const response = await axios.post(
+        `${
+          process.env.REACT_APP_API || "http://localhost:3001/api"
+        }/auth/add-workshop-to-cart`,
+        {
+          workshopId: cart[i].id,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("RESPONSE", response.data);
+    }
+  };
 
   const onSubmit = () => {
     if (
@@ -63,7 +80,7 @@ const LogInForm = ({
                 headers: { Authorization: `Bearer ${token}` },
               }
             )
-            .then((response) => {
+            .then(async (response) => {
               updateUser(response.data);
 
               if (setCheckoutStep) {
@@ -72,24 +89,7 @@ const LogInForm = ({
                 if (cart) {
                   cart = JSON.parse(cart);
                   if (Array.isArray(cart)) {
-                    for (let i = 0; i < cart.length; i++) {
-                      axios
-                        .post(
-                          `${
-                            process.env.REACT_APP_API ||
-                            "http://localhost:3001/api"
-                          }/auth/add-workshop-to-cart`,
-                          {
-                            workshopId: cart[i].id,
-                          },
-                          {
-                            headers: { Authorization: `Bearer ${token}` },
-                          }
-                        )
-                        .then((response) => {
-                          console.log("response", response.data);
-                        });
-                    }
+                    await transferCart(cart);
                   }
                 }
               } else {
