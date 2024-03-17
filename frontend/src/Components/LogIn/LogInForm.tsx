@@ -39,18 +39,23 @@ const LogInForm = ({
     const token = window.localStorage.getItem("token");
 
     for (let i = 0; i < cart.length; i++) {
-      const response = await axios.post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/add-workshop-to-cart`,
-        {
-          workshopId: cart[i].id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log("RESPONSE", response.data);
+      const response = await axios
+        .post(
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/add-workshop-to-cart`,
+          {
+            workshopId: cart[i].id,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .catch((error) => {
+          showNotification(error.response.data.message, "error");
+        });
+
+      console.log("RESPONSE", response);
     }
   };
 
@@ -101,9 +106,9 @@ const LogInForm = ({
               }
             })
             .then(() => {
-              if (setCheckoutStep) {
-                setCheckoutStep(2);
-              }
+              // if (setCheckoutStep) {
+              //   setCheckoutStep(2);
+              // }
             });
         })
         .catch((error) => {

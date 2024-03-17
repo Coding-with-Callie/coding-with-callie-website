@@ -47,24 +47,24 @@ const CartLineItem = ({ workshop, updateUser, userId }: Props) => {
             showNotification(`${message}`, "error");
           }
         });
-    } else {
-      let cart = window.localStorage.getItem("temp-cart");
-
-      if (cart) {
-        cart = JSON.parse(cart);
-        if (Array.isArray(cart)) {
-          const index = cart.indexOf(workshop);
-          cart.splice(index, 1);
-        }
-      }
-
-      window.localStorage.setItem("temp-cart", JSON.stringify(cart));
-      updateUser({});
-      showNotification(
-        "The workshop has been removed from your cart!",
-        "success"
-      );
     }
+    let cart = window.localStorage.getItem("temp-cart");
+
+    if (cart) {
+      cart = JSON.parse(cart);
+
+      if (Array.isArray(cart)) {
+        const index = cart.indexOf(workshop);
+        cart.splice(index, 1);
+      }
+    }
+
+    window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+    updateUser({});
+    showNotification(
+      "The workshop has been removed from your cart!",
+      "success"
+    );
   };
 
   return (

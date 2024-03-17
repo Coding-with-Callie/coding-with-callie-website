@@ -60,7 +60,7 @@ const WorkshopDetails = () => {
         });
     }
 
-    let cart = window.localStorage.getItem("temp-cart");
+    let cart: any = window.localStorage.getItem("temp-cart");
 
     if (cart) {
       cart = JSON.parse(cart);
@@ -75,7 +75,7 @@ const WorkshopDetails = () => {
         }
       }
     } else {
-      cart = JSON.stringify([workshop]);
+      cart = [workshop];
     }
 
     window.localStorage.setItem("temp-cart", JSON.stringify(cart));

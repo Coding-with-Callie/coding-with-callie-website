@@ -22,16 +22,26 @@ export class CartService {
 
     const cart = await this.cartRepository.findOne({
       where: { id: cartId },
-      relations: { workshops: true },
+      relations: { workshops: true, user: { workshops: true } },
     });
+
+    const purchasedWorkshops = cart.user.workshops;
+
+    if (
+      purchasedWorkshops.find(
+        (purchasedWorkshop) => purchasedWorkshop.id === workshopId,
+      )
+    ) {
+      console.log('WORKSHOP ALREADY PURCHASED');
+      return cart;
+    }
 
     if (!cart.workshops) {
       cart.workshops = [];
     } else {
       if (cart.workshops.find((workshop) => workshop.id === workshopId)) {
-        throw new BadRequestException(
-          'You are already registered for that workshop!',
-        );
+        console.log('WORKSHOP ALREADY IN CART');
+        return cart;
       }
     }
 

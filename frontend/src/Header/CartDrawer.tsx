@@ -25,7 +25,8 @@ type Props = {
 };
 
 const getTotalPrice = (workshops: Workshop[]) => {
-  if (workshops) {
+  console.log("WORKSHOPS", typeof workshops);
+  if (workshops.length) {
     return workshops.reduce(
       (accumlator, currentValue) => accumlator + currentValue.price,
       0
@@ -43,6 +44,10 @@ const CartDrawer = ({
   userId,
 }: Props) => {
   const [checkoutStep, setCheckoutStep] = useState(0);
+
+  if (typeof workshops === "string") {
+    workshops = JSON.parse(workshops);
+  }
 
   const totalPrice = getTotalPrice(workshops);
 
