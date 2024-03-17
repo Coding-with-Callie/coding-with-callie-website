@@ -39,7 +39,7 @@ const LogInForm = ({
     const token = window.localStorage.getItem("token");
 
     for (let i = 0; i < cart.length; i++) {
-      const response = await axios
+      const response: any = await axios
         .post(
           `${
             process.env.REACT_APP_API || "http://localhost:3001/api"
@@ -55,7 +55,10 @@ const LogInForm = ({
           showNotification(error.response.data.message, "error");
         });
 
-      console.log("RESPONSE", response);
+      window.localStorage.setItem(
+        "temp-cart",
+        JSON.stringify(response.data.cart.workshops)
+      );
     }
   };
 
@@ -106,9 +109,9 @@ const LogInForm = ({
               }
             })
             .then(() => {
-              // if (setCheckoutStep) {
-              //   setCheckoutStep(2);
-              // }
+              if (setCheckoutStep) {
+                setCheckoutStep(2);
+              }
             });
         })
         .catch((error) => {

@@ -10,6 +10,8 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -51,6 +53,7 @@ export class Users {
   @JoinColumn({ name: 'cartId' })
   cart: Cart;
 
-  @OneToMany(() => Workshop, (workshop) => workshop.user)
+  @ManyToMany(() => Workshop)
+  @JoinTable()
   workshops: Workshop[];
 }

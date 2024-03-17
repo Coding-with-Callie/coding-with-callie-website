@@ -15,13 +15,9 @@ const Header = ({ user, updateUser }: Props) => {
 
   const loggedIn = user.name !== undefined;
 
-  console.log("logged in", loggedIn);
-
   let tempCart: any = window.localStorage.getItem("temp-cart");
   if (tempCart) {
     tempCart = JSON.parse(tempCart);
-
-    console.log("TEMP CART", tempCart);
   } else {
     tempCart = [];
   }

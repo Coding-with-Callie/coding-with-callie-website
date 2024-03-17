@@ -282,7 +282,7 @@ export class AuthController {
     return await this.authService.getSessionStatus(req.query.session_id);
   }
 
-  @Post('/webhook')
+  @Post('webhook')
   async receiveWebhook(@Body() body) {
     return await this.authService.receiveWebhook(body);
   }
