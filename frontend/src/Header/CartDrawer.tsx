@@ -13,7 +13,8 @@ import { Workshop } from "../Pages/Workshops";
 import CartLineItem from "./CartLineItem";
 import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
-import LogInForm from "../Components/LogIn/LogInForm";
+import CartLogin from "./CartLogIn";
+import BodyHeading from "../Components/BodyHeading";
 
 type Props = {
   isOpen: boolean;
@@ -42,8 +43,6 @@ const CartDrawer = ({
   userId,
 }: Props) => {
   const [checkoutStep, setCheckoutStep] = useState(0);
-  const [userData, setUserData] = useState<any>({});
-  const [submitClicked, setSubmitClicked] = useState(false);
 
   const totalPrice = getTotalPrice(workshops);
 
@@ -99,20 +98,15 @@ const CartDrawer = ({
         ) : checkoutStep === 1 ? (
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>Cart</DrawerHeader>
+            <DrawerHeader>
+              <BodyHeading textAlignCenter={false}>Cart</BodyHeading>
+            </DrawerHeader>
             <DrawerBody>
               {hasAccount ? (
-                <>
-                  <Box>You must log in to complete the checkout process!</Box>
-                  <LogInForm
-                    userData={userData}
-                    setUserData={setUserData}
-                    submitClicked={submitClicked}
-                    setSubmitClicked={setSubmitClicked}
-                    updateUser={updateUser}
-                    setCheckoutStep={setCheckoutStep}
-                  />
-                </>
+                <CartLogin
+                  updateUser={updateUser}
+                  setCheckoutStep={setCheckoutStep}
+                />
               ) : (
                 <Box>
                   You must create an account to complete the checkout process!
