@@ -704,9 +704,104 @@ export const sessions: Session[] = [
   },
   {
     title: "Manual E2E Testing",
-    summary: [""],
-    deliverable: "",
-    startDate: "March 28, 2024",
+    summary: [
+      "Go through each user story on each feature within your MVP and manually test it. Try to think of all the edge cases you can and try to 'break' your application.",
+      "Compile a list of bugs and then fix them; however, please note that you'll need to retest any user stories that could have been affected by your fix. Sometimes, fixing a bug creates a new one!",
+      "This is a great time to enlist the help of friends and family to try out your application and report any issues they find with it.",
+    ],
+    deliverable:
+      "A link to your manual testing branch on your Github repository.",
+    startDate: "March 18, 2024",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/qjc8wP5R/todo-list-main",
+        label: "Callie's Todo List Main Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/manual_testing_assignment.mp4",
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_1.mp4",
+        label: "Manually Tested User Account Creation Feature",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_2.mp4",
+        label:
+          "Add Basic Home Page and Navigation Based on User's Log-in Status",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_3.mp4",
+        label:
+          "Added Redirects to Log-in and Sign-up Pages when User is Logged In and Fixed Responsive UI Issues",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_4.mp4",
+        label: "Manually Tested User Account Maintenance",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_5.mp4",
+        label:
+          "Bug Fix: User could edit username and email to match existing user",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_6.mp4",
+        label:
+          "Bug Fix: User could accidentally save dummy asteriks as password",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_7.mp4",
+        label: "Bug Fix: User could reset non-matching passwords",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_8.mp4",
+        label:
+          "Bug Fix: User could not delete account if they had any projects started",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_9.mp4",
+        label: "Manually Tested Create Project Workflow Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_10.mp4",
+        label: "Manually Tested Create Project Workflow Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_11.mp4",
+        label:
+          "Bug Fix: Header did not update logged in status when JWT expired",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_12.mp4",
+        label: "Manually Tested Edit Project Workflow",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_13.mp4",
+        label: "Bug Fix: Frontend would send requests to API unnecessarily",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/manual_testing_part_14.mp4",
+        label: "Manually Tested Delete Project Workflow",
+        type: "video",
+      },
+    ],
   },
   {
     title: "Automated Spec Testing",
