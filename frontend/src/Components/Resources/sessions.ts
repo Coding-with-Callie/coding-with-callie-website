@@ -805,8 +805,45 @@ export const sessions: Session[] = [
   },
   {
     title: "Automated Spec Testing",
-    summary: [""],
-    deliverable: "",
-    startDate: "April 4, 2024",
+    summary: [
+      "Move to the backend of your repository and write automated tests for each service and controller. Your goal is to test the smallest unit of code you can at a time; so, you'll be mocking a lot of dependencies.",
+    ],
+    deliverable:
+      "A link to your spec/unit testing branch on your Github repository.",
+    startDate: "March 25, 2024",
+    instructionVideo:
+      "https://coding-with-callie.s3.amazonaws.com/unit_testing_assignment.mp4",
+    helpfulLinks: [
+      {
+        link: "https://trello.com/b/qjc8wP5R/todo-list-main",
+        label: "Callie's Todo List Main Trello Board",
+      },
+      {
+        link: "https://miro.com/app/board/uXjVN34K4k0=/",
+        label: "Callie's Wireframe Designs",
+      },
+    ],
+    solutionLinks: [
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/style_part_1.mp4",
+        label: "UI: Added Body Background Color and Edited Sloth Logo",
+        type: "video",
+      },
+      {
+        link: "https://dev.to/niemet0502/writing-unit-tests-for-your-nestjs-rest-api-3cgg",
+        label: "Writing Unit Tests for your Nestjs Rest API",
+        type: "how-to",
+      },
+      {
+        link: "https://www.tomray.dev/nestjs-unit-testing",
+        label: "NestJS unit testing: A how-to guide with examples",
+        type: "how-to",
+      },
+      {
+        link: "https://dev.to/ehsaantech/mastering-unit-testing-with-nestjs-37g9",
+        label: "Mastering Unit Testing With NestJS",
+        type: "how-to",
+      },
+    ],
   },
 ];
