@@ -825,11 +825,6 @@ export const sessions: Session[] = [
     ],
     solutionLinks: [
       {
-        link: "https://coding-with-callie.s3.amazonaws.com/style_part_1.mp4",
-        label: "UI: Added Body Background Color and Edited Sloth Logo",
-        type: "video",
-      },
-      {
         link: "https://dev.to/niemet0502/writing-unit-tests-for-your-nestjs-rest-api-3cgg",
         label: "Writing Unit Tests for your Nestjs Rest API",
         type: "how-to",
