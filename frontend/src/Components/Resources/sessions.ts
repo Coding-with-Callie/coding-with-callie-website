@@ -844,6 +844,101 @@ export const sessions: Session[] = [
         label: "Mastering Unit Testing With NestJS",
         type: "how-to",
       },
+      {
+        link: "https://docs.nestjs.com/fundamentals/testing",
+        label: "NestJS Testing Docs",
+        type: "how-to",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_1.mp4",
+        label: "User Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_2.mp4",
+        label: "User Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_3.mp4",
+        label: "Task Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_4.mp4",
+        label: "Task Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_5.mp4",
+        label: "Task Service Spec Tests: Part 3",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_6.mp4",
+        label: "User Story Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_7.mp4",
+        label: "User Story Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_8.mp4",
+        label: "User Story Service Spec Tests: Part 3",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_9.mp4",
+        label: "Feature Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_10.mp4",
+        label: "Feature Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_11.mp4",
+        label: "Project Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_12.mp4",
+        label: "Project Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_13.mp4",
+        label: "Project Service Spec Tests: Part 3",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_14.mp4",
+        label: "Auth Service Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_15.mp4",
+        label: "Auth Service Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_16.mp4",
+        label: "Auth Service Spec Tests: Part 3",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_17.mp4",
+        label: "Auth Service Spec Tests: Part 4",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_18.mp4",
+        label: "Auth Service Spec Tests: Part 5",
+        type: "video",
+      },
     ],
   },
 ];
