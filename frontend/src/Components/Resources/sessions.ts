@@ -934,6 +934,11 @@ export const sessions: Session[] = [
         label: "Auth Service Spec Tests: Part 5",
         type: "video",
       },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_19.mp4",
+        label: "Auth Service Spec Tests: Part 5",
+        type: "video",
+      },
     ],
   },
 ];
