@@ -936,7 +936,22 @@ export const sessions: Session[] = [
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_19.mp4",
-        label: "Auth Service Spec Tests: Part 5",
+        label: "Auth Service Spec Tests: Part 6",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_20.mp4",
+        label: "Auth Service Spec Tests: Part 7",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_21.mp4",
+        label: "Auth Service Spec Tests: Part 8",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_22.mp4",
+        label: "Auth Service Spec Tests: Part 89",
         type: "video",
       },
     ],
