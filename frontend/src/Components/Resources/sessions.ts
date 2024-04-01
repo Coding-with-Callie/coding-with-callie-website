@@ -951,7 +951,52 @@ export const sessions: Session[] = [
       },
       {
         link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_22.mp4",
-        label: "Auth Service Spec Tests: Part 89",
+        label: "Auth Service Spec Tests: Part 9",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_23.mp4",
+        label: "Auth Service Spec Tests: Part 10",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_24.mp4",
+        label: "Auth Service Spec Tests: Part 11",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_25.mp4",
+        label: "Auth Service Spec Tests: Part 12",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_26.mp4",
+        label: "Auth Service Spec Tests: Part 13",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_27.mp4",
+        label: "Auth Controller Spec Tests: Part 1",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_28.mp4",
+        label: "Auth Controller Spec Tests: Part 2",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_29.mp4",
+        label: "Auth Controller Spec Tests: Part 3",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_30.mp4",
+        label: "Auth Controller Spec Tests: Part 4",
+        type: "video",
+      },
+      {
+        link: "https://coding-with-callie.s3.amazonaws.com/unit_testing_part_31.mp4",
+        label: "Send Password Reset Email Unit Tests",
         type: "video",
       },
     ],
