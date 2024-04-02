@@ -290,6 +290,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('add-workshop-to-cart')
   async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
+    console.log('ADD WORKSHOP', workshopId);
     return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
   }
 

@@ -8,9 +8,10 @@ import MyButton from "../Components/MyButton";
 type Props = {
   updateUser: (newUser: any) => void;
   setCheckoutStep: React.Dispatch<React.SetStateAction<number>>;
+  onClose: () => void;
 };
 
-const CartLogin = ({ updateUser, setCheckoutStep }: Props) => {
+const CartLogin = ({ updateUser, setCheckoutStep, onClose }: Props) => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -27,6 +28,7 @@ const CartLogin = ({ updateUser, setCheckoutStep }: Props) => {
         setSubmitClicked={setSubmitClicked}
         updateUser={updateUser}
         setCheckoutStep={setCheckoutStep}
+        onClose={onClose}
       />
       <Box
         display="flex"

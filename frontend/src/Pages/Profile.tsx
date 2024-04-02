@@ -27,6 +27,7 @@ import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
 import Admin from "../Components/Profile/Admin";
+import { Workshop } from "./Workshops";
 
 export type Feedback = {
   id: number;
@@ -51,6 +52,7 @@ export type Data = {
   role: string;
   submissions: Submission[];
   feedback: Feedback[];
+  workshops: Workshop[];
 };
 
 const Profile = () => {

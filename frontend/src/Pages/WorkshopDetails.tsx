@@ -22,6 +22,7 @@ import { showNotification } from "..";
 
 const WorkshopDetails = () => {
   const workshop = useLoaderData() as Workshop;
+
   const [isLargerThan1090] = useMediaQuery("(min-width: 1090px)");
 
   const context: Context = useOutletContext();

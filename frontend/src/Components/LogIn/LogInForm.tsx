@@ -13,6 +13,7 @@ type Props = {
   setSubmitClicked: React.Dispatch<React.SetStateAction<boolean>>;
   updateUser: (newUser: any) => void;
   setCheckoutStep?: React.Dispatch<React.SetStateAction<number>>;
+  onClose?: () => void;
 };
 
 const LogInForm = ({
@@ -22,6 +23,7 @@ const LogInForm = ({
   setSubmitClicked,
   updateUser,
   setCheckoutStep,
+  onClose,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -55,10 +57,18 @@ const LogInForm = ({
           showNotification(error.response.data.message, "error");
         });
 
+      console.log("RESPONSE", response.data);
+
       window.localStorage.setItem(
         "temp-cart",
         JSON.stringify(response.data.cart.workshops)
       );
+
+      if (response.data.cart.workshops.length === 0) {
+        showNotification("You already have access to this workshop", "error");
+        navigate("/my-workshops");
+        if (onClose) onClose();
+      }
     }
   };
 

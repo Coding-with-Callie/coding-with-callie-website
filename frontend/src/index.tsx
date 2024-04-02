@@ -12,7 +12,6 @@ import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
 import FullstackDeployment from "./Pages/FullstackDeployment";
 import Apply from "./Pages/Apply";
-import Resources from "./Pages/Resources";
 import ContactCallie from "./Pages/ContactCallie";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
@@ -25,6 +24,9 @@ import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Return from "./Pages/Return";
 import WorkshopDetails from "./Pages/WorkshopDetails";
+import WorkshopResources from "./Pages/WorkshopResources";
+import MyWorkshops from "./Pages/MyWorkshops";
+import { Box } from "@chakra-ui/react";
 
 export const showNotification = (
   message: string,
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/return",
+        element: <Return />,
+      },
+      {
+        path: "/*",
+        element: <Box>Not Found</Box>,
+      },
+      {
         path: "/workshops",
         element: <Workshops />,
         loader: async () => {
@@ -86,10 +96,6 @@ const router = createBrowserRouter([
           );
           return response.data;
         },
-      },
-      {
-        path: "/return",
-        element: <Return />,
       },
       {
         path: "/reviews",
@@ -119,8 +125,12 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/my-workshops",
+        element: <MyWorkshops />,
+      },
+      {
         path: "/resources/:id",
-        element: <Resources />,
+        element: <WorkshopResources />,
         loader: async () => {
           const token = localStorage.getItem("token");
 
