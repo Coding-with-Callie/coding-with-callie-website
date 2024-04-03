@@ -24,7 +24,7 @@ const Return = () => {
 
     axios
       .get(
-        `http://localhost:3001/api/auth/session-status?session_id=${sessionId}`
+        `http://localhost:3001/api/auth/session-status?session_id=${sessionId}&userId=${context.user.id}`
       )
       .then((response) => {
         setStatus(response.data.status);

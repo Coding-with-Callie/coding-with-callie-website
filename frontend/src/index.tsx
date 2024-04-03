@@ -67,6 +67,35 @@ const router = createBrowserRouter([
       {
         path: "/return",
         element: <Return />,
+        // loader: async ({ request }) => {
+        //   const url = new URL(request.url);
+        //   const sessionId = url.searchParams.get("session_id");
+        //   const token = localStorage.getItem("token");
+
+        //   if (token) {
+        //     try {
+        //       const response = await axios.get(
+        //         `${
+        //           process.env.REACT_APP_API || "http://localhost:3001/api"
+        //         }/auth/session-status?session_id=${sessionId}&userId=51`
+        //       );
+        //       console.log("RESPONSE", response.data);
+        //       return response.data;
+        //     } catch (error) {
+        //       showNotification(
+        //         "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+        //         "error"
+        //       );
+        //       return redirect("/log-in");
+        //     }
+        //   } else {
+        //     showNotification(
+        //       "You must sign up to view Coding with Callie resources!",
+        //       "error"
+        //     );
+        //     return redirect("/sign-up");
+        //   }
+        // },
       },
       {
         path: "/*",

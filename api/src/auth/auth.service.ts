@@ -314,8 +314,28 @@ export class AuthService {
     return { clientSecret: session.client_secret };
   }
 
-  async getSessionStatus(session_id) {
+  async getSessionStatus(session_id, userId) {
     const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    if (session.status === 'complete') {
+      let lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+
+      lineItems = lineItems.data;
+
+      for (let i = 0; i < lineItems.length; i++) {
+        const workshop = await this.workshopsService.findOneByPriceId(
+          lineItems[i].price.id,
+        );
+
+        const userToUpdate = await this.usersService.findOneById(userId);
+
+        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+
+        await this.usersService.createUser(userToUpdate);
+
+        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
+      }
+    }
 
     return {
       status: session.status,

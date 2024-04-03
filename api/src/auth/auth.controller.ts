@@ -279,7 +279,11 @@ export class AuthController {
 
   @Get('session-status')
   async getSessionStatus(@Request() req) {
-    return await this.authService.getSessionStatus(req.query.session_id);
+    console.log('REQ', req.query);
+    return await this.authService.getSessionStatus(
+      req.query.session_id,
+      req.query.userId,
+    );
   }
 
   @Post('webhook')
@@ -290,7 +294,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('add-workshop-to-cart')
   async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
-    console.log('ADD WORKSHOP', workshopId);
     return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
   }
 
