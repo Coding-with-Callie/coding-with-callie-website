@@ -83,7 +83,6 @@ const CartDrawer = ({
                   })}
                 </Box>
               ) : (
-                // move this so checkout button isn't showing
                 <Box>You haven't added any workshops to your cart yet!</Box>
               )}
             </DrawerBody>
