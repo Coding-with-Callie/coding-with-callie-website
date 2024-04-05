@@ -86,18 +86,19 @@ const CartDrawer = ({
                 <Box>You haven't added any workshops to your cart yet!</Box>
               )}
             </DrawerBody>
-
-            <DrawerFooter>
-              <Box w="100%">
-                <Box display="flex" justifyContent="flex-end" mb={4}>
-                  <Box w="50%">Total:</Box>
-                  <Box>${totalPrice}.00</Box>
+            {workshops.length > 0 ? (
+              <DrawerFooter>
+                <Box w="100%">
+                  <Box display="flex" justifyContent="flex-end" mb={4}>
+                    <Box w="50%">Total:</Box>
+                    <Box>${totalPrice}.00</Box>
+                  </Box>
+                  <Button colorScheme="green" w="100%" onClick={startCheckout}>
+                    Checkout
+                  </Button>
                 </Box>
-                <Button colorScheme="green" w="100%" onClick={startCheckout}>
-                  Checkout
-                </Button>
-              </Box>
-            </DrawerFooter>
+              </DrawerFooter>
+            ) : null}
           </DrawerContent>
         ) : checkoutStep === 1 ? (
           <DrawerContent>
