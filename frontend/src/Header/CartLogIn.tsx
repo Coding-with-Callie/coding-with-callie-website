@@ -4,14 +4,23 @@ import BodyHeading from "../Components/BodyHeading";
 import LogInForm from "../Components/LogIn/LogInForm";
 import { useState } from "react";
 import MyButton from "../Components/MyButton";
+import { Link } from "react-router-dom";
 
 type Props = {
   updateUser: (newUser: any) => void;
   setCheckoutStep: React.Dispatch<React.SetStateAction<number>>;
   onClose: () => void;
+  hasAccount: boolean;
+  setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CartLogin = ({ updateUser, setCheckoutStep, onClose }: Props) => {
+const CartLogin = ({
+  updateUser,
+  setCheckoutStep,
+  onClose,
+  hasAccount,
+  setHasAccount,
+}: Props) => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -38,7 +47,7 @@ const CartLogin = ({ updateUser, setCheckoutStep, onClose }: Props) => {
         mt={20}
       >
         <Paragraph margin={false}>Don't have an account?</Paragraph>
-        <MyButton>Sign up</MyButton>
+        <MyButton onClick={() => setHasAccount(!hasAccount)}>Sign up</MyButton>
       </Box>
     </>
   );

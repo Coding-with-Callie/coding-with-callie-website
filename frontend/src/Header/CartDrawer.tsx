@@ -15,6 +15,8 @@ import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import CartLogin from "./CartLogIn";
 import BodyHeading from "../Components/BodyHeading";
+import SignUpForm from "../Components/SignUp/SignUpForm";
+import CartSignUp from "./CartSignUp";
 
 type Props = {
   isOpen: boolean;
@@ -43,14 +45,15 @@ const CartDrawer = ({
   userId,
 }: Props) => {
   const [checkoutStep, setCheckoutStep] = useState(0);
+  const [hasAccount, setHasAccount] = useState(
+    window.localStorage.getItem("token") !== null
+  );
 
   if (typeof workshops === "string") {
     workshops = JSON.parse(workshops);
   }
 
   const totalPrice = getTotalPrice(workshops);
-
-  const hasAccount = window.localStorage.getItem("token") !== undefined;
 
   const startCheckout = () => {
     if (userId > 0) {
@@ -112,11 +115,14 @@ const CartDrawer = ({
                   updateUser={updateUser}
                   setCheckoutStep={setCheckoutStep}
                   onClose={onClose}
+                  hasAccount={hasAccount}
+                  setHasAccount={setHasAccount}
                 />
               ) : (
-                <Box>
-                  You must create an account to complete the checkout process!
-                </Box>
+                <CartSignUp
+                  hasAccount={hasAccount}
+                  setHasAccount={setHasAccount}
+                />
               )}
             </DrawerBody>
           </DrawerContent>

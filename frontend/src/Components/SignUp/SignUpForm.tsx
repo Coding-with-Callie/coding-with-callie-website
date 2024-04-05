@@ -244,26 +244,6 @@ const SignUpForm = () => {
         />
       </Box>
       <MyButton onClick={onSubmit}>Submit</MyButton>
-
-      <Box
-        display="flex"
-        gap={2}
-        alignItems="center"
-        justifyContent="center"
-        mt={6}
-        w="100%"
-        flexDirection={isLargerThan500 ? "row" : "column"}
-      >
-        <Paragraph margin={false}>Already have an account?</Paragraph>
-        <MyButton
-          onClick={() => {
-            navigate("/log-in");
-          }}
-          widthSize={isLargerThan500 ? null : "100%"}
-        >
-          Sign in instead!
-        </MyButton>
-      </Box>
     </FormControl>
   );
 };
