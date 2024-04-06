@@ -30,10 +30,15 @@ const CheckoutForm = ({ workshops, userId, updateUser }: Props) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:3001/api/auth/create-checkout-session", {
-        lineItems,
-        userId,
-      })
+      .post(
+        `${
+          process.env.REACT_APP_API || "http://localhost:3001/api"
+        }/auth/create-checkout-session`,
+        {
+          lineItems,
+          userId,
+        }
+      )
       .then((response) => {
         setClientSecret(response.data.clientSecret);
       });

@@ -19,7 +19,9 @@ const CartLineItem = ({ workshop, updateUser, userId }: Props) => {
       const token = window.localStorage.getItem("token");
       axios
         .post(
-          "http://localhost:3001/api/auth/delete-workshop-from-cart",
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/delete-workshop-from-cart`,
           {
             workshopId: workshop.id,
           },

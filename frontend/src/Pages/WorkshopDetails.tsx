@@ -36,7 +36,9 @@ const WorkshopDetails = () => {
       const token = window.localStorage.getItem("token");
       axios
         .post(
-          "http://localhost:3001/api/auth/add-workshop-to-cart",
+          `${
+            process.env.REACT_APP_API || "http://localhost:3001/api"
+          }/auth/add-workshop-to-cart`,
           {
             workshopId: workshop.id,
           },
