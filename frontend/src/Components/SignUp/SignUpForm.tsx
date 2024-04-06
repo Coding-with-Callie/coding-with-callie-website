@@ -13,12 +13,12 @@ import axios from "axios";
 import { transferCart } from "../../helpers/helpers";
 
 type Props = {
-  setCheckoutStep?: React.Dispatch<React.SetStateAction<number>>;
+  updateCheckoutStep?: (newStep: number) => void;
   onClose?: () => void;
   updateUser: (newUser: any) => void;
 };
 
-const SignUpForm = ({ setCheckoutStep, onClose, updateUser }: Props) => {
+const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -123,7 +123,7 @@ const SignUpForm = ({ setCheckoutStep, onClose, updateUser }: Props) => {
                   onFileUpload(response.data.id);
                 }
 
-                if (setCheckoutStep) {
+                if (updateCheckoutStep) {
                   let cart = window.localStorage.getItem("temp-cart");
 
                   if (cart) {
@@ -141,8 +141,8 @@ const SignUpForm = ({ setCheckoutStep, onClose, updateUser }: Props) => {
                 }
               })
               .then(() => {
-                if (setCheckoutStep) {
-                  setCheckoutStep(2);
+                if (updateCheckoutStep) {
+                  updateCheckoutStep(2);
                 }
               });
           }

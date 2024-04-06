@@ -12,7 +12,7 @@ type Props = {
   submitClicked: boolean;
   setSubmitClicked: React.Dispatch<React.SetStateAction<boolean>>;
   updateUser: (newUser: any) => void;
-  setCheckoutStep?: React.Dispatch<React.SetStateAction<number>>;
+  updateCheckoutStep?: (newStep: number) => void;
   onClose?: () => void;
 };
 
@@ -22,7 +22,7 @@ const LogInForm = ({
   submitClicked,
   setSubmitClicked,
   updateUser,
-  setCheckoutStep,
+  updateCheckoutStep,
   onClose,
 }: Props) => {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const LogInForm = ({
             .then(async (response) => {
               updateUser(response.data);
 
-              if (setCheckoutStep) {
+              if (updateCheckoutStep) {
                 let cart = window.localStorage.getItem("temp-cart");
 
                 if (cart) {
@@ -84,8 +84,8 @@ const LogInForm = ({
               }
             })
             .then(() => {
-              if (setCheckoutStep) {
-                setCheckoutStep(2);
+              if (updateCheckoutStep) {
+                updateCheckoutStep(2);
               }
             });
         })

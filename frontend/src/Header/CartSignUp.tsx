@@ -8,7 +8,7 @@ type Props = {
   hasAccount: boolean;
   setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
   updateUser: (newUser: any) => void;
-  setCheckoutStep: React.Dispatch<React.SetStateAction<number>>;
+  updateCheckoutStep: (newStep: number) => void;
   onClose?: () => void;
 };
 
@@ -16,7 +16,7 @@ const CartSignUp = ({
   hasAccount,
   setHasAccount,
   updateUser,
-  setCheckoutStep,
+  updateCheckoutStep,
   onClose,
 }: Props) => {
   return (
@@ -29,7 +29,7 @@ const CartSignUp = ({
       <BodyHeading textAlignCenter={true}>Sign up!</BodyHeading>
       <SignUpForm
         updateUser={updateUser}
-        setCheckoutStep={setCheckoutStep}
+        updateCheckoutStep={updateCheckoutStep}
         onClose={onClose}
       />
       <Box

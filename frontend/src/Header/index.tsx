@@ -8,9 +8,16 @@ const sloth = require("../../src/images/sloth.png");
 type Props = {
   user: any;
   updateUser: (newUser: any) => void;
+  checkoutStep: number;
+  updateCheckoutStep: (newStep: number) => void;
 };
 
-const Header = ({ user, updateUser }: Props) => {
+const Header = ({
+  user,
+  updateUser,
+  checkoutStep,
+  updateCheckoutStep,
+}: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
@@ -56,6 +63,8 @@ const Header = ({ user, updateUser }: Props) => {
         workshops={loggedIn ? user?.cart?.workshops || [] : tempCart}
         updateUser={updateUser}
         userId={loggedIn ? user.id : 0}
+        checkoutStep={checkoutStep}
+        updateCheckoutStep={updateCheckoutStep}
       />
       {loggedIn ? (
         <Avatar

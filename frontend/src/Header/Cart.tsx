@@ -9,9 +9,18 @@ type Props = {
   workshops: Workshop[];
   updateUser: (newUser: any) => void;
   userId: number;
+  checkoutStep: number;
+  updateCheckoutStep: (newStep: number) => void;
 };
 
-const Cart = ({ count, workshops, updateUser, userId }: Props) => {
+const Cart = ({
+  count,
+  workshops,
+  updateUser,
+  userId,
+  checkoutStep,
+  updateCheckoutStep,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -46,6 +55,8 @@ const Cart = ({ count, workshops, updateUser, userId }: Props) => {
         workshops={workshops}
         updateUser={updateUser}
         userId={userId}
+        checkoutStep={checkoutStep}
+        updateCheckoutStep={updateCheckoutStep}
       />
     </>
   );

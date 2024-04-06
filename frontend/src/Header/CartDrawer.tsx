@@ -23,6 +23,8 @@ type Props = {
   workshops: Workshop[];
   updateUser: (newUser: any) => void;
   userId: number;
+  checkoutStep: number;
+  updateCheckoutStep: (newStep: number) => void;
 };
 
 const getTotalPrice = (workshops: Workshop[]) => {
@@ -42,8 +44,10 @@ const CartDrawer = ({
   workshops,
   updateUser,
   userId,
+  checkoutStep,
+  updateCheckoutStep,
 }: Props) => {
-  const [checkoutStep, setCheckoutStep] = useState(0);
+  // const [checkoutStep, setCheckoutStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(
     window.localStorage.getItem("token") !== null
   );
@@ -56,9 +60,9 @@ const CartDrawer = ({
 
   const startCheckout = () => {
     if (userId > 0) {
-      setCheckoutStep(2);
+      updateCheckoutStep(2);
     } else {
-      setCheckoutStep(1);
+      updateCheckoutStep(1);
     }
   };
 
@@ -112,7 +116,7 @@ const CartDrawer = ({
               {hasAccount ? (
                 <CartLogin
                   updateUser={updateUser}
-                  setCheckoutStep={setCheckoutStep}
+                  updateCheckoutStep={updateCheckoutStep}
                   onClose={onClose}
                   hasAccount={hasAccount}
                   setHasAccount={setHasAccount}
@@ -122,7 +126,7 @@ const CartDrawer = ({
                   hasAccount={hasAccount}
                   setHasAccount={setHasAccount}
                   updateUser={updateUser}
-                  setCheckoutStep={setCheckoutStep}
+                  updateCheckoutStep={updateCheckoutStep}
                   onClose={onClose}
                 />
               )}

@@ -7,7 +7,7 @@ import MyButton from "../Components/MyButton";
 
 type Props = {
   updateUser: (newUser: any) => void;
-  setCheckoutStep: React.Dispatch<React.SetStateAction<number>>;
+  updateCheckoutStep: (newStep: number) => void;
   onClose: () => void;
   hasAccount: boolean;
   setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +15,7 @@ type Props = {
 
 const CartLogin = ({
   updateUser,
-  setCheckoutStep,
+  updateCheckoutStep,
   onClose,
   hasAccount,
   setHasAccount,
@@ -35,7 +35,7 @@ const CartLogin = ({
         submitClicked={submitClicked}
         setSubmitClicked={setSubmitClicked}
         updateUser={updateUser}
-        setCheckoutStep={setCheckoutStep}
+        updateCheckoutStep={updateCheckoutStep}
         onClose={onClose}
       />
       <Box
