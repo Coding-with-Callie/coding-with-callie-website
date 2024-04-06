@@ -26,6 +26,8 @@ const CheckoutForm = ({ workshops, userId, updateUser }: Props) => {
     return { price: workshop.stripe_id, quantity: 1 };
   });
 
+  console.log("WORKSHOPS", workshops);
+
   useEffect(() => {
     axios
       .post("http://localhost:3001/api/auth/create-checkout-session", {

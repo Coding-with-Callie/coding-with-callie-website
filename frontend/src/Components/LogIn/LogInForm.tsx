@@ -4,7 +4,7 @@ import MyButton from "../MyButton";
 import { showNotification } from "../..";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Workshop } from "../../Pages/Workshops";
+import { transferCart } from "../../helpers/helpers";
 
 type Props = {
   userData: any;
@@ -35,41 +35,6 @@ const LogInForm = ({
   const onChangePassword = (e: any) => {
     setSubmitClicked(false);
     setUserData({ ...userData, password: e.target.value });
-  };
-
-  const transferCart = async (cart: Workshop[]) => {
-    const token = window.localStorage.getItem("token");
-
-    for (let i = 0; i < cart.length; i++) {
-      const response: any = await axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/add-workshop-to-cart`,
-          {
-            workshopId: cart[i].id,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .catch((error) => {
-          showNotification(error.response.data.message, "error");
-        });
-
-      console.log("RESPONSE", response.data);
-
-      window.localStorage.setItem(
-        "temp-cart",
-        JSON.stringify(response.data.cart.workshops)
-      );
-
-      if (response.data.cart.workshops.length === 0) {
-        showNotification("You already have access to this workshop", "error");
-        navigate("/my-workshops");
-        if (onClose) onClose();
-      }
-    }
   };
 
   const onSubmit = () => {
@@ -107,7 +72,7 @@ const LogInForm = ({
                 if (cart) {
                   cart = JSON.parse(cart);
                   if (Array.isArray(cart)) {
-                    await transferCart(cart);
+                    await transferCart(cart, navigate, updateUser, onClose);
                   }
                 }
               } else {

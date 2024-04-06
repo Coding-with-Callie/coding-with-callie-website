@@ -15,7 +15,6 @@ import { useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import CartLogin from "./CartLogIn";
 import BodyHeading from "../Components/BodyHeading";
-import SignUpForm from "../Components/SignUp/SignUpForm";
 import CartSignUp from "./CartSignUp";
 
 type Props = {
@@ -122,6 +121,9 @@ const CartDrawer = ({
                 <CartSignUp
                   hasAccount={hasAccount}
                   setHasAccount={setHasAccount}
+                  updateUser={updateUser}
+                  setCheckoutStep={setCheckoutStep}
+                  onClose={onClose}
                 />
               )}
             </DrawerBody>

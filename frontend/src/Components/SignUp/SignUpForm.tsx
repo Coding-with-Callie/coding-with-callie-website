@@ -4,21 +4,24 @@ import {
   Input,
   FormHelperText,
   Box,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import MyButton from "../MyButton";
-import Paragraph from "../Paragraph";
 import { useState } from "react";
-import { Context } from "../../App";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { transferCart } from "../../helpers/helpers";
 
-const SignUpForm = () => {
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+type Props = {
+  setCheckoutStep?: React.Dispatch<React.SetStateAction<number>>;
+  onClose?: () => void;
+  updateUser: (newUser: any) => void;
+};
+
+const SignUpForm = ({ setCheckoutStep, onClose, updateUser }: Props) => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
-  const context: Context = useOutletContext();
+
   const navigate = useNavigate();
 
   const showNotification = (message: string, type: "success" | "error") => {
@@ -46,7 +49,7 @@ const SignUpForm = () => {
           }
         )
         .then((response) => {
-          context.updateUser(response.data);
+          updateUser(response.data);
         })
         .catch((error) => {
           if (error.response.data.message === "Unauthorized") {
@@ -62,6 +65,7 @@ const SignUpForm = () => {
         });
     }
   };
+
   const onSubmit = () => {
     if (
       userData.name &&
@@ -112,18 +116,34 @@ const SignUpForm = () => {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               )
-              .then((response) => {
-                context.updateUser(response.data);
+              .then(async (response) => {
+                updateUser(response.data);
 
                 if (photo) {
                   onFileUpload(response.data.id);
                 }
 
-                showNotification(
-                  `Welcome to Coding with Callie, ${response.data.name}!`,
-                  "success"
-                );
-                navigate("/");
+                if (setCheckoutStep) {
+                  let cart = window.localStorage.getItem("temp-cart");
+
+                  if (cart) {
+                    cart = JSON.parse(cart);
+                    if (Array.isArray(cart)) {
+                      await transferCart(cart, navigate, updateUser, onClose);
+                    }
+                  }
+                } else {
+                  showNotification(
+                    `Welcome to Coding with Callie, ${response.data.username}!`,
+                    "success"
+                  );
+                  navigate("/");
+                }
+              })
+              .then(() => {
+                if (setCheckoutStep) {
+                  setCheckoutStep(2);
+                }
               });
           }
         })

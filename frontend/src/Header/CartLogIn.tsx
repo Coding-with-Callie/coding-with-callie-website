@@ -4,7 +4,6 @@ import BodyHeading from "../Components/BodyHeading";
 import LogInForm from "../Components/LogIn/LogInForm";
 import { useState } from "react";
 import MyButton from "../Components/MyButton";
-import { Link } from "react-router-dom";
 
 type Props = {
   updateUser: (newUser: any) => void;

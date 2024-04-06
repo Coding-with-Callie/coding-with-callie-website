@@ -7,9 +7,18 @@ import MyButton from "../Components/MyButton";
 type Props = {
   hasAccount: boolean;
   setHasAccount: React.Dispatch<React.SetStateAction<boolean>>;
+  updateUser: (newUser: any) => void;
+  setCheckoutStep: React.Dispatch<React.SetStateAction<number>>;
+  onClose?: () => void;
 };
 
-const CartSignUp = ({ hasAccount, setHasAccount }: Props) => {
+const CartSignUp = ({
+  hasAccount,
+  setHasAccount,
+  updateUser,
+  setCheckoutStep,
+  onClose,
+}: Props) => {
   return (
     <>
       <Box mb={20}>
@@ -18,7 +27,11 @@ const CartSignUp = ({ hasAccount, setHasAccount }: Props) => {
         </Paragraph>
       </Box>
       <BodyHeading textAlignCenter={true}>Sign up!</BodyHeading>
-      <SignUpForm />
+      <SignUpForm
+        updateUser={updateUser}
+        setCheckoutStep={setCheckoutStep}
+        onClose={onClose}
+      />
       <Box
         display="flex"
         gap={4}

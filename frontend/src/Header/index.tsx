@@ -2,6 +2,7 @@ import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
 import Cart from "./Cart";
+import { useEffect } from "react";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
@@ -21,6 +22,10 @@ const Header = ({ user, updateUser }: Props) => {
   } else {
     tempCart = [];
   }
+
+  useEffect(() => {
+    console.log("USER UPDATED", user);
+  }, [user]);
 
   return (
     <Box
