@@ -10,8 +10,6 @@ import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
-import FullstackDeployment from "./Pages/FullstackDeployment";
-import Apply from "./Pages/Apply";
 import ContactCallie from "./Pages/ContactCallie";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
@@ -107,21 +105,6 @@ const router = createBrowserRouter([
             }/reviews`
           );
           return response.data;
-        },
-      },
-      {
-        path: "/workshops/fullstack-deployment",
-        element: <FullstackDeployment />,
-      },
-      {
-        path: "/apply",
-        element: <Apply />,
-        loader: () => {
-          showNotification(
-            "There are no workshops to apply to right now",
-            "error"
-          );
-          return redirect("/");
         },
       },
       {
