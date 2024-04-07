@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Session } from '../session';
 
 @Entity()
 export class Workshop {
@@ -31,4 +32,7 @@ export class Workshop {
 
   @Column({ nullable: true })
   stripe_id: string;
+
+  @Column('jsonb')
+  sessions: Session[];
 }
