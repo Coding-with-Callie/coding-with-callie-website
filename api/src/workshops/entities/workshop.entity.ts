@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Session } from '../session';
+import { Session } from '../content/type';
 
 @Entity()
 export class Workshop {
@@ -31,7 +31,7 @@ export class Workshop {
   available: boolean;
 
   @Column({ nullable: true })
-  stripe_id: string;
+  stripeId: string;
 
   @Column('jsonb')
   sessions: Session[];
