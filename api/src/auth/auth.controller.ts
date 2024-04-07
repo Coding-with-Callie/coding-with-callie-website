@@ -159,6 +159,12 @@ export class AuthController {
     return this.authService.getUserProfile(req.user.sub);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('resources/:id')
+  getWorkshopResources(@Param('id') id: number, @Request() req) {
+    return this.authService.getWorkshopResources(id, req.user.sub);
+  }
+
   @Get('profile/:token/:id')
   getProfileReset(@Param('token') token: string, @Param('id') id: number) {
     return this.authService.getProfileReset(token, id);

@@ -1,20 +1,21 @@
-import { Box, ListItem, OrderedList, Text } from "@chakra-ui/react";
-import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
+import { Box, ListItem, OrderedList } from "@chakra-ui/react";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
-import { Session, sessions } from "../Components/Resources/sessions";
 import SessionTask from "../Components/Resources/SessionTask";
 import Section from "../Components/Section";
-import { Data } from "./Profile";
+import { Submission } from "./Profile";
 import BodyText from "../Components/BodyText";
+import { Workshop } from "./Workshops";
+import { Session } from "../Components/Resources/sessions";
+
+type LoaderData = {
+  workshop: Workshop;
+  submissions: Submission[];
+};
 
 const WorkshopResources = () => {
-  const data = useLoaderData() as Data;
-  const { id } = useParams();
-
-  const workshop = data.workshops.find(
-    (workshop) => workshop.id === parseInt(id!)
-  );
+  const { workshop, submissions } = useLoaderData() as LoaderData;
 
   const context: Context = useOutletContext();
 
@@ -45,7 +46,7 @@ const WorkshopResources = () => {
                 session={session}
                 index={index}
                 userId={context.user.id}
-                submissions={data.submissions}
+                submissions={submissions}
               />
             );
           } else {

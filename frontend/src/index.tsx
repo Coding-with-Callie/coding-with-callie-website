@@ -114,7 +114,8 @@ const router = createBrowserRouter([
       {
         path: "/resources/:id",
         element: <WorkshopResources />,
-        loader: async () => {
+        loader: async ({ params }) => {
+          const { id } = params;
           const token = localStorage.getItem("token");
 
           if (token) {
@@ -122,7 +123,7 @@ const router = createBrowserRouter([
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                }/auth/resources/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -130,14 +131,14 @@ const router = createBrowserRouter([
               return response.data;
             } catch (error) {
               showNotification(
-                "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
+                "It looks like your session has expired. Please log in again to view this workshop's resources!",
                 "error"
               );
               return redirect("/log-in");
             }
           } else {
             showNotification(
-              "You must sign up to view Coding with Callie resources!",
+              "You must sign up to view workshop resources!",
               "error"
             );
             return redirect("/sign-up");

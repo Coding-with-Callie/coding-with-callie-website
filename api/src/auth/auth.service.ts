@@ -121,6 +121,19 @@ export class AuthService {
     };
   }
 
+  async getWorkshopResources(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+
+    const workshop = user.workshops.find(
+      (workshop) => workshop.id === workshopId,
+    );
+
+    return {
+      workshop,
+      submissions: user.submissions,
+    };
+  }
+
   async changeAccountDetail(id: number, value: string, field: string) {
     const userToUpdate = await this.usersService.findOneById(id);
 
