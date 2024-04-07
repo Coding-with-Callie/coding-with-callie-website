@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -127,6 +131,10 @@ export class AuthService {
     const workshop = user.workshops.find(
       (workshop) => workshop.id === workshopId,
     );
+
+    if (!workshop) {
+      throw new NotFoundException('workshop not found');
+    }
 
     return {
       workshop,

@@ -129,12 +129,23 @@ const router = createBrowserRouter([
                 }
               );
               return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view this workshop's resources!",
-                "error"
-              );
-              return redirect("/log-in");
+            } catch (error: any) {
+              console.log(error.response.data.message);
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view this workshop's resources!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
+
+              if (error.response.data.message === "workshop not found") {
+                showNotification(
+                  "We couldn't find the workshop you're looking for. Please try again.",
+                  "error"
+                );
+                return redirect("/workshops");
+              }
             }
           } else {
             showNotification(
