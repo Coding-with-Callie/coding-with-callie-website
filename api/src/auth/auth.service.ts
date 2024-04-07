@@ -12,6 +12,7 @@ import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
 import { CartService } from 'src/cart/cart.service';
 import { WorkshopsService } from 'src/workshops/workshops.service';
+import { Workshop } from 'src/workshops/content/type';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(
@@ -398,5 +399,9 @@ export class AuthService {
     const updatedUser = await this.usersService.findOneById(userId);
 
     return updatedUser;
+  }
+
+  async createWorkshop(workshop: Workshop) {
+    return await this.workshopsService.createWorkshop(workshop);
   }
 }

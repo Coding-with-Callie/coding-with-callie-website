@@ -6,13 +6,13 @@ import TextAreaInput from "../Forms/TextAreaInput";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { Submission } from "../Resources/SessionTask";
-import { sessions } from "../Resources/sessions";
 import { isInvalidName } from "../../helpers/helpers";
 import { showNotification } from "../..";
 import { useEffect, useState } from "react";
 import { Context } from "../../App";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
+import { sessions } from "../Resources/sessions";
 
 type Props = {
   reviews: any[];

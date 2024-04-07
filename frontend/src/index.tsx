@@ -17,7 +17,6 @@ import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
-import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Return from "./Pages/Return";
@@ -25,6 +24,7 @@ import WorkshopDetails from "./Pages/WorkshopDetails";
 import WorkshopResources from "./Pages/WorkshopResources";
 import MyWorkshops from "./Pages/MyWorkshops";
 import { Box } from "@chakra-ui/react";
+import { sessions } from "./Components/Resources/sessions";
 
 export const showNotification = (
   message: string,

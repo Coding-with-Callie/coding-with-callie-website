@@ -23,7 +23,7 @@ const CheckoutForm = ({ workshops, userId, updateUser }: Props) => {
   const [clientSecret, setClientSecret] = useState("");
 
   const lineItems = workshops.map((workshop) => {
-    return { price: workshop.stripe_id, quantity: 1 };
+    return { price: workshop.stripeId, quantity: 1 };
   });
 
   console.log("WORKSHOPS", workshops);

@@ -20,6 +20,8 @@ import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
+import { projectPlanningTool } from 'src/workshops/content/ProjectPlanningTool';
+import { Workshop } from 'src/workshops/content/type';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -262,6 +264,15 @@ export class AuthController {
   @Post('speaker')
   async createSpeaker(@Body() speaker: Speaker) {
     return await this.authService.createSpeaker(speaker);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post('create-workshop')
+  async createWorkshop(@Body() workshop?: Workshop) {
+    workshop = projectPlanningTool;
+    console.log('workshop', workshop);
+    return await this.authService.createWorkshop(workshop);
   }
 
   @Get('speakers')

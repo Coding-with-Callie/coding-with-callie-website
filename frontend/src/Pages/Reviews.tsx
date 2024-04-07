@@ -7,8 +7,8 @@ import Section from "../Components/Section";
 import Paragraph from "../Components/Paragraph";
 import { format } from "date-fns";
 import StarRating from "../Components/Reviews/StarRating";
-import { sessions } from "../Components/Resources/sessions";
 import ReviewForm from "../Components/Reviews/ReviewForm";
+import { sessions } from "../Components/Resources/sessions";
 
 export type Review = {
   comments: string;

@@ -1,6 +1,6 @@
 import { Workshop } from './type';
 
-export const ProjectPlanningTool: Workshop = {
+export const projectPlanningTool: Workshop = {
   name: 'Project Planning Tool: Fullstack',
   description:
     'Build a fullstack project planning tool that you can subsequently use to plan all of your portfolio projects with React, ChakraUI, NestJS, and PostgreSQL.',

@@ -1,6 +1,5 @@
 import { Box, Link } from "@chakra-ui/react";
 import { useLoaderData } from "react-router-dom";
-import { sessions } from "../Components/Resources/sessions";
 import ReactPlayer from "react-player";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
@@ -8,6 +7,7 @@ import Paragraph from "../Components/Paragraph";
 import ReviewForm from "../Components/Reviews/ReviewForm";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { sessions } from "../Components/Resources/sessions";
 
 const CallieSubmission = () => {
   const sessionId = useLoaderData() as any;

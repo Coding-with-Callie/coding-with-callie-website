@@ -4,6 +4,7 @@ import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
 import { Context } from "../App";
+import { Session } from "../Components/Resources/sessions";
 
 const why = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc.",
@@ -31,7 +32,8 @@ export type Workshop = {
   techStack: string[];
   price: number;
   available: boolean;
-  stripe_id: string;
+  stripeId: string;
+  sessions: Session[];
 };
 
 const Workshops = () => {
