@@ -295,37 +295,36 @@ const Profile = () => {
                 <BodyHeading textAlignCenter={false}>
                   {workshop.name}
                 </BodyHeading>
-
-                {workshop.sessions.map((session, index) => {
-                  const submission = data.submissions.find((submission) => {
-                    return (
-                      submission.session === index + 1 &&
-                      submission.workshop.id === workshop.id
-                    );
-                  });
-
-                  const feedbackReceived = submission?.feedback || [];
-
-                  const feedbackGiven = data.feedback.filter((feedback) => {
-                    return (
-                      feedback.submission.session === index + 1 &&
-                      feedback.submission.workshop.id === workshop.id
-                    );
-                  });
-
-                  return (
-                    <Box key={index}>
-                      <SessionFeedback
-                        sessionNumber={index + 1}
-                        admin={false}
-                        submission={submission}
-                        feedbackReceived={feedbackReceived}
-                        feedbackGiven={feedbackGiven}
-                      />
-                    </Box>
-                  );
-                })}
               </Section>
+              {workshop.sessions.map((session, index) => {
+                const submission = data.submissions.find((submission) => {
+                  return (
+                    submission.session === index + 1 &&
+                    submission.workshop.id === workshop.id
+                  );
+                });
+
+                const feedbackReceived = submission?.feedback || [];
+
+                const feedbackGiven = data.feedback.filter((feedback) => {
+                  return (
+                    feedback.submission.session === index + 1 &&
+                    feedback.submission.workshop.id === workshop.id
+                  );
+                });
+
+                return (
+                  <Box key={index}>
+                    <SessionFeedback
+                      sessionNumber={index + 1}
+                      admin={false}
+                      submission={submission}
+                      feedbackReceived={feedbackReceived}
+                      feedbackGiven={feedbackGiven}
+                    />
+                  </Box>
+                );
+              })}
             </Box>
           );
         })}
