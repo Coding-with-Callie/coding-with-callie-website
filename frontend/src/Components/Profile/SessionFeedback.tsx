@@ -39,8 +39,12 @@ const SessionFeedback = ({
           <Box mb={10} w="100%">
             <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
 
-            {feedbackReceived.map((feedback) => {
-              return <FeedbackReceived feedback={feedback} />;
+            {feedbackReceived.map((feedback, index) => {
+              return (
+                <Box key={index}>
+                  <FeedbackReceived feedback={feedback} />
+                </Box>
+              );
             })}
           </Box>
         )}
@@ -49,8 +53,12 @@ const SessionFeedback = ({
             <>
               <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
 
-              {feedbackGiven.map((feedback) => {
-                return <FeedbackGiven feedback={feedback} admin={admin} />;
+              {feedbackGiven.map((feedback, index) => {
+                return (
+                  <Box key={index}>
+                    <FeedbackGiven feedback={feedback} admin={admin} />
+                  </Box>
+                );
               })}
             </>
           )}

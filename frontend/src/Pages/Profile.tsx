@@ -288,41 +288,45 @@ const Profile = () => {
           item="Account"
         />
 
-        {workshops.map((workshop) => {
+        {workshops.map((workshop, index) => {
           return (
-            <Section screenSizeParameter={false} alignItemsCenter={false}>
-              <BodyHeading textAlignCenter={false}>{workshop.name}</BodyHeading>
+            <Box key={index}>
+              <Section screenSizeParameter={false} alignItemsCenter={false}>
+                <BodyHeading textAlignCenter={false}>
+                  {workshop.name}
+                </BodyHeading>
 
-              {workshop.sessions.map((session, index) => {
-                const submission = data.submissions.find((submission) => {
+                {workshop.sessions.map((session, index) => {
+                  const submission = data.submissions.find((submission) => {
+                    return (
+                      submission.session === index + 1 &&
+                      submission.workshop.id === workshop.id
+                    );
+                  });
+
+                  const feedbackReceived = submission?.feedback || [];
+
+                  const feedbackGiven = data.feedback.filter((feedback) => {
+                    return (
+                      feedback.submission.session === index + 1 &&
+                      feedback.submission.workshop.id === workshop.id
+                    );
+                  });
+
                   return (
-                    submission.session === index + 1 &&
-                    submission.workshop.id === workshop.id
+                    <Box key={index}>
+                      <SessionFeedback
+                        sessionNumber={index + 1}
+                        admin={false}
+                        submission={submission}
+                        feedbackReceived={feedbackReceived}
+                        feedbackGiven={feedbackGiven}
+                      />
+                    </Box>
                   );
-                });
-
-                const feedbackReceived = submission?.feedback || [];
-
-                const feedbackGiven = data.feedback.filter((feedback) => {
-                  return (
-                    feedback.submission.session === index + 1 &&
-                    feedback.submission.workshop.id === workshop.id
-                  );
-                });
-
-                return (
-                  <Box key={index}>
-                    <SessionFeedback
-                      sessionNumber={index + 1}
-                      admin={false}
-                      submission={submission}
-                      feedbackReceived={feedbackReceived}
-                      feedbackGiven={feedbackGiven}
-                    />
-                  </Box>
-                );
-              })}
-            </Section>
+                })}
+              </Section>
+            </Box>
           );
         })}
 
