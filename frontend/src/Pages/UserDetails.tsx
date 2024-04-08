@@ -28,7 +28,7 @@ const UserDetails = () => {
           textAlignCenter={true}
         >{`${data.name}'s Details`}</BodyHeading>
       </Section>
-      <Box maxW="900px" margin="0 auto">
+      {/* <Box maxW="900px" margin="0 auto">
         <Section
           screenSizeParameter={isLargerThan600}
           alignItemsCenter={true}
@@ -91,7 +91,7 @@ const UserDetails = () => {
             />
           );
         })}
-      </Box>
+      </Box> */}
     </>
   );
 };

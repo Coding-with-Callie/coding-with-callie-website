@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
-import { Data, Submission } from "../../Pages/Profile";
+import { Data, Feedback, Submission } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import Section from "../Section";
 import FeedbackGiven from "./FeedbackGiven";
@@ -14,55 +14,46 @@ type Props = {
   admin: boolean;
   data?: UserData;
   submission?: Submission;
+  feedbackReceived: Feedback[];
+  feedbackGiven: Feedback[];
 };
 
-const SessionFeedback = ({ sessionNumber, admin, data, submission }: Props) => {
-  const context: Context = useOutletContext();
-
-  let currentUser;
-
-  if (data) {
-    currentUser = data;
-  } else {
-    currentUser = context.user as Data;
-  }
-
-  const feedback = currentUser.feedback.filter(
-    (review) => review.submission.session === sessionNumber
-  );
-
-  if (submission || feedback.length > 0) {
+const SessionFeedback = ({
+  sessionNumber,
+  admin,
+  data,
+  submission,
+  feedbackReceived,
+  feedbackGiven,
+}: Props) => {
+  if (submission) {
     return (
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        {submission || feedback.length > 0 ? (
-          <BodyHeading
-            textAlignCenter={true}
-          >{`Session ${sessionNumber}`}</BodyHeading>
-        ) : null}
+        <BodyHeading
+          textAlignCenter={true}
+        >{`Session ${sessionNumber}`}</BodyHeading>
 
-        {submission ? (
-          <SubmissionInfo submission={submission} admin={admin} />
-        ) : null}
+        <SubmissionInfo submission={submission} admin={admin} />
 
-        {submission && submission?.feedback.length > 0 ? (
+        {feedbackReceived.length > 0 && (
           <Box mb={10} w="100%">
             <BodyHeading textAlignCenter={false}>Feedback Received</BodyHeading>
 
-            {submission.feedback.map((feedback) => {
+            {feedbackReceived.map((feedback) => {
               return <FeedbackReceived feedback={feedback} />;
             })}
           </Box>
-        ) : null}
+        )}
         <Box mb={4} w="100%">
-          {feedback.length > 0 ? (
+          {feedbackGiven.length > 0 && (
             <>
               <BodyHeading textAlignCenter={false}>Feedback Given</BodyHeading>
 
-              {feedback.map((feedback) => {
+              {feedbackGiven.map((feedback) => {
                 return <FeedbackGiven feedback={feedback} admin={admin} />;
               })}
             </>
-          ) : null}
+          )}
         </Box>
       </Section>
     );

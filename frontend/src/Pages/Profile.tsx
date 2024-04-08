@@ -75,8 +75,6 @@ const Profile = () => {
 
   const workshops = data.workshops;
 
-  console.log("DATA", data);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -303,12 +301,25 @@ const Profile = () => {
                   );
                 });
 
+                const feedbackReceived = submission?.feedback || [];
+
+                const feedbackGiven = data.feedback.filter((feedback) => {
+                  return (
+                    feedback.submission.session === index + 1 &&
+                    feedback.submission.workshop.id === workshop.id
+                  );
+                });
+
                 return (
-                  <SessionFeedback
-                    sessionNumber={index + 1}
-                    admin={false}
-                    submission={submission}
-                  />
+                  <Box key={index}>
+                    <SessionFeedback
+                      sessionNumber={index + 1}
+                      admin={false}
+                      submission={submission}
+                      feedbackReceived={feedbackReceived}
+                      feedbackGiven={feedbackGiven}
+                    />
+                  </Box>
                 );
               })}
             </Section>

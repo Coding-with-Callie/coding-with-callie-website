@@ -19,6 +19,7 @@ import { Feedback } from "../../Pages/Profile";
 import TextAreaInput from "../Forms/TextAreaInput";
 import MyButton from "../MyButton";
 import Paragraph from "../Paragraph";
+import { showNotification } from "../..";
 
 type Props = {
   feedback: Feedback;
@@ -66,6 +67,7 @@ const FeedbackGiven = ({ feedback, admin }: Props) => {
           }
         )
         .then((response) => {
+          showNotification("Your feedback has been edited!", "success");
           context.updateUser(response.data);
         });
     }
