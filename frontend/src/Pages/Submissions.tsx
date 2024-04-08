@@ -61,6 +61,7 @@ const Submissions = () => {
             feedbackProviderId: userId,
             submissionId,
             sessionId: params.id,
+            workshopId: params.workshopId,
           },
           {
             headers: { Authorization: `Bearer ${token}` },

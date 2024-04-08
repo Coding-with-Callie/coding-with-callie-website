@@ -84,7 +84,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/edit-deliverable`,
-        { session: index + 1, url, userId },
+        { session: index + 1, url, userId, workshopId },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -196,7 +196,9 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
                 <Box flex={1}>
                   <MyButton
                     widthSize="100%"
-                    onClick={() => navigate(`/submissions/${index + 1}`)}
+                    onClick={() =>
+                      navigate(`/submissions/${workshopId}/${index + 1}`)
+                    }
                   >
                     Participant submissions
                   </MyButton>

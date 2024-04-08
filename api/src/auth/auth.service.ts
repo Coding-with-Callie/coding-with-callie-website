@@ -239,9 +239,11 @@ export class AuthService {
     return await this.submissionsService.getUserSubmissions(userId);
   }
 
-  async getAllSubmissions(sessionId, userId) {
-    const submissions =
-      await this.submissionsService.getAllSubmissions(sessionId);
+  async getAllSubmissions(workshopId, sessionId, userId) {
+    const submissions = await this.submissionsService.getAllSubmissions(
+      workshopId,
+      sessionId,
+    );
     const user = await this.usersService.findOneById(userId);
     return { role: user.role, submissions };
   }

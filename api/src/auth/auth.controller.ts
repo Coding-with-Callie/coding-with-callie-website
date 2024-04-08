@@ -103,6 +103,8 @@ export class FeedbackDto {
   submissionId: number;
 
   sessionId: number;
+
+  workshopId: number;
 }
 
 export class ReviewDto {
@@ -202,10 +204,15 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('all-submissions/:id')
+  @Get('all-submissions/:workshopId/:id')
   getAllSubmissions(@Request() req) {
     const userId = req.user.sub;
-    return this.authService.getAllSubmissions(req.params.id, userId);
+
+    return this.authService.getAllSubmissions(
+      req.params.workshopId,
+      req.params.id,
+      userId,
+    );
   }
 
   @UseGuards(AuthGuard)
@@ -238,6 +245,7 @@ export class AuthController {
   async submitFeedback(@Body() feedbackDto: FeedbackDto) {
     await this.authService.submitFeedback(feedbackDto);
     const submissions = await this.authService.getAllSubmissions(
+      feedbackDto.workshopId,
       feedbackDto.sessionId,
       feedbackDto.feedbackProviderId,
     );

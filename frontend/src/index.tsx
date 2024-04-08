@@ -378,18 +378,21 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/submissions/:id",
+        path: "/submissions/:workshopId/:id",
         element: <Submissions />,
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
+          const workshopId = params.workshopId;
           const id = params.id;
+
+          console.log("PARAMS: ", workshopId, id);
 
           if (token) {
             try {
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/all-submissions/${id}`,
+                }/auth/all-submissions/${workshopId}/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }

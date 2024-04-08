@@ -50,9 +50,9 @@ export class SubmissionsService {
     return countedSubmissions;
   }
 
-  async getAllSubmissions(sessionId: number) {
+  async getAllSubmissions(workshopId: number, sessionId: number) {
     return await this.submissionsRepository.find({
-      where: { session: sessionId },
+      where: { session: sessionId, workshop: { id: workshopId } },
       relations: ['feedback'],
     });
   }
