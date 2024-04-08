@@ -32,7 +32,6 @@ export class CartService {
         (purchasedWorkshop) => purchasedWorkshop.id === workshopId,
       )
     ) {
-      console.log('WORKSHOP ALREADY PURCHASED');
       return cart;
     }
 
@@ -40,7 +39,6 @@ export class CartService {
       cart.workshops = [];
     } else {
       if (cart.workshops.find((workshop) => workshop.id === workshopId)) {
-        console.log('WORKSHOP ALREADY IN CART');
         return cart;
       }
     }

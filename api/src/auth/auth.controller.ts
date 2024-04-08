@@ -288,7 +288,6 @@ export class AuthController {
   @Post('create-workshop')
   async createWorkshop(@Body() workshop?: Workshop) {
     workshop = projectPlanningTool;
-    console.log('workshop', workshop);
     return await this.authService.createWorkshop(workshop);
   }
 
@@ -307,7 +306,6 @@ export class AuthController {
 
   @Get('session-status')
   async getSessionStatus(@Request() req) {
-    console.log('REQ', req.query);
     return await this.authService.getSessionStatus(
       req.query.session_id,
       req.query.userId,

@@ -21,8 +21,6 @@ export class WorkshopsService {
       relations: ['submissions'],
     });
 
-    console.log('workshop submissions: ', workshop.submissions);
-
     return workshop;
   }
 

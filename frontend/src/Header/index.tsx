@@ -30,10 +30,6 @@ const Header = ({
     tempCart = [];
   }
 
-  useEffect(() => {
-    console.log("USER UPDATED", user);
-  }, [user]);
-
   return (
     <Box
       py={4}

@@ -130,7 +130,6 @@ const router = createBrowserRouter([
               );
               return response.data;
             } catch (error: any) {
-              console.log(error.response.data.message);
               if (error.response.data.message === "Unauthorized") {
                 showNotification(
                   "It looks like your session has expired. Please log in again to view this workshop's resources!",
@@ -384,8 +383,6 @@ const router = createBrowserRouter([
           const token = localStorage.getItem("token");
           const workshopId = params.workshopId;
           const id = params.id;
-
-          console.log("PARAMS: ", workshopId, id);
 
           if (token) {
             try {

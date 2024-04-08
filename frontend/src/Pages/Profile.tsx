@@ -43,6 +43,7 @@ export type Submission = {
   url: string;
   user: any[];
   feedback: any[];
+  workshop: Workshop;
 };
 
 export type Data = {
@@ -71,6 +72,10 @@ const Profile = () => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const data = useLoaderData() as Data;
   const context = useOutletContext() as Context;
+
+  const workshops = data.workshops;
+
+  console.log("DATA", data);
 
   const navigate = useNavigate();
 
@@ -285,9 +290,28 @@ const Profile = () => {
           item="Account"
         />
 
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
+        {workshops.map((workshop) => {
           return (
-            <SessionFeedback sessionNumber={sessionNumber} admin={false} />
+            <Section screenSizeParameter={false} alignItemsCenter={false}>
+              <BodyHeading textAlignCenter={false}>{workshop.name}</BodyHeading>
+
+              {workshop.sessions.map((session, index) => {
+                const submission = data.submissions.find((submission) => {
+                  return (
+                    submission.session === index + 1 &&
+                    submission.workshop.id === workshop.id
+                  );
+                });
+
+                return (
+                  <SessionFeedback
+                    sessionNumber={index + 1}
+                    admin={false}
+                    submission={submission}
+                  />
+                );
+              })}
+            </Section>
           );
         })}
 

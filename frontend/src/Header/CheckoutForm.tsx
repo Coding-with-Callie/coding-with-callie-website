@@ -26,8 +26,6 @@ const CheckoutForm = ({ workshops, userId, updateUser }: Props) => {
     return { price: workshop.stripeId, quantity: 1 };
   });
 
-  console.log("WORKSHOPS", workshops);
-
   useEffect(() => {
     axios
       .post(

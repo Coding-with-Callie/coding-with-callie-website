@@ -47,7 +47,6 @@ export const transferCart = async (
         showNotification(error.response.data.message, "error");
       });
 
-    console.log("response", response.data);
     updateUser(response.data);
 
     window.localStorage.setItem(

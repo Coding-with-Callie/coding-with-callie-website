@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
-import { Data } from "../../Pages/Profile";
+import { Data, Submission } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import Section from "../Section";
 import FeedbackGiven from "./FeedbackGiven";
@@ -13,9 +13,10 @@ type Props = {
   sessionNumber: number;
   admin: boolean;
   data?: UserData;
+  submission?: Submission;
 };
 
-const SessionFeedback = ({ sessionNumber, admin, data }: Props) => {
+const SessionFeedback = ({ sessionNumber, admin, data, submission }: Props) => {
   const context: Context = useOutletContext();
 
   let currentUser;
@@ -26,9 +27,6 @@ const SessionFeedback = ({ sessionNumber, admin, data }: Props) => {
     currentUser = context.user as Data;
   }
 
-  const submission = currentUser.submissions.find(
-    (submission) => submission.session === sessionNumber
-  );
   const feedback = currentUser.feedback.filter(
     (review) => review.submission.session === sessionNumber
   );
