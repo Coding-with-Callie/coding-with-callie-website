@@ -197,6 +197,15 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('solution-videos/:workshopId/:id')
+  getSolutionVideos(@Request() req) {
+    return this.authService.getSolutionVideos(
+      req.params.workshopId,
+      req.params.id,
+    );
+  }
+
+  @UseGuards(AuthGuard)
   @Get('user-submissions')
   getUserSubmissions(@Request() req) {
     const userId = req.user.sub;

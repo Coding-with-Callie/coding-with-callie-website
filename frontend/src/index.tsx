@@ -322,44 +322,25 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/submissions/callie/:id",
+        path: "/submissions/callie/:workshopId/:id",
         element: <CallieSubmission />,
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
           const id = params.id;
-
-          const today = new Date();
-
-          if (!id || parseInt(id) < 0 || parseInt(id) > 10 || !parseInt(id)) {
-            showNotification(`There are only 10 sessions`, "error");
-            return redirect("/resources");
-          }
+          const workshopId = params.workshopId;
 
           if (token) {
             try {
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                }/auth/solution-videos/${workshopId}/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
 
-              const user = response.data as any;
-
-              if (
-                today < new Date(sessions[parseInt(id) - 1].startDate) &&
-                user.role === "user"
-              ) {
-                showNotification(
-                  `Callie hasn't posted her submission for session ${id} yet!`,
-                  "error"
-                );
-                return redirect("/resources");
-              } else {
-                return id;
-              }
+              return response.data;
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",
@@ -395,23 +376,9 @@ const router = createBrowserRouter([
                 }
               );
 
-              const role = response.data.role as any;
               const submissions = response.data.submissions;
 
-              if (role === "admin" || submissions.length > 0) {
-                return submissions;
-              } else {
-                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
-                  showNotification(`There are only 10 sessions`, "error");
-                } else {
-                  showNotification(
-                    `There aren't any submissions for session ${id} yet!`,
-                    "error"
-                  );
-                }
-
-                return redirect("/");
-              }
+              return submissions;
             } catch (error: any) {
               if (error.response.data.message === "Unauthorized") {
                 showNotification(

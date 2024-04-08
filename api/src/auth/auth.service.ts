@@ -235,6 +235,15 @@ export class AuthService {
     }
   }
 
+  async getSolutionVideos(workshopId, id) {
+    const workshop = await this.workshopsService.findOneById(workshopId);
+
+    const session = workshop.sessions[id - 1];
+    session['id'] = id;
+
+    return session;
+  }
+
   async getUserSubmissions(userId: number) {
     return await this.submissionsService.getUserSubmissions(userId);
   }
@@ -244,6 +253,11 @@ export class AuthService {
       workshopId,
       sessionId,
     );
+
+    if (submissions.length === 0) {
+      throw new NotFoundException('No submissions found');
+    }
+
     const user = await this.usersService.findOneById(userId);
     return { role: user.role, submissions };
   }

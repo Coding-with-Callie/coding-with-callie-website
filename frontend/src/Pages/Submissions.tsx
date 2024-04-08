@@ -18,9 +18,10 @@ import FeedbackModal from "../Components/Submissions/FeedbackModal";
 const Submissions = () => {
   const params = useParams();
   const navigate = useNavigate();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   let submissions = useLoaderData() as Submission[];
+
   submissions = submissions.sort((a, b) => {
     if (a.feedback.length < b.feedback.length) {
       return -1;

@@ -226,7 +226,9 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
           <Box>
             <MyButton
               widthSize="100%"
-              onClick={() => navigate(`/submissions/callie/${index + 1}`)}
+              onClick={() =>
+                navigate(`/submissions/callie/${workshopId}/${index + 1}`)
+              }
             >
               View Callie's Solution
             </MyButton>

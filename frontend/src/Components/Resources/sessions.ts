@@ -10,6 +10,7 @@ export type SolutionLink = {
 };
 
 export type Session = {
+  id?: number;
   title: string;
   summary: string[];
   deliverable: string;
