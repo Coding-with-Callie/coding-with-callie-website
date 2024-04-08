@@ -20,13 +20,14 @@ export type Submission = {
 };
 
 type Props = {
+  workshopId: number;
   session: Session;
   index: number;
   userId: number;
   submissions: any;
 };
 
-const SessionTask = ({ session, index, userId }: Props) => {
+const SessionTask = ({ workshopId, session, index, userId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
@@ -45,7 +46,13 @@ const SessionTask = ({ session, index, userId }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/submit-deliverable`,
-        { session: index + 1, url, userId, videoDate: session.startDate },
+        {
+          workshopId,
+          session: index + 1,
+          url,
+          userId,
+          videoDate: session.startDate,
+        },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

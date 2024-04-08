@@ -69,6 +69,9 @@ export class Email {
 
 export class DeliverableDto {
   @IsNotEmpty()
+  workshopId: number;
+
+  @IsNotEmpty()
   session: number;
 
   @IsNotEmpty({ message: 'You must submit a valid URL.' })

@@ -43,6 +43,7 @@ const WorkshopResources = () => {
           if (today > startDate || role === "admin") {
             return (
               <SessionTask
+                workshopId={workshop.id}
                 session={session}
                 index={index}
                 userId={context.user.id}

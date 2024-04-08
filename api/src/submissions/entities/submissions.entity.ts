@@ -1,5 +1,6 @@
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Users } from 'src/users/entities/users.entity';
+import { Workshop } from 'src/workshops/entities/workshop.entity';
 import {
   Column,
   Entity,
@@ -26,6 +27,13 @@ export class Submissions {
   })
   @JoinColumn({ name: 'userId' })
   user: Users;
+
+  @ManyToOne(() => Workshop, {
+    nullable: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'workshopId' })
+  workshop: Workshop;
 
   @OneToMany(() => Feedback, (feedback) => feedback.submission)
   feedback: Feedback[];

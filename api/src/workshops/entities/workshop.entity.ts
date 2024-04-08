@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Session } from '../content/type';
+import { Submissions } from 'src/submissions/entities/submissions.entity';
 
 @Entity()
 export class Workshop {
@@ -35,4 +36,7 @@ export class Workshop {
 
   @Column('jsonb')
   sessions: Session[];
+
+  @OneToMany(() => Submissions, (submission) => submission.workshop)
+  submissions: Submissions[];
 }

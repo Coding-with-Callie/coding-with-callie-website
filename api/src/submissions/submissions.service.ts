@@ -62,6 +62,7 @@ export class SubmissionsService {
     submission.session = deliverable.session;
     submission.url = deliverable.url;
     submission.user = deliverable.userId;
+    submission.workshop = deliverable.workshopId;
     return await this.submissionsRepository.save(submission);
   }
 

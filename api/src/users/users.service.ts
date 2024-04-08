@@ -39,6 +39,7 @@ export class UsersService {
         'cart',
         'cart.workshops',
         'workshops',
+        'workshops.submissions',
       ],
     });
   }

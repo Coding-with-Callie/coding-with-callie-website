@@ -16,7 +16,14 @@ export class WorkshopsService {
   }
 
   async findOneById(id: number) {
-    return await this.workshopsRepository.findOneBy({ id });
+    const workshop = await this.workshopsRepository.findOne({
+      where: { id },
+      relations: ['submissions'],
+    });
+
+    console.log('workshop submissions: ', workshop.submissions);
+
+    return workshop;
   }
 
   async findAll() {
