@@ -100,12 +100,28 @@ export class AuthService {
 
   async getAdminData() {
     const users = await this.usersService.findAllUsers();
-    const submissionsCount =
-      await this.submissionsService.getSubmissionsCountBySession();
-    const feedbackCount =
-      await this.feedbackService.getFeedbackCountBySession();
+
+    const workshops = await this.workshopsService.findAll();
+
+    const adminData = [];
+
+    for (let i = 0; i < workshops.length; i++) {
+      const workshopStats = {};
+
+      workshopStats['name'] = workshops[i].name;
+      workshopStats['submissionCount'] =
+        await this.submissionsService.getSubmissionsCountBySession(
+          workshops[i].id,
+        );
+      workshopStats['feedbackCount'] =
+        await this.feedbackService.getFeedbackCountBySession();
+
+      adminData.push(workshopStats);
+    }
+
     const reviewCount = (await this.reviewService.getAllReviews()).length;
-    return { users, submissionsCount, feedbackCount, reviewCount };
+
+    return { users, reviewCount, adminData };
   }
 
   async getUserProfile(id: number) {

@@ -20,7 +20,6 @@ import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
-import { projectPlanningTool } from 'src/workshops/content/ProjectPlanningTool';
 import { Workshop } from 'src/workshops/content/type';
 
 export class NewUserDto {
@@ -110,9 +109,6 @@ export class FeedbackDto {
 export class ReviewDto {
   @IsNotEmpty()
   rating: number;
-
-  @IsNotEmpty()
-  course: string;
 
   @Transform((params) => sanitizeHTML(params.value))
   comments: string;
@@ -298,7 +294,6 @@ export class AuthController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post('create-workshop')
   async createWorkshop(@Body() workshop?: Workshop) {
-    workshop = projectPlanningTool;
     return await this.authService.createWorkshop(workshop);
   }
 

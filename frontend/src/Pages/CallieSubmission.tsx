@@ -1,5 +1,5 @@
 import { Box, Link } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import ReactPlayer from "react-player";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
@@ -8,8 +8,11 @@ import ReviewForm from "../Components/Reviews/ReviewForm";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Session } from "../Components/Resources/sessions";
+import { Context } from "../App";
 
 const CallieSubmission = () => {
+  const context = useOutletContext() as Context;
+
   const session = useLoaderData() as Session;
   const solutionLinks = session.solutionLinks;
 
@@ -73,6 +76,7 @@ const CallieSubmission = () => {
           isLargerThan900={false}
           sessionId={session.id}
           title={`Review Session ${session.id}: ${session.title}`}
+          user={context.user}
         />
       </Section>
     </Box>

@@ -75,66 +75,70 @@ const Workshops = () => {
         <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
           Let's get to work 💪🏻
         </Heading>
-        <Box
-          display="flex"
-          gap={20}
-          flexWrap="wrap"
-          justifyContent="center"
-          maxW="1000px"
-        >
-          {workshops.map((workshop) => {
-            let access = false;
-            if (
-              loggedIn &&
-              purchasedWorkshops.find((purchasedWorkshop: Workshop) => {
-                return purchasedWorkshop.name === workshop.name;
-              })
-            ) {
-              access = true;
-            }
-            return (
-              <Box
-                backgroundColor="white"
-                borderRadius={4}
-                p={10}
-                boxShadow="lg"
-                flex={1}
-                display="flex"
-                flexDirection="column"
-                gap={10}
-                minW="400px"
-                maxW="600px"
-              >
-                <Heading fontSize={28} color="#79A9CD" textAlign="center">
-                  {workshop.name}
-                </Heading>
-
-                <Text color="#45446A" flex={1}>
-                  {workshop.description}
-                </Text>
-
-                <Image
-                  src={workshop.photo}
-                  boxShadow="lg"
+        {workshops.length > 0 ? (
+          <Box
+            display="flex"
+            gap={20}
+            flexWrap="wrap"
+            justifyContent="center"
+            maxW="1000px"
+          >
+            {workshops.map((workshop) => {
+              let access = false;
+              if (
+                loggedIn &&
+                purchasedWorkshops.find((purchasedWorkshop: Workshop) => {
+                  return purchasedWorkshop.name === workshop.name;
+                })
+              ) {
+                access = true;
+              }
+              return (
+                <Box
+                  backgroundColor="white"
                   borderRadius={4}
-                  objectFit="cover"
-                />
+                  p={10}
+                  boxShadow="lg"
+                  flex={1}
+                  display="flex"
+                  flexDirection="column"
+                  gap={10}
+                  minW="400px"
+                  maxW="600px"
+                >
+                  <Heading fontSize={28} color="#79A9CD" textAlign="center">
+                    {workshop.name}
+                  </Heading>
 
-                <Box m="0 auto" display="flex" gap={4}>
-                  {access ? (
-                    <Link to={`/resources/${workshop.id}`}>
-                      <MyButton>View Resources</MyButton>
-                    </Link>
-                  ) : (
-                    <Link to={`/workshops/${workshop.id}`}>
-                      <MyButton>Learn More</MyButton>
-                    </Link>
-                  )}
+                  <Text color="#45446A" flex={1}>
+                    {workshop.description}
+                  </Text>
+
+                  <Image
+                    src={workshop.photo}
+                    boxShadow="lg"
+                    borderRadius={4}
+                    objectFit="cover"
+                  />
+
+                  <Box m="0 auto" display="flex" gap={4}>
+                    {access ? (
+                      <Link to={`/resources/${workshop.id}`}>
+                        <MyButton>View Resources</MyButton>
+                      </Link>
+                    ) : (
+                      <Link to={`/workshops/${workshop.id}`}>
+                        <MyButton>Learn More</MyButton>
+                      </Link>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            );
-          })}
-        </Box>
+              );
+            })}
+          </Box>
+        ) : (
+          <Box>There are no workshops yet...</Box>
+        )}
       </Section>
     </>
   );

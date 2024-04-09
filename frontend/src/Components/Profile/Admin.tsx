@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { sessions } from "../Resources/sessions";
 import { useNavigate } from "react-router-dom";
+import { Workshop } from "../../Pages/Workshops";
+import { Submission } from "../Resources/SessionTask";
 
 export type User = {
   email: string;
@@ -15,6 +17,8 @@ export type User = {
   photo: string | null;
   role: string;
   username: string;
+  workshops: Workshop[];
+  submissions: Submission[];
 };
 
 export type SubmissionsCount = {
@@ -45,6 +49,8 @@ const Admin = () => {
       photo: "",
       role: "",
       username: "",
+      workshops: [],
+      submissions: [],
     },
   ]);
 
@@ -61,6 +67,10 @@ const Admin = () => {
         }
       )
       .then((response) => {
+        console.log(response.data);
+
+        const data = response.data;
+
         const feedbackCount = response.data.feedbackCount;
         const feedback: any = [];
 

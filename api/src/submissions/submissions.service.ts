@@ -36,8 +36,10 @@ export class SubmissionsService {
     });
   }
 
-  async getSubmissionsCountBySession() {
-    const submissions = await this.submissionsRepository.find();
+  async getSubmissionsCountBySession(id) {
+    const submissions = await this.submissionsRepository.find({
+      where: { workshop: { id } },
+    });
     const countedSubmissions = {};
     submissions.forEach((submission: Submissions) => {
       const sessionId = submission.session;

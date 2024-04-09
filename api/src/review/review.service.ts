@@ -13,7 +13,7 @@ export class ReviewService {
 
   async getAllReviews() {
     return await this.reviewRepository.find({
-      relations: ['user'],
+      relations: ['user', 'workshop'],
     });
   }
 

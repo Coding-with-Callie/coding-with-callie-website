@@ -8,7 +8,7 @@ import Paragraph from "../Components/Paragraph";
 import { format } from "date-fns";
 import StarRating from "../Components/Reviews/StarRating";
 import ReviewForm from "../Components/Reviews/ReviewForm";
-import { sessions } from "../Components/Resources/sessions";
+import { Workshop } from "./Workshops";
 
 export type Review = {
   comments: string;
@@ -18,25 +18,29 @@ export type Review = {
   id: number;
   rating: number;
   session: number;
+  user: any;
+  workshop: Workshop;
 };
 
 const Reviews = () => {
   const context: Context = useOutletContext();
   const data = useLoaderData() as Review[];
+
   const [reviews, setReviews] = useState(data);
+
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan550] = useMediaQuery("(min-width: 550px)");
 
   return (
     <Box>
-      {(context.user && context.user?.submissions?.length > 0) ||
-      (context.user && context.user.role === "admin") ? (
+      {context.user && context.user?.submissions?.length > 0 && (
         <ReviewForm
           reviews={reviews}
           setReviews={setReviews}
+          user={context.user}
           isLargerThan900={isLargerThan900}
         />
-      ) : null}
+      )}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
         {reviews.length > 0 ? (
@@ -101,11 +105,13 @@ const Reviews = () => {
                   </Box>
                 </Box>
                 <Box display="flex" flexDirection="column" gap={3}>
-                  <Paragraph margin={false} textAlignCenter={true}>{`${
-                    review.course
-                  } Workshop: ${
-                    sessions[review.session - 1].title
-                  }`}</Paragraph>
+                  <Paragraph
+                    margin={false}
+                    textAlignCenter={true}
+                  >{`${review.workshop.name} Workshop`}</Paragraph>
+                  <Paragraph margin={false} textAlignCenter={true}>
+                    {review.workshop.sessions[review.session - 1].title}
+                  </Paragraph>
                   {review.comments.length > 0 ? (
                     <Paragraph
                       margin={false}

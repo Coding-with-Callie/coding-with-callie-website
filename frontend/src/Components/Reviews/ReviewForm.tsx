@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Context } from "../../App";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
-import { sessions } from "../Resources/sessions";
+import { User } from "../Profile/Admin";
 
 type Props = {
   reviews: any[];
@@ -20,6 +20,7 @@ type Props = {
   isLargerThan900: boolean;
   sessionId?: number;
   title?: string;
+  user: User;
 };
 
 const ReviewForm = ({
@@ -28,18 +29,19 @@ const ReviewForm = ({
   isLargerThan900,
   sessionId,
   title,
+  user,
 }: Props) => {
-  const context: Context = useOutletContext();
+  const workshops = user.workshops;
 
   const [submitClicked, setSubmitClicked] = useState(false);
   const [rating, setRating] = useState<null | number>(null);
   const [reviewFormData, setReviewFormData] = useState<any>({
     rating: rating,
-    workshopId: 7,
+    workshopId: workshops[0].id,
     comments: "",
-    displayName: context.user.name,
+    displayName: user.name,
     session: sessionId || 1,
-    userId: context.user.id,
+    userId: user.id,
   });
   const [invalidDisplayName, setInvalidDisplayName] = useState(
     isInvalidName(reviewFormData.displayName)
@@ -70,9 +72,9 @@ const ReviewForm = ({
             rating: rating,
             course: "Todo List",
             comments: "",
-            displayName: context.user.name,
+            displayName: user.name,
             session: reviewFormData.session,
-            userId: context.user.id,
+            userId: user.id,
           });
           if (numberOfReviews < response.data.length) {
             showNotification("Thank you for your review!", "success");
@@ -105,6 +107,10 @@ const ReviewForm = ({
     setReviewFormData({ ...reviewFormData, session: e.target.value });
   };
 
+  const handleSelectWorkshopChange = (e: any) => {
+    setReviewFormData({ ...reviewFormData, workshopId: e.target.value });
+  };
+
   return (
     <Box margin="0 auto" w={isLargerThan900 ? "65%" : "100%"}>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
@@ -130,37 +136,40 @@ const ReviewForm = ({
             isInvalid={false}
           />
           {sessionId ? null : (
-            <Box>
-              <FormLabel layerStyle="input">Workshop Session</FormLabel>
+            <>
+              <Box>
+                <FormLabel layerStyle="input">Workshop</FormLabel>
+                <Select
+                  backgroundColor="#edf2f6"
+                  color="#45446A"
+                  onChange={handleSelectWorkshopChange}
+                >
+                  {workshops.map((workshop) => {
+                    return <option value={workshop.id}>{workshop.name}</option>;
+                  })}
+                </Select>
+              </Box>
+              <Box>
+                <FormLabel layerStyle="input">Session</FormLabel>
+                <Select
+                  backgroundColor="#edf2f6"
+                  color="#45446A"
+                  value={reviewFormData.session}
+                  onChange={handleSelectChange}
+                >
+                  {workshops[0].sessions.map((session, index) => {
+                    const sessionSubmission = user.submissions.find(
+                      (submission: Submission) =>
+                        submission.session === index + 1
+                    );
 
-              <Select
-                backgroundColor="#edf2f6"
-                color="#45446A"
-                value={reviewFormData.session}
-                onChange={handleSelectChange}
-              >
-                {sessions.map((session, index) => {
-                  const sessionSubmissions = context.user.submissions.filter(
-                    (submission: Submission) => {
-                      if (submission.session === index + 1) {
-                        return submission;
-                      } else {
-                        return null;
-                      }
-                    }
-                  );
-
-                  if (
-                    sessionSubmissions.length > 0 ||
-                    context.user.role === "admin"
-                  ) {
-                    return <option value={index + 1}>{session.title}</option>;
-                  } else {
+                    if (sessionSubmission)
+                      return <option value={index + 1}>{session.title}</option>;
                     return null;
-                  }
-                })}
-              </Select>
-            </Box>
+                  })}
+                </Select>
+              </Box>
+            </>
           )}
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>
