@@ -324,7 +324,10 @@ export class AuthService {
     if (existingReview.length > 0) {
       return await this.reviewService.getAllReviews();
     } else {
-      return await this.reviewService.submitReview(review);
+      const workshop = await this.workshopsService.findOneById(
+        review.workshopId,
+      );
+      return await this.reviewService.submitReview(review, workshop);
     }
   }
 

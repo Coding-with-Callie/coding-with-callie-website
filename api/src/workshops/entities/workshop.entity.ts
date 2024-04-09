@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Session } from '../content/type';
 import { Submissions } from 'src/submissions/entities/submissions.entity';
+import { Review } from 'src/review/entities/review.entity';
 
 @Entity()
 export class Workshop {
@@ -39,4 +40,7 @@ export class Workshop {
 
   @OneToMany(() => Submissions, (submission) => submission.workshop)
   submissions: Submissions[];
+
+  @OneToMany(() => Review, (review) => review.workshop)
+  reviews: Review[];
 }

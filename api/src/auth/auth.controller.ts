@@ -124,6 +124,8 @@ export class ReviewDto {
   session: string;
 
   userId: number;
+
+  workshopId: number;
 }
 
 @Controller('auth')

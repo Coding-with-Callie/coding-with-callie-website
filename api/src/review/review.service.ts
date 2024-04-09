@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Review } from './entities/review.entity';
+import { Workshop } from 'src/workshops/entities/workshop.entity';
 
 @Injectable()
 export class ReviewService {
@@ -27,10 +28,10 @@ export class ReviewService {
     });
   }
 
-  async submitReview(review: any) {
+  async submitReview(review: any, workshop: Workshop) {
     const result = new Review();
     result.rating = review.rating;
-    result.course = review.course;
+    result.workshop = workshop;
     result.session = review.session;
     result.comments = review.comments;
     result.displayName = review.displayName;

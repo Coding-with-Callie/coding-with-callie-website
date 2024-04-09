@@ -35,7 +35,7 @@ const ReviewForm = ({
   const [rating, setRating] = useState<null | number>(null);
   const [reviewFormData, setReviewFormData] = useState<any>({
     rating: rating,
-    course: "Todo List",
+    workshopId: 7,
     comments: "",
     displayName: context.user.name,
     session: sessionId || 1,
