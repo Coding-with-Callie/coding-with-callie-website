@@ -78,9 +78,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // context.updateUser(data);
-
-    console.log("CONTEXT CHANGED", context);
     setData(context.user);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
