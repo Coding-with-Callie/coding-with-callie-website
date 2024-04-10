@@ -11,10 +11,21 @@ export class ReviewService {
     private readonly reviewRepository: Repository<Review>,
   ) {}
 
-  async getAllReviews() {
-    return await this.reviewRepository.find({
-      relations: ['user', 'workshop'],
-    });
+  async getAllReviews(id?: number) {
+    if (id) {
+      return await this.reviewRepository.find({
+        where: {
+          workshop: {
+            id,
+          },
+        },
+        relations: ['user', 'workshop'],
+      });
+    } else {
+      return await this.reviewRepository.find({
+        relations: ['user', 'workshop'],
+      });
+    }
   }
 
   async findReview(userId, session) {

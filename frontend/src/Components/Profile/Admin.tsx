@@ -62,9 +62,7 @@ const Admin = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
-
-        setReviewCount(response.data.reviews);
+        setReviewCount(response.data.reviewCount);
         setAdminData(response.data.adminData);
 
         // const feedbackCount = response.data.feedbackCount;
@@ -99,17 +97,19 @@ const Admin = () => {
       <Box w="100%">
         <BodyHeading textAlignCenter={false}>Reviews</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
-          <Text w="275px" color="#45446A">
-            Total
+          <Text w="375px" color="#45446A">
+            Total:
           </Text>
           <Text color="#45446A">{`${reviewCount}`}</Text>
         </Box>
         {adminData.map((workshop) => {
+          console.log("workshop", workshop);
           return (
             <Box display="flex" alignItems="center" mb={2}>
-              <Text w="275px" color="#45446A">
-                {`${workshop.name}`}
+              <Text w="375px" color="#45446A">
+                {`${workshop.name}:`}
               </Text>
+              <Text color="#45446A">{`${workshop.reviewCount}`}</Text>
             </Box>
           );
         })}
@@ -131,7 +131,7 @@ const Admin = () => {
                   {session && (
                     <Box display="flex" alignItems="center" mb={2}>
                       <Text
-                        w="275px"
+                        w="375px"
                         color="#45446A"
                       >{`${session.session}: `}</Text>
                       <Text color="#45446A">{`${session.count}`}</Text>
@@ -151,7 +151,7 @@ const Admin = () => {
                   {session && (
                     <Box display="flex" alignItems="center" mb={2}>
                       <Text
-                        w="275px"
+                        w="375px"
                         color="#45446A"
                       >{`${session.session}: `}</Text>
                       <Text color="#45446A">{`${session.count}`}</Text>
@@ -166,7 +166,7 @@ const Admin = () => {
       <Box w="100%" mt={6}>
         <BodyHeading textAlignCenter={false}>Users:</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
-          <Text w="275px" color="#45446A">
+          <Text w="375px" color="#45446A">
             Total:
           </Text>
           <Text color="#45446A">{`${users.length}`}</Text>

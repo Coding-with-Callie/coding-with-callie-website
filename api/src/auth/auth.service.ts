@@ -115,6 +115,9 @@ export class AuthService {
         );
       workshopStats['feedbackCount'] =
         await this.feedbackService.getFeedbackCountBySession();
+      workshopStats['reviewCount'] = (
+        await this.reviewService.getAllReviews(workshops[i].id)
+      ).length;
 
       adminData.push(workshopStats);
     }
