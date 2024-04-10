@@ -273,8 +273,18 @@ export class AuthService {
       sessionId,
     );
 
+    const userSubmissions = submissions.filter((submission) => {
+      return submission.user.id === userId;
+    });
+
     if (submissions.length === 0) {
       throw new NotFoundException('No submissions found');
+    }
+
+    if (userSubmissions.length === 0) {
+      throw new UnauthorizedException(
+        'You have not submitted the deliverable for this session yet!',
+      );
     }
 
     const user = await this.usersService.findOneById(userId);

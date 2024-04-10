@@ -24,6 +24,7 @@ import WorkshopDetails from "./Pages/WorkshopDetails";
 import WorkshopResources from "./Pages/WorkshopResources";
 import MyWorkshops from "./Pages/MyWorkshops";
 import { Box } from "@chakra-ui/react";
+import Paragraph from "./Components/Paragraph";
 
 export const showNotification = (
   message: string,
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/*",
-        element: <Box>Not Found</Box>,
+        element: <Paragraph>Not Found</Paragraph>,
       },
       {
         path: "/workshops",
@@ -377,6 +378,8 @@ const router = createBrowserRouter([
 
               const submissions = response.data.submissions;
 
+              console.log("submissions", submissions);
+
               return submissions;
             } catch (error: any) {
               if (error.response.data.message === "Unauthorized") {
@@ -385,6 +388,12 @@ const router = createBrowserRouter([
                   "error"
                 );
                 return redirect("/log-in");
+              } else if (
+                error.response.data.message ===
+                "You have not submitted the deliverable for this session yet!"
+              ) {
+                showNotification(`${error.response.data.message}`, "error");
+                return redirect(`/resources/${workshopId}`);
               } else {
                 showNotification("That page doesn't seem to exist!", "error");
                 return redirect("/");
