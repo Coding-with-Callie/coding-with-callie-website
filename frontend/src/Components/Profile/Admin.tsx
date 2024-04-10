@@ -4,7 +4,6 @@ import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { sessions } from "../Resources/sessions";
 import { useNavigate } from "react-router-dom";
 import { Workshop } from "../../Pages/Workshops";
 import { Submission } from "../Resources/SessionTask";
@@ -34,11 +33,7 @@ export type FeedbackCount = {
 const Admin = () => {
   const navigate = useNavigate();
 
-  const [submissionsCount, setSubmissionsCount] =
-    useState<SubmissionsCount[]>();
-  const [feedbackCount, setFeedbackCount] = useState<
-    FeedbackCount[] | undefined[]
-  >();
+  const [adminData, setAdminData] = useState<any[]>([]);
   const [reviewCount, setReviewCount] = useState(0);
   const [users, setUsers] = useState<User[]>([
     {
@@ -69,30 +64,28 @@ const Admin = () => {
       .then((response) => {
         console.log(response.data);
 
-        const data = response.data;
+        setReviewCount(response.data.reviews);
+        setAdminData(response.data.adminData);
 
-        const feedbackCount = response.data.feedbackCount;
-        const feedback: any = [];
+        // const feedbackCount = response.data.feedbackCount;
+        // const feedback: any = [];
 
-        const submissionsCount = response.data.submissionsCount;
-        const submissions: any = [];
+        // const submissionsCount = response.data.submissionsCount;
+        // const submissions: any = [];
 
-        const reviewCount = response.data.reviewCount;
+        // data.workshops[0].sessions.forEach((session, index) => {
+        //   feedback.push({
+        //     session: session.title,
+        //     count: parseInt(feedbackCount[index + 1]) || 0,
+        //   });
+        //   submissions.push({
+        //     session: session.title,
+        //     count: parseInt(submissionsCount[index + 1]) || 0,
+        //   });
+        // });
 
-        sessions.forEach((session, index) => {
-          feedback.push({
-            session: session.title,
-            count: parseInt(feedbackCount[index + 1]) || 0,
-          });
-          submissions.push({
-            session: session.title,
-            count: parseInt(submissionsCount[index + 1]) || 0,
-          });
-        });
-
-        setFeedbackCount(feedback);
-        setSubmissionsCount(submissions);
-        setReviewCount(reviewCount);
+        // setFeedbackCount(feedback);
+        // setSubmissionsCount(submissions);
 
         setUsers(
           response.data.users.filter((user: User) => user.name !== "deleted")
@@ -107,12 +100,21 @@ const Admin = () => {
         <BodyHeading textAlignCenter={false}>Reviews</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
           <Text w="275px" color="#45446A">
-            Todo List Workshop:
+            Total
           </Text>
           <Text color="#45446A">{`${reviewCount}`}</Text>
         </Box>
+        {adminData.map((workshop) => {
+          return (
+            <Box display="flex" alignItems="center" mb={2}>
+              <Text w="275px" color="#45446A">
+                {`${workshop.name}`}
+              </Text>
+            </Box>
+          );
+        })}
       </Box>
-      <Box
+      {/* <Box
         w="100%"
         display="flex"
         flexWrap="wrap"
@@ -160,12 +162,12 @@ const Admin = () => {
             })}
           </Box>
         </Box>
-      </Box>
+      </Box> */}
       <Box w="100%" mt={6}>
         <BodyHeading textAlignCenter={false}>Users:</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
           <Text w="275px" color="#45446A">
-            Todo List Workshop:
+            Total:
           </Text>
           <Text color="#45446A">{`${users.length}`}</Text>
         </Box>
