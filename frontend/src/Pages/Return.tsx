@@ -64,7 +64,12 @@ const Return = () => {
         <Box w="60%" mt={6}>
           {context.user.workshops.map((workshop: Workshop) => {
             return (
-              <Box display="flex" justifyContent="space-between" mb={6}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                mb={6}
+                alignItems="center"
+              >
                 <Text color="#45446A">{workshop.name}</Text>
                 <Link to={`/resources/${workshop.id}`}>
                   <MyButton>Resources</MyButton>

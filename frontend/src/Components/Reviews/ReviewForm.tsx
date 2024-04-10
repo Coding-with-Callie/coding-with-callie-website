@@ -70,7 +70,7 @@ const ReviewForm = ({
           setRating(null);
           setReviewFormData({
             rating: rating,
-            course: "Todo List",
+            workshopId: workshops[0].id,
             comments: "",
             displayName: user.name,
             session: reviewFormData.session,
@@ -81,7 +81,7 @@ const ReviewForm = ({
             setReviews(response.data);
           } else {
             showNotification(
-              `You've already submitted a review for session ${reviewFormData.session}!`,
+              `You've already submitted a review for this session!`,
               "error"
             );
           }
