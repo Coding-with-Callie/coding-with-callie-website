@@ -161,6 +161,16 @@ export class AuthService {
     };
   }
 
+  async getMyWorkshops(userId: number) {
+    const user = await this.usersService.findOneById(userId);
+
+    if (user.workshops.length === 0) {
+      throw new NotFoundException('no workshops found');
+    }
+
+    return user.workshops;
+  }
+
   async changeAccountDetail(id: number, value: string, field: string) {
     const userToUpdate = await this.usersService.findOneById(id);
 

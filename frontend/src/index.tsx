@@ -110,6 +110,45 @@ const router = createBrowserRouter([
       {
         path: "/my-workshops",
         element: <MyWorkshops />,
+        loader: async () => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/my-workshops`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error: any) {
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view this workshop's resources!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
+
+              if (error.response.data.message === "no workshops found") {
+                showNotification(
+                  "You do not have access to any Coding with Callie workshops!",
+                  "error"
+                );
+                return redirect("/workshops");
+              }
+            }
+          } else {
+            showNotification(
+              "You must sign up to view workshop resources!",
+              "error"
+            );
+            return redirect("/sign-up");
+          }
+        },
       },
       {
         path: "/resources/:id",
