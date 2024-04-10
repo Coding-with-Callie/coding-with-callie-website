@@ -30,7 +30,12 @@ const SubmissionInfo = ({ submission, admin }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/edit-deliverable`,
-        { session: submission.session, url, userId: submission.user.id },
+        {
+          session: submission.session,
+          url,
+          userId: submission.user.id,
+          workshopId: submission.workshop.id,
+        },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

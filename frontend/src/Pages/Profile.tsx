@@ -70,7 +70,7 @@ const Profile = () => {
     onClose: onClosePhotoModal,
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const data = useLoaderData() as Data;
+  const [data, setData] = useState(useLoaderData() as Data);
   const context = useOutletContext() as Context;
 
   const workshops = data.workshops;
@@ -78,9 +78,13 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    context.updateUser(data);
+    // context.updateUser(data);
+
+    console.log("CONTEXT CHANGED", context);
+    setData(context.user);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [context]);
 
   const currentName = context.user?.name as string;
   const currentUsername = context.user?.username as string;

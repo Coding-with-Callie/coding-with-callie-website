@@ -10,6 +10,7 @@ import Section from "../Section";
 import EditSubmissionModal from "./EditSubmissionModal";
 import { Session } from "./sessions";
 import ReactPlayer from "react-player";
+import { Workshop } from "../../Pages/Workshops";
 
 export type Submission = {
   id: number;
@@ -17,6 +18,7 @@ export type Submission = {
   url: string;
   user: any;
   feedback: any[];
+  workshop: Workshop;
 };
 
 type Props = {

@@ -1,18 +1,14 @@
 import { Box } from "@chakra-ui/react";
-import { useOutletContext } from "react-router-dom";
-import { Context } from "../../App";
-import { Data, Feedback, Submission } from "../../Pages/Profile";
+import { Feedback, Submission } from "../../Pages/Profile";
 import BodyHeading from "../BodyHeading";
 import Section from "../Section";
 import FeedbackGiven from "./FeedbackGiven";
 import FeedbackReceived from "./FeedbackReceived";
 import SubmissionInfo from "./SubmissionInfo";
-import { UserData } from "../../Pages/UserDetails";
 
 type Props = {
   sessionNumber: number;
   admin: boolean;
-  data?: UserData;
   submission?: Submission;
   feedbackReceived: Feedback[];
   feedbackGiven: Feedback[];
@@ -21,7 +17,6 @@ type Props = {
 const SessionFeedback = ({
   sessionNumber,
   admin,
-  data,
   submission,
   feedbackReceived,
   feedbackGiven,
