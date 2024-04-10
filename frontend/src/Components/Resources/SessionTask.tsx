@@ -102,7 +102,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
           navigate("/log-in");
         } else {
           let message = error.response.data.message;
-          showNotification(`${message}`, "error");
+          showNotification(`${message[0]}`, "error");
         }
       });
   };
