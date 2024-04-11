@@ -383,7 +383,10 @@ export class AuthService {
       ui_mode: 'embedded',
       line_items: lineItems,
       mode: 'payment',
-      return_url: `http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url:
+        process.env.ENVIRONMENT === 'local'
+          ? `http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}`
+          : `https://www.coding-with-callie.com/return?session_id={CHECKOUT_SESSION_ID}`,
       automatic_tax: { enabled: true },
       allow_promotion_codes: true,
       metadata: {
