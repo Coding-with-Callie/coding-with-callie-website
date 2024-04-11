@@ -47,7 +47,6 @@ const CartDrawer = ({
   checkoutStep,
   updateCheckoutStep,
 }: Props) => {
-  // const [checkoutStep, setCheckoutStep] = useState(0);
   const [hasAccount, setHasAccount] = useState(
     window.localStorage.getItem("token") !== null
   );
@@ -68,7 +67,15 @@ const CartDrawer = ({
 
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="lg">
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={() => {
+          updateCheckoutStep(0);
+          onClose();
+        }}
+        size="lg"
+      >
         <DrawerOverlay />
         {checkoutStep === 0 ? (
           <DrawerContent>

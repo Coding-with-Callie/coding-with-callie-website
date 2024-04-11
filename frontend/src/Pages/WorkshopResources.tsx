@@ -37,22 +37,15 @@ const WorkshopResources = () => {
       </Section>
       <Box>
         {workshop?.sessions.map((session, index) => {
-          const today = new Date();
-          const startDate = new Date(session.startDate);
-
-          if (today > startDate || role === "admin") {
-            return (
-              <SessionTask
-                workshopId={workshop.id}
-                session={session}
-                index={index}
-                userId={context.user.id}
-                submissions={submissions}
-              />
-            );
-          } else {
-            return null;
-          }
+          return (
+            <SessionTask
+              workshopId={workshop.id}
+              session={session}
+              index={index}
+              userId={context.user.id}
+              submissions={submissions}
+            />
+          );
         })}
       </Box>
     </>
