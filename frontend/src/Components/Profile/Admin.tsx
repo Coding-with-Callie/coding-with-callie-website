@@ -102,10 +102,9 @@ const Admin = () => {
           </Text>
           <Text color="#45446A">{`${reviewCount}`}</Text>
         </Box>
-        {adminData.map((workshop) => {
-          console.log("workshop", workshop);
+        {adminData.map((workshop, index) => {
           return (
-            <Box display="flex" alignItems="center" mb={2}>
+            <Box display="flex" alignItems="center" mb={2} key={index}>
               <Text w="375px" color="#45446A">
                 {`${workshop.name}:`}
               </Text>
@@ -173,7 +172,7 @@ const Admin = () => {
         </Box>
       </Box>
       <Box display="flex" flexWrap="wrap" mt={6}>
-        {users.map((user) => {
+        {users.map((user, index) => {
           return (
             <Box
               display="flex"
@@ -183,6 +182,7 @@ const Admin = () => {
               mb={5}
               as="button"
               onClick={() => navigate(`/user-details/${user.id}`)}
+              key={index}
             >
               <Avatar name={user.name} src={user.photo ? user.photo : ""} />
               <Paragraph margin={false}>{user.name}</Paragraph>

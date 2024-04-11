@@ -142,6 +142,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
                   <Text
                     layerStyle="input"
                     mb={index < session.summary.length - 1 ? 2 : 0}
+                    key={index}
                   >
                     {line}
                   </Text>
@@ -161,13 +162,14 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
                 Resources:
               </Text>
               <Box display="flex" flexDirection="column" gap={3}>
-                {session.helpfulLinks.map((link) => {
+                {session.helpfulLinks.map((link, index) => {
                   return (
                     <Link
                       href={link.link}
                       target="_blank"
                       color="#45446A"
                       textDecoration="underline"
+                      key={index}
                     >
                       {link.label}
                     </Link>

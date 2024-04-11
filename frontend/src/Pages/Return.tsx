@@ -62,13 +62,14 @@ const Return = () => {
         </Heading>
         <BodyText textBlocks={purchase} textAlignCenter={false} />
         <Box w="60%" mt={6}>
-          {context.user.workshops.map((workshop: Workshop) => {
+          {context.user.workshops.map((workshop: Workshop, index: number) => {
             return (
               <Box
                 display="flex"
                 justifyContent="space-between"
                 mb={6}
                 alignItems="center"
+                key={index}
               >
                 <Text color="#45446A">{workshop.name}</Text>
                 <Link to={`/resources/${workshop.id}`}>

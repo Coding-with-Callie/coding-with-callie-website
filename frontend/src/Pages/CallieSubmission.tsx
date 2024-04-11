@@ -37,19 +37,20 @@ const CallieSubmission = () => {
         <BodyHeading textAlignCenter={false}>
           {`Session ${session.id}: ${session.title}`}
         </BodyHeading>
-        {otherLinks?.map((link: any) => {
+        {otherLinks?.map((link: any, index: number) => {
           return (
             <Link
               href={link.link}
               target="_blank"
               color="#45446A"
               textDecoration="underline"
+              key={index}
             >
               {link.label}
             </Link>
           );
         })}
-        {videos?.map((link: any) => {
+        {videos?.map((link: any, index: number) => {
           return (
             <Box w="75%">
               <Paragraph>{link.label}</Paragraph>
@@ -59,6 +60,7 @@ const CallieSubmission = () => {
                 overflow="hidden"
                 boxShadow="lg"
                 mx="auto"
+                key={index}
               >
                 <ReactPlayer
                   url={link.link}

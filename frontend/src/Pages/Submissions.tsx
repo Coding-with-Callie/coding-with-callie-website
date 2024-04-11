@@ -110,7 +110,7 @@ const Submissions = () => {
         >{`Session ${params.id} Submissions`}</BodyHeading>
         {sessionData.length > 1 ? (
           <Box w="100%" display="flex" flexDirection="column" gap={6}>
-            {sessionData.map((submission: Submission) => {
+            {sessionData.map((submission: Submission, index: number) => {
               const feedbackList = submission.feedback;
               const feedbackByUser = feedbackList.filter(
                 (review) => review.user.id === userId
@@ -132,6 +132,7 @@ const Submissions = () => {
                     gap={6}
                     backgroundColor="white"
                     boxShadow="lg"
+                    key={index}
                   >
                     <Box display="flex" w="100%" alignItems="center" gap={5}>
                       <Text>{submission.user.username}</Text>

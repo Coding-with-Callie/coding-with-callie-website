@@ -85,12 +85,13 @@ const CartDrawer = ({
             <DrawerBody>
               {workshops.length > 0 ? (
                 <Box display="flex" flexDirection="column" gap={4}>
-                  {workshops.map((workshop) => {
+                  {workshops.map((workshop, index) => {
                     return (
                       <CartLineItem
                         workshop={workshop}
                         updateUser={updateUser}
                         userId={userId}
+                        key={index}
                       />
                     );
                   })}

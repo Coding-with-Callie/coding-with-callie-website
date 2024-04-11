@@ -144,8 +144,12 @@ const ReviewForm = ({
                   color="#45446A"
                   onChange={handleSelectWorkshopChange}
                 >
-                  {workshops.map((workshop) => {
-                    return <option value={workshop.id}>{workshop.name}</option>;
+                  {workshops.map((workshop, index) => {
+                    return (
+                      <option value={workshop.id} key={index}>
+                        {workshop.name}
+                      </option>
+                    );
                   })}
                 </Select>
               </Box>
@@ -164,7 +168,11 @@ const ReviewForm = ({
                     );
 
                     if (sessionSubmission)
-                      return <option value={index + 1}>{session.title}</option>;
+                      return (
+                        <option value={index + 1} key={index}>
+                          {session.title}
+                        </option>
+                      );
                     return null;
                   })}
                 </Select>

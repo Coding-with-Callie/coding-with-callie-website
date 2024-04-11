@@ -30,8 +30,8 @@ const WorkshopResources = () => {
           textAlignCenter={false}
         ></BodyText>
         <OrderedList color="#45446A" my={4}>
-          {workshop?.sessions.map((session: Session) => {
-            return <ListItem>{session.title}</ListItem>;
+          {workshop?.sessions.map((session: Session, index: number) => {
+            return <ListItem key={index}>{session.title}</ListItem>;
           })}
         </OrderedList>
       </Section>
@@ -44,6 +44,7 @@ const WorkshopResources = () => {
               index={index}
               userId={context.user.id}
               submissions={submissions}
+              key={index}
             />
           );
         })}

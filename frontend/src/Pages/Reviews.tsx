@@ -44,7 +44,7 @@ const Reviews = () => {
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
         {reviews.length > 0 ? (
-          reviews.map((review: any) => {
+          reviews.map((review: any, index: number) => {
             return (
               <Box
                 w={isLargerThan900 ? "65%" : "100%"}
@@ -57,6 +57,7 @@ const Reviews = () => {
                 backgroundColor="white"
                 p={4}
                 boxShadow="lg"
+                key={index}
               >
                 <Box display="flex" gap={3}>
                   {isLargerThan550 ? (

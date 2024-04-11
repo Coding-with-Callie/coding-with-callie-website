@@ -105,8 +105,8 @@ const WorkshopDetails = () => {
             You can expect to learn how to:
           </BodyHeading>
           <UnorderedList color="#45446A">
-            {workshop.objectives.map((objective) => {
-              return <ListItem>{objective}</ListItem>;
+            {workshop.objectives.map((objective, index) => {
+              return <ListItem key={index}>{objective}</ListItem>;
             })}
           </UnorderedList>
         </Box>
@@ -115,8 +115,8 @@ const WorkshopDetails = () => {
             To build this application, I used:
           </BodyHeading>
           <UnorderedList color="#45446A">
-            {workshop.techStack.map((tool) => {
-              return <ListItem>{tool}</ListItem>;
+            {workshop.techStack.map((tool, index) => {
+              return <ListItem key={index}>{tool}</ListItem>;
             })}
           </UnorderedList>
         </Box>

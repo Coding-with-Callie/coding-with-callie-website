@@ -83,7 +83,7 @@ const Workshops = () => {
             justifyContent="center"
             maxW="1000px"
           >
-            {workshops.map((workshop) => {
+            {workshops.map((workshop, index) => {
               let access = false;
               if (
                 loggedIn &&
@@ -105,6 +105,7 @@ const Workshops = () => {
                   gap={10}
                   minW="400px"
                   maxW="600px"
+                  key={index}
                 >
                   <Heading fontSize={28} color="#79A9CD" textAlign="center">
                     {workshop.name}

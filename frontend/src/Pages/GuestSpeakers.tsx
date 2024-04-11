@@ -29,8 +29,8 @@ const GuestSpeakers = () => {
 
   return (
     <Box m={"0 auto"}>
-      {speakers.map((speaker) => {
-        return <GuestSpeaker speaker={speaker} />;
+      {speakers.map((speaker, index) => {
+        return <GuestSpeaker speaker={speaker} key={index} />;
       })}
     </Box>
   );

@@ -10,9 +10,13 @@ type Props = {
 const BodyText = ({ textBlocks, textAlignCenter, widthSize }: Props) => {
   return (
     <Box flex={1}>
-      {textBlocks.map((text: string) => {
+      {textBlocks.map((text: string, index: number) => {
         return (
-          <Paragraph textAlignCenter={textAlignCenter} maxWidthSize={widthSize}>
+          <Paragraph
+            textAlignCenter={textAlignCenter}
+            maxWidthSize={widthSize}
+            key={index}
+          >
             {text}
           </Paragraph>
         );
