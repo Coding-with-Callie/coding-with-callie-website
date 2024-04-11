@@ -45,7 +45,7 @@ export const HTML_TEMPLATE = (data) => {
             width: 100%;
           }
           li {
-            font-size: 20px;
+            font-size: 16px;
           }
           p {
             font-size: 16px;
@@ -65,6 +65,11 @@ export const HTML_TEMPLATE = (data) => {
               <h2 class="body-heading">Meet-ups</h3>
               <p>We have weekly meet-ups via Zoom on Thursdays from 7PM EST to 9PM EST.</p>
               <p>Click <a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">here</a> to join the Zoom room!</p>
+            </div>
+            <div class="email-body">
+              <h2 class="body-heading">Guest Speakers</h3>
+              <p>During our meet-ups, we have guest speakers from the industry join and share their insights, tips, and tricks. With their permission, I record the sessions and then post the recordings to our Guest Speaker page.</p>
+              <p>Click <a href="https://coding-with-callie.com/guest-speakers">here</a> to view the availale recordings!</p>
             </div>
             <div class="email-body">
               <h2 class="body-heading">Coding with Callie Workshops</h3>

@@ -88,7 +88,7 @@ export const HTML_TEMPLATE = (user) => {
                 </ul>
                 <ul>
                   <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
-                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
+                  <li><a href="https://coding-with-callie.com/workshops">Coding with Callie Workshops</a></li>
                   <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
                 </ul>
               </div>
