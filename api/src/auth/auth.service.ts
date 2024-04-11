@@ -302,11 +302,19 @@ export class AuthService {
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {
+    const workshops = user.workshops;
+
+    const workshop = workshops.find((workshop) => {
+      return workshop.id === parseInt(deliverable.workshopId.toString());
+    });
+
     this.mailService.sendNewSubmissionEmail({
       session: deliverable.session,
       url: deliverable.url,
       user,
       videoDate: deliverable.videoDate,
+      workshopId: deliverable.workshopId,
+      workshop: workshop.name,
     });
     return await this.submissionsService.submitDeliverable(deliverable);
   }

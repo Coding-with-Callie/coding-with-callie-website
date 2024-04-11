@@ -90,7 +90,7 @@ export class MailService {
           process.env.ENVIRONMENT === 'local'
             ? 'calliestoscup@gmail.com'
             : data.user.email, // receiver email
-        subject: `Coding with Callie: Session ${data.session} Deliverable Submitted 🥳`, // Subject line
+        subject: `${data.workshop}: Session ${data.session} Deliverable Submitted 🥳`, // Subject line
         text: '',
         attachments: [
           {
@@ -115,7 +115,7 @@ export class MailService {
           process.env.ENVIRONMENT === 'local'
             ? 'calliestoscup@gmail.com'
             : data.feedbackProvider.email, // receiver email
-        subject: `Coding with Callie: Session ${data.session} Feedback Submitted 🥳`, // Subject line
+        subject: `${data.workshop}: Session ${data.session} Feedback Submitted 🥳`, // Subject line
         text: '',
         attachments: [
           {
