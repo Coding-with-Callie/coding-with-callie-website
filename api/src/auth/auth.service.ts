@@ -320,6 +320,12 @@ export class AuthService {
       feedbackDto.submissionId,
     );
 
+    const workshops = user[0].user.workshops;
+
+    const workshop = workshops.find((workshop) => {
+      return workshop.id === parseInt(feedbackDto.workshopId.toString());
+    });
+
     const submission = await this.submissionsService.getSubmissionWithId(
       feedbackDto.submissionId,
     );
@@ -335,6 +341,8 @@ export class AuthService {
       positiveFeedback: feedbackDto.positiveFeedback,
       immediateChangesRequested: feedbackDto.immediateChangesRequested,
       longTermChangesRequested: feedbackDto.longTermChangesRequested,
+      workshop: workshop.name,
+      workshopId: feedbackDto.workshopId,
     });
 
     this.mailService.sendNewFeedbackGivenEmail({
@@ -342,6 +350,8 @@ export class AuthService {
       session: feedbackDto.sessionId,
       url: submission[0].url,
       feedbackProvider: feedbackProvider,
+      workshop: workshop.name,
+      workshopId: feedbackDto.workshopId,
     });
 
     return await this.feedbackService.submitFeedback(feedbackDto);

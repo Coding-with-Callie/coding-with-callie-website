@@ -32,7 +32,7 @@ export class SubmissionsService {
   async getUserWithSubmissionId(submissionId: number) {
     return await this.submissionsRepository.find({
       where: { id: submissionId },
-      relations: ['user', 'feedback'],
+      relations: ['user', 'feedback', 'user.workshops'],
     });
   }
 

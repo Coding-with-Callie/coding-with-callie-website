@@ -53,12 +53,12 @@ export const HTML_TEMPLATE_1 = (data) => {
           <div class="email">
             <div class="email-header">
               <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
-              <h1>Great job! You reviewed ${data.feedbackReceiver}'s session ${data.session} deliverable 👩🏻‍💻</h1>
+              <h1>Great job! You reviewed ${data.feedbackReceiver}'s ${data.workshop}: Session ${data.session} deliverable 👩🏻‍💻</h1>
             </div>
             <div class="email-body">
               <p>Thank you for reviewing ${data.feedbackReceiver}'s <a href="${data.url}">deliverable</a>, ${data.feedbackProvider.name}!</p>
               <p>Please make sure to review at least 1 other participant submission to "complete" this assignment.</p>
-              <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
+              <p>Click <a href="https://coding-with-callie.com/submissions/${data.workshopId}/${data.session}">here</a> to view all ${data.workshop}: Session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>
@@ -66,11 +66,11 @@ export const HTML_TEMPLATE_1 = (data) => {
                 <ul>
                   <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
                   <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
-                  <li><a href="https://www.linkedin.com/groups/14345705/">Coding with Callie's LinkedIn Group</a></li>
+                  <li><a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie's LinkedIn Page</a></li>
                 </ul>
                 <ul>
                   <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
-                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
+                  <li><a href="https://coding-with-callie.com/resources/${data.workshopId}">${data.workshop} Workshop Resources</a></li>
                   <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
                 </ul>
               </div>
@@ -125,7 +125,7 @@ export const HTML_TEMPLATE_2 = (data) => {
             width: 100%;
           }
           li {
-            font-size: 20px
+            font-size: 16px
           }
           p {
             font-size: 20px
@@ -137,12 +137,12 @@ export const HTML_TEMPLATE_2 = (data) => {
           <div class="email">
             <div class="email-header">
               <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
-              <h1>Great job! You reviewed ${data.feedbackReceiver}'s session ${data.session} deliverable 👩🏻‍💻</h1>
+              <h1>Great job! You reviewed ${data.feedbackReceiver}'s ${data.workshop}: Session ${data.session} deliverable 👩🏻‍💻</h1>
             </div>
             <div class="email-body">
               <p>Thank you for reviewing ${data.feedbackReceiver}'s <a href="${data.url}">deliverable</a>, ${data.feedbackProvider.name}!</p>
               <p>You have completed this sessions assignment.</p>
-              <p>Click <a href="https://coding-with-callie.com/submissions/${data.session}">here</a> to view all session ${data.session} submissions.</p>
+              <p>Click <a href="https://coding-with-callie.com/submissions/${data.workshopId}/${data.session}">here</a> to view all ${data.workshop}: Session ${data.session} submissions.</p>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>
@@ -150,11 +150,11 @@ export const HTML_TEMPLATE_2 = (data) => {
                 <ul>
                   <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
                   <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
-                  <li><a href="https://www.linkedin.com/groups/14345705/">Coding with Callie's LinkedIn Group</a></li>
+                  <li><a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie's LinkedIn Page</a></li>
                 </ul>
                 <ul>
                   <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
-                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
+                  <li><a href="https://coding-with-callie.com/resources/${data.workshopId}">${data.workshop} Workshop Resources</a></li>
                   <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
                 </ul>
               </div>
