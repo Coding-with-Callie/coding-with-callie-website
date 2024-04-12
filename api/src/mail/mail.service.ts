@@ -9,6 +9,7 @@ import { HTML_TEMPLATE as newFeedbackTemplate } from './new-feedback-template';
 import { HTML_TEMPLATE_1 as newFeedbackGivenTemplate1 } from './new-feedback-given-template';
 import { HTML_TEMPLATE_2 as newFeedbackGivenTemplate2 } from './new-feedback-given-template';
 import { HTML_TEMPLATE as purchaseConfirmationTemplate } from './purchase-confirmation-template';
+import { HTML_TEMPLATE as newPurchaseTemplate } from './new-purchase-template';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
@@ -221,7 +222,34 @@ export class MailService {
         html: purchaseConfirmationTemplate(workshopName, workshopId, userName),
       },
       () => {
-        console.log('purchase email sent');
+        console.log('purchase confirmation email sent');
+      },
+    );
+  }
+
+  async sendNewPurchaseEmail(workshopName, userName) {
+    SENDMAIL(
+      {
+        from: 'calliestoscup@gmail.com>', // sender address
+        to: 'calliestoscup@gmail.com', // receiver email
+        subject: 'Coding with Callie: You have a new purchase 🥳', // Subject line
+        text: '',
+        attachments: [
+          {
+            filename: 'slothblue.png',
+            path: path.join(__dirname, '/slothblue.png'),
+            cid: 'logo',
+          },
+          {
+            filename: 'image-1.png',
+            path: path.join(__dirname, '/image-1.png'),
+            cid: 'icon',
+          },
+        ],
+        html: newPurchaseTemplate(workshopName, userName),
+      },
+      () => {
+        console.log('new purchase email sent');
       },
     );
   }

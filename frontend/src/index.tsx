@@ -417,8 +417,6 @@ const router = createBrowserRouter([
 
               const submissions = response.data.submissions;
 
-              console.log("submissions", submissions);
-
               return submissions;
             } catch (error: any) {
               if (error.response.data.message === "Unauthorized") {

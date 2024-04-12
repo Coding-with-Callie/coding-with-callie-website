@@ -1,4 +1,4 @@
-export const HTML_TEMPLATE = (workshopName, workshopId, userName) => {
+export const HTML_TEMPLATE = (workshopName, userName) => {
   return `
     <!DOCTYPE html>
     <html>
@@ -59,11 +59,7 @@ export const HTML_TEMPLATE = (workshopName, workshopId, userName) => {
           <div class="email">
             <div class="email-header">
               <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
-              <h1>Thank you for your purchase, ${userName}!</h1>
-            </div>
-            <div class="email-body">
-              <h2 class="body-heading">You now have access to ${workshopName}</h3>
-              <p>Click <a href="https://www.coding-with-callie.com/resources/${workshopId}">here</a> to view ${workshopName} resources!</p>
+              <h1>Congrats! ${userName} just purchased ${workshopName}</h1>
             </div>
             <div class="email-footer">
               <h1>Helpful Links</h1>

@@ -421,8 +421,6 @@ export class AuthService {
 
       lineItems = lineItems.data;
 
-      console.log('lineItems', lineItems);
-
       for (let i = 0; i < lineItems.length; i++) {
         const workshop = await this.workshopsService.findOneByPriceId(
           lineItems[i].price.id,
@@ -430,12 +428,19 @@ export class AuthService {
 
         const userToUpdate = await this.usersService.findOneById(userId);
 
-        await this.mailService.sendPurchaseConfirmationEmail(
-          workshop.name,
-          workshop.id,
-          userToUpdate.name,
-          userToUpdate.email,
-        );
+        if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
+          await this.mailService.sendPurchaseConfirmationEmail(
+            workshop.name,
+            workshop.id,
+            userToUpdate.name,
+            userToUpdate.email,
+          );
+
+          await this.mailService.sendNewPurchaseEmail(
+            workshop.name,
+            userToUpdate.name,
+          );
+        }
 
         userToUpdate.workshops = [...userToUpdate.workshops, workshop];
 
