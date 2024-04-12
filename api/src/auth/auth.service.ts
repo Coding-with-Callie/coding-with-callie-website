@@ -19,9 +19,7 @@ import { WorkshopsService } from 'src/workshops/workshops.service';
 import { Workshop } from 'src/workshops/content/type';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const stripe = require('stripe')(
-  'sk_test_51OnUh9GPYyWkM7JWnPIpLMhkYb21iJSB6ZHLm82ua0YTvTa7nj9AleXdx2KBb5Gn5tFRjzE4DxEgbEdeYJObDJDj00CU7eZaJQ',
-);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 @Injectable()
 export class AuthService {
