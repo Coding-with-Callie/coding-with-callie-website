@@ -23,7 +23,6 @@ import Return from "./Pages/Return";
 import WorkshopDetails from "./Pages/WorkshopDetails";
 import WorkshopResources from "./Pages/WorkshopResources";
 import MyWorkshops from "./Pages/MyWorkshops";
-import { Box } from "@chakra-ui/react";
 import Paragraph from "./Components/Paragraph";
 
 export const showNotification = (

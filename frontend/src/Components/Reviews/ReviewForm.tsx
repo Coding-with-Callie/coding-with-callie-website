@@ -9,8 +9,6 @@ import { Submission } from "../Resources/SessionTask";
 import { isInvalidName } from "../../helpers/helpers";
 import { showNotification } from "../..";
 import { useEffect, useState } from "react";
-import { Context } from "../../App";
-import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { User } from "../Profile/Admin";
 

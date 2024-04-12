@@ -19,8 +19,6 @@ const WorkshopResources = () => {
 
   const context: Context = useOutletContext();
 
-  const role = context.user.role;
-
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={false}>

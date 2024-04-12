@@ -2,7 +2,6 @@ import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
 import Cart from "./Cart";
-import { useEffect } from "react";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
