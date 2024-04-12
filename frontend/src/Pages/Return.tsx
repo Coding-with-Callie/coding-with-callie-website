@@ -25,7 +25,7 @@ const Return = () => {
     axios
       .get(
         `${
-          process.env.REACT_APP_API || "http://localhost:3001"
+          process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/session-status?session_id=${sessionId}&userId=${context.user.id}`
       )
       .then((response) => {

@@ -421,12 +421,21 @@ export class AuthService {
 
       lineItems = lineItems.data;
 
+      console.log('lineItems', lineItems);
+
       for (let i = 0; i < lineItems.length; i++) {
         const workshop = await this.workshopsService.findOneByPriceId(
           lineItems[i].price.id,
         );
 
         const userToUpdate = await this.usersService.findOneById(userId);
+
+        await this.mailService.sendPurchaseConfirmationEmail(
+          workshop.name,
+          workshop.id,
+          userToUpdate.name,
+          userToUpdate.email,
+        );
 
         userToUpdate.workshops = [...userToUpdate.workshops, workshop];
 
