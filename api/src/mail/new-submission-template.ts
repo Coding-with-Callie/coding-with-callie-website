@@ -40,6 +40,9 @@ export const HTML_TEMPLATE = (data) => {
             justify-content: space-evenly;
             width: 100%;
           }
+          .link {
+            font-size: 16px;
+          }
           .button {
             border: 1px solid #45446A;
             border-radius: 4px;
@@ -73,7 +76,7 @@ export const HTML_TEMPLATE = (data) => {
           <div class="email">
             <div class="email-header">
               <img align="center" border="0" src="cid:logo" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;" width="168.2"/>
-              <h1>Great job! You submitted your session ${data.session} deliverable ✅</h1>
+              <h1>Great job! You submitted your ${data.workshop}: Session ${data.session} deliverable ✅</h1>
             </div>
             <div class="email-body">
               <p>Thank you for submitting your <a href="${data.url}">deliverable</a>, ${data.user.name}!</p>
@@ -82,14 +85,14 @@ export const HTML_TEMPLATE = (data) => {
                 <ol>
                   <li>
                     <p>Make sure to post your progress to <a href="https://www.linkedin.com">LinkedIn</a>!</p>
-                    <p>Building in public is an essential piece of the breaking into tech puzzle. Tag me (<a href="https://www.linkedin.com/in/cstoscup/">Callie Stoscup</a>) in the post so I can take a look too! I'll be sure to comment 🥳</p>
+                    <p>Building in public is an essential piece of the breaking into tech puzzle. Tag <a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie</a> in the post so I can take a look too! I'll be sure to comment 🥳</p>
                   </li>
                   <li>
-                    <p>Review other participants' <a href="https://coding-with-callie.com/submissions/${data.session}">submissions</a>!</p>
+                    <p>Review other participants' <a href="https://coding-with-callie.com/submissions/${data.workshopId}/${data.session}">submissions</a>!</p>
                     <p>You learn so much when reviewing other peoples' code! Helping others write better code helps you write better code too 🙋🏻‍♀️</p>
                   </li>
                   <li>
-                    <p>Watch Callie's solution <a href="https://coding-with-callie.com/submissions/callie/${data.session}">videos</a>!</p>
+                    <p>Watch Callie's solution <a href="https://coding-with-callie.com/submissions/callie/${data.workshopId}/${data.session}">videos</a>!</p>
                     <p>If you're unsure about any of your code, feel free to watch how I tackled it 💃🏼</p>
                   </li>
                 </ol>
@@ -104,14 +107,14 @@ export const HTML_TEMPLATE = (data) => {
               <h1>Helpful Links</h1>
               <div class="link-lists">
                 <ul>
-                  <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
-                  <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
-                  <li><a href="https://www.linkedin.com/groups/14345705/">Coding with Callie's LinkedIn Group</a></li>
+                  <li class="link"><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
+                  <li class="link"><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
+                  <li class="link"><a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie's LinkedIn Page</a></li>
                 </ul>
                 <ul>
-                  <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
-                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
-                  <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
+                  <li class="link"><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
+                  <li class="link"><a href="https://coding-with-callie.com/resources/${data.workshopId}">${data.workshop} Workshop Resources</a></li>
+                  <li class="link"><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
                 </ul>
               </div>
             </div>

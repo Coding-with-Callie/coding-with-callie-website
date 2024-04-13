@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:16
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:v21
         readinessProbe:
           httpGet:
             path: /api/readyz
@@ -62,6 +62,11 @@ spec:
             secretKeyRef:
               name: aws-secret
               key: SECRET_ACCESS_KEY
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: stripe-secret
+              key: STRIPE_SECRET_KEY
         - name: DATABASE_NAME
           value: "postgres"
         - name: NODE_TLS_REJECT_UNAUTHORIZED

@@ -1,15 +1,33 @@
 import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
+import Cart from "./Cart";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
   user: any;
+  updateUser: (newUser: any) => void;
+  checkoutStep: number;
+  updateCheckoutStep: (newStep: number) => void;
 };
 
-const Header = ({ user }: Props) => {
+const Header = ({
+  user,
+  updateUser,
+  checkoutStep,
+  updateCheckoutStep,
+}: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
+
+  const loggedIn = user.name !== undefined;
+
+  let tempCart: any = window.localStorage.getItem("temp-cart");
+  if (tempCart) {
+    tempCart = JSON.parse(tempCart);
+  } else {
+    tempCart = [];
+  }
 
   return (
     <Box
@@ -35,7 +53,15 @@ const Header = ({ user }: Props) => {
         </Link>
       </Box>
       <Menus user={user} />
-      {user?.name ? (
+      <Cart
+        count={loggedIn ? user?.cart?.workshops.length || 0 : tempCart.length}
+        workshops={loggedIn ? user?.cart?.workshops || [] : tempCart}
+        updateUser={updateUser}
+        userId={loggedIn ? user.id : 0}
+        checkoutStep={checkoutStep}
+        updateCheckoutStep={updateCheckoutStep}
+      />
+      {loggedIn ? (
         <Avatar
           name={user.username}
           src={user.photo}

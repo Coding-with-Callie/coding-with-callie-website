@@ -4,8 +4,9 @@ import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { sessions } from "../Resources/sessions";
 import { useNavigate } from "react-router-dom";
+import { Workshop } from "../../Pages/Workshops";
+import { Submission } from "../Resources/SessionTask";
 
 export type User = {
   email: string;
@@ -15,6 +16,8 @@ export type User = {
   photo: string | null;
   role: string;
   username: string;
+  workshops: Workshop[];
+  submissions: Submission[];
 };
 
 export type SubmissionsCount = {
@@ -30,11 +33,7 @@ export type FeedbackCount = {
 const Admin = () => {
   const navigate = useNavigate();
 
-  const [submissionsCount, setSubmissionsCount] =
-    useState<SubmissionsCount[]>();
-  const [feedbackCount, setFeedbackCount] = useState<
-    FeedbackCount[] | undefined[]
-  >();
+  const [adminData, setAdminData] = useState<any[]>([]);
   const [reviewCount, setReviewCount] = useState(0);
   const [users, setUsers] = useState<User[]>([
     {
@@ -45,6 +44,8 @@ const Admin = () => {
       photo: "",
       role: "",
       username: "",
+      workshops: [],
+      submissions: [],
     },
   ]);
 
@@ -61,28 +62,28 @@ const Admin = () => {
         }
       )
       .then((response) => {
-        const feedbackCount = response.data.feedbackCount;
-        const feedback: any = [];
+        setReviewCount(response.data.reviewCount);
+        setAdminData(response.data.adminData);
 
-        const submissionsCount = response.data.submissionsCount;
-        const submissions: any = [];
+        // const feedbackCount = response.data.feedbackCount;
+        // const feedback: any = [];
 
-        const reviewCount = response.data.reviewCount;
+        // const submissionsCount = response.data.submissionsCount;
+        // const submissions: any = [];
 
-        sessions.forEach((session, index) => {
-          feedback.push({
-            session: session.title,
-            count: parseInt(feedbackCount[index + 1]) || 0,
-          });
-          submissions.push({
-            session: session.title,
-            count: parseInt(submissionsCount[index + 1]) || 0,
-          });
-        });
+        // data.workshops[0].sessions.forEach((session, index) => {
+        //   feedback.push({
+        //     session: session.title,
+        //     count: parseInt(feedbackCount[index + 1]) || 0,
+        //   });
+        //   submissions.push({
+        //     session: session.title,
+        //     count: parseInt(submissionsCount[index + 1]) || 0,
+        //   });
+        // });
 
-        setFeedbackCount(feedback);
-        setSubmissionsCount(submissions);
-        setReviewCount(reviewCount);
+        // setFeedbackCount(feedback);
+        // setSubmissionsCount(submissions);
 
         setUsers(
           response.data.users.filter((user: User) => user.name !== "deleted")
@@ -96,13 +97,23 @@ const Admin = () => {
       <Box w="100%">
         <BodyHeading textAlignCenter={false}>Reviews</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
-          <Text w="275px" color="#45446A">
-            Todo List Workshop:
+          <Text w="375px" color="#45446A">
+            Total:
           </Text>
           <Text color="#45446A">{`${reviewCount}`}</Text>
         </Box>
+        {adminData.map((workshop, index) => {
+          return (
+            <Box display="flex" alignItems="center" mb={2} key={index}>
+              <Text w="375px" color="#45446A">
+                {`${workshop.name}:`}
+              </Text>
+              <Text color="#45446A">{`${workshop.reviewCount}`}</Text>
+            </Box>
+          );
+        })}
       </Box>
-      <Box
+      {/* <Box
         w="100%"
         display="flex"
         flexWrap="wrap"
@@ -119,7 +130,7 @@ const Admin = () => {
                   {session && (
                     <Box display="flex" alignItems="center" mb={2}>
                       <Text
-                        w="275px"
+                        w="375px"
                         color="#45446A"
                       >{`${session.session}: `}</Text>
                       <Text color="#45446A">{`${session.count}`}</Text>
@@ -139,7 +150,7 @@ const Admin = () => {
                   {session && (
                     <Box display="flex" alignItems="center" mb={2}>
                       <Text
-                        w="275px"
+                        w="375px"
                         color="#45446A"
                       >{`${session.session}: `}</Text>
                       <Text color="#45446A">{`${session.count}`}</Text>
@@ -150,18 +161,18 @@ const Admin = () => {
             })}
           </Box>
         </Box>
-      </Box>
+      </Box> */}
       <Box w="100%" mt={6}>
         <BodyHeading textAlignCenter={false}>Users:</BodyHeading>
         <Box display="flex" alignItems="center" mb={2}>
-          <Text w="275px" color="#45446A">
-            Todo List Workshop:
+          <Text w="375px" color="#45446A">
+            Total:
           </Text>
           <Text color="#45446A">{`${users.length}`}</Text>
         </Box>
       </Box>
       <Box display="flex" flexWrap="wrap" mt={6}>
-        {users.map((user) => {
+        {users.map((user, index) => {
           return (
             <Box
               display="flex"
@@ -171,6 +182,7 @@ const Admin = () => {
               mb={5}
               as="button"
               onClick={() => navigate(`/user-details/${user.id}`)}
+              key={index}
             >
               <Avatar name={user.name} src={user.photo ? user.photo : ""} />
               <Paragraph margin={false}>{user.name}</Paragraph>

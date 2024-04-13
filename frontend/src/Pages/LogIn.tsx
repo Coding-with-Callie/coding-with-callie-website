@@ -1,5 +1,4 @@
 import {
-  FormControl,
   Input,
   Box,
   Modal,
@@ -13,14 +12,14 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
-import TextInput from "../Components/Forms/TextInput";
 import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
+import LogInForm from "../Components/LogIn/LogInForm";
 
 const LogIn = () => {
   const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
@@ -29,7 +28,6 @@ const LogIn = () => {
   const [userData, setUserData] = useState<any>(data);
   const [email, setEmail] = useState<string>("");
   const [submitClicked, setSubmitClicked] = useState(false);
-  const navigate = useNavigate();
 
   const context: Context = useOutletContext();
   context.updateUser(data);
@@ -39,62 +37,6 @@ const LogIn = () => {
     type: "success" | "error" | "info"
   ) => {
     toast[type](message, { toastId: `${type}-${message}` });
-  };
-
-  const onSubmit = () => {
-    if (
-      userData.username &&
-      userData.username !== "" &&
-      userData.password &&
-      userData.password !== ""
-    ) {
-      axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/login`,
-          userData
-        )
-        .then((response) => {
-          const token = response?.data.access_token;
-          localStorage.setItem("token", token);
-          axios
-            .get(
-              `${
-                process.env.REACT_APP_API || "http://localhost:3001/api"
-              }/auth/profile`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            )
-            .then((response) => {
-              context.updateUser(response.data);
-              showNotification(
-                `Welcome back, ${response.data.username}!`,
-                "success"
-              );
-
-              navigate("/");
-            });
-        })
-        .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            const emptyUser = {
-              name: "",
-              email: "",
-              username: "",
-              password: "",
-            };
-            setUserData(emptyUser);
-            showNotification("You entered incorrect credentials.", "error");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
-        });
-    } else {
-      setSubmitClicked(true);
-    }
   };
 
   const resetPassword = async () => {
@@ -122,39 +64,16 @@ const LogIn = () => {
       });
   };
 
-  const onChangeUsername = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, username: e.target.value });
-  };
-
-  const onChangePassword = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, password: e.target.value });
-  };
-
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
       <BodyHeading textAlignCenter={true}>Log in!</BodyHeading>
-      <FormControl display="flex" flexDirection="column" gap={6}>
-        <TextInput
-          field="Username"
-          onChange={onChangeUsername}
-          value={userData?.username}
-          isInvalid={
-            submitClicked && (!userData.username || userData.username === "")
-          }
-        />
-        <TextInput
-          field="Password"
-          onChange={onChangePassword}
-          value={userData?.password}
-          isInvalid={
-            submitClicked && (!userData.password || userData.password === "")
-          }
-          type="password"
-        />
-        <MyButton onClick={onSubmit}>Submit</MyButton>
-      </FormControl>
+      <LogInForm
+        userData={userData}
+        setUserData={setUserData}
+        submitClicked={submitClicked}
+        setSubmitClicked={setSubmitClicked}
+        updateUser={context.updateUser}
+      />
       <Box
         display="flex"
         gap={2}

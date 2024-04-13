@@ -11,19 +11,28 @@ import "react-toastify/dist/ReactToastify.css";
 export type Context = {
   user: any;
   updateUser: (newUser: any) => void;
+  checkoutStep: number;
+  updateCheckoutStep: (newStep: number) => void;
 };
 
 function App() {
   const data = useLoaderData();
   const [user, setUser] = useState<any>(data);
+  const [checkoutStep, setCheckoutStep] = useState(0);
 
   const updateUser = (newUser: any) => {
     setUser(newUser);
   };
 
+  const updateCheckoutStep = (newStep: number) => {
+    setCheckoutStep(newStep);
+  };
+
   const context: Context = {
     user,
     updateUser,
+    checkoutStep,
+    updateCheckoutStep,
   };
 
   return (
@@ -31,7 +40,12 @@ function App() {
       <Helmet>
         <style>{"body { background-color: #E1E7CD; }"}</style>
       </Helmet>
-      <Header user={user} />
+      <Header
+        user={user}
+        updateUser={updateUser}
+        checkoutStep={checkoutStep}
+        updateCheckoutStep={updateCheckoutStep}
+      />
       <Outlet context={context} />
     </ChakraProvider>
   );

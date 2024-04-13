@@ -19,9 +19,9 @@ const HamburgerMenu = ({ menuItems }: Props) => {
         <HamburgerIcon boxSize={5} />
       </MenuButton>
       <MenuList>
-        {menuItems.map((item: any) => {
+        {menuItems.map((item: any, index: number) => {
           return (
-            <Link to={`/${item.path}`}>
+            <Link to={`/${item.path}`} key={index}>
               <MenuItem color="#45446A">{item.name}</MenuItem>
             </Link>
           );

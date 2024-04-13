@@ -12,12 +12,12 @@ export const menuItems = [
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
   },
-  {
-    name: "Resources",
-    path: "resources",
-    hiddenWhenLoggedIn: false,
-    hiddenWhenLoggedOut: false,
-  },
+  // {
+  //   name: "Resources",
+  //   path: "resources",
+  //   hiddenWhenLoggedIn: false,
+  //   hiddenWhenLoggedOut: false,
+  // },
   {
     name: "Guest Speakers",
     path: "guest-speakers",

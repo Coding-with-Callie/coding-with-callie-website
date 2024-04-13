@@ -8,9 +8,9 @@ type Props = {
 const FullMenu = ({ menuItems }: Props) => {
   return (
     <Box display="flex" gap={10}>
-      {menuItems.map((item: any) => {
+      {menuItems.map((item: any, index: number) => {
         return (
-          <Link to={`/${item.path}`}>
+          <Link to={`/${item.path}`} key={index}>
             <Box color="#45446A" _hover={{ textDecoration: "underline" }}>
               {item.name}
             </Box>

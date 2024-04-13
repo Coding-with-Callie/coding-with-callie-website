@@ -1,6 +1,5 @@
 import { Box, Link } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
-import { sessions } from "../Components/Resources/sessions";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import ReactPlayer from "react-player";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
@@ -8,10 +7,14 @@ import Paragraph from "../Components/Paragraph";
 import ReviewForm from "../Components/Reviews/ReviewForm";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Session } from "../Components/Resources/sessions";
+import { Context } from "../App";
 
 const CallieSubmission = () => {
-  const sessionId = useLoaderData() as any;
-  const solutionLinks = sessions[sessionId - 1].solutionLinks;
+  const context = useOutletContext() as Context;
+
+  const session = useLoaderData() as Session;
+  const solutionLinks = session.solutionLinks;
 
   const otherLinks = solutionLinks?.filter((link) => link.type !== "video");
   const videos = solutionLinks?.filter((link) => link.type === "video");
@@ -32,21 +35,22 @@ const CallieSubmission = () => {
     <Box>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>
-          {`Session ${sessionId}: ${sessions[sessionId - 1].title}`}
+          {`Session ${session.id}: ${session.title}`}
         </BodyHeading>
-        {otherLinks?.map((link) => {
+        {otherLinks?.map((link: any, index: number) => {
           return (
             <Link
               href={link.link}
               target="_blank"
               color="#45446A"
               textDecoration="underline"
+              key={index}
             >
               {link.label}
             </Link>
           );
         })}
-        {videos?.map((link) => {
+        {videos?.map((link: any, index: number) => {
           return (
             <Box w="75%">
               <Paragraph>{link.label}</Paragraph>
@@ -56,6 +60,7 @@ const CallieSubmission = () => {
                 overflow="hidden"
                 boxShadow="lg"
                 mx="auto"
+                key={index}
               >
                 <ReactPlayer
                   url={link.link}
@@ -71,10 +76,9 @@ const CallieSubmission = () => {
           reviews={reviews}
           setReviews={setReviews}
           isLargerThan900={false}
-          sessionId={sessionId}
-          title={`Review Session ${sessionId}: ${
-            sessions[sessionId - 1].title
-          }`}
+          sessionId={session.id}
+          title={`Review Session ${session.id}: ${session.title}`}
+          user={context.user}
         />
       </Section>
     </Box>

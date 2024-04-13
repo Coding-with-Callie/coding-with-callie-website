@@ -19,15 +19,15 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-frontend:v67
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-frontend:v79
         readinessProbe:
           httpGet:
             path: /
-            port: 3000
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
         env:
         - name: REACT_APP_API
           value: "/api"
         ports:
-        - containerPort: 3000
+        - containerPort: 80

@@ -27,6 +27,7 @@ import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
 import Admin from "../Components/Profile/Admin";
+import { Workshop } from "./Workshops";
 
 export type Feedback = {
   id: number;
@@ -42,6 +43,7 @@ export type Submission = {
   url: string;
   user: any[];
   feedback: any[];
+  workshop: Workshop;
 };
 
 export type Data = {
@@ -51,6 +53,7 @@ export type Data = {
   role: string;
   submissions: Submission[];
   feedback: Feedback[];
+  workshops: Workshop[];
 };
 
 const Profile = () => {
@@ -67,15 +70,18 @@ const Profile = () => {
     onClose: onClosePhotoModal,
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const data = useLoaderData() as Data;
+  const [data, setData] = useState(useLoaderData() as Data);
   const context = useOutletContext() as Context;
+
+  const workshops = data.workshops;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    context.updateUser(data);
+    setData(context.user);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [context]);
 
   const currentName = context.user?.name as string;
   const currentUsername = context.user?.username as string;
@@ -283,9 +289,44 @@ const Profile = () => {
           item="Account"
         />
 
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
+        {workshops.map((workshop, index) => {
           return (
-            <SessionFeedback sessionNumber={sessionNumber} admin={false} />
+            <Box key={index}>
+              <Section screenSizeParameter={false} alignItemsCenter={false}>
+                <BodyHeading textAlignCenter={false}>
+                  {workshop.name}
+                </BodyHeading>
+              </Section>
+              {workshop.sessions.map((session, index) => {
+                const submission = data.submissions.find((submission) => {
+                  return (
+                    submission.session === index + 1 &&
+                    submission.workshop.id === workshop.id
+                  );
+                });
+
+                const feedbackReceived = submission?.feedback || [];
+
+                const feedbackGiven = data.feedback.filter((feedback) => {
+                  return (
+                    feedback.submission.session === index + 1 &&
+                    feedback.submission.workshop.id === workshop.id
+                  );
+                });
+
+                return (
+                  <Box key={index}>
+                    <SessionFeedback
+                      sessionNumber={index + 1}
+                      admin={false}
+                      submission={submission}
+                      feedbackReceived={feedbackReceived}
+                      feedbackGiven={feedbackGiven}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
           );
         })}
 

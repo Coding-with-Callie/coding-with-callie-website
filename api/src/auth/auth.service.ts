@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -10,6 +14,12 @@ import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
+import { CartService } from 'src/cart/cart.service';
+import { WorkshopsService } from 'src/workshops/workshops.service';
+import { Workshop } from 'src/workshops/content/type';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 @Injectable()
 export class AuthService {
@@ -21,6 +31,8 @@ export class AuthService {
     private feedbackService: FeedbackService,
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
+    private cartService: CartService,
+    private workshopsService: WorkshopsService,
     private logger: Logger,
   ) {}
 
@@ -86,16 +98,36 @@ export class AuthService {
 
   async getAdminData() {
     const users = await this.usersService.findAllUsers();
-    const submissionsCount =
-      await this.submissionsService.getSubmissionsCountBySession();
-    const feedbackCount =
-      await this.feedbackService.getFeedbackCountBySession();
+
+    const workshops = await this.workshopsService.findAll();
+
+    const adminData = [];
+
+    for (let i = 0; i < workshops.length; i++) {
+      const workshopStats = {};
+
+      workshopStats['name'] = workshops[i].name;
+      workshopStats['submissionCount'] =
+        await this.submissionsService.getSubmissionsCountBySession(
+          workshops[i].id,
+        );
+      workshopStats['feedbackCount'] =
+        await this.feedbackService.getFeedbackCountBySession();
+      workshopStats['reviewCount'] = (
+        await this.reviewService.getAllReviews(workshops[i].id)
+      ).length;
+
+      adminData.push(workshopStats);
+    }
+
     const reviewCount = (await this.reviewService.getAllReviews()).length;
-    return { users, submissionsCount, feedbackCount, reviewCount };
+
+    return { users, reviewCount, adminData };
   }
 
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
+
     return {
       id: user.id,
       name: user.name,
@@ -105,7 +137,36 @@ export class AuthService {
       submissions: user.submissions,
       feedback: user.feedback,
       photo: user.photo,
+      cart: user.cart,
+      workshops: user.workshops,
     };
+  }
+
+  async getWorkshopResources(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+
+    const workshop = user.workshops.find(
+      (workshop) => workshop.id === workshopId,
+    );
+
+    if (!workshop) {
+      throw new NotFoundException('workshop not found');
+    }
+
+    return {
+      workshop,
+      submissions: user.submissions,
+    };
+  }
+
+  async getMyWorkshops(userId: number) {
+    const user = await this.usersService.findOneById(userId);
+
+    if (user.workshops.length === 0) {
+      throw new NotFoundException('no workshops found');
+    }
+
+    return user.workshops;
   }
 
   async changeAccountDetail(id: number, value: string, field: string) {
@@ -201,23 +262,57 @@ export class AuthService {
     }
   }
 
+  async getSolutionVideos(workshopId, id) {
+    const workshop = await this.workshopsService.findOneById(workshopId);
+
+    const session = workshop.sessions[id - 1];
+    session['id'] = id;
+
+    return session;
+  }
+
   async getUserSubmissions(userId: number) {
     return await this.submissionsService.getUserSubmissions(userId);
   }
 
-  async getAllSubmissions(sessionId, userId) {
-    const submissions =
-      await this.submissionsService.getAllSubmissions(sessionId);
+  async getAllSubmissions(workshopId, sessionId, userId) {
+    const submissions = await this.submissionsService.getAllSubmissions(
+      workshopId,
+      sessionId,
+    );
+
+    const userSubmissions = submissions.filter((submission) => {
+      return submission.user.id === userId;
+    });
+
+    if (submissions.length === 0) {
+      throw new NotFoundException('No submissions found');
+    }
+
+    if (userSubmissions.length === 0) {
+      throw new UnauthorizedException(
+        'You have not submitted the deliverable for this session yet!',
+      );
+    }
+
     const user = await this.usersService.findOneById(userId);
     return { role: user.role, submissions };
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {
+    const workshops = user.workshops;
+
+    const workshop = workshops.find((workshop) => {
+      return workshop.id === parseInt(deliverable.workshopId.toString());
+    });
+
     this.mailService.sendNewSubmissionEmail({
       session: deliverable.session,
       url: deliverable.url,
       user,
       videoDate: deliverable.videoDate,
+      workshopId: deliverable.workshopId,
+      workshop: workshop.name,
     });
     return await this.submissionsService.submitDeliverable(deliverable);
   }
@@ -230,6 +325,12 @@ export class AuthService {
     const user = await this.submissionsService.getUserWithSubmissionId(
       feedbackDto.submissionId,
     );
+
+    const workshops = user[0].user.workshops;
+
+    const workshop = workshops.find((workshop) => {
+      return workshop.id === parseInt(feedbackDto.workshopId.toString());
+    });
 
     const submission = await this.submissionsService.getSubmissionWithId(
       feedbackDto.submissionId,
@@ -246,6 +347,8 @@ export class AuthService {
       positiveFeedback: feedbackDto.positiveFeedback,
       immediateChangesRequested: feedbackDto.immediateChangesRequested,
       longTermChangesRequested: feedbackDto.longTermChangesRequested,
+      workshop: workshop.name,
+      workshopId: feedbackDto.workshopId,
     });
 
     this.mailService.sendNewFeedbackGivenEmail({
@@ -253,6 +356,8 @@ export class AuthService {
       session: feedbackDto.sessionId,
       url: submission[0].url,
       feedbackProvider: feedbackProvider,
+      workshop: workshop.name,
+      workshopId: feedbackDto.workshopId,
     });
 
     return await this.feedbackService.submitFeedback(feedbackDto);
@@ -274,7 +379,10 @@ export class AuthService {
     if (existingReview.length > 0) {
       return await this.reviewService.getAllReviews();
     } else {
-      return await this.reviewService.submitReview(review);
+      const workshop = await this.workshopsService.findOneById(
+        review.workshopId,
+      );
+      return await this.reviewService.submitReview(review, workshop);
     }
   }
 
@@ -284,5 +392,128 @@ export class AuthService {
 
   async getSpeakers() {
     return await this.speakersService.findAllSpeakers();
+  }
+
+  async createCheckoutSession(lineItems: any[], userId: number) {
+    const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
+      line_items: lineItems,
+      mode: 'payment',
+      return_url:
+        process.env.ENVIRONMENT === 'local'
+          ? `http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}`
+          : `https://www.coding-with-callie.com/return?session_id={CHECKOUT_SESSION_ID}`,
+      automatic_tax: { enabled: true },
+      allow_promotion_codes: true,
+      metadata: {
+        user: userId,
+      },
+    });
+
+    return { clientSecret: session.client_secret };
+  }
+
+  async getSessionStatus(session_id, userId) {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    if (session.status === 'complete') {
+      let lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+
+      lineItems = lineItems.data;
+
+      for (let i = 0; i < lineItems.length; i++) {
+        const workshop = await this.workshopsService.findOneByPriceId(
+          lineItems[i].price.id,
+        );
+
+        const userToUpdate = await this.usersService.findOneById(userId);
+
+        if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
+          await this.mailService.sendPurchaseConfirmationEmail(
+            workshop.name,
+            workshop.id,
+            userToUpdate.name,
+            userToUpdate.email,
+          );
+
+          await this.mailService.sendNewPurchaseEmail(
+            workshop.name,
+            userToUpdate.name,
+          );
+        }
+
+        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+
+        await this.usersService.createUser(userToUpdate);
+
+        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
+      }
+    }
+
+    return {
+      status: session.status,
+      customer_email: await stripe.checkout.sessions.retrieve(session_id),
+    };
+  }
+
+  async receiveWebhook(data) {
+    if (data.type === 'checkout.session.completed') {
+      const userId = data.data.object.metadata.user;
+      let lineItems = await stripe.checkout.sessions.listLineItems(
+        data.data.object.id,
+      );
+
+      lineItems = lineItems.data;
+
+      for (let i = 0; i < lineItems.length; i++) {
+        const workshop = await this.workshopsService.findOneByPriceId(
+          lineItems[i].price.id,
+        );
+        const userToUpdate = await this.usersService.findOneById(userId);
+        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+
+        await this.usersService.createUser(userToUpdate);
+
+        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
+      }
+    }
+  }
+
+  async addWorkshopToCart(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+    let cartId: number;
+
+    if (!user.cart) {
+      cartId = await this.cartService.createCart(userId);
+    } else {
+      cartId = user.cart.id;
+    }
+
+    const cart = await this.cartService.addWorkshopToCart(workshopId, cartId);
+    user.cart = cart;
+    const updatedUser = await this.usersService.createUser(user);
+    return updatedUser;
+  }
+
+  async deleteWorkshopFromCart(workshopId: number, userId: number) {
+    const user = await this.usersService.findOneById(userId);
+    const workshops = user.cart.workshops;
+
+    const workshopToDelete = workshops.find(
+      (workshop) => workshop.id === workshopId,
+    );
+
+    const index = workshops.indexOf(workshopToDelete);
+    workshops.splice(index, 1);
+
+    await this.cartService.updateCart(workshops, user.cart.id);
+
+    const updatedUser = await this.usersService.findOneById(userId);
+
+    return updatedUser;
+  }
+
+  async createWorkshop(workshop: Workshop) {
+    return await this.workshopsService.createWorkshop(workshop);
   }
 }

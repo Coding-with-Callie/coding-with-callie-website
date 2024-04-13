@@ -32,12 +32,14 @@ export class SubmissionsService {
   async getUserWithSubmissionId(submissionId: number) {
     return await this.submissionsRepository.find({
       where: { id: submissionId },
-      relations: ['user', 'feedback'],
+      relations: ['user', 'feedback', 'user.workshops'],
     });
   }
 
-  async getSubmissionsCountBySession() {
-    const submissions = await this.submissionsRepository.find();
+  async getSubmissionsCountBySession(id) {
+    const submissions = await this.submissionsRepository.find({
+      where: { workshop: { id } },
+    });
     const countedSubmissions = {};
     submissions.forEach((submission: Submissions) => {
       const sessionId = submission.session;
@@ -50,9 +52,9 @@ export class SubmissionsService {
     return countedSubmissions;
   }
 
-  async getAllSubmissions(sessionId: number) {
+  async getAllSubmissions(workshopId: number, sessionId: number) {
     return await this.submissionsRepository.find({
-      where: { session: sessionId },
+      where: { session: sessionId, workshop: { id: workshopId } },
       relations: ['feedback'],
     });
   }
@@ -62,6 +64,7 @@ export class SubmissionsService {
     submission.session = deliverable.session;
     submission.url = deliverable.url;
     submission.user = deliverable.userId;
+    submission.workshop = deliverable.workshopId;
     return await this.submissionsRepository.save(submission);
   }
 

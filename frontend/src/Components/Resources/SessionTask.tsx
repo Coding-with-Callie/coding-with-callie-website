@@ -10,6 +10,7 @@ import Section from "../Section";
 import EditSubmissionModal from "./EditSubmissionModal";
 import { Session } from "./sessions";
 import ReactPlayer from "react-player";
+import { Workshop } from "../../Pages/Workshops";
 
 export type Submission = {
   id: number;
@@ -17,16 +18,18 @@ export type Submission = {
   url: string;
   user: any;
   feedback: any[];
+  workshop: Workshop;
 };
 
 type Props = {
+  workshopId: number;
   session: Session;
   index: number;
   userId: number;
   submissions: any;
 };
 
-const SessionTask = ({ session, index, userId }: Props) => {
+const SessionTask = ({ workshopId, session, index, userId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const context: Context = useOutletContext();
 
@@ -45,7 +48,13 @@ const SessionTask = ({ session, index, userId }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/submit-deliverable`,
-        { session: index + 1, url, userId, videoDate: session.startDate },
+        {
+          workshopId,
+          session: index + 1,
+          url,
+          userId,
+          videoDate: session.startDate,
+        },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -64,7 +73,7 @@ const SessionTask = ({ session, index, userId }: Props) => {
           navigate("/log-in");
         } else {
           let message = error.response.data.message;
-          showNotification(`${message}`, "error");
+          showNotification(`${message[0]}`, "error");
         }
       });
   };
@@ -77,7 +86,7 @@ const SessionTask = ({ session, index, userId }: Props) => {
         `${
           process.env.REACT_APP_API || "http://localhost:3001/api"
         }/auth/edit-deliverable`,
-        { session: index + 1, url, userId },
+        { session: index + 1, url, userId, workshopId },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -95,7 +104,7 @@ const SessionTask = ({ session, index, userId }: Props) => {
           navigate("/log-in");
         } else {
           let message = error.response.data.message;
-          showNotification(`${message}`, "error");
+          showNotification(`${message[0]}`, "error");
         }
       });
   };
@@ -133,6 +142,7 @@ const SessionTask = ({ session, index, userId }: Props) => {
                   <Text
                     layerStyle="input"
                     mb={index < session.summary.length - 1 ? 2 : 0}
+                    key={index}
                   >
                     {line}
                   </Text>
@@ -152,13 +162,14 @@ const SessionTask = ({ session, index, userId }: Props) => {
                 Resources:
               </Text>
               <Box display="flex" flexDirection="column" gap={3}>
-                {session.helpfulLinks.map((link) => {
+                {session.helpfulLinks.map((link, index) => {
                   return (
                     <Link
                       href={link.link}
                       target="_blank"
                       color="#45446A"
                       textDecoration="underline"
+                      key={index}
                     >
                       {link.label}
                     </Link>
@@ -189,7 +200,9 @@ const SessionTask = ({ session, index, userId }: Props) => {
                 <Box flex={1}>
                   <MyButton
                     widthSize="100%"
-                    onClick={() => navigate(`/submissions/${index + 1}`)}
+                    onClick={() =>
+                      navigate(`/submissions/${workshopId}/${index + 1}`)
+                    }
                   >
                     Participant submissions
                   </MyButton>
@@ -217,7 +230,9 @@ const SessionTask = ({ session, index, userId }: Props) => {
           <Box>
             <MyButton
               widthSize="100%"
-              onClick={() => navigate(`/submissions/callie/${index + 1}`)}
+              onClick={() =>
+                navigate(`/submissions/callie/${workshopId}/${index + 1}`)
+              }
             >
               View Callie's Solution
             </MyButton>

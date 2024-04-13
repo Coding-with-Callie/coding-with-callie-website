@@ -45,7 +45,7 @@ export const HTML_TEMPLATE = (data) => {
             width: 100%;
           }
           li {
-            font-size: 20px;
+            font-size: 16px;
           }
           p {
             font-size: 16px;
@@ -67,10 +67,13 @@ export const HTML_TEMPLATE = (data) => {
               <p>Click <a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">here</a> to join the Zoom room!</p>
             </div>
             <div class="email-body">
-              <h2 class="body-heading">Todo List Workshop</h3>
-              <p>I am currently recording myself building a Todo List. Each Thursday, a new task is posted with recordings of my coding time to complete that task.</p>
-              <p>You can learn more about the tasks, view my solutions, and submit your attempts on the <a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a> page.</p>
-              <p>Once you submit your attempt at the task, you will have access to all of other task submissions. You can even leave feedback on your peers' submissions!</p>
+              <h2 class="body-heading">Guest Speakers</h3>
+              <p>During our meet-ups, we have guest speakers from the industry join and share their insights, tips, and tricks. With their permission, I record the sessions and then post the recordings to our Guest Speaker page.</p>
+              <p>Click <a href="https://coding-with-callie.com/guest-speakers">here</a> to view the availale recordings!</p>
+            </div>
+            <div class="email-body">
+              <h2 class="body-heading">Coding with Callie Workshops</h3>
+              <p>Checkout the available Coding with Callie workshops <a href="https://coding-with-callie.com/workshops">here</a>.</p>
               <p>Please let me know if you have any questions or concerns 🙂</p>
             </div>
             <div class="email-footer">
@@ -79,11 +82,11 @@ export const HTML_TEMPLATE = (data) => {
                 <ul>
                   <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
                   <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
-                  <li><a href="https://www.linkedin.com/groups/14345705/">Coding with Callie's LinkedIn Group</a></li>
+                  <li><a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie's LinkedIn Page</a></li>
                 </ul>
                 <ul>
                   <li><a href="https://coding-with-callie.com/profile">Manage Your Account Details</a></li>
-                  <li><a href="https://coding-with-callie.com/resources">Todo List Workshop Resources</a></li>
+                  <li><a href="https://coding-with-callie.com/workshops">Coding with Callie Workshops</a></li>
                   <li><a href="https://coding-with-callie.com/contact-callie">Contact Callie</a></li>
                 </ul>
               </div>

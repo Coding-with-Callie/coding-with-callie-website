@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "migration:run": "npm run typeorm migration:run -- -d ./src/config/typeorm.ts",
-    "migration:generate": "npm run typeorm -- -d ./src/config/typeorm.ts migration:generate ./src/migrations/add-time-column-to-speaker-table"
+    "migration:generate": "npm run typeorm -- -d ./src/config/typeorm.ts migration:generate ./src/migrations/edit-reviews-table"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -45,6 +45,7 @@
     "rxjs": "^7.8.1",
     "sanitize-html": "^2.11.0",
     "sequelize-typescript": "^2.1.6",
+    "stripe": "^14.18.0",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {

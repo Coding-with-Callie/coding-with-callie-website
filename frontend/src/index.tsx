@@ -10,10 +10,6 @@ import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import Home from "./Pages/Home";
 import Workshops from "./Pages/Workshops";
-import TodoList from "./Pages/TodoList";
-import FullstackDeployment from "./Pages/FullstackDeployment";
-import Apply from "./Pages/Apply";
-import Resources from "./Pages/Resources";
 import ContactCallie from "./Pages/ContactCallie";
 import SignUp from "./Pages/SignUp";
 import LogIn from "./Pages/LogIn";
@@ -21,9 +17,13 @@ import Profile from "./Pages/Profile";
 import Submissions from "./Pages/Submissions";
 import Reviews from "./Pages/Reviews";
 import CallieSubmission from "./Pages/CallieSubmission";
-import { sessions } from "./Components/Resources/sessions";
 import UserDetails from "./Pages/UserDetails";
 import GuestSpeakers from "./Pages/GuestSpeakers";
+import Return from "./Pages/Return";
+import WorkshopDetails from "./Pages/WorkshopDetails";
+import WorkshopResources from "./Pages/WorkshopResources";
+import MyWorkshops from "./Pages/MyWorkshops";
+import Paragraph from "./Components/Paragraph";
 
 export const showNotification = (
   message: string,
@@ -62,16 +62,37 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/return",
+        element: <Return />,
+      },
+      {
+        path: "/*",
+        element: <Paragraph>Not Found</Paragraph>,
+      },
+      {
         path: "/workshops",
         element: <Workshops />,
+        loader: async () => {
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/workshops`
+          );
+          return response.data;
+        },
       },
       {
-        path: "/workshop-details",
-        element: <TodoList />,
-      },
-      {
-        path: "/workshops/todo-list",
-        element: <TodoList />,
+        path: "/workshops/:id",
+        element: <WorkshopDetails />,
+        loader: async ({ params }) => {
+          const id = params.id;
+          const response = await axios.get(
+            `${
+              process.env.REACT_APP_API || "http://localhost:3001/api"
+            }/workshop/${id}`
+          );
+          return response.data;
+        },
       },
       {
         path: "/reviews",
@@ -86,23 +107,8 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/workshops/fullstack-deployment",
-        element: <FullstackDeployment />,
-      },
-      {
-        path: "/apply",
-        element: <Apply />,
-        loader: () => {
-          showNotification(
-            "There are no workshops to apply to right now",
-            "error"
-          );
-          return redirect("/");
-        },
-      },
-      {
-        path: "/resources",
-        element: <Resources />,
+        path: "/my-workshops",
+        element: <MyWorkshops />,
         loader: async () => {
           const token = localStorage.getItem("token");
 
@@ -111,22 +117,76 @@ const router = createBrowserRouter([
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                }/auth/my-workshops`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
               return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-                "error"
-              );
-              return redirect("/log-in");
+            } catch (error: any) {
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view this workshop's resources!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
+
+              if (error.response.data.message === "no workshops found") {
+                showNotification(
+                  "You do not have access to any Coding with Callie workshops!",
+                  "error"
+                );
+                return redirect("/workshops");
+              }
             }
           } else {
             showNotification(
-              "You must sign up to view Coding with Callie resources!",
+              "You must sign up to view workshop resources!",
+              "error"
+            );
+            return redirect("/sign-up");
+          }
+        },
+      },
+      {
+        path: "/resources/:id",
+        element: <WorkshopResources />,
+        loader: async ({ params }) => {
+          const { id } = params;
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/resources/${id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+              return response.data;
+            } catch (error: any) {
+              if (error.response.data.message === "Unauthorized") {
+                showNotification(
+                  "It looks like your session has expired. Please log in again to view this workshop's resources!",
+                  "error"
+                );
+                return redirect("/log-in");
+              }
+
+              if (error.response.data.message === "workshop not found") {
+                showNotification(
+                  "We couldn't find the workshop you're looking for. Please try again.",
+                  "error"
+                );
+                return redirect("/workshops");
+              }
+            }
+          } else {
+            showNotification(
+              "You must sign up to view workshop resources!",
               "error"
             );
             return redirect("/sign-up");
@@ -300,44 +360,25 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/submissions/callie/:id",
+        path: "/submissions/callie/:workshopId/:id",
         element: <CallieSubmission />,
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
           const id = params.id;
-
-          const today = new Date();
-
-          if (!id || parseInt(id) < 0 || parseInt(id) > 10 || !parseInt(id)) {
-            showNotification(`There are only 10 sessions`, "error");
-            return redirect("/resources");
-          }
+          const workshopId = params.workshopId;
 
           if (token) {
             try {
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                }/auth/solution-videos/${workshopId}/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
 
-              const user = response.data as any;
-
-              if (
-                today < new Date(sessions[parseInt(id) - 1].startDate) &&
-                user.role === "user"
-              ) {
-                showNotification(
-                  `Callie hasn't posted her submission for session ${id} yet!`,
-                  "error"
-                );
-                return redirect("/resources");
-              } else {
-                return id;
-              }
+              return response.data;
             } catch (error) {
               showNotification(
                 "It looks like your session has expired. Please log in again to view Callie's submissions!",
@@ -355,10 +396,11 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/submissions/:id",
+        path: "/submissions/:workshopId/:id",
         element: <Submissions />,
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
+          const workshopId = params.workshopId;
           const id = params.id;
 
           if (token) {
@@ -366,29 +408,15 @@ const router = createBrowserRouter([
               const response = await axios.get(
                 `${
                   process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/all-submissions/${id}`,
+                }/auth/all-submissions/${workshopId}/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
 
-              const role = response.data.role as any;
               const submissions = response.data.submissions;
 
-              if (role === "admin" || submissions.length > 0) {
-                return submissions;
-              } else {
-                if (!id || parseInt(id) < 0 || parseInt(id) > 10) {
-                  showNotification(`There are only 10 sessions`, "error");
-                } else {
-                  showNotification(
-                    `There aren't any submissions for session ${id} yet!`,
-                    "error"
-                  );
-                }
-
-                return redirect("/");
-              }
+              return submissions;
             } catch (error: any) {
               if (error.response.data.message === "Unauthorized") {
                 showNotification(
@@ -396,6 +424,12 @@ const router = createBrowserRouter([
                   "error"
                 );
                 return redirect("/log-in");
+              } else if (
+                error.response.data.message ===
+                "You have not submitted the deliverable for this session yet!"
+              ) {
+                showNotification(`${error.response.data.message}`, "error");
+                return redirect(`/resources/${workshopId}`);
               } else {
                 showNotification("That page doesn't seem to exist!", "error");
                 return redirect("/");

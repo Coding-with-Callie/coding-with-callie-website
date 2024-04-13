@@ -1,7 +1,6 @@
 import { Avatar, Box, useMediaQuery } from "@chakra-ui/react";
 import { useLoaderData } from "react-router-dom";
 import { Feedback, Submission } from "./Profile";
-import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
@@ -82,7 +81,7 @@ const UserDetails = () => {
           </Box>
         </Section>
 
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
+        {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((sessionNumber) => {
           return (
             <SessionFeedback
               sessionNumber={sessionNumber}
@@ -90,7 +89,7 @@ const UserDetails = () => {
               data={data}
             />
           );
-        })}
+        })} */}
       </Box>
     </>
   );

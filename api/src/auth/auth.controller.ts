@@ -20,6 +20,7 @@ import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
+import { Workshop } from 'src/workshops/content/type';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -67,6 +68,9 @@ export class Email {
 
 export class DeliverableDto {
   @IsNotEmpty()
+  workshopId: number;
+
+  @IsNotEmpty()
   session: number;
 
   @IsNotEmpty({ message: 'You must submit a valid URL.' })
@@ -98,14 +102,13 @@ export class FeedbackDto {
   submissionId: number;
 
   sessionId: number;
+
+  workshopId: number;
 }
 
 export class ReviewDto {
   @IsNotEmpty()
   rating: number;
-
-  @IsNotEmpty()
-  course: string;
 
   @Transform((params) => sanitizeHTML(params.value))
   comments: string;
@@ -117,6 +120,8 @@ export class ReviewDto {
   session: string;
 
   userId: number;
+
+  workshopId: number;
 }
 
 @Controller('auth')
@@ -157,6 +162,18 @@ export class AuthController {
     return this.authService.getUserProfile(req.user.sub);
   }
 
+  @UseGuards(AuthGuard)
+  @Get('resources/:id')
+  getWorkshopResources(@Param('id') id: number, @Request() req) {
+    return this.authService.getWorkshopResources(id, req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('my-workshops')
+  getMyWorkshops(@Request() req) {
+    return this.authService.getMyWorkshops(req.user.sub);
+  }
+
   @Get('profile/:token/:id')
   getProfileReset(@Param('token') token: string, @Param('id') id: number) {
     return this.authService.getProfileReset(token, id);
@@ -184,6 +201,15 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('solution-videos/:workshopId/:id')
+  getSolutionVideos(@Request() req) {
+    return this.authService.getSolutionVideos(
+      req.params.workshopId,
+      req.params.id,
+    );
+  }
+
+  @UseGuards(AuthGuard)
   @Get('user-submissions')
   getUserSubmissions(@Request() req) {
     const userId = req.user.sub;
@@ -191,10 +217,15 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('all-submissions/:id')
+  @Get('all-submissions/:workshopId/:id')
   getAllSubmissions(@Request() req) {
     const userId = req.user.sub;
-    return this.authService.getAllSubmissions(req.params.id, userId);
+
+    return this.authService.getAllSubmissions(
+      req.params.workshopId,
+      req.params.id,
+      userId,
+    );
   }
 
   @UseGuards(AuthGuard)
@@ -227,6 +258,7 @@ export class AuthController {
   async submitFeedback(@Body() feedbackDto: FeedbackDto) {
     await this.authService.submitFeedback(feedbackDto);
     const submissions = await this.authService.getAllSubmissions(
+      feedbackDto.workshopId,
       feedbackDto.sessionId,
       feedbackDto.feedbackProviderId,
     );
@@ -264,8 +296,51 @@ export class AuthController {
     return await this.authService.createSpeaker(speaker);
   }
 
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post('create-workshop')
+  async createWorkshop(@Body() workshop?: Workshop) {
+    return await this.authService.createWorkshop(workshop);
+  }
+
   @Get('speakers')
   async getSpeakers() {
     return await this.authService.getSpeakers();
+  }
+
+  @Post('create-checkout-session')
+  async createCheckoutSession(
+    @Body('lineItems') lineItems: any[],
+    @Body('userId') userId: number,
+  ) {
+    return await this.authService.createCheckoutSession(lineItems, userId);
+  }
+
+  @Get('session-status')
+  async getSessionStatus(@Request() req) {
+    return await this.authService.getSessionStatus(
+      req.query.session_id,
+      req.query.userId,
+    );
+  }
+
+  @Post('webhook')
+  async receiveWebhook(@Body() body) {
+    return await this.authService.receiveWebhook(body);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('add-workshop-to-cart')
+  async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
+    return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-workshop-from-cart')
+  async deleteWorkshopFromCart(@Request() req, @Body('workshopId') workshopId) {
+    return await this.authService.deleteWorkshopFromCart(
+      workshopId,
+      req.user.sub,
+    );
   }
 }
