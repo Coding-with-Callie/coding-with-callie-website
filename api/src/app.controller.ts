@@ -19,4 +19,9 @@ export class AppController {
   getWorkshopById(@Param('id') id) {
     return this.appService.getWorkshopById(id);
   }
+
+  @Get('alumni')
+  getAllAlumni() {
+    return this.appService.getAllAlumni();
+  }
 }

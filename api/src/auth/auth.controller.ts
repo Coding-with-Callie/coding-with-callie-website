@@ -124,6 +124,16 @@ export class ReviewDto {
   workshopId: number;
 }
 
+export class AlumniDto {
+  name: string;
+  opportunities: string[];
+  bioText: string[];
+  linkedInUrl: string;
+  photoUrl: string;
+  projectUrl: string;
+  workshopId: number;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -301,6 +311,13 @@ export class AuthController {
   @Post('create-workshop')
   async createWorkshop(@Body() workshop?: Workshop) {
     return await this.authService.createWorkshop(workshop);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post('create-alumni')
+  async createAlumni(@Body() alumni: AlumniDto) {
+    return await this.authService.createAlumni(alumni);
   }
 
   @Get('speakers')
