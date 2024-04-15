@@ -15,6 +15,8 @@ export class AlumniService {
   }
 
   async findAllAlumni() {
-    return await this.alumniRepository.find();
+    return await this.alumniRepository.find({
+      relations: ['workshop'],
+    });
   }
 }
