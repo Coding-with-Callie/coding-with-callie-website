@@ -54,7 +54,13 @@ import { ALumniModule } from './alumni/alumni.module';
             levelFirst: true,
             translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
             ignore: 'pid,hostname',
+            filters: {
+              ignore: '/api/readyz',
+            },
           },
+        },
+        autoLogging: {
+          ignore: (req) => req.url === '/api/readyz',
         },
       },
     }),

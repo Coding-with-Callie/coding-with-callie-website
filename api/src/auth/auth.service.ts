@@ -22,7 +22,6 @@ import { Speaker } from 'src/speakers/entities/speaker.entity';
 import { CartService } from 'src/cart/cart.service';
 import { WorkshopsService } from 'src/workshops/workshops.service';
 import { Workshop } from 'src/workshops/content/type';
-import { Alumni } from 'src/alumni/entities/alumni.entity';
 import { AlumniService } from 'src/alumni/alumni.service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -136,6 +135,8 @@ export class AuthService {
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
 
+    this.logger.log(user.username + ' viewed their profile');
+
     return {
       id: user.id,
       name: user.name,
@@ -171,6 +172,9 @@ export class AuthService {
     const user = await this.usersService.findOneById(userId);
 
     if (user.workshops.length === 0) {
+      this.logger.error(
+        user.username + 'has no workshops, but tried to access one',
+      );
       throw new NotFoundException('no workshops found');
     }
 
@@ -189,6 +193,8 @@ export class AuthService {
       field,
       value,
     );
+
+    this.logger.log(user.username + ' changed ' + field);
 
     return {
       id: user.id,
@@ -270,11 +276,20 @@ export class AuthService {
     }
   }
 
-  async getSolutionVideos(workshopId, id) {
+  async getSolutionVideos(workshopId, id, userId) {
+    const user = await this.usersService.findOneById(userId);
     const workshop = await this.workshopsService.findOneById(workshopId);
 
     const session = workshop.sessions[id - 1];
     session['id'] = id;
+
+    this.logger.log(
+      user.username +
+        ' viewed' +
+        workshop.name +
+        'solution video for session: ' +
+        id,
+    );
 
     return session;
   }
@@ -304,10 +319,15 @@ export class AuthService {
     }
 
     const user = await this.usersService.findOneById(userId);
+
+    this.logger.log(user.username + ' viewed all submissions');
+
     return { role: user.role, submissions };
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {
+    this.logger.log(user.username + ' submitted deliverable', deliverable.url);
+
     const workshops = user.workshops;
 
     const workshop = workshops.find((workshop) => {
@@ -403,6 +423,7 @@ export class AuthService {
   }
 
   async createCheckoutSession(lineItems: any[], userId: number) {
+    this.logger.log('Creating checkout session for user:', userId);
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items: lineItems,
@@ -437,6 +458,10 @@ export class AuthService {
         const userToUpdate = await this.usersService.findOneById(userId);
 
         if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
+          this.logger.log(
+            userToUpdate.username + ' purchased ' + workshop.name,
+          );
+
           await this.mailService.sendPurchaseConfirmationEmail(
             workshop.name,
             workshop.id,
@@ -498,6 +523,13 @@ export class AuthService {
     }
 
     const cart = await this.cartService.addWorkshopToCart(workshopId, cartId);
+
+    for (let i = 0; i < cart.workshops.length; i++) {
+      this.logger.log(
+        user.username + ' added ' + cart.workshops[i].name + ' to cart',
+      );
+    }
+
     user.cart = cart;
     const updatedUser = await this.usersService.createUser(user);
     return updatedUser;
@@ -509,6 +541,10 @@ export class AuthService {
 
     const workshopToDelete = workshops.find(
       (workshop) => workshop.id === workshopId,
+    );
+
+    this.logger.log(
+      user.username + ' deleted ' + workshopToDelete.name + ' from cart',
     );
 
     const index = workshops.indexOf(workshopToDelete);
