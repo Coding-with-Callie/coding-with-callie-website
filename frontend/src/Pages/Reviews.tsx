@@ -33,14 +33,16 @@ const Reviews = () => {
 
   return (
     <Box>
-      {context.user && context.user?.submissions?.length > 0 && (
-        <ReviewForm
-          reviews={reviews}
-          setReviews={setReviews}
-          user={context.user}
-          isLargerThan900={isLargerThan900}
-        />
-      )}
+      {context.user &&
+        context.user?.submissions?.length > 0 &&
+        context.user.workshops.length > 0 && (
+          <ReviewForm
+            reviews={reviews}
+            setReviews={setReviews}
+            user={context.user}
+            isLargerThan900={isLargerThan900}
+          />
+        )}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
         {reviews.length > 0 ? (
