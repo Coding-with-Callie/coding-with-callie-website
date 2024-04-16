@@ -17,6 +17,7 @@ import { ReviewController } from './review/review.controller';
 import { SpeakersModule } from './speakers/speakers.module';
 import { WorkshopsModule } from './workshops/workshops.module';
 import { CartModule } from './cart/cart.module';
+import { ALumniModule } from './alumni/alumni.module';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { CartModule } from './cart/cart.module';
     SpeakersModule,
     WorkshopsModule,
     CartModule,
+    ALumniModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],

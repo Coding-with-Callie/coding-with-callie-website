@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:v21
+        image: 782831329154.dkr.ecr.us-east-1.amazonaws.com/coding-with-callie-backend:v24
         readinessProbe:
           httpGet:
             path: /api/readyz
@@ -73,5 +73,7 @@ spec:
           value: "0"
         - name: ENVIRONMENT
           value: "production"
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size=4096"
         ports:
         - containerPort: 3001

@@ -24,6 +24,7 @@ import WorkshopDetails from "./Pages/WorkshopDetails";
 import WorkshopResources from "./Pages/WorkshopResources";
 import MyWorkshops from "./Pages/MyWorkshops";
 import Paragraph from "./Components/Paragraph";
+import Alumni from "./Pages/Alumni";
 
 export const showNotification = (
   message: string,
@@ -205,6 +206,16 @@ const router = createBrowserRouter([
             `${
               process.env.REACT_APP_API || "http://localhost:3001/api"
             }/auth/speakers`
+          );
+          return response.data;
+        },
+      },
+      {
+        path: "/alumni",
+        element: <Alumni />,
+        loader: async () => {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API || "http://localhost:3001/api"}/alumni`
           );
           return response.data;
         },

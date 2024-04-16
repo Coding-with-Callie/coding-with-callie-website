@@ -9,7 +9,12 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { SubmissionsService } from 'src/submissions/submissions.service';
 import { FeedbackService } from 'src/feedback/feedback.service';
-import { DeliverableDto, FeedbackDto, NewUserDto } from './auth.controller';
+import {
+  AlumniDto,
+  DeliverableDto,
+  FeedbackDto,
+  NewUserDto,
+} from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
@@ -17,6 +22,8 @@ import { Speaker } from 'src/speakers/entities/speaker.entity';
 import { CartService } from 'src/cart/cart.service';
 import { WorkshopsService } from 'src/workshops/workshops.service';
 import { Workshop } from 'src/workshops/content/type';
+import { Alumni } from 'src/alumni/entities/alumni.entity';
+import { AlumniService } from 'src/alumni/alumni.service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -33,6 +40,7 @@ export class AuthService {
     private speakersService: SpeakersService,
     private cartService: CartService,
     private workshopsService: WorkshopsService,
+    private alumniService: AlumniService,
     private logger: Logger,
   ) {}
 
@@ -515,5 +523,9 @@ export class AuthService {
 
   async createWorkshop(workshop: Workshop) {
     return await this.workshopsService.createWorkshop(workshop);
+  }
+
+  async createAlumni(alumni: AlumniDto) {
+    return await this.alumniService.createAlumni(alumni);
   }
 }
