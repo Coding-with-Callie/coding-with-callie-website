@@ -48,7 +48,7 @@ const CartDrawer = ({
   updateCheckoutStep,
 }: Props) => {
   const [hasAccount, setHasAccount] = useState(
-    window.localStorage.getItem("token") !== null
+    localStorage.getItem("token") !== null
   );
 
   if (typeof workshops === "string") {

@@ -124,7 +124,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
                 }
 
                 if (updateCheckoutStep) {
-                  let cart = window.localStorage.getItem("temp-cart");
+                  let cart = localStorage.getItem("temp-cart");
 
                   if (cart) {
                     cart = JSON.parse(cart);

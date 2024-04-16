@@ -31,7 +31,7 @@ const Return = () => {
       .then((response) => {
         setStatus(response.data.status);
 
-        const token = window.localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         axios
           .get(
@@ -43,7 +43,7 @@ const Return = () => {
             }
           )
           .then((response) => {
-            window.localStorage.removeItem("temp-cart");
+            localStorage.removeItem("temp-cart");
             context.updateUser(response.data);
           });
       });

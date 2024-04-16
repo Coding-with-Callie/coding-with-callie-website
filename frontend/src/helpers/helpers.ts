@@ -28,7 +28,7 @@ export const transferCart = async (
   updateUser: (newUser: any) => void,
   onClose?: () => void
 ) => {
-  const token = window.localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   for (let i = 0; i < cart.length; i++) {
     const response: any = await axios
@@ -49,7 +49,7 @@ export const transferCart = async (
 
     updateUser(response.data);
 
-    window.localStorage.setItem(
+    localStorage.setItem(
       "temp-cart",
       JSON.stringify(response.data.cart.workshops)
     );

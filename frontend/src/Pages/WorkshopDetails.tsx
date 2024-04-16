@@ -14,12 +14,6 @@ import { Workshop } from "./Workshops";
 import axios from "axios";
 import { showNotification } from "..";
 
-// const moreInformation = [
-//   "This workshop is self-paced. Complete the assignments as you have time and use my solution videos if you get stuck!",
-//   "For some extra motivation, if you complete the workshop by April 11, 2024, you will be eligible to participate in Coding with Callie's first Interview Day! During Interview Day, you will be interviewing for one of two open internships at Anchor Web Studio.",
-//   "You must be part of the Coding with Callie community to access to the workshop assignments, community feedback features, and the solution videos.",
-// ];
-
 const WorkshopDetails = () => {
   const workshop = useLoaderData() as Workshop;
 
@@ -33,7 +27,7 @@ const WorkshopDetails = () => {
 
   const addToCart = () => {
     if (loggedIn) {
-      const token = window.localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       axios
         .post(
           `${
@@ -63,7 +57,7 @@ const WorkshopDetails = () => {
         });
     }
 
-    let cart: any = window.localStorage.getItem("temp-cart");
+    let cart: any = localStorage.getItem("temp-cart");
 
     if (cart) {
       cart = JSON.parse(cart);
@@ -81,7 +75,7 @@ const WorkshopDetails = () => {
       cart = [workshop];
     }
 
-    window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+    localStorage.setItem("temp-cart", JSON.stringify(cart));
     context.updateUser({});
     showNotification("The workshop has been added to your cart", "success");
   };

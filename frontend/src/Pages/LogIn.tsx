@@ -30,7 +30,10 @@ const LogIn = () => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const context: Context = useOutletContext();
-  context.updateUser(data);
+
+  if (data) {
+    context.updateUser(data);
+  }
 
   const showNotification = (
     message: string,

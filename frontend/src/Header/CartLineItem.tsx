@@ -16,7 +16,7 @@ const CartLineItem = ({ workshop, updateUser, userId }: Props) => {
 
   const deleteFromCart = () => {
     if (userId > 0) {
-      const token = window.localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       axios
         .post(
           `${
@@ -50,7 +50,7 @@ const CartLineItem = ({ workshop, updateUser, userId }: Props) => {
           }
         });
     }
-    let cart = window.localStorage.getItem("temp-cart");
+    let cart = localStorage.getItem("temp-cart");
 
     if (cart) {
       cart = JSON.parse(cart);
@@ -61,7 +61,7 @@ const CartLineItem = ({ workshop, updateUser, userId }: Props) => {
       }
     }
 
-    window.localStorage.setItem("temp-cart", JSON.stringify(cart));
+    localStorage.setItem("temp-cart", JSON.stringify(cart));
     updateUser({});
     showNotification(
       "The workshop has been removed from your cart!",

@@ -67,7 +67,7 @@ const LogInForm = ({
               updateUser(response.data);
 
               if (updateCheckoutStep) {
-                let cart = window.localStorage.getItem("temp-cart");
+                let cart = localStorage.getItem("temp-cart");
 
                 if (cart) {
                   cart = JSON.parse(cart);
@@ -114,7 +114,7 @@ const LogInForm = ({
       <TextInput
         field="Username"
         onChange={onChangeUsername}
-        value={userData?.username}
+        value={userData?.username || ""}
         isInvalid={
           submitClicked && (!userData.username || userData.username === "")
         }
@@ -122,7 +122,7 @@ const LogInForm = ({
       <TextInput
         field="Password"
         onChange={onChangePassword}
-        value={userData?.password}
+        value={userData?.password || ""}
         isInvalid={
           submitClicked && (!userData.password || userData.password === "")
         }

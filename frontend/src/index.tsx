@@ -51,6 +51,7 @@ const router = createBrowserRouter([
           );
           return response.data;
         } catch (error) {
+          console.log("ERROR", error);
           return {};
         }
       } else {
@@ -463,7 +464,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  <>
     <RouterProvider router={router} />
     <ToastContainer
       limit={1}
@@ -471,5 +472,5 @@ root.render(
       pauseOnFocusLoss={false}
       autoClose={2000}
     />
-  </React.StrictMode>
+  </>
 );

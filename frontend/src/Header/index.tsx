@@ -22,7 +22,7 @@ const Header = ({
 
   const loggedIn = user?.name !== undefined;
 
-  let tempCart: any = window.localStorage.getItem("temp-cart");
+  let tempCart: any = localStorage.getItem("temp-cart");
   if (tempCart) {
     tempCart = JSON.parse(tempCart);
   } else {
@@ -54,7 +54,9 @@ const Header = ({
       </Box>
       <Menus user={user} />
       <Cart
-        count={loggedIn ? user?.cart?.workshops.length || 0 : tempCart.length}
+        count={
+          loggedIn ? user?.cart?.workshops.length || 0 : tempCart.length || 0
+        }
         workshops={loggedIn ? user?.cart?.workshops || [] : tempCart}
         updateUser={updateUser}
         userId={loggedIn ? user.id : 0}
