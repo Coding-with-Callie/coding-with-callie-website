@@ -15,7 +15,6 @@ import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 import MyButton from "../MyButton";
 import { AlumniType } from "../../Pages/Alumni";
-import Paragraph from "../Paragraph";
 
 type Props = {
   alumni: AlumniType;

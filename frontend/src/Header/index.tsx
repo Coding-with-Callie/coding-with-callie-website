@@ -20,7 +20,7 @@ const Header = ({
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
-  const loggedIn = user.name !== undefined;
+  const loggedIn = user?.name !== undefined;
 
   let tempCart: any = window.localStorage.getItem("temp-cart");
   if (tempCart) {
