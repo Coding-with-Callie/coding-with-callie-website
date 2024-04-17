@@ -15,7 +15,7 @@ import {
   FeedbackDto,
   NewUserDto,
 } from './auth.controller';
-import { Logger } from 'nestjs-pino';
+// import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
@@ -40,7 +40,7 @@ export class AuthService {
     private cartService: CartService,
     private workshopsService: WorkshopsService,
     private alumniService: AlumniService,
-    private logger: Logger,
+    // private logger: Logger,
   ) {}
 
   async hashPassword(password) {
@@ -67,7 +67,7 @@ export class AuthService {
         username: user.username,
         password: hashedPassword,
       });
-      this.logger.log('New user created', user.username);
+      // this.logger.log('New user created', user.username);
       this.mailService.sendNewUserEmail(user);
       this.mailService.sendEmailToNewUser(user);
       return this.signIn(user.username, user.password);
@@ -80,7 +80,7 @@ export class AuthService {
 
   async createAccessToken(user) {
     const payload = { sub: user.id, username: user.username, role: user.role };
-    this.logger.log('User logged in', user.username);
+    // this.logger.log('User logged in', user.username);
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
@@ -89,7 +89,7 @@ export class AuthService {
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
     if (user === null) {
-      this.logger.error('User does not exist', username);
+      // this.logger.error('User does not exist', username);
       throw new UnauthorizedException();
     }
 
@@ -98,7 +98,7 @@ export class AuthService {
     if (isCorrectPassword) {
       return this.createAccessToken(user);
     } else {
-      this.logger.error('Unauthorized: Incorrect password', user.username);
+      // this.logger.error('Unauthorized: Incorrect password', user.username);
       throw new UnauthorizedException();
     }
   }
@@ -135,7 +135,7 @@ export class AuthService {
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
 
-    this.logger.log(user.username + ' viewed their profile');
+    // this.logger.log(user.username + ' viewed their profile');
 
     return {
       id: user.id,
@@ -172,9 +172,9 @@ export class AuthService {
     const user = await this.usersService.findOneById(userId);
 
     if (user.workshops.length === 0) {
-      this.logger.error(
-        user.username + 'has no workshops, but tried to access one',
-      );
+      // this.logger.error(
+      //   user.username + 'has no workshops, but tried to access one',
+      // );
       throw new NotFoundException('no workshops found');
     }
 
@@ -194,7 +194,7 @@ export class AuthService {
       value,
     );
 
-    this.logger.log(user.username + ' changed ' + field);
+    // this.logger.log(user.username + ' changed ' + field);
 
     return {
       id: user.id,
@@ -237,7 +237,7 @@ export class AuthService {
   async forgotPassword(email: string) {
     const user = await this.usersService.findOneByEmail(email);
     if (user === null) {
-      this.logger.error('User doe not exist', email);
+      // this.logger.error('User doe not exist', email);
       throw new UnauthorizedException();
     }
 
@@ -268,28 +268,27 @@ export class AuthService {
         username: user.username,
       });
     } else {
-      this.logger.error(
-        'Unauthorized - Password reset link expired',
-        user.username,
-      );
+      // this.logger.error(
+      //   'Unauthorized - Password reset link expired',
+      //   user.username,
+      // );
       throw new UnauthorizedException();
     }
   }
 
-  async getSolutionVideos(workshopId, id, userId) {
-    const user = await this.usersService.findOneById(userId);
+  async getSolutionVideos(workshopId, id) {
     const workshop = await this.workshopsService.findOneById(workshopId);
 
     const session = workshop.sessions[id - 1];
     session['id'] = id;
 
-    this.logger.log(
-      user.username +
-        ' viewed' +
-        workshop.name +
-        'solution video for session: ' +
-        id,
-    );
+    // this.logger.log(
+    //   user.username +
+    //     ' viewed' +
+    //     workshop.name +
+    //     'solution video for session: ' +
+    //     id,
+    // );
 
     return session;
   }
@@ -320,13 +319,13 @@ export class AuthService {
 
     const user = await this.usersService.findOneById(userId);
 
-    this.logger.log(user.username + ' viewed all submissions');
+    // this.logger.log(user.username + ' viewed all submissions');
 
     return { role: user.role, submissions };
   }
 
   async submitDeliverable(deliverable: DeliverableDto, user: any) {
-    this.logger.log(user.username + ' submitted deliverable', deliverable.url);
+    // this.logger.log(user.username + ' submitted deliverable', deliverable.url);
 
     const workshops = user.workshops;
 
@@ -423,7 +422,7 @@ export class AuthService {
   }
 
   async createCheckoutSession(lineItems: any[], userId: number) {
-    this.logger.log('Creating checkout session for user:', userId);
+    // this.logger.log('Creating checkout session for user:', userId);
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       line_items: lineItems,
@@ -458,9 +457,9 @@ export class AuthService {
         const userToUpdate = await this.usersService.findOneById(userId);
 
         if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
-          this.logger.log(
-            userToUpdate.username + ' purchased ' + workshop.name,
-          );
+          // this.logger.log(
+          //   userToUpdate.username + ' purchased ' + workshop.name,
+          // );
 
           await this.mailService.sendPurchaseConfirmationEmail(
             workshop.name,
@@ -524,11 +523,11 @@ export class AuthService {
 
     const cart = await this.cartService.addWorkshopToCart(workshopId, cartId);
 
-    for (let i = 0; i < cart.workshops.length; i++) {
-      this.logger.log(
-        user.username + ' added ' + cart.workshops[i].name + ' to cart',
-      );
-    }
+    // for (let i = 0; i < cart.workshops.length; i++) {
+    //   this.logger.log(
+    //     user.username + ' added ' + cart.workshops[i].name + ' to cart',
+    //   );
+    // }
 
     user.cart = cart;
     const updatedUser = await this.usersService.createUser(user);
@@ -543,9 +542,9 @@ export class AuthService {
       (workshop) => workshop.id === workshopId,
     );
 
-    this.logger.log(
-      user.username + ' deleted ' + workshopToDelete.name + ' from cart',
-    );
+    // this.logger.log(
+    //   user.username + ' deleted ' + workshopToDelete.name + ' from cart',
+    // );
 
     const index = workshops.indexOf(workshopToDelete);
     workshops.splice(index, 1);

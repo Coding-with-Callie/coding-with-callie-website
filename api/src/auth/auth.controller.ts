@@ -216,7 +216,6 @@ export class AuthController {
     return this.authService.getSolutionVideos(
       req.params.workshopId,
       req.params.id,
-      req.user.sub,
     );
   }
 
