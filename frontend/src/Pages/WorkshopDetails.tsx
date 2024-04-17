@@ -106,7 +106,7 @@ const WorkshopDetails = () => {
         </Box>
         <Box>
           <BodyHeading textAlignCenter={!isLargerThan1090}>
-            To build this application, I used:
+            To complete this workshop, I use:
           </BodyHeading>
           <UnorderedList color="#45446A">
             {workshop.techStack.map((tool, index) => {

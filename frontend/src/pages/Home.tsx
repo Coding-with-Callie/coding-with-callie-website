@@ -16,11 +16,8 @@ const homeText = [
 ];
 
 const workshopText = [
-  "I'm currently offering 1 self-paced workshop: Project Planning Tool: Fullstack.",
-  "You can use my wireframe designs and project plans to build a fullstack, usable Project Planning Tool with user authentication, error handling, data validation, migrations, and more.",
-  "This workshop is broken into 10 self-paced assignments with dozens of hours worth of how-to videos to help you if you get stuck.",
-  "Want to level up? Try to build the application in a different tech stack! Or add a few bonus features!",
-  "I have plans for many more workshops, so check back in to see new offerings as they are available.",
+  "I'm currently offering 2 workshop: Project Planning Tool: Fullstack & Deploy in Public Challenge.",
+  "The Project Planning Tool: Fullstack workshop is self-paced and the Deploy in Public Challenge will be run as a cohort for 10 weeks starting on May 23, 2024.",
 ];
 
 const zoomSessions = [
