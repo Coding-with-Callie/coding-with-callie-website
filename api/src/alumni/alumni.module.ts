@@ -8,4 +8,4 @@ import { AlumniService } from './alumni.service';
   providers: [AlumniService],
   exports: [AlumniService],
 })
-export class ALumniModule {}
+export class AlumniModule {}

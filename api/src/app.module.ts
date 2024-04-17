@@ -14,7 +14,8 @@ import { ReviewController } from './review/review.controller';
 import { SpeakersModule } from './speakers/speakers.module';
 import { WorkshopsModule } from './workshops/workshops.module';
 import { CartModule } from './cart/cart.module';
-import { ALumniModule } from './alumni/alumni.module';
+import { AlumniModule } from './alumni/alumni.module';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
@@ -67,7 +68,8 @@ import { ALumniModule } from './alumni/alumni.module';
     SpeakersModule,
     WorkshopsModule,
     CartModule,
-    ALumniModule,
+    AlumniModule,
+    StripeModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],

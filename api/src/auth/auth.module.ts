@@ -12,7 +12,8 @@ import { ReviewModule } from 'src/review/review.module';
 import { SpeakersModule } from 'src/speakers/speakers.module';
 import { CartModule } from 'src/cart/cart.module';
 import { WorkshopsModule } from 'src/workshops/workshops.module';
-import { ALumniModule } from 'src/alumni/alumni.module';
+import { AlumniModule } from 'src/alumni/alumni.module';
+import { StripeModule } from 'src/stripe/stripe.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { ALumniModule } from 'src/alumni/alumni.module';
     SpeakersModule,
     CartModule,
     WorkshopsModule,
-    ALumniModule,
+    AlumniModule,
+    StripeModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {

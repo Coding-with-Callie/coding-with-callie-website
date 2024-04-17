@@ -23,9 +23,7 @@ import { CartService } from 'src/cart/cart.service';
 import { WorkshopsService } from 'src/workshops/workshops.service';
 import { Workshop } from 'src/workshops/content/type';
 import { AlumniService } from 'src/alumni/alumni.service';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +38,7 @@ export class AuthService {
     private cartService: CartService,
     private workshopsService: WorkshopsService,
     private alumniService: AlumniService,
+    private stripeService: StripeService,
     // private logger: Logger,
   ) {}
 
@@ -421,96 +420,6 @@ export class AuthService {
     return await this.speakersService.findAllSpeakers();
   }
 
-  async createCheckoutSession(lineItems: any[], userId: number) {
-    // this.logger.log('Creating checkout session for user:', userId);
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: 'embedded',
-      line_items: lineItems,
-      mode: 'payment',
-      return_url:
-        process.env.ENVIRONMENT === 'local'
-          ? `http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}`
-          : `https://www.coding-with-callie.com/return?session_id={CHECKOUT_SESSION_ID}`,
-      automatic_tax: { enabled: true },
-      allow_promotion_codes: true,
-      metadata: {
-        user: userId,
-      },
-    });
-
-    return { clientSecret: session.client_secret };
-  }
-
-  async getSessionStatus(session_id, userId) {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-
-    if (session.status === 'complete') {
-      let lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-
-      lineItems = lineItems.data;
-
-      for (let i = 0; i < lineItems.length; i++) {
-        const workshop = await this.workshopsService.findOneByPriceId(
-          lineItems[i].price.id,
-        );
-
-        const userToUpdate = await this.usersService.findOneById(userId);
-
-        if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
-          // this.logger.log(
-          //   userToUpdate.username + ' purchased ' + workshop.name,
-          // );
-
-          await this.mailService.sendPurchaseConfirmationEmail(
-            workshop.name,
-            workshop.id,
-            userToUpdate.name,
-            userToUpdate.email,
-          );
-
-          await this.mailService.sendNewPurchaseEmail(
-            workshop.name,
-            userToUpdate.name,
-          );
-        }
-
-        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
-
-        await this.usersService.createUser(userToUpdate);
-
-        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
-      }
-    }
-
-    return {
-      status: session.status,
-      customer_email: await stripe.checkout.sessions.retrieve(session_id),
-    };
-  }
-
-  async receiveWebhook(data) {
-    if (data.type === 'checkout.session.completed') {
-      const userId = data.data.object.metadata.user;
-      let lineItems = await stripe.checkout.sessions.listLineItems(
-        data.data.object.id,
-      );
-
-      lineItems = lineItems.data;
-
-      for (let i = 0; i < lineItems.length; i++) {
-        const workshop = await this.workshopsService.findOneByPriceId(
-          lineItems[i].price.id,
-        );
-        const userToUpdate = await this.usersService.findOneById(userId);
-        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
-
-        await this.usersService.createUser(userToUpdate);
-
-        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
-      }
-    }
-  }
-
   async addWorkshopToCart(workshopId: number, userId: number) {
     const user = await this.usersService.findOneById(userId);
     let cartId: number;
@@ -562,5 +471,51 @@ export class AuthService {
 
   async createAlumni(alumni: AlumniDto) {
     return await this.alumniService.createAlumni(alumni);
+  }
+
+  async createCheckoutSession(lineItems, userId: number) {
+    return await this.stripeService.createCheckoutSession(lineItems, userId);
+  }
+
+  async getSessionStatus(sessionId: string, userId: number) {
+    const { lineItems, status } =
+      await this.stripeService.getSessionStatus(sessionId);
+
+    if (lineItems) {
+      for (let i = 0; i < lineItems.length; i++) {
+        const workshop = await this.workshopsService.findOneByPriceId(
+          lineItems[i].price.id,
+        );
+
+        const userToUpdate = await this.usersService.findOneById(userId);
+
+        if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
+          // this.logger.log(
+          //   userToUpdate.username + ' purchased ' + workshop.name,
+          // );
+
+          await this.mailService.sendPurchaseConfirmationEmail(
+            workshop.name,
+            workshop.id,
+            userToUpdate.name,
+            userToUpdate.email,
+          );
+
+          await this.mailService.sendNewPurchaseEmail(
+            workshop.name,
+            userToUpdate.name,
+          );
+        }
+
+        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+
+        await this.usersService.createUser(userToUpdate);
+
+        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
+      }
+    }
+    return {
+      status: status,
+    };
   }
 }

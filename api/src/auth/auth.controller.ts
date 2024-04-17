@@ -341,11 +341,6 @@ export class AuthController {
     );
   }
 
-  @Post('webhook')
-  async receiveWebhook(@Body() body) {
-    return await this.authService.receiveWebhook(body);
-  }
-
   @UseGuards(AuthGuard)
   @Post('add-workshop-to-cart')
   async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {

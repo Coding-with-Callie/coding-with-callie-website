@@ -10,7 +10,7 @@ import { Workshop } from "../Pages/Workshops";
 
 // This is your test public API key.
 const stripePromise = loadStripe(
-  "pk_live_51OnUh9GPYyWkM7JWWax3HV1EiHrdwraDAIt6SUfW2FDbRRbOrWYEoIhhnfLufoFajanjdBDH18o8nTl7OkU0WWWq000SZqFCSc"
+  "pk_test_51OnUh9GPYyWkM7JWelkGOFu19UKBhHGbvXwwTQS2abJVTpThKH1bmLXJIv0KihGKgIlYML4nJ4uN3vCTQ1ezLre300dL0FTeNA"
 );
 
 type Props = {
