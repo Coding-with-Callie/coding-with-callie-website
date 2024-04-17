@@ -473,49 +473,49 @@ export class AuthService {
     return await this.alumniService.createAlumni(alumni);
   }
 
-  async createCheckoutSession(lineItems, userId: number) {
-    return await this.stripeService.createCheckoutSession(lineItems, userId);
-  }
+  // async createCheckoutSession(lineItems, userId: number) {
+  //   return await this.stripeService.createCheckoutSession(lineItems, userId);
+  // }
 
-  async getSessionStatus(sessionId: string, userId: number) {
-    const { lineItems, status } =
-      await this.stripeService.getSessionStatus(sessionId);
+  // async getSessionStatus(sessionId: string, userId: number) {
+  //   const { lineItems, status } =
+  //     await this.stripeService.getSessionStatus(sessionId);
 
-    if (lineItems) {
-      for (let i = 0; i < lineItems.length; i++) {
-        const workshop = await this.workshopsService.findOneByPriceId(
-          lineItems[i].price.id,
-        );
+  //   if (lineItems) {
+  //     for (let i = 0; i < lineItems.length; i++) {
+  //       const workshop = await this.workshopsService.findOneByPriceId(
+  //         lineItems[i].price.id,
+  //       );
 
-        const userToUpdate = await this.usersService.findOneById(userId);
+  //       const userToUpdate = await this.usersService.findOneById(userId);
 
-        if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
-          // this.logger.log(
-          //   userToUpdate.username + ' purchased ' + workshop.name,
-          // );
+  //       if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
+  //         // this.logger.log(
+  //         //   userToUpdate.username + ' purchased ' + workshop.name,
+  //         // );
 
-          await this.mailService.sendPurchaseConfirmationEmail(
-            workshop.name,
-            workshop.id,
-            userToUpdate.name,
-            userToUpdate.email,
-          );
+  //         await this.mailService.sendPurchaseConfirmationEmail(
+  //           workshop.name,
+  //           workshop.id,
+  //           userToUpdate.name,
+  //           userToUpdate.email,
+  //         );
 
-          await this.mailService.sendNewPurchaseEmail(
-            workshop.name,
-            userToUpdate.name,
-          );
-        }
+  //         await this.mailService.sendNewPurchaseEmail(
+  //           workshop.name,
+  //           userToUpdate.name,
+  //         );
+  //       }
 
-        userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+  //       userToUpdate.workshops = [...userToUpdate.workshops, workshop];
 
-        await this.usersService.createUser(userToUpdate);
+  //       await this.usersService.createUser(userToUpdate);
 
-        await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
-      }
-    }
-    return {
-      status: status,
-    };
-  }
+  //       await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
+  //     }
+  //   }
+  //   return {
+  //     status: status,
+  //   };
+  // }
 }

@@ -107,7 +107,15 @@ const CartDrawer = ({
                     <Box w="50%">Total:</Box>
                     <Box>${totalPrice}.00</Box>
                   </Box>
-                  <Button colorScheme="green" w="100%" onClick={startCheckout}>
+                  <Button
+                    colorScheme="green"
+                    w="100%"
+                    onClick={() =>
+                      alert(
+                        "Checkout is broken right now, contact Callie at calliestoscup@gmail.com if you want to purchase ASAP."
+                      )
+                    }
+                  >
                     Checkout
                   </Button>
                 </Box>
