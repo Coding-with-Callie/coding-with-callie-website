@@ -13,10 +13,6 @@ export class AppService {
     return await this.workshopsService.findAll();
   }
 
-  async getWorkshopById(id: number) {
-    return await this.workshopsService.findOneById(id);
-  }
-
   async getAllAlumni() {
     return await this.alumniService.findAllAlumni();
   }

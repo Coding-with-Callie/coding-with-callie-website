@@ -24,36 +24,14 @@ import Paragraph from "../Components/Paragraph";
 import Alert from "../Components/Profile/Alert";
 import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
-import SessionFeedback from "../Components/Profile/SessionFeedback";
 import Section from "../Components/Section";
 import Admin from "../Components/Profile/Admin";
-import { Workshop } from "./Workshops";
-
-export type Feedback = {
-  id: number;
-  immediateChangesRequested: string;
-  longTermChangesRequested: string;
-  positiveFeedback: string;
-  submission: any;
-};
-
-export type Submission = {
-  id: number;
-  session: number;
-  url: string;
-  user: any[];
-  feedback: any[];
-  workshop: Workshop;
-};
 
 export type Data = {
   email: string;
   id: number;
   name: string;
   role: string;
-  submissions: Submission[];
-  feedback: Feedback[];
-  workshops: Workshop[];
 };
 
 const Profile = () => {
@@ -72,8 +50,6 @@ const Profile = () => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const [data, setData] = useState(useLoaderData() as Data);
   const context = useOutletContext() as Context;
-
-  const workshops = data.workshops;
 
   const navigate = useNavigate();
 
@@ -288,47 +264,6 @@ const Profile = () => {
           handleDelete={deleteAccount}
           item="Account"
         />
-
-        {workshops.map((workshop, index) => {
-          return (
-            <Box key={index}>
-              <Section screenSizeParameter={false} alignItemsCenter={false}>
-                <BodyHeading textAlignCenter={false}>
-                  {workshop.name}
-                </BodyHeading>
-              </Section>
-              {workshop.sessions.map((session, index) => {
-                const submission = data.submissions.find((submission) => {
-                  return (
-                    submission.session === index + 1 &&
-                    submission.workshop.id === workshop.id
-                  );
-                });
-
-                const feedbackReceived = submission?.feedback || [];
-
-                const feedbackGiven = data.feedback.filter((feedback) => {
-                  return (
-                    feedback.submission.session === index + 1 &&
-                    feedback.submission.workshop.id === workshop.id
-                  );
-                });
-
-                return (
-                  <Box key={index}>
-                    <SessionFeedback
-                      sessionNumber={index + 1}
-                      admin={false}
-                      submission={submission}
-                      feedbackReceived={feedbackReceived}
-                      feedbackGiven={feedbackGiven}
-                    />
-                  </Box>
-                );
-              })}
-            </Box>
-          );
-        })}
 
         {context.user.role === "admin" ? <Admin /> : null}
       </Box>

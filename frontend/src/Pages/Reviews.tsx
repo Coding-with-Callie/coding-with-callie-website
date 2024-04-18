@@ -33,16 +33,13 @@ const Reviews = () => {
 
   return (
     <Box>
-      {context.user &&
-        context.user?.submissions?.length > 0 &&
-        context.user.workshops.length > 0 && (
-          <ReviewForm
-            reviews={reviews}
-            setReviews={setReviews}
-            user={context.user}
-            isLargerThan900={isLargerThan900}
-          />
-        )}
+      {context.user && (
+        <ReviewForm
+          setReviews={setReviews}
+          user={context.user}
+          isLargerThan900={isLargerThan900}
+        />
+      )}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
         {reviews.length > 0 ? (
@@ -108,13 +105,6 @@ const Reviews = () => {
                   </Box>
                 </Box>
                 <Box display="flex" flexDirection="column" gap={3}>
-                  <Paragraph
-                    margin={false}
-                    textAlignCenter={true}
-                  >{`${review.workshop.name} Workshop`}</Paragraph>
-                  <Paragraph margin={false} textAlignCenter={true}>
-                    {review.workshop.sessions[review.session - 1].title}
-                  </Paragraph>
                   {review.comments.length > 0 ? (
                     <Paragraph
                       margin={false}

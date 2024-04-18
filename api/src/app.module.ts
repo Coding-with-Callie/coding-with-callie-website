@@ -8,14 +8,14 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 import { MailModule } from './mail/mail.module';
-import { SubmissionsModule } from './submissions/submissions.module';
 import { ReviewModule } from './review/review.module';
 import { ReviewController } from './review/review.controller';
 import { SpeakersModule } from './speakers/speakers.module';
 import { WorkshopsModule } from './workshops/workshops.module';
-import { CartModule } from './cart/cart.module';
 import { AlumniModule } from './alumni/alumni.module';
-import { StripeModule } from './stripe/stripe.module';
+import { LoggerModule } from 'nestjs-pino';
+import { IncomingMessage } from 'http';
+import { ServerResponse } from 'http';
 
 @Module({
   imports: [
@@ -29,47 +29,44 @@ import { StripeModule } from './stripe/stripe.module';
         return configService.get('typeorm');
       },
     }),
-    // LoggerModule.forRoot({
-    //   pinoHttp: {
-    //     serializers: {
-    //       req(request: IncomingMessage) {
-    //         return {
-    //           method: request.method,
-    //           url: request.url,
-    //         };
-    //       },
-    //       res(reply: ServerResponse) {
-    //         return {
-    //           statusCode: reply.statusCode,
-    //         };
-    //       },
-    //     },
-    //     // transport: {
-    //     //   target: 'pino-pretty',
-    //     //   options: {
-    //     //     singleLine: true,
-    //     //     colorize: true,
-    //     //     levelFirst: true,
-    //     //     translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
-    //     //     ignore: 'pid,hostname',
-    //     //   },
-    //     // },
-    //     autoLogging: {
-    //       ignore: (req) => req.url === '/api/readyz',
-    //     },
-    //   },
-    // }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        serializers: {
+          req(request: IncomingMessage) {
+            return {
+              method: request.method,
+              url: request.url,
+            };
+          },
+          res(reply: ServerResponse) {
+            return {
+              statusCode: reply.statusCode,
+            };
+          },
+        },
+        // transport: {
+        //   target: 'pino-pretty',
+        //   options: {
+        //     singleLine: true,
+        //     colorize: true,
+        //     levelFirst: true,
+        //     translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
+        //     ignore: 'pid,hostname',
+        //   },
+        // },
+        autoLogging: {
+          ignore: (req) => req.url === '/api/readyz',
+        },
+      },
+    }),
     MessageModule,
-    SubmissionsModule,
     AuthModule,
     UsersModule,
     MailModule,
     ReviewModule,
     SpeakersModule,
     WorkshopsModule,
-    CartModule,
     AlumniModule,
-    StripeModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],

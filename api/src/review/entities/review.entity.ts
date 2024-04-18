@@ -1,5 +1,4 @@
 import { Users } from 'src/users/entities/users.entity';
-import { Workshop } from 'src/workshops/entities/workshop.entity';
 import {
   Column,
   CreateDateColumn,
@@ -16,13 +15,6 @@ export class Review {
 
   @Column()
   rating: number | null;
-
-  @ManyToOne(() => Workshop, (workshop) => workshop.id)
-  @JoinColumn({ name: 'workshopId' })
-  workshop: Workshop;
-
-  @Column()
-  session: number;
 
   @Column()
   comments: string;

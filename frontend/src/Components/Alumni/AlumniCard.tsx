@@ -64,10 +64,17 @@ function AlumniCard({ alumni }: Props) {
             <AccordionPanel pb={4}>
               <Box display="flex" alignItems="center" gap={10}>
                 <Text color="#45446A">{alumni.workshop.name}</Text>
-                <Link to={`/workshops/${alumni.workshop.id}`}>
-                  {" "}
-                  <MyButton>Learn More</MyButton>
-                </Link>
+                <MyButton
+                  onClick={() =>
+                    window.open(
+                      "https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack",
+                      "_blank",
+                      "noreferrer"
+                    )
+                  }
+                >
+                  Learn More
+                </MyButton>
               </Box>
             </AccordionPanel>
           </AccordionItem>

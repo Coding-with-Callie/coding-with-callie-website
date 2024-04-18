@@ -1,11 +1,8 @@
 import { Box, Heading, Text, Image } from "@chakra-ui/react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
-import { Context } from "../App";
-import { Session } from "../Components/Resources/sessions";
-import { Submission } from "./Profile";
 
 const why = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc.",
@@ -32,19 +29,26 @@ export type Workshop = {
   objectives: string[];
   techStack: string[];
   price: number;
-  available: boolean;
-  stripeId: string;
-  sessions: Session[];
-  submissions: Submission[];
+};
+
+const openWorkshopInNewTab = (name: string) => {
+  if (name === "Project Planning Tool: Fullstack") {
+    window.open(
+      "https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack",
+      "_blank",
+      "noreferrer"
+    );
+  } else {
+    window.open(
+      "https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge",
+      "_blank",
+      "noreferrer"
+    );
+  }
 };
 
 const Workshops = () => {
   const workshops = useLoaderData() as Workshop[];
-
-  const context = useOutletContext() as Context;
-  const loggedIn = context.user.name !== undefined;
-
-  const purchasedWorkshops = context.user.workshops || [];
 
   return (
     <>
@@ -84,15 +88,6 @@ const Workshops = () => {
             maxW="1000px"
           >
             {workshops.map((workshop, index) => {
-              let access = false;
-              if (
-                loggedIn &&
-                purchasedWorkshops.find((purchasedWorkshop: Workshop) => {
-                  return purchasedWorkshop.name === workshop.name;
-                })
-              ) {
-                access = true;
-              }
               return (
                 <Box
                   backgroundColor="white"
@@ -123,15 +118,13 @@ const Workshops = () => {
                   />
 
                   <Box m="0 auto" display="flex" gap={4}>
-                    {access ? (
-                      <Link to={`/resources/${workshop.id}`}>
-                        <MyButton>View Resources</MyButton>
-                      </Link>
-                    ) : (
-                      <Link to={`/workshops/${workshop.id}`}>
-                        <MyButton>Learn More</MyButton>
-                      </Link>
-                    )}
+                    <MyButton
+                      onClick={() => {
+                        openWorkshopInNewTab(workshop.name);
+                      }}
+                    >
+                      Learn More
+                    </MyButton>
                   </Box>
                 </Box>
               );
