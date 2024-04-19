@@ -22,6 +22,7 @@ type Props = {
 
 function AlumniCard({ alumni }: Props) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   return (
     <Section
@@ -62,9 +63,16 @@ function AlumniCard({ alumni }: Props) {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <Box display="flex" alignItems="center" gap={10}>
-                <Text color="#45446A">{alumni.workshop.name}</Text>
-                <MyButton
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={4}
+                flexDirection="column"
+              >
+                <Text
+                  color="#45446A"
+                  textDecoration={"underline"}
+                  _hover={{ cursor: "pointer" }}
                   onClick={() =>
                     window.open(
                       "https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack",
@@ -73,8 +81,8 @@ function AlumniCard({ alumni }: Props) {
                     )
                   }
                 >
-                  Learn More
-                </MyButton>
+                  {alumni.workshop.name}
+                </Text>
               </Box>
             </AccordionPanel>
           </AccordionItem>
@@ -122,12 +130,20 @@ function AlumniCard({ alumni }: Props) {
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
-        <Box display="flex" gap={4} w="100%" justifyContent="center">
+        <Box
+          display="flex"
+          gap={4}
+          w="100%"
+          justifyContent="center"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+        >
           <Link to={alumni.linkedInUrl} target="_blank">
-            <MyButton>{`Contact ${alumni.name.split(" ")[0]}`}</MyButton>
+            <MyButton widthSize="100%">{`Contact ${
+              alumni.name.split(" ")[0]
+            }`}</MyButton>
           </Link>
           <Link to={alumni.projectUrl} target="_blank">
-            <MyButton>{`Check out ${
+            <MyButton widthSize="100%">{`Check out ${
               alumni.name.split(" ")[0]
             }'s Project`}</MyButton>
           </Link>
