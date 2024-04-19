@@ -1,5 +1,4 @@
-import { Link, useOutletContext } from "react-router-dom";
-import { Context } from "../../App";
+import { Link } from "react-router-dom";
 import { Speaker } from "../../Pages/GuestSpeakers";
 import Section from "../Section";
 import {
@@ -13,12 +12,12 @@ import {
   AccordionPanel,
   useDisclosure,
 } from "@chakra-ui/react";
-import { showNotification } from "../..";
 import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 import MyButton from "../MyButton";
 import Paragraph from "../Paragraph";
 import VideoModal from "./VideoModal";
+import ZoomModal from "./ZoomModal";
 
 type Props = {
   speaker: Speaker;
@@ -26,17 +25,14 @@ type Props = {
 
 const GuestSpeaker = ({ speaker }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const context: Context = useOutletContext();
-  const loggedIn =
-    context.user === null ? false : context.user.username !== undefined;
+  const {
+    isOpen: isOpenZoom,
+    onOpen: onOpenZoom,
+    onClose: onCloseZoom,
+  } = useDisclosure();
 
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
-
-  const showToast = () => {
-    showNotification("Sign-up to receive the Zoom link!", "info");
-  };
 
   return (
     <Section
@@ -139,13 +135,12 @@ const GuestSpeaker = ({ speaker }: Props) => {
           {speaker.sessionRecordingUrl ? (
             <MyButton onClick={onOpen}>Watch Recording</MyButton>
           ) : (
-            <Link to="/sign-up">
-              <MyButton onClick={showToast}>Get Zoom Link</MyButton>
-            </Link>
+            <MyButton onClick={onOpenZoom}>Get Zoom Link</MyButton>
           )}
         </Box>
       </Box>
       <VideoModal isOpen={isOpen} onClose={onClose} speaker={speaker} />
+      <ZoomModal isOpen={isOpenZoom} onClose={onCloseZoom} />
     </Section>
   );
 };
