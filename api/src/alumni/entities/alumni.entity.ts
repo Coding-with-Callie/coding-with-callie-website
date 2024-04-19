@@ -26,4 +26,7 @@ export class Alumni {
 
   @ManyToOne(() => Workshop, (workshop) => workshop.alumni)
   workshop: Workshop;
+
+  @Column({ nullable: true })
+  demoUrl: string;
 }

@@ -12,6 +12,7 @@ export type AlumniType = {
   photoUrl: string;
   projectUrl: string;
   workshop: Workshop;
+  demoUrl: string;
 };
 
 function Alumni() {

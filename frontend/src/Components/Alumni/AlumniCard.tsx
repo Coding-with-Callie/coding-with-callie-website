@@ -15,6 +15,7 @@ import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 import MyButton from "../MyButton";
 import { AlumniType } from "../../Pages/Alumni";
+import ReactPlayer from "react-player";
 
 type Props = {
   alumni: AlumniType;
@@ -23,6 +24,8 @@ type Props = {
 function AlumniCard({ alumni }: Props) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+
+  console.log("ALUMNI", alumni);
 
   return (
     <Section
@@ -129,6 +132,35 @@ function AlumniCard({ alumni }: Props) {
               />
             </AccordionPanel>
           </AccordionItem>
+          {alumni.demoUrl && (
+            <AccordionItem borderColor={"#45446A"}>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    color={"#45446A"}
+                    fontWeight="900"
+                  >
+                    Project Demo
+                  </Box>
+                  <AccordionIcon color={"#45446A"} />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Box
+                  borderRadius="5px"
+                  mb={6}
+                  overflow="hidden"
+                  boxShadow="lg"
+                  mx="auto"
+                >
+                  <ReactPlayer url={alumni.demoUrl} controls width="100%" />
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          )}
         </Accordion>
         <Box
           display="flex"
