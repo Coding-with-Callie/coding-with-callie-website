@@ -83,7 +83,7 @@ export const HTML_TEMPLATE = (message) => {
               <div class="link-lists">
                 <ul>
                   <li><a href="https://join.slack.com/t/codingwithcallie/shared_invite/zt-29pqf48yu-6NYcmLqMlHYDFVt7BkzQBQ">Coding with Callie's Slack Workspace</a></li>
-                  <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 7PM - 9PM EST)</a></li>
+                  <li><a href="https://us06web.zoom.us/j/83354214189?pwd=cXkVLE5NnaetXOHyUq9rlo9wptVIja.1">Zoom Link (Thursdays 8PM - 9PM EST)</a></li>
                   <li><a href="https://www.linkedin.com/company/coding-with-callie">Coding with Callie's LinkedIn Page</a></li>
                 </ul>
                 <ul>

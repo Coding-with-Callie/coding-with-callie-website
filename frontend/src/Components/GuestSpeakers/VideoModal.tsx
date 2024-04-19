@@ -38,7 +38,6 @@ const VideoModal = ({ isOpen, onClose, speaker }: Props) => {
                 url={speaker.sessionRecordingUrl}
                 controls
                 width="100%"
-                height="100%"
               />
             </Box>
           </ModalBody>

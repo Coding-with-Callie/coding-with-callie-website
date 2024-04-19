@@ -32,6 +32,7 @@ const GuestSpeaker = ({ speaker }: Props) => {
     context.user === null ? false : context.user.username !== undefined;
 
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   const showToast = () => {
     showNotification("Sign-up to receive the Zoom link!", "info");
@@ -123,14 +124,20 @@ const GuestSpeaker = ({ speaker }: Props) => {
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
-        <Box display="flex" gap={4} w="100%" justifyContent="center">
+        <Box
+          display="flex"
+          gap={4}
+          w="100%"
+          justifyContent="center"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+        >
           <Link to={speaker.websiteUrl} target="_blank">
-            <MyButton>{`Contact ${speaker.name.split(" ")[0]}`}</MyButton>
+            <MyButton widthSize="100%">{`Contact ${
+              speaker.name.split(" ")[0]
+            }`}</MyButton>
           </Link>
-          {loggedIn ? (
-            speaker.sessionRecordingUrl ? (
-              <MyButton onClick={onOpen}>Watch Recording</MyButton>
-            ) : null
+          {speaker.sessionRecordingUrl ? (
+            <MyButton onClick={onOpen}>Watch Recording</MyButton>
           ) : (
             <Link to="/sign-up">
               <MyButton onClick={showToast}>Get Zoom Link</MyButton>
