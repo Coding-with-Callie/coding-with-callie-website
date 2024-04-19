@@ -25,8 +25,6 @@ function AlumniCard({ alumni }: Props) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
-  console.log("ALUMNI", alumni);
-
   return (
     <Section
       screenSizeParameter={isLargerThan900}
