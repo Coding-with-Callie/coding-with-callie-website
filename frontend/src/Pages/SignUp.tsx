@@ -16,8 +16,6 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
-  console.log("isLargerThan500", isLargerThan500);
-
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
       <BodyHeading textAlignCenter={true}>

@@ -18,8 +18,6 @@ export type AlumniType = {
 function Alumni() {
   let alumni = useLoaderData() as AlumniType[];
 
-  console.log("alumni", alumni);
-
   return (
     <Box m={"0 auto"}>
       {alumni.map((alumni, index) => {

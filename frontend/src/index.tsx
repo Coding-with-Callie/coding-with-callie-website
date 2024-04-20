@@ -44,7 +44,6 @@ const router = createBrowserRouter([
           );
           return response.data;
         } catch (error) {
-          console.log("ERROR", error);
           return {};
         }
       } else {
