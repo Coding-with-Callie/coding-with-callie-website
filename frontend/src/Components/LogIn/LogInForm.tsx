@@ -1,4 +1,4 @@
-import { FormControl } from "@chakra-ui/react";
+import { FormControl, useMediaQuery } from "@chakra-ui/react";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { showNotification } from "../..";
@@ -26,6 +26,7 @@ const LogInForm = ({
   onClose,
 }: Props) => {
   const navigate = useNavigate();
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
   const onChangeUsername = (e: any) => {
     setSubmitClicked(false);
@@ -110,7 +111,7 @@ const LogInForm = ({
   };
 
   return (
-    <FormControl display="flex" flexDirection="column" gap={6}>
+    <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
       <TextInput
         field="Username"
         onChange={onChangeUsername}

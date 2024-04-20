@@ -79,7 +79,7 @@ const ReviewForm = ({ setReviews, isLargerThan900, title, user }: Props) => {
   };
 
   return (
-    <Box margin="0 auto" w={isLargerThan900 ? "65%" : "100%"}>
+    <Box margin="0 auto" maxW={"600px"}>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={true}>
           {title || "Post Your Own Review"}

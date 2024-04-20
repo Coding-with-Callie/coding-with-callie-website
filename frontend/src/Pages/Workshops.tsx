@@ -98,7 +98,6 @@ const Workshops = () => {
                   display="flex"
                   flexDirection="column"
                   gap={10}
-                  minW="400px"
                   maxW="600px"
                   key={index}
                 >
