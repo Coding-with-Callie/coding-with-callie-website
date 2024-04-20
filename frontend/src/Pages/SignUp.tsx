@@ -14,7 +14,9 @@ export type SignUpData = {
 const SignUp = () => {
   const context: Context = useOutletContext();
   const navigate = useNavigate();
-  const isLargerThan500 = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+
+  console.log("isLargerThan500", isLargerThan500);
 
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
@@ -24,7 +26,7 @@ const SignUp = () => {
       <SignUpForm updateUser={context.updateUser} />
       <Box
         display="flex"
-        gap={2}
+        gap={isLargerThan500 ? 10 : 2}
         alignItems="center"
         justifyContent="center"
         mt={6}
@@ -36,7 +38,7 @@ const SignUp = () => {
           onClick={() => {
             navigate("/log-in");
           }}
-          widthSize={isLargerThan500 ? null : "100%"}
+          widthSize={!isLargerThan500 && "100%"}
         >
           Sign in instead!
         </MyButton>

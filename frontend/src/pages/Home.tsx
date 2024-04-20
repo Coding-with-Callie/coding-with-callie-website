@@ -85,11 +85,6 @@ const Home = () => {
               <Link to="/guest-speakers">
                 <MyButton>View Guest Speakers</MyButton>
               </Link>
-              {loggedIn ? null : (
-                <Link to="/sign-up">
-                  <MyButton>Join the Fun!</MyButton>
-                </Link>
-              )}
             </Box>
           </CenteredColumn>
         </Box>
