@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: coding-with-callie-ingress-dev
+  name: coding-with-callie-ingress
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -34,3 +34,17 @@ spec:
             name: backend-service
             port:
               number: 3001
+      - path: /ppt
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service-ppt
+            port:
+              number: 3000
+      - path: /ppt/api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-service-ppt
+            port:
+              number: 3005
