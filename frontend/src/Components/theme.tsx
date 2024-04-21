@@ -23,6 +23,28 @@ const theme = extendTheme({
     input: {
       color: purple,
     },
+    heading: {
+      color: "#79A9CD",
+    },
+    text: {
+      color: "#45446A",
+    },
+    boxButton: {
+      border: "1px solid #45446A",
+      borderRadius: "md",
+      backgroundColor: "white",
+      boxShadow: "md",
+      _hover: { cursor: "pointer", transform: "scale(1.005)" },
+      _active: { transform: "scale(1)" },
+    },
+    accordionButton: {
+      backgroundColor: "rgb(69, 68, 106, 0.75)",
+      borderTopRadius: "md",
+    },
+    accordionPanel: {
+      backgroundColor: "white",
+      borderBottomRadius: "md",
+    },
   },
 });
 

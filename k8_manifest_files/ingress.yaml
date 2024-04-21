@@ -34,17 +34,3 @@ spec:
             name: backend-service
             port:
               number: 3001
-      - path: /ppt
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-service-ppt
-            port:
-              number: 3000
-      - path: /ppt/api
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-service-ppt
-            port:
-              number: 3005

@@ -1,11 +1,10 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import CenteredColumn from "../Components/CenteredColumn";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
-import { Context } from "../App";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -36,10 +35,6 @@ const guestSpeaker = [
 ];
 
 const Home = () => {
-  const context: Context = useOutletContext();
-  const loggedIn =
-    context.user === null ? false : context.user.username !== undefined;
-
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");

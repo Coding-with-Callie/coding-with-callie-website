@@ -1,0 +1,29 @@
+import { Feature } from '../../features/entities/feature.entity';
+import { Task } from '../../tasks/entities/task.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+
+@Entity()
+export class UserStory {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ManyToOne(() => Feature, (feature) => feature.userStories, {
+    onDelete: 'CASCADE',
+  })
+  feature: Feature;
+
+  @Column()
+  name: string;
+
+  @Column({ nullable: true })
+  description?: string;
+
+  @OneToMany(() => Task, (task) => task.userStory)
+  tasks: Task[];
+}

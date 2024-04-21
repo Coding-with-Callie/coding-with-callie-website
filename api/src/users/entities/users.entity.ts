@@ -1,3 +1,4 @@
+import { Project } from 'src/projects/entities/project.entity';
 import { Review } from 'src/review/entities/review.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -29,4 +30,7 @@ export class Users {
 
   @OneToMany(() => Review, (review) => review.user)
   review: Review[];
+
+  @OneToMany(() => Project, (review) => review.user)
+  projects: Project[];
 }

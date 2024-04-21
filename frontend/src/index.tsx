@@ -18,6 +18,8 @@ import Reviews from "./Pages/Reviews";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Paragraph from "./Components/Paragraph";
 import Alumni from "./Pages/Alumni";
+import Projects from "./Pages/Projects";
+import Project from "./Pages/Project";
 
 export const showNotification = (
   message: string,
@@ -217,6 +219,77 @@ const router = createBrowserRouter([
               "error"
             );
             return redirect("/log-in");
+          }
+        },
+      },
+      {
+        path: "/project/:id",
+        element: <Project />,
+        loader: async ({ params }) => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/project/${params.id}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+
+              if (response.data.length === 0) {
+                showNotification(
+                  "You do not have access to that project!",
+                  "error"
+                );
+                return redirect("/projects");
+              }
+
+              return response.data;
+            } catch (error) {
+              showNotification(
+                "You must be signed in to view this page!",
+                "error"
+              );
+              return redirect("/log-in");
+            }
+          } else {
+            showNotification(
+              "You must have an account to view this page!",
+              "error"
+            );
+            return redirect("/sign-up");
+          }
+        },
+      },
+      {
+        path: "/projects",
+        element: <Projects />,
+        loader: async () => {
+          const token = localStorage.getItem("token");
+
+          if (token) {
+            try {
+              const response = await axios.get(
+                `${
+                  process.env.REACT_APP_API || "http://localhost:3001/api"
+                }/auth/user-projects`,
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              return response.data;
+            } catch (error) {
+              showNotification(
+                "You must be signed in to view this page!",
+                "error"
+              );
+              return redirect("/log-in");
+            }
+          } else {
+            showNotification(
+              "You must have an account to view this page!",
+              "error"
+            );
+            return redirect("/sign-up");
           }
         },
       },
