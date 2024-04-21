@@ -99,6 +99,7 @@ const Workshops = () => {
                   flexDirection="column"
                   gap={10}
                   maxW="600px"
+                  minW="320px"
                   key={index}
                 >
                   <Heading fontSize={28} color="#79A9CD" textAlign="center">

@@ -34,6 +34,12 @@ const guestSpeaker = [
   "Guest speakers will have 30 minutes to give a talk about their specialty and then take questions for 30 minutes.",
 ];
 
+const projectPlanningTool = [
+  "It's important to plan out a project before you start coding! You can do this using the MVP from the Project Planning Tool: Fullstack workshop.",
+  "First, you want to think about the features your project needs to offer. Then, you can break these features into user stories, the specific actions that your users can take on your application. Lastly, you have to figure out how to build out those user stories. You can break up each user story into doable develop tasks and update them as you go.",
+  "Let me know how you like using the tool, if you find any bugs, and any future features that you'd like to see.",
+];
+
 const Home = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -56,6 +62,43 @@ const Home = () => {
         <Box>
           <BodyHeading textAlignCenter={false}>Hi, I'm Callie 👋🏻</BodyHeading>
           <BodyText textBlocks={homeText} textAlignCenter={false} />
+        </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <Box>
+          <BodyHeading textAlignCenter={false}>
+            Need a free project planning tool? 🙋🏻‍♀️
+          </BodyHeading>
+          <Box
+            display="flex"
+            flexDirection={isLargerThan900 ? "row" : "column"}
+            gap={10}
+            mb={10}
+            alignItems="center"
+          >
+            <BodyText
+              textBlocks={projectPlanningTool}
+              textAlignCenter={false}
+            />
+            <Box
+              margin="0 auto"
+              backgroundColor="white"
+              p={5}
+              borderRadius={4}
+              boxShadow="lg"
+            >
+              <Image
+                src={
+                  "https://coding-with-callie.s3.amazonaws.com/fullstack.png"
+                }
+                borderRadius={4}
+                h="250px"
+              />
+            </Box>
+          </Box>
+          <Link to="/projects">
+            <MyButton widthSize="100%">Check it out!</MyButton>
+          </Link>
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
@@ -86,7 +129,7 @@ const Home = () => {
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
         <BodyHeading textAlignCenter={false}>
-          Mid-Senior Level Industry Professionals 🙋🏻‍♀️
+          Mid-Senior Level Industry Professionals 👩🏻‍💻
         </BodyHeading>
         <Box
           display="flex"
