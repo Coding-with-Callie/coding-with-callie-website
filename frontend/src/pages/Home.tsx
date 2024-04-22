@@ -1,10 +1,19 @@
-import { Box, Image, useMediaQuery } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Image,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
-import CenteredColumn from "../Components/CenteredColumn";
 import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
+import { difference, mantra, why } from "./Workshops";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -14,30 +23,26 @@ const homeText = [
   "Currently, I'm a Site Reliability Engineer II at HashiCorp! I love coding a little too much and find it difficult to stop coding after hours. So, I decided to switch it up and spend my after hours coding time on Coding with Callie.",
 ];
 
-const workshopText = [
-  "I'm currently offering 2 workshops (available through Teachable):",
-  "Project Planning Tool: Fullstack",
-  "&",
-  "Deploy in Public Challenge.",
-  "The Project Planning Tool: Fullstack workshop is self-paced and the Deploy in Public Challenge will be run as a cohort for 10 weeks starting on May 23, 2024.",
-];
-
 const zoomSessions = [
   "We meet on Thursdays from 8PM to 9PM EST.",
   "Each week, we have a guest speaker come to lead a mini-workshop and answer all of your questions about their experience in the software developement industry!",
-  "All Coding with Callie members are eligible to join the weekly meet-ups! You will received a zoom link via email when you sign up.",
-];
-
-const guestSpeaker = [
-  "I'm looking for volunteer guest speakers!",
-  "Every Thursday, the Coding with Callie community meets from 8PM to 9PM EST to hear from people working in the software development industry.",
-  "Guest speakers will have 30 minutes to give a talk about their specialty and then take questions for 30 minutes.",
+  "Past guests have included: self-taught developers that successfully broke into tech, engineering managers, product managers, frontend specialists, and more!",
+  "Every one is welcome at the meet-ups! You can find the Zoom link on the guest speaker page or the Coding with Callie LinkedIn page.",
 ];
 
 const projectPlanningTool = [
-  "It's important to plan out a project before you start coding! You can do this using the MVP from the Project Planning Tool: Fullstack workshop.",
+  "It's important to plan out a project before you start coding! You can do this using the MVP from the project Planning Tool: Fullstack workshop.",
   "First, you want to think about the features your project needs to offer. Then, you can break these features into user stories, the specific actions that your users can take on your application. Lastly, you have to figure out how to build out those user stories. You can break up each user story into doable develop tasks and update them as you go.",
   "Let me know how you like using the tool, if you find any bugs, and any future features that you'd like to see.",
+];
+
+const deployInPublicChallenge = [
+  "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
+
+  "The Deploy in Public Challenge will be run as a cohort from  May 23, 2024 - August 1, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
+  "Why is it called a challenge, though? 🤔",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop by August 1, 2024, will get an opportunity to make money developing Coding with Callie. 70% of the registration fees will go towards a 'jobs' fund. If you complete the challenge, you'll get access to a list of available 'jobs' with predetermined prices.",
+  "Complete a job, get paid 💵",
 ];
 
 const Home = () => {
@@ -66,9 +71,7 @@ const Home = () => {
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
         <Box>
-          <BodyHeading textAlignCenter={false}>
-            Need a free project planning tool? 🙋🏻‍♀️
-          </BodyHeading>
+          <BodyHeading textAlignCenter={false}>Plan Your Projects</BodyHeading>
           <Box
             display="flex"
             flexDirection={isLargerThan900 ? "row" : "column"}
@@ -89,10 +92,11 @@ const Home = () => {
             >
               <Image
                 src={
-                  "https://coding-with-callie.s3.amazonaws.com/fullstack.png"
+                  "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
                 }
                 borderRadius={4}
                 h="250px"
+                border={"1px solid #A9A9A9"}
               />
             </Box>
           </Box>
@@ -102,48 +106,186 @@ const Home = () => {
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={false}>Junior Developers 👩🏻‍💻</BodyHeading>
-        <Box
-          display="flex"
-          mt={4}
-          gap={20}
-          flexDirection={isLargerThan900 ? "row" : "column"}
-        >
-          <CenteredColumn>
-            <BodyHeading textAlignCenter={true}>Workshops</BodyHeading>
-            <BodyText textBlocks={workshopText} textAlignCenter={true} />
-            <Link to="/workshops">
-              <MyButton>Learn More</MyButton>
-            </Link>
-          </CenteredColumn>
-          <CenteredColumn>
-            <BodyHeading textAlignCenter={true}>Meet-ups</BodyHeading>
-            <BodyText textBlocks={zoomSessions} textAlignCenter={true} />
-            <Box display="flex" gap={4}>
-              <Link to="/guest-speakers">
-                <MyButton>View Guest Speakers</MyButton>
-              </Link>
+        <Box>
+          <BodyHeading textAlignCenter={false}>
+            Build a Fullstack Project with Me
+          </BodyHeading>
+          <Box
+            display="flex"
+            flexDirection={isLargerThan900 ? "row" : "column"}
+            gap={10}
+            mb={10}
+            alignItems="center"
+          >
+            <Box flex={1}>
+              <Accordion defaultIndex={[0]} allowToggle borderColor="black">
+                <AccordionItem borderColor={"#45446A"}>
+                  <h2>
+                    <AccordionButton>
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        color={"#45446A"}
+                        fontWeight="900"
+                      >
+                        My Workshop Origin Story
+                      </Box>
+                      <AccordionIcon color={"#45446A"} />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      gap={4}
+                      flexDirection="column"
+                    >
+                      <BodyText textBlocks={why} textAlignCenter={false} />
+                    </Box>
+                  </AccordionPanel>
+                </AccordionItem>
+
+                <AccordionItem borderColor={"#45446A"}>
+                  <h2>
+                    <AccordionButton>
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        color={"#45446A"}
+                        fontWeight="900"
+                      >
+                        Make it work first, and then make it better
+                      </Box>
+                      <AccordionIcon color={"#45446A"} />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <BodyText textBlocks={mantra} textAlignCenter={false} />
+                  </AccordionPanel>
+                </AccordionItem>
+
+                <AccordionItem borderColor={"#45446A"}>
+                  <h2>
+                    <AccordionButton>
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        color={"#45446A"}
+                        fontWeight="900"
+                      >
+                        What sets Coding with Callie workshops apart?
+                      </Box>
+                      <AccordionIcon color={"#45446A"} />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <BodyText textBlocks={difference} textAlignCenter={false} />
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </Box>
-          </CenteredColumn>
+            <Box
+              margin="0 auto"
+              backgroundColor="white"
+              p={5}
+              borderRadius={4}
+              boxShadow="lg"
+            >
+              <Image
+                src={
+                  "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
+                }
+                borderRadius={4}
+                h="250px"
+                border={"1px solid #A9A9A9"}
+              />
+            </Box>
+          </Box>
+          <Link
+            to="https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack"
+            target="_blank"
+          >
+            <MyButton widthSize="100%">Let's get to work!</MyButton>
+          </Link>
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={false}>
-          Mid-Senior Level Industry Professionals 👩🏻‍💻
-        </BodyHeading>
-        <Box
-          display="flex"
-          mt={4}
-          gap={20}
-          flexDirection={isLargerThan900 ? "row" : "column"}
-        >
-          <CenteredColumn>
-            <BodyHeading textAlignCenter={true}>Guest Speaker</BodyHeading>
-            <BodyText textBlocks={guestSpeaker} textAlignCenter={true} />
-            <Link to="https://forms.gle/82eVomETpuxZvYvq9" target="_blank">
-              <MyButton>Volunteer!</MyButton>
-            </Link>
-          </CenteredColumn>
+        <Box>
+          <BodyHeading textAlignCenter={false}>
+            Deploy-in-Public Challenge
+          </BodyHeading>
+          <Box
+            display="flex"
+            flexDirection={isLargerThan900 ? "row" : "column"}
+            gap={10}
+            mb={10}
+            alignItems="center"
+          >
+            <Box flex={1}>
+              <BodyText
+                textBlocks={deployInPublicChallenge}
+                textAlignCenter={false}
+              />
+            </Box>
+            <Box
+              margin="0 auto"
+              backgroundColor="white"
+              p={5}
+              borderRadius={4}
+              boxShadow="lg"
+            >
+              <Image
+                src={
+                  "https://coding-with-callie.s3.amazonaws.com/deployment.png"
+                }
+                borderRadius={4}
+                h="250px"
+                border={"1px solid #A9A9A9"}
+              />
+            </Box>
+          </Box>
+          <Link
+            to="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
+            target="_blank"
+          >
+            <MyButton widthSize="100%">Join the cohort!</MyButton>
+          </Link>
+        </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <Box>
+          <BodyHeading textAlignCenter={false}>
+            Network with Industry Professionals
+          </BodyHeading>
+          <Box
+            display="flex"
+            flexDirection={isLargerThan900 ? "row" : "column"}
+            gap={10}
+            mb={10}
+            alignItems="center"
+          >
+            <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
+            <Box
+              margin="0 auto"
+              backgroundColor="white"
+              p={5}
+              borderRadius={4}
+              boxShadow="lg"
+            >
+              <Image
+                src={"https://coding-with-callie.s3.amazonaws.com/meet-up.png"}
+                borderRadius={4}
+                h="250px"
+                border={"1px solid #A9A9A9"}
+              />
+            </Box>
+          </Box>
+          <Link to="/guest-speakers">
+            <MyButton widthSize="100%">View Guest Speakers!</MyButton>
+          </Link>
         </Box>
       </Section>
     </Box>
