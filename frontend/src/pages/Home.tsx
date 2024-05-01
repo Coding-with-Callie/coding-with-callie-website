@@ -45,6 +45,14 @@ const deployInPublicChallenge = [
   "Complete a job, get paid 💵",
 ];
 
+const jobsFund = [
+  "Junior developers need experience and deserve to be PAID for their work...and I need help developing Coding with Callie 💡",
+  "So, I'm creating a list of Coding with Callie jobs that I would love to see completed...but don't have the time to do: adding new features, fixing bugs, refactoring code, researching tools, frameworks, and libraries, and creating MVPs, tutorials, documentation, etc.",
+  "Anyone who successfully COMPLETES a Coding with Callie challenge will be eligible to take on a job and get paid 💰",
+  "70% of the Deploy in Public Challenge registration fees are going to fund these jobs, but I'd love to be able to fund as many jobs as possible.",
+  "If you'd like to donate to the Junior Developer Fund, please click the button below.",
+];
+
 const Home = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -67,6 +75,42 @@ const Home = () => {
         <Box>
           <BodyHeading textAlignCenter={false}>Hi, I'm Callie 👋🏻</BodyHeading>
           <BodyText textBlocks={homeText} textAlignCenter={false} />
+        </Box>
+      </Section>
+      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+        <Box>
+          <BodyHeading textAlignCenter={false}>
+            Donate to the Junior Developer Jobs Fund
+          </BodyHeading>
+          <Box
+            display="flex"
+            flexDirection={isLargerThan900 ? "row" : "column"}
+            gap={10}
+            mb={10}
+            alignItems="center"
+          >
+            <BodyText textBlocks={jobsFund} textAlignCenter={false} />
+            <Box
+              margin="0 auto"
+              backgroundColor="white"
+              p={5}
+              borderRadius={4}
+              boxShadow="lg"
+            >
+              <Image
+                src={"https://coding-with-callie.s3.amazonaws.com/donate.jpeg"}
+                borderRadius={4}
+                h="250px"
+                border={"1px solid #A9A9A9"}
+              />
+            </Box>
+          </Box>
+          <Link
+            to="https://pages.donately.com/codingwithcallie/campaign/junior-developer-jobs-fund"
+            target="_blank"
+          >
+            <MyButton widthSize="100%">Donate!</MyButton>
+          </Link>
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
