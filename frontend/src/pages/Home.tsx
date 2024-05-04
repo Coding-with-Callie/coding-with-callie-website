@@ -4,6 +4,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  AspectRatio,
   Box,
   Image,
   useMediaQuery,
@@ -55,6 +56,7 @@ const jobsFund = [
 
 const Home = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan525] = useMediaQuery("(min-width: 525px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
@@ -97,12 +99,18 @@ const Home = () => {
               borderRadius={4}
               boxShadow="lg"
             >
-              <Image
-                src={"https://coding-with-callie.s3.amazonaws.com/donate.jpeg"}
-                borderRadius={4}
-                h="250px"
-                border={"1px solid #A9A9A9"}
-              />
+              <AspectRatio
+                w={isLargerThan525 ? "450px" : "300px"}
+                ratio={16 / 9}
+              >
+                <Image
+                  src={
+                    "https://coding-with-callie.s3.amazonaws.com/donate.jpeg"
+                  }
+                  borderRadius={4}
+                  border={"1px solid #A9A9A9"}
+                />
+              </AspectRatio>
             </Box>
           </Box>
           <Link
@@ -134,14 +142,18 @@ const Home = () => {
               borderRadius={4}
               boxShadow="lg"
             >
-              <Image
-                src={
-                  "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
-                }
-                borderRadius={4}
-                h="250px"
-                border={"1px solid #A9A9A9"}
-              />
+              <AspectRatio
+                w={isLargerThan525 ? "450px" : "300px"}
+                ratio={16 / 9}
+              >
+                <Image
+                  src={
+                    "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
+                  }
+                  borderRadius={4}
+                  border={"1px solid #A9A9A9"}
+                />
+              </AspectRatio>
             </Box>
           </Box>
           <Link to="/projects">
@@ -238,14 +250,18 @@ const Home = () => {
               borderRadius={4}
               boxShadow="lg"
             >
-              <Image
-                src={
-                  "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
-                }
-                borderRadius={4}
-                h="250px"
-                border={"1px solid #A9A9A9"}
-              />
+              <AspectRatio
+                w={isLargerThan525 ? "450px" : "300px"}
+                ratio={16 / 9}
+              >
+                <Image
+                  src={
+                    "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
+                  }
+                  borderRadius={4}
+                  border={"1px solid #A9A9A9"}
+                />
+              </AspectRatio>
             </Box>
           </Box>
           <Link
@@ -281,14 +297,18 @@ const Home = () => {
               borderRadius={4}
               boxShadow="lg"
             >
-              <Image
-                src={
-                  "https://coding-with-callie.s3.amazonaws.com/deployment.png"
-                }
-                borderRadius={4}
-                h="250px"
-                border={"1px solid #A9A9A9"}
-              />
+              <AspectRatio
+                w={isLargerThan525 ? "450px" : "300px"}
+                ratio={16 / 9}
+              >
+                <Image
+                  src={
+                    "https://coding-with-callie.s3.amazonaws.com/deployment.png"
+                  }
+                  borderRadius={4}
+                  border={"1px solid #A9A9A9"}
+                />
+              </AspectRatio>
             </Box>
           </Box>
           <Link
@@ -319,12 +339,18 @@ const Home = () => {
               borderRadius={4}
               boxShadow="lg"
             >
-              <Image
-                src={"https://coding-with-callie.s3.amazonaws.com/meet-up.png"}
-                borderRadius={4}
-                h="250px"
-                border={"1px solid #A9A9A9"}
-              />
+              <AspectRatio
+                w={isLargerThan525 ? "450px" : "300px"}
+                ratio={16 / 9}
+              >
+                <Image
+                  src={
+                    "https://coding-with-callie.s3.amazonaws.com/meet-up.png"
+                  }
+                  borderRadius={4}
+                  border={"1px solid #A9A9A9"}
+                />
+              </AspectRatio>
             </Box>
           </Box>
           <Link to="/guest-speakers">
