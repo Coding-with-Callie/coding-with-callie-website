@@ -4,17 +4,15 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  AspectRatio,
   Box,
   Image,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
-import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import { difference, mantra, why } from "./Workshops";
+import TextWithImageAndButton from "../Components/Home/TextWithImageAndButton";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -56,7 +54,6 @@ const jobsFund = [
 
 const Home = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
-  const [isLargerThan525] = useMediaQuery("(min-width: 525px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
@@ -80,283 +77,134 @@ const Home = () => {
         </Box>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <Box>
-          <BodyHeading textAlignCenter={false}>
-            Donate to the Junior Developer Jobs Fund
-          </BodyHeading>
-          <Box
-            display="flex"
-            flexDirection={isLargerThan900 ? "row" : "column"}
-            gap={10}
-            mb={10}
-            alignItems="center"
-          >
-            <BodyText textBlocks={jobsFund} textAlignCenter={false} />
-            <Box
-              margin="0 auto"
-              backgroundColor="white"
-              p={5}
-              borderRadius={4}
-              boxShadow="lg"
-            >
-              <AspectRatio
-                w={isLargerThan525 ? "450px" : "300px"}
-                ratio={16 / 9}
-              >
-                <Image
-                  src={
-                    "https://coding-with-callie.s3.amazonaws.com/donate.jpeg"
-                  }
-                  borderRadius={4}
-                  border={"1px solid #A9A9A9"}
-                />
-              </AspectRatio>
-            </Box>
-          </Box>
-          <Link
-            to="https://pages.donately.com/codingwithcallie/campaign/junior-developer-jobs-fund"
-            target="_blank"
-          >
-            <MyButton widthSize="100%">Donate!</MyButton>
-          </Link>
-        </Box>
+        <TextWithImageAndButton
+          heading={"Donate to the Junior Developer Jobs Fund"}
+          imageUrl={"https://coding-with-callie.s3.amazonaws.com/donate.jpeg"}
+          linkUrl={
+            "https://pages.donately.com/codingwithcallie/campaign/junior-developer-jobs-fund"
+          }
+          buttonText={"Donate!"}
+        >
+          <BodyText textBlocks={jobsFund} textAlignCenter={false} />
+        </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <Box>
-          <BodyHeading textAlignCenter={false}>Plan Your Projects</BodyHeading>
-          <Box
-            display="flex"
-            flexDirection={isLargerThan900 ? "row" : "column"}
-            gap={10}
-            mb={10}
-            alignItems="center"
-          >
-            <BodyText
-              textBlocks={projectPlanningTool}
-              textAlignCenter={false}
-            />
-            <Box
-              margin="0 auto"
-              backgroundColor="white"
-              p={5}
-              borderRadius={4}
-              boxShadow="lg"
-            >
-              <AspectRatio
-                w={isLargerThan525 ? "450px" : "300px"}
-                ratio={16 / 9}
-              >
-                <Image
-                  src={
-                    "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
-                  }
-                  borderRadius={4}
-                  border={"1px solid #A9A9A9"}
-                />
-              </AspectRatio>
-            </Box>
-          </Box>
-          <Link to="/projects">
-            <MyButton widthSize="100%">Check it out!</MyButton>
-          </Link>
-        </Box>
+        <TextWithImageAndButton
+          heading={"Plan Your Projects"}
+          imageUrl={
+            "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
+          }
+          linkUrl="/projects"
+          buttonText={"Check it out!"}
+        >
+          <BodyText textBlocks={projectPlanningTool} textAlignCenter={false} />
+        </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <Box>
-          <BodyHeading textAlignCenter={false}>
-            Build a Fullstack Project with Me
-          </BodyHeading>
-          <Box
-            display="flex"
-            flexDirection={isLargerThan900 ? "row" : "column"}
-            gap={10}
-            mb={10}
-            alignItems="center"
-          >
-            <Box flex={1}>
-              <Accordion defaultIndex={[0]} allowToggle borderColor="black">
-                <AccordionItem borderColor={"#45446A"}>
-                  <h2>
-                    <AccordionButton>
-                      <Box
-                        as="span"
-                        flex="1"
-                        textAlign="left"
-                        color={"#45446A"}
-                        fontWeight="900"
-                      >
-                        My Workshop Origin Story
-                      </Box>
-                      <AccordionIcon color={"#45446A"} />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
+        <TextWithImageAndButton
+          heading={"Build a Fullstack Project with Me"}
+          imageUrl={
+            "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
+          }
+          linkUrl="https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack"
+          buttonText={"Let's get to work!"}
+        >
+          <Box flex={1}>
+            <Accordion defaultIndex={[0]} allowToggle borderColor="black">
+              <AccordionItem borderColor={"#45446A"}>
+                <h2>
+                  <AccordionButton>
                     <Box
-                      display="flex"
-                      alignItems="center"
-                      gap={4}
-                      flexDirection="column"
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      color={"#45446A"}
+                      fontWeight="900"
                     >
-                      <BodyText textBlocks={why} textAlignCenter={false} />
+                      My Workshop Origin Story
                     </Box>
-                  </AccordionPanel>
-                </AccordionItem>
+                    <AccordionIcon color={"#45446A"} />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap={4}
+                    flexDirection="column"
+                  >
+                    <BodyText textBlocks={why} textAlignCenter={false} />
+                  </Box>
+                </AccordionPanel>
+              </AccordionItem>
 
-                <AccordionItem borderColor={"#45446A"}>
-                  <h2>
-                    <AccordionButton>
-                      <Box
-                        as="span"
-                        flex="1"
-                        textAlign="left"
-                        color={"#45446A"}
-                        fontWeight="900"
-                      >
-                        Make it work first, and then make it better
-                      </Box>
-                      <AccordionIcon color={"#45446A"} />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <BodyText textBlocks={mantra} textAlignCenter={false} />
-                  </AccordionPanel>
-                </AccordionItem>
+              <AccordionItem borderColor={"#45446A"}>
+                <h2>
+                  <AccordionButton>
+                    <Box
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      color={"#45446A"}
+                      fontWeight="900"
+                    >
+                      Make it work first, and then make it better
+                    </Box>
+                    <AccordionIcon color={"#45446A"} />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <BodyText textBlocks={mantra} textAlignCenter={false} />
+                </AccordionPanel>
+              </AccordionItem>
 
-                <AccordionItem borderColor={"#45446A"}>
-                  <h2>
-                    <AccordionButton>
-                      <Box
-                        as="span"
-                        flex="1"
-                        textAlign="left"
-                        color={"#45446A"}
-                        fontWeight="900"
-                      >
-                        What sets Coding with Callie workshops apart?
-                      </Box>
-                      <AccordionIcon color={"#45446A"} />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <BodyText textBlocks={difference} textAlignCenter={false} />
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </Box>
-            <Box
-              margin="0 auto"
-              backgroundColor="white"
-              p={5}
-              borderRadius={4}
-              boxShadow="lg"
-            >
-              <AspectRatio
-                w={isLargerThan525 ? "450px" : "300px"}
-                ratio={16 / 9}
-              >
-                <Image
-                  src={
-                    "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
-                  }
-                  borderRadius={4}
-                  border={"1px solid #A9A9A9"}
-                />
-              </AspectRatio>
-            </Box>
+              <AccordionItem borderColor={"#45446A"}>
+                <h2>
+                  <AccordionButton>
+                    <Box
+                      as="span"
+                      flex="1"
+                      textAlign="left"
+                      color={"#45446A"}
+                      fontWeight="900"
+                    >
+                      What sets Coding with Callie workshops apart?
+                    </Box>
+                    <AccordionIcon color={"#45446A"} />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <BodyText textBlocks={difference} textAlignCenter={false} />
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           </Box>
-          <Link
-            to="https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack"
-            target="_blank"
-          >
-            <MyButton widthSize="100%">Let's get to work!</MyButton>
-          </Link>
-        </Box>
+        </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <Box>
-          <BodyHeading textAlignCenter={false}>
-            Deploy-in-Public Challenge
-          </BodyHeading>
-          <Box
-            display="flex"
-            flexDirection={isLargerThan900 ? "row" : "column"}
-            gap={10}
-            mb={10}
-            alignItems="center"
-          >
-            <Box flex={1}>
-              <BodyText
-                textBlocks={deployInPublicChallenge}
-                textAlignCenter={false}
-              />
-            </Box>
-            <Box
-              margin="0 auto"
-              backgroundColor="white"
-              p={5}
-              borderRadius={4}
-              boxShadow="lg"
-            >
-              <AspectRatio
-                w={isLargerThan525 ? "450px" : "300px"}
-                ratio={16 / 9}
-              >
-                <Image
-                  src={
-                    "https://coding-with-callie.s3.amazonaws.com/deployment.png"
-                  }
-                  borderRadius={4}
-                  border={"1px solid #A9A9A9"}
-                />
-              </AspectRatio>
-            </Box>
-          </Box>
-          <Link
-            to="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
-            target="_blank"
-          >
-            <MyButton widthSize="100%">Join the cohort!</MyButton>
-          </Link>
-        </Box>
+        <TextWithImageAndButton
+          heading={"Deploy in Public"}
+          imageUrl={
+            "https://coding-with-callie.s3.amazonaws.com/deployment.png"
+          }
+          linkUrl="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
+          buttonText={"Join the cohort!"}
+        >
+          <BodyText
+            textBlocks={deployInPublicChallenge}
+            textAlignCenter={false}
+          />
+        </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <Box>
-          <BodyHeading textAlignCenter={false}>
-            Network with Industry Professionals
-          </BodyHeading>
-          <Box
-            display="flex"
-            flexDirection={isLargerThan900 ? "row" : "column"}
-            gap={10}
-            mb={10}
-            alignItems="center"
-          >
-            <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
-            <Box
-              margin="0 auto"
-              backgroundColor="white"
-              p={5}
-              borderRadius={4}
-              boxShadow="lg"
-            >
-              <AspectRatio
-                w={isLargerThan525 ? "450px" : "300px"}
-                ratio={16 / 9}
-              >
-                <Image
-                  src={
-                    "https://coding-with-callie.s3.amazonaws.com/meet-up.png"
-                  }
-                  borderRadius={4}
-                  border={"1px solid #A9A9A9"}
-                />
-              </AspectRatio>
-            </Box>
-          </Box>
-          <Link to="/guest-speakers">
-            <MyButton widthSize="100%">View Guest Speakers!</MyButton>
-          </Link>
-        </Box>
+        <TextWithImageAndButton
+          heading={"Network with Industry Professionals"}
+          imageUrl={"https://coding-with-callie.s3.amazonaws.com/meet-up.png"}
+          linkUrl="/guest-speakers"
+          buttonText={"View Guest Speakers!"}
+        >
+          <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
+        </TextWithImageAndButton>
       </Section>
     </Box>
   );
