@@ -37,10 +37,9 @@ const projectPlanningTool = [
 
 const deployInPublicChallenge = [
   "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
-
   "The Deploy in Public Challenge will be run as a cohort from  May 23, 2024 - August 1, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop by August 1, 2024, will get an opportunity to make money developing Coding with Callie. 70% of the registration fees will go towards a 'jobs' fund. If you complete the challenge, you'll get access to a list of available 'jobs' with predetermined prices.",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop by August 1, 2024, will get an opportunity to make money developing Coding with Callie. If you complete the challenge, you'll get access to a list of available 'jobs' with predetermined payment amounts.",
   "Complete a job, get paid 💵",
 ];
 
@@ -48,7 +47,7 @@ const jobsFund = [
   "Junior developers need experience and deserve to be PAID for their work...and I need help developing Coding with Callie 💡",
   "So, I'm creating a list of Coding with Callie jobs that I would love to see completed...but don't have the time to do: adding new features, fixing bugs, refactoring code, researching tools, frameworks, and libraries, and creating MVPs, tutorials, documentation, etc.",
   "Anyone who successfully COMPLETES a Coding with Callie challenge will be eligible to take on a job and get paid 💰",
-  "70% of the Deploy in Public Challenge registration fees are going to fund these jobs, but I'd love to be able to fund as many jobs as possible.",
+  "25% of Coding with Callie profits are going to fund these jobs, but I'd love to be able to fund as many jobs as possible.",
   "If you'd like to donate to the Junior Developer Fund, please click the button below.",
 ];
 
