@@ -15,6 +15,7 @@ import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 import MyButton from "../MyButton";
 import { AlumniType } from "../../Pages/Alumni";
+import ReactPlayer from "react-player";
 
 type Props = {
   alumni: AlumniType;
@@ -22,6 +23,7 @@ type Props = {
 
 function AlumniCard({ alumni }: Props) {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   return (
     <Section
@@ -62,12 +64,26 @@ function AlumniCard({ alumni }: Props) {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <Box display="flex" alignItems="center" gap={10}>
-                <Text color="#45446A">{alumni.workshop.name}</Text>
-                <Link to={`/workshops/${alumni.workshop.id}`}>
-                  {" "}
-                  <MyButton>Learn More</MyButton>
-                </Link>
+              <Box
+                display="flex"
+                alignItems="center"
+                gap={4}
+                flexDirection="column"
+              >
+                <Text
+                  color="#45446A"
+                  textDecoration={"underline"}
+                  _hover={{ cursor: "pointer" }}
+                  onClick={() =>
+                    window.open(
+                      "https://callie-stoscup-s-school.teachable.com/p/project-planning-tool-fullstack",
+                      "_blank",
+                      "noreferrer"
+                    )
+                  }
+                >
+                  {alumni.workshop.name}
+                </Text>
               </Box>
             </AccordionPanel>
           </AccordionItem>
@@ -114,13 +130,50 @@ function AlumniCard({ alumni }: Props) {
               />
             </AccordionPanel>
           </AccordionItem>
+          {alumni.demoUrl && (
+            <AccordionItem borderColor={"#45446A"}>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    color={"#45446A"}
+                    fontWeight="900"
+                  >
+                    Project Demo
+                  </Box>
+                  <AccordionIcon color={"#45446A"} />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Box
+                  borderRadius="5px"
+                  mb={6}
+                  overflow="hidden"
+                  boxShadow="lg"
+                  mx="auto"
+                >
+                  <ReactPlayer url={alumni.demoUrl} controls width="100%" />
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
+          )}
         </Accordion>
-        <Box display="flex" gap={4} w="100%" justifyContent="center">
+        <Box
+          display="flex"
+          gap={4}
+          w="100%"
+          justifyContent="center"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+        >
           <Link to={alumni.linkedInUrl} target="_blank">
-            <MyButton>{`Contact ${alumni.name.split(" ")[0]}`}</MyButton>
+            <MyButton widthSize="100%">{`Contact ${
+              alumni.name.split(" ")[0]
+            }`}</MyButton>
           </Link>
           <Link to={alumni.projectUrl} target="_blank">
-            <MyButton>{`Check out ${
+            <MyButton widthSize="100%">{`Check out ${
               alumni.name.split(" ")[0]
             }'s Project`}</MyButton>
           </Link>

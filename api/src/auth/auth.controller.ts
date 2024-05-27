@@ -14,13 +14,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { IsEmail, IsNotEmpty, IsUrl } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
-import { Workshop } from 'src/workshops/content/type';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -66,46 +65,6 @@ export class Email {
   email: string;
 }
 
-export class DeliverableDto {
-  @IsNotEmpty()
-  workshopId: number;
-
-  @IsNotEmpty()
-  session: number;
-
-  @IsNotEmpty({ message: 'You must submit a valid URL.' })
-  @IsUrl(undefined, { message: 'You must submit a valid URL.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  url: string;
-
-  @IsNotEmpty()
-  userId: number;
-
-  videoDate: string;
-}
-
-export class FeedbackDto {
-  @IsNotEmpty({ message: 'You must provide feedback.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  positiveFeedback: string;
-
-  @IsNotEmpty({ message: 'You must provide feedback.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  immediateChangesRequested: string;
-
-  @IsNotEmpty({ message: 'You must provide feedback.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  longTermChangesRequested: string;
-
-  feedbackProviderId: number;
-
-  submissionId: number;
-
-  sessionId: number;
-
-  workshopId: number;
-}
-
 export class ReviewDto {
   @IsNotEmpty()
   rating: number;
@@ -117,11 +76,7 @@ export class ReviewDto {
   @Transform((params) => sanitizeHTML(params.value))
   displayName: string;
 
-  session: string;
-
   userId: number;
-
-  workshopId: number;
 }
 
 export class AlumniDto {
@@ -132,6 +87,108 @@ export class AlumniDto {
   photoUrl: string;
   projectUrl: string;
   workshopId: number;
+}
+
+export class ProjectDto {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsOptional()
+  @Transform((params) => sanitizeHTML(params.value))
+  description: string;
+}
+
+export class FeatureDto {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsOptional()
+  @Transform((params) => sanitizeHTML(params.value))
+  description: string;
+
+  @IsNotEmpty()
+  projectId: number;
+}
+
+export class UserStoryDto {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsOptional()
+  @Transform((params) => sanitizeHTML(params.value))
+  description: string;
+
+  @IsNotEmpty()
+  projectId: number;
+
+  @IsNotEmpty()
+  featureId: number;
+}
+
+export class TaskDto {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsNotEmpty()
+  projectId: number;
+
+  @IsNotEmpty()
+  featureId: number;
+
+  @IsNotEmpty()
+  userStoryId: number;
+}
+
+export class UpdateTaskDto {
+  @IsNotEmpty()
+  field: string;
+
+  // @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  value: string;
+
+  @IsNotEmpty()
+  taskId: number;
+}
+
+export class UpdateUserStoryDto {
+  @IsNotEmpty()
+  field: string;
+
+  // @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  value: string;
+
+  @IsNotEmpty()
+  userStoryId: number;
+}
+
+export class UpdateFeatureDto {
+  @IsNotEmpty()
+  field: string;
+
+  // @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  value: string;
+
+  @IsNotEmpty()
+  featureId: number;
+}
+
+export class UpdateProjectDto {
+  @IsNotEmpty()
+  field: string;
+
+  // @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  value: string;
+
+  @IsNotEmpty()
+  projectId: number;
 }
 
 @Controller('auth')
@@ -152,36 +209,10 @@ export class AuthController {
     );
   }
 
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Get('adminData')
-  getAllUsers() {
-    return this.authService.getAdminData();
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Get('user-details/:id')
-  getUserDetails(@Param('id') id: number) {
-    return this.authService.getUserProfile(id);
-  }
-
   @UseGuards(AuthGuard)
   @Get('profile')
   getUserProfile(@Request() req) {
     return this.authService.getUserProfile(req.user.sub);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('resources/:id')
-  getWorkshopResources(@Param('id') id: number, @Request() req) {
-    return this.authService.getWorkshopResources(id, req.user.sub);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('my-workshops')
-  getMyWorkshops(@Request() req) {
-    return this.authService.getMyWorkshops(req.user.sub);
   }
 
   @Get('profile/:token/:id')
@@ -211,78 +242,6 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('solution-videos/:workshopId/:id')
-  getSolutionVideos(@Request() req) {
-    return this.authService.getSolutionVideos(
-      req.params.workshopId,
-      req.params.id,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('user-submissions')
-  getUserSubmissions(@Request() req) {
-    const userId = req.user.sub;
-    return this.authService.getUserSubmissions(userId);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('all-submissions/:workshopId/:id')
-  getAllSubmissions(@Request() req) {
-    const userId = req.user.sub;
-
-    return this.authService.getAllSubmissions(
-      req.params.workshopId,
-      req.params.id,
-      userId,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('submit-deliverable')
-  async submitDeliverable(@Body() deliverable: DeliverableDto) {
-    const url = deliverable.url;
-    if (url.indexOf('http') === -1) {
-      deliverable.url = 'http://' + url;
-    }
-
-    const user = await this.authService.getUserProfile(deliverable.userId);
-    await this.authService.submitDeliverable(deliverable, user);
-    return await this.authService.getUserProfile(deliverable.userId);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('edit-deliverable')
-  async editDeliverable(@Body() deliverable: DeliverableDto) {
-    const url = deliverable.url;
-    if (url.indexOf('http') === -1) {
-      deliverable.url = 'http://' + url;
-    }
-
-    await this.authService.editDeliverable(deliverable);
-    return this.authService.getUserProfile(deliverable.userId);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('submit-feedback')
-  async submitFeedback(@Body() feedbackDto: FeedbackDto) {
-    await this.authService.submitFeedback(feedbackDto);
-    const submissions = await this.authService.getAllSubmissions(
-      feedbackDto.workshopId,
-      feedbackDto.sessionId,
-      feedbackDto.feedbackProviderId,
-    );
-    return submissions;
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('edit-feedback')
-  async editFeedback(@Body() feedbackDto: FeedbackDto) {
-    const result = await this.authService.editFeedback(feedbackDto);
-    return this.authService.getUserProfile(result.user.id);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
@@ -308,13 +267,6 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
-  @Post('create-workshop')
-  async createWorkshop(@Body() workshop?: Workshop) {
-    return await this.authService.createWorkshop(workshop);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
   @Post('create-alumni')
   async createAlumni(@Body() alumni: AlumniDto) {
     return await this.authService.createAlumni(alumni);
@@ -325,34 +277,131 @@ export class AuthController {
     return await this.authService.getSpeakers();
   }
 
-  @Post('create-checkout-session')
-  async createCheckoutSession(
-    @Body('lineItems') lineItems: any[],
-    @Body('userId') userId: number,
-  ) {
-    return await this.authService.createCheckoutSession(lineItems, userId);
-  }
-
-  @Get('session-status')
-  async getSessionStatus(@Request() req) {
-    return await this.authService.getSessionStatus(
-      req.query.session_id,
-      req.query.userId,
-    );
+  @UseGuards(AuthGuard)
+  @Get('user-projects')
+  getUserProjects(@Request() req) {
+    return this.authService.getUserProjects(req.user.sub);
   }
 
   @UseGuards(AuthGuard)
-  @Post('add-workshop-to-cart')
-  async addWorkshopToCart(@Request() req, @Body('workshopId') workshopId) {
-    return await this.authService.addWorkshopToCart(workshopId, req.user.sub);
+  @Get('project/:id')
+  getProject(@Param('id') id: number, @Request() req) {
+    return this.authService.getProject(req.user.sub, id);
   }
 
   @UseGuards(AuthGuard)
-  @Post('delete-workshop-from-cart')
-  async deleteWorkshopFromCart(@Request() req, @Body('workshopId') workshopId) {
-    return await this.authService.deleteWorkshopFromCart(
-      workshopId,
+  @Post('create-project')
+  createProject(@Body() projectDto: ProjectDto, @Request() req) {
+    return this.authService.createProject(
+      projectDto.name,
+      projectDto.description,
       req.user.sub,
     );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update-project')
+  updateProject(@Body() updateProjectDto: UpdateProjectDto, @Request() req) {
+    return this.authService.updateProject(
+      updateProjectDto.field,
+      updateProjectDto.value,
+      req.user.sub,
+      updateProjectDto.projectId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-project')
+  deleteProject(@Body('projectId') projectId: number, @Request() req) {
+    return this.authService.deleteProject(projectId, req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('create-feature')
+  createFeature(@Body() featureDto: FeatureDto, @Request() req) {
+    return this.authService.createFeature(
+      featureDto.name,
+      featureDto.description,
+      req.user.sub,
+      featureDto.projectId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update-feature')
+  updateFeature(@Body() updateFeatureDto: UpdateFeatureDto, @Request() req) {
+    return this.authService.updateFeature(
+      updateFeatureDto.field,
+      updateFeatureDto.value,
+      req.user.sub,
+      updateFeatureDto.featureId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-feature')
+  deleteFeature(@Body('featureId') featureId: number, @Request() req) {
+    return this.authService.deleteFeature(featureId, req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('create-user-story')
+  createUserStory(@Body() userStoryDto: UserStoryDto, @Request() req) {
+    return this.authService.createUserStory(
+      userStoryDto.name,
+      userStoryDto.description,
+      req.user.sub,
+      userStoryDto.projectId,
+      userStoryDto.featureId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update-user-story')
+  updateUserStory(
+    @Body() updateUserStoryDto: UpdateUserStoryDto,
+    @Request() req,
+  ) {
+    return this.authService.updateUserStory(
+      updateUserStoryDto.field,
+      updateUserStoryDto.value,
+      req.user.sub,
+      updateUserStoryDto.userStoryId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-user-story')
+  deleteUserStory(@Body('userStoryId') userStoryId: number, @Request() req) {
+    return this.authService.deleteUserStory(userStoryId, req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('create-task')
+  createTask(@Body() taskDto: TaskDto, @Request() req) {
+    return this.authService.createTask(
+      taskDto.name,
+      req.user.sub,
+      taskDto.projectId,
+      taskDto.featureId,
+      taskDto.userStoryId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update-task')
+  updateTask(@Body() updateTaskDto: UpdateTaskDto, @Request() req) {
+    return this.authService.updateTask(
+      updateTaskDto.field,
+      updateTaskDto.value,
+      req.user.sub,
+      updateTaskDto.taskId,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('delete-task')
+  deleteTask(@Body('taskId') taskId: number, @Request() req) {
+    return this.authService.deleteTask(taskId, req.user.sub);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -13,11 +13,6 @@ export class AppController {
   @Get('workshops')
   getAllWorkshops() {
     return this.appService.getAllWorkshops();
-  }
-
-  @Get('workshop/:id')
-  getWorkshopById(@Param('id') id) {
-    return this.appService.getWorkshopById(id);
   }
 
   @Get('alumni')

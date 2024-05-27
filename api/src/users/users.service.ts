@@ -31,16 +31,6 @@ export class UsersService {
   async findOneById(id: number) {
     return await this.usersRepository.findOne({
       where: { id },
-      relations: [
-        'submissions',
-        'submissions.feedback',
-        'feedback',
-        'feedback.submission',
-        'cart',
-        'cart.workshops',
-        'workshops',
-        'workshops.submissions',
-      ],
     });
   }
 
@@ -102,13 +92,6 @@ export class UsersService {
   }
 
   async findAllUsers() {
-    return await this.usersRepository.find({
-      relations: [
-        'submissions',
-        'submissions.feedback',
-        'feedback',
-        'feedback.submission',
-      ],
-    });
+    return await this.usersRepository.find({});
   }
 }

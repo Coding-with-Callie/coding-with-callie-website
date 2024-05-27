@@ -1,18 +1,6 @@
-import { Cart } from 'src/cart/entities/cart.entity';
-import { Feedback } from 'src/feedback/entities/feedback.entity';
+import { Project } from 'src/projects/entities/project.entity';
 import { Review } from 'src/review/entities/review.entity';
-import { Submissions } from 'src/submissions/entities/submissions.entity';
-import { Workshop } from 'src/workshops/entities/workshop.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  OneToOne,
-  JoinColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Users {
@@ -40,20 +28,9 @@ export class Users {
   })
   photo: string;
 
-  @OneToMany(() => Submissions, (submission) => submission.user)
-  submissions: Submissions[];
-
-  @OneToMany(() => Feedback, (feedback) => feedback.user)
-  feedback: Feedback[];
-
   @OneToMany(() => Review, (review) => review.user)
   review: Review[];
 
-  @OneToOne(() => Cart, (cart) => cart.user)
-  @JoinColumn({ name: 'cartId' })
-  cart: Cart;
-
-  @ManyToMany(() => Workshop)
-  @JoinTable()
-  workshops: Workshop[];
+  @OneToMany(() => Project, (review) => review.user)
+  projects: Project[];
 }

@@ -189,7 +189,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
   };
 
   return (
-    <FormControl display="flex" flexDirection="column" gap={6}>
+    <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
       <Box>
         <FormLabel layerStyle="input">Name</FormLabel>
         <Input

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Review } from './entities/review.entity';
-import { Workshop } from 'src/workshops/entities/workshop.entity';
 
 @Injectable()
 export class ReviewService {
@@ -11,39 +10,28 @@ export class ReviewService {
     private readonly reviewRepository: Repository<Review>,
   ) {}
 
-  async getAllReviews(id?: number) {
-    if (id) {
-      return await this.reviewRepository.find({
-        where: {
-          workshop: {
-            id,
-          },
-        },
-        relations: ['user', 'workshop'],
-      });
-    } else {
-      return await this.reviewRepository.find({
-        relations: ['user', 'workshop'],
-      });
-    }
+  async getAllReviews() {
+    return await this.reviewRepository.find({
+      relations: ['user'],
+      order: {
+        id: 'ASC',
+      },
+    });
   }
 
-  async findReview(userId, session) {
+  async findReview(userId) {
     return await this.reviewRepository.find({
       where: {
         user: {
           id: userId,
         },
-        session,
       },
     });
   }
 
-  async submitReview(review: any, workshop: Workshop) {
+  async submitReview(review: any) {
     const result = new Review();
     result.rating = review.rating;
-    result.workshop = workshop;
-    result.session = review.session;
     result.comments = review.comments;
     result.displayName = review.displayName;
     result.user = review.userId;

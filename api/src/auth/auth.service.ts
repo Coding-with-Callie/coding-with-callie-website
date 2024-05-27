@@ -1,45 +1,32 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
-import { SubmissionsService } from 'src/submissions/submissions.service';
-import { FeedbackService } from 'src/feedback/feedback.service';
-import {
-  AlumniDto,
-  DeliverableDto,
-  FeedbackDto,
-  NewUserDto,
-} from './auth.controller';
-// import { Logger } from 'nestjs-pino';
+import { AlumniDto, NewUserDto } from './auth.controller';
+import { Logger } from 'nestjs-pino';
 import { ReviewService } from 'src/review/review.service';
 import { SpeakersService } from 'src/speakers/speakers.service';
 import { Speaker } from 'src/speakers/entities/speaker.entity';
-import { CartService } from 'src/cart/cart.service';
-import { WorkshopsService } from 'src/workshops/workshops.service';
-import { Workshop } from 'src/workshops/content/type';
 import { AlumniService } from 'src/alumni/alumni.service';
-import { StripeService } from 'src/stripe/stripe.service';
-
+import { FeaturesService } from 'src/features/features.service';
+import { ProjectsService } from 'src/projects/projects.service';
+import { TasksService } from 'src/tasks/tasks.service';
+import { UserStoriesService } from 'src/userStories/userStories.service';
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private mailService: MailService,
     private jwtService: JwtService,
-    private submissionsService: SubmissionsService,
-    private feedbackService: FeedbackService,
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
-    private cartService: CartService,
-    private workshopsService: WorkshopsService,
     private alumniService: AlumniService,
-    private stripeService: StripeService,
-    // private logger: Logger,
+    private projectsService: ProjectsService,
+    private featuresService: FeaturesService,
+    private userStoriesService: UserStoriesService,
+    private tasksService: TasksService,
+    private logger: Logger,
   ) {}
 
   async hashPassword(password) {
@@ -66,7 +53,7 @@ export class AuthService {
         username: user.username,
         password: hashedPassword,
       });
-      // this.logger.log('New user created', user.username);
+      this.logger.log('New user created', user.username);
       this.mailService.sendNewUserEmail(user);
       this.mailService.sendEmailToNewUser(user);
       return this.signIn(user.username, user.password);
@@ -79,7 +66,7 @@ export class AuthService {
 
   async createAccessToken(user) {
     const payload = { sub: user.id, username: user.username, role: user.role };
-    // this.logger.log('User logged in', user.username);
+    this.logger.log('User logged in', user.username);
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
@@ -102,35 +89,6 @@ export class AuthService {
     }
   }
 
-  async getAdminData() {
-    const users = await this.usersService.findAllUsers();
-
-    const workshops = await this.workshopsService.findAll();
-
-    const adminData = [];
-
-    for (let i = 0; i < workshops.length; i++) {
-      const workshopStats = {};
-
-      workshopStats['name'] = workshops[i].name;
-      workshopStats['submissionCount'] =
-        await this.submissionsService.getSubmissionsCountBySession(
-          workshops[i].id,
-        );
-      workshopStats['feedbackCount'] =
-        await this.feedbackService.getFeedbackCountBySession();
-      workshopStats['reviewCount'] = (
-        await this.reviewService.getAllReviews(workshops[i].id)
-      ).length;
-
-      adminData.push(workshopStats);
-    }
-
-    const reviewCount = (await this.reviewService.getAllReviews()).length;
-
-    return { users, reviewCount, adminData };
-  }
-
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
 
@@ -142,42 +100,8 @@ export class AuthService {
       email: user.email,
       username: user.username,
       role: user.role,
-      submissions: user.submissions,
-      feedback: user.feedback,
       photo: user.photo,
-      cart: user.cart,
-      workshops: user.workshops,
     };
-  }
-
-  async getWorkshopResources(workshopId: number, userId: number) {
-    const user = await this.usersService.findOneById(userId);
-
-    const workshop = user.workshops.find(
-      (workshop) => workshop.id === workshopId,
-    );
-
-    if (!workshop) {
-      throw new NotFoundException('workshop not found');
-    }
-
-    return {
-      workshop,
-      submissions: user.submissions,
-    };
-  }
-
-  async getMyWorkshops(userId: number) {
-    const user = await this.usersService.findOneById(userId);
-
-    if (user.workshops.length === 0) {
-      // this.logger.error(
-      //   user.username + 'has no workshops, but tried to access one',
-      // );
-      throw new NotFoundException('no workshops found');
-    }
-
-    return user.workshops;
   }
 
   async changeAccountDetail(id: number, value: string, field: string) {
@@ -193,7 +117,7 @@ export class AuthService {
       value,
     );
 
-    // this.logger.log(user.username + ' changed ' + field);
+    this.logger.log(user.username + ' changed ' + field);
 
     return {
       id: user.id,
@@ -218,16 +142,6 @@ export class AuthService {
     );
     await this.usersService.changeAccountDetail(user, 'email', 'deleted');
     await this.usersService.changeAccountDetail(user, 'password', 'deleted');
-
-    const submissions = user.submissions;
-
-    submissions.forEach(async (submission) => {
-      await this.editDeliverable({
-        session: submission.session,
-        user: { id: user.id },
-        url: 'This submission was deleted.',
-      });
-    });
 
     return 'deleted';
   }
@@ -275,141 +189,12 @@ export class AuthService {
     }
   }
 
-  async getSolutionVideos(workshopId, id) {
-    const workshop = await this.workshopsService.findOneById(workshopId);
-
-    const session = workshop.sessions[id - 1];
-    session['id'] = id;
-
-    // this.logger.log(
-    //   user.username +
-    //     ' viewed' +
-    //     workshop.name +
-    //     'solution video for session: ' +
-    //     id,
-    // );
-
-    return session;
-  }
-
-  async getUserSubmissions(userId: number) {
-    return await this.submissionsService.getUserSubmissions(userId);
-  }
-
-  async getAllSubmissions(workshopId, sessionId, userId) {
-    const submissions = await this.submissionsService.getAllSubmissions(
-      workshopId,
-      sessionId,
-    );
-
-    const userSubmissions = submissions.filter((submission) => {
-      return submission.user.id === userId;
-    });
-
-    if (submissions.length === 0) {
-      throw new NotFoundException('No submissions found');
-    }
-
-    if (userSubmissions.length === 0) {
-      throw new UnauthorizedException(
-        'You have not submitted the deliverable for this session yet!',
-      );
-    }
-
-    const user = await this.usersService.findOneById(userId);
-
-    // this.logger.log(user.username + ' viewed all submissions');
-
-    return { role: user.role, submissions };
-  }
-
-  async submitDeliverable(deliverable: DeliverableDto, user: any) {
-    // this.logger.log(user.username + ' submitted deliverable', deliverable.url);
-
-    const workshops = user.workshops;
-
-    const workshop = workshops.find((workshop) => {
-      return workshop.id === parseInt(deliverable.workshopId.toString());
-    });
-
-    this.mailService.sendNewSubmissionEmail({
-      session: deliverable.session,
-      url: deliverable.url,
-      user,
-      videoDate: deliverable.videoDate,
-      workshopId: deliverable.workshopId,
-      workshop: workshop.name,
-    });
-    return await this.submissionsService.submitDeliverable(deliverable);
-  }
-
-  async editDeliverable(deliverable: any) {
-    return await this.submissionsService.editDeliverable(deliverable);
-  }
-
-  async submitFeedback(feedbackDto: FeedbackDto) {
-    const user = await this.submissionsService.getUserWithSubmissionId(
-      feedbackDto.submissionId,
-    );
-
-    const workshops = user[0].user.workshops;
-
-    const workshop = workshops.find((workshop) => {
-      return workshop.id === parseInt(feedbackDto.workshopId.toString());
-    });
-
-    const submission = await this.submissionsService.getSubmissionWithId(
-      feedbackDto.submissionId,
-    );
-
-    const feedbackProvider = await this.usersService.findOneById(
-      feedbackDto.feedbackProviderId,
-    );
-
-    this.mailService.sendFeedbackEmail({
-      user: user[0].user,
-      feedbackProvider: feedbackProvider.username,
-      session: feedbackDto.sessionId,
-      positiveFeedback: feedbackDto.positiveFeedback,
-      immediateChangesRequested: feedbackDto.immediateChangesRequested,
-      longTermChangesRequested: feedbackDto.longTermChangesRequested,
-      workshop: workshop.name,
-      workshopId: feedbackDto.workshopId,
-    });
-
-    this.mailService.sendNewFeedbackGivenEmail({
-      feedbackReceiver: user[0].user.username,
-      session: feedbackDto.sessionId,
-      url: submission[0].url,
-      feedbackProvider: feedbackProvider,
-      workshop: workshop.name,
-      workshopId: feedbackDto.workshopId,
-    });
-
-    return await this.feedbackService.submitFeedback(feedbackDto);
-  }
-
-  async editFeedback(feedbackDto: any) {
-    return await this.feedbackService.editFeedback(feedbackDto);
-  }
-
   async uploadFile(id, file) {
     return await this.usersService.uploadFile(id, file);
   }
 
   async submitReview(review) {
-    const existingReview = await this.reviewService.findReview(
-      review.userId,
-      review.session,
-    );
-    if (existingReview.length > 0) {
-      return await this.reviewService.getAllReviews();
-    } else {
-      const workshop = await this.workshopsService.findOneById(
-        review.workshopId,
-      );
-      return await this.reviewService.submitReview(review, workshop);
-    }
+    return await this.reviewService.submitReview(review);
   }
 
   async createSpeaker(speaker: Speaker) {
@@ -420,102 +205,198 @@ export class AuthService {
     return await this.speakersService.findAllSpeakers();
   }
 
-  async addWorkshopToCart(workshopId: number, userId: number) {
-    const user = await this.usersService.findOneById(userId);
-    let cartId: number;
-
-    if (!user.cart) {
-      cartId = await this.cartService.createCart(userId);
-    } else {
-      cartId = user.cart.id;
-    }
-
-    const cart = await this.cartService.addWorkshopToCart(workshopId, cartId);
-
-    // for (let i = 0; i < cart.workshops.length; i++) {
-    //   this.logger.log(
-    //     user.username + ' added ' + cart.workshops[i].name + ' to cart',
-    //   );
-    // }
-
-    user.cart = cart;
-    const updatedUser = await this.usersService.createUser(user);
-    return updatedUser;
-  }
-
-  async deleteWorkshopFromCart(workshopId: number, userId: number) {
-    const user = await this.usersService.findOneById(userId);
-    const workshops = user.cart.workshops;
-
-    const workshopToDelete = workshops.find(
-      (workshop) => workshop.id === workshopId,
-    );
-
-    // this.logger.log(
-    //   user.username + ' deleted ' + workshopToDelete.name + ' from cart',
-    // );
-
-    const index = workshops.indexOf(workshopToDelete);
-    workshops.splice(index, 1);
-
-    await this.cartService.updateCart(workshops, user.cart.id);
-
-    const updatedUser = await this.usersService.findOneById(userId);
-
-    return updatedUser;
-  }
-
-  async createWorkshop(workshop: Workshop) {
-    return await this.workshopsService.createWorkshop(workshop);
-  }
-
   async createAlumni(alumni: AlumniDto) {
     return await this.alumniService.createAlumni(alumni);
   }
 
-  // async createCheckoutSession(lineItems, userId: number) {
-  //   return await this.stripeService.createCheckoutSession(lineItems, userId);
-  // }
+  async getUserProjects(userId: number) {
+    const user = await this.getUserProfile(userId);
+    const projects = await this.projectsService.getUserProjects(userId);
 
-  // async getSessionStatus(sessionId: string, userId: number) {
-  //   const { lineItems, status } =
-  //     await this.stripeService.getSessionStatus(sessionId);
+    return {
+      user,
+      projects,
+    };
+  }
 
-  //   if (lineItems) {
-  //     for (let i = 0; i < lineItems.length; i++) {
-  //       const workshop = await this.workshopsService.findOneByPriceId(
-  //         lineItems[i].price.id,
-  //       );
+  async getProject(userId: number, id: number) {
+    const projects = await this.projectsService.getUserProjects(userId);
+    return projects.find((project) => project.id === id);
+  }
 
-  //       const userToUpdate = await this.usersService.findOneById(userId);
+  async createProject(name: string, description: string, userId: number) {
+    return await this.projectsService.createProject(name, description, userId);
+  }
 
-  //       if (!userToUpdate.workshops.find((w) => w.id === workshop.id)) {
-  //         // this.logger.log(
-  //         //   userToUpdate.username + ' purchased ' + workshop.name,
-  //         // );
+  async updateProject(
+    field: string,
+    value: string,
+    userId: number,
+    projectId: number,
+  ) {
+    return await this.projectsService.updateProject(
+      field,
+      value,
+      userId,
+      projectId,
+    );
+  }
 
-  //         await this.mailService.sendPurchaseConfirmationEmail(
-  //           workshop.name,
-  //           workshop.id,
-  //           userToUpdate.name,
-  //           userToUpdate.email,
-  //         );
+  async deleteProject(projectId: number, userId: number) {
+    return await this.projectsService.deleteProject(projectId, userId);
+  }
 
-  //         await this.mailService.sendNewPurchaseEmail(
-  //           workshop.name,
-  //           userToUpdate.name,
-  //         );
-  //       }
+  async createFeature(
+    name: string,
+    description: string,
+    userId: number,
+    projectId: number,
+  ) {
+    const projects = await this.projectsService.getUserProjects(userId);
+    const project = projects.find((project) => project.id === projectId);
 
-  //       userToUpdate.workshops = [...userToUpdate.workshops, workshop];
+    if (project) {
+      await this.featuresService.createFeature(name, description, projectId);
+      return await this.projectsService.getProjectById(projectId);
+    } else {
+      throw new UnauthorizedException('Unauthorized');
+    }
+  }
 
-  //       await this.usersService.createUser(userToUpdate);
+  async updateFeature(
+    field: string,
+    value: string,
+    userId: number,
+    featureId: number,
+  ) {
+    const projectId = await this.featuresService.updateFeature(
+      field,
+      value,
+      userId,
+      featureId,
+    );
+    return await this.projectsService.getProjectById(projectId);
+  }
 
-  //       await this.deleteWorkshopFromCart(workshop.id, userToUpdate.id);
-  //     }
-  //   }
-  //   return {
-  //     status: status,
-  //   };
-  // }
+  async deleteFeature(featureId: number, userId: number) {
+    const projectId = await this.featuresService.deleteFeature(
+      featureId,
+      userId,
+    );
+    return await this.projectsService.getProjectById(projectId);
+  }
+
+  async createUserStory(
+    name: string,
+    description: string,
+    userId: number,
+    projectId: number,
+    featureId: number,
+  ) {
+    const projects = await this.projectsService.getUserProjects(userId);
+    const project = projects.find((project) => project.id === projectId);
+
+    if (project) {
+      const features = project.features;
+      const feature = features.find((feature) => feature.id === featureId);
+
+      if (feature) {
+        await this.userStoriesService.createUserStory(
+          name,
+          description,
+          featureId,
+        );
+        return await this.projectsService.getProjectById(projectId);
+      } else {
+        throw new UnauthorizedException('Unauthorized');
+      }
+    } else {
+      throw new UnauthorizedException('Unauthorized');
+    }
+  }
+
+  async updateUserStory(
+    field: string,
+    value: string,
+    userId: number,
+    userStoryId: number,
+  ) {
+    const projectId = await this.userStoriesService.updateUserStory(
+      field,
+      value,
+      userId,
+      userStoryId,
+    );
+    return await this.projectsService.getProjectById(projectId);
+  }
+
+  async deleteUserStory(userStoryId: number, userId: number) {
+    const projectId = await this.userStoriesService.deleteUserStory(
+      userStoryId,
+      userId,
+    );
+    return await this.projectsService.getProjectById(projectId);
+  }
+
+  async createTask(
+    name: string,
+    userId: number,
+    projectId: number,
+    featureId: number,
+    userStoryId: number,
+  ) {
+    const projects = await this.projectsService.getUserProjects(userId);
+    const project = projects.find((project) => project.id === projectId);
+
+    if (project) {
+      const features = project.features;
+      const feature = features.find((feature) => feature.id === featureId);
+
+      if (feature) {
+        const userStories = feature.userStories;
+        const userStory = userStories.find((story) => story.id === userStoryId);
+
+        if (userStory) {
+          await this.tasksService.createTask(name, userStoryId);
+          return await this.projectsService.getProjectById(projectId);
+        } else {
+          throw new UnauthorizedException('Unauthorized');
+        }
+      } else {
+        throw new UnauthorizedException('Unauthorized');
+      }
+    } else {
+      throw new UnauthorizedException('Unauthorized');
+    }
+  }
+
+  async updateTask(
+    field: string,
+    value: string,
+    userId: number,
+    taskId: number,
+  ): Promise<any> {
+    const userStoryId = await this.tasksService.updateTask(
+      field,
+      value,
+      userId,
+      taskId,
+    );
+    return await this.userStoriesService.getUserStoryStatusById(userStoryId);
+  }
+
+  async deleteTask(taskId: number, userId: number) {
+    const userStoryId = await this.tasksService.deleteTask(taskId, userId);
+
+    const storyStatus =
+      await this.userStoriesService.getUserStoryStatusById(userStoryId);
+
+    const updatedUserStory =
+      await this.userStoriesService.getUserStoryById(userStoryId);
+
+    return {
+      storyStatus,
+      taskList: updatedUserStory.tasks,
+    };
+  }
 }

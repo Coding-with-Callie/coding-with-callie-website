@@ -110,7 +110,7 @@ const LogInForm = ({
   };
 
   return (
-    <FormControl display="flex" flexDirection="column" gap={6}>
+    <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
       <TextInput
         field="Username"
         onChange={onChangeUsername}
