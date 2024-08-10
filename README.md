@@ -1,12 +1,29 @@
 # Coding With Callie Website
-A set of instructions for new CWC developers to use for setting up their local environment, froming cloning the repository to merging a PR
+
 
 ## Contents
-* [Clone CWC website](#clone-cwc-website) 
-* [Create a new branch](#create-a-new-branch) 
-* [Push code to github](#push-code-to-github) 
+* [Instructions for CWC developers](#instructions-for-cwc-developers) 
+    * [Clone CWC website](#clone-cwc-website) 
+    * [Create a new branch to work off](#create-a-new-branch-to-work-off) 
+    * [Create a local database](#create-a-local-database) 
+    * [Create and fill out .env file](#create-and-fill-out-env-file)
+    * [Create a local database](#create-a-local-database) 
+    * [Run API and connect to local database](#run-api-and-connect-to-local-database) 
+    * [Run local database migration](#run-local-database-migration) 
+    * [Run frontend and connect to API](#run-frontend-and-connect-to-api) 
+    * [Push code to GitHub](#push-code-to-github) 
+    * [Create pull request to merge code into main branch](#create-pull-request-to-merge-code-into-main-branch) 
+    * [Request a code review from Callie](#request-a-code-review-from-callie) 
+    * [Merge code into main after approved PR](#merge-code-into-main-after-approved-pr) 
+    * [Update local code](#update-local-code)
+* [Contact](#contact) 
 
-## Clone CWC website
+
+## Instructions for CWC developers
+A set of instructions for new CWC developers to use for setting up their local environment, froming cloning the repository to merging a PR
+
+
+### Clone CWC website
 * Go to the GitHub website and navigate to the coding-with-callie-website repository
 * Click the green "Code" button on the repository's main page
 * In the dropdown, you will see a URL under "Clone with HTTPS". Copy this URL. ("Clone with SSH" can be copied if you have an SSH key set up)
@@ -22,25 +39,26 @@ A set of instructions for new CWC developers to use for setting up their local e
 <p>&nbsp;</p>
 
 
-## Create a new branch to work off
-* Create a new branch. This is switched to immediately after running the command. The new branch name should be in the format developerfullname-ticket-description
+### Create a new branch to work off
+Enabling collaboration, organisation and isolated development and testing of code
+* Create a new branch. This is switched to immediately after running the command. The new branch name should follow the format developers-full-name/ticket-description
 
-      git checkout -b <developerfullname-ticket-description>
+      git checkout -b <developers-full-name/ticket-description>
 * Push the new branch to GitHub
 
-      git push origin <developerfullname-ticket-description>
+      git push origin <developers-full-name/ticket-description>
 * Begin working on the new branch locally in VS Code
 
       code .
 <p>&nbsp;</p>
 
 
-## Create a local database
+### Create a local database
 cd api
-npm install
 
 
-## Create and fill out .env file
+
+### Create and fill out .env file
 A configuration file used to store environment variables. These variables are used to configure settings that the application needs to run, enhancing security and providing flexibility
 * In the api folder create a new file called .env
 * In the .env file add the following information replacing username and password with the correct values
@@ -52,12 +70,21 @@ A configuration file used to store environment variables. These variables are us
 <p>&nbsp;</p>
 
 
-## Run API and connect to local database
-## Run local database migration
-## Run frontend and connect to API
+### Run API and connect to local database
+npm install
+npm start
 
 
-## Push code to GitHub
+### Run local database migration
+npm run migrate
+
+### Run frontend and connect to API
+cd frontend
+npm install
+npm start
+
+
+### Push code to GitHub
 This involves adding and commiting your changes locally and then uploading those changes to the coding-with-callie-website repository on GitHub
 * In your terminal check the status of your files before commiting
 
@@ -81,7 +108,11 @@ This involves adding and commiting your changes locally and then uploading those
           git push
 <p>&nbsp;</p>
 
-## Create pull request to merge code into main branch
-## Request a code review from Callie
-## Merge code into main after approved RP
-## Update local code with code that has been merged into main from other developers
+### Create pull request to merge code into main branch
+### Request a code review from Callie
+### Merge code into main after approved PR
+### Update local code 
+with code that has been merged into main from other developers 
+
+## Contact
+
