@@ -54,8 +54,13 @@ Enabling collaboration, organisation and isolated development and testing of cod
 
 
 ### Create a local database
-
-
+* Open pgAdmin
+* In the pgAdmin browser panel expand the "Servers" node
+* Right-click on the server instance and click "Connect"
+* Right-click on the "Databases" node and select "Create" > "Database"
+* In the "Database" field enter the name of your new database
+* Leave other settings as default and click "Save"
+<p>&nbsp;</p>
 
 
 ### Create and fill out .env file
@@ -66,6 +71,7 @@ A configuration file used to store environment variables. These variables are us
       DATABASE_HOST=localhost
       DATABASE_USERNAME=username
       DATABASE_PASSWORD=password
+      DATABASE_NAME=database-name
 * Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being commited to version control
 <p>&nbsp;</p>
 
