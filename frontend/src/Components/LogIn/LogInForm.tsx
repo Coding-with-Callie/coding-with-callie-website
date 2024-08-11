@@ -4,7 +4,6 @@ import MyButton from "../MyButton";
 import { showNotification } from "../..";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { transferCart } from "../../helpers/helpers";
 
 type Props = {
   userData: any;
@@ -22,8 +21,6 @@ const LogInForm = ({
   submitClicked,
   setSubmitClicked,
   updateUser,
-  updateCheckoutStep,
-  onClose,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -66,27 +63,11 @@ const LogInForm = ({
             .then(async (response) => {
               updateUser(response.data);
 
-              if (updateCheckoutStep) {
-                let cart = localStorage.getItem("temp-cart");
-
-                if (cart) {
-                  cart = JSON.parse(cart);
-                  if (Array.isArray(cart)) {
-                    await transferCart(cart, navigate, updateUser, onClose);
-                  }
-                }
-              } else {
-                showNotification(
-                  `Welcome back, ${response.data.username}!`,
-                  "success"
-                );
-                navigate("/");
-              }
-            })
-            .then(() => {
-              if (updateCheckoutStep) {
-                updateCheckoutStep(2);
-              }
+              showNotification(
+                `Welcome back, ${response.data.username}!`,
+                "success"
+              );
+              navigate("/");
             });
         })
         .catch((error) => {
