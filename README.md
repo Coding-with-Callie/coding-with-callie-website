@@ -147,16 +147,31 @@ This involves adding and commiting your changes locally and then uploading those
 * On the right-hand side of the pull request page will be a section named "Reviewers"
 * Select "Request" at the top of this section, correlating to Callie's Cstoscup GitHub account
 * Click "Create pull request" and Callie will then be notified
-* Callie will then leave comments, request changes or approve the pull request
+* Callie will leave comments, request changes or approve the pull request
 <p>&nbsp;</p>
 
 
 ### Merge code into main after approved PR
+* Once Callie has approved the pull request it can be merged into the main branch
+* To do this click the "Merge pull request" button on the pull request page
 <p>&nbsp;</p>
 
-### Update local code 
+
+### Update local code
+This process updates local code with any changes that have been merged into `main` from other developers  
+* Switch to the main branch of the repository
+
+      git checkout main
+* Pull the latest changes from the remote `main` branch to your local `main` branch
+
+      git pull origin main
+* If there are any conflicts between local changes and changes in the main branch Git will notify you. These conflicts need to be resolved manually
+* Once resolved, add the resolved files
+
+      git add <resolved-file>
 <p>&nbsp;</p>
-with code that has been merged into main from other developers 
+
+
 
 ## Contact
 
