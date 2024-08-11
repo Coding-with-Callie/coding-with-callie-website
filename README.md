@@ -40,7 +40,6 @@ A set of instructions for new CWC developers to use for setting up their local e
 
 
 ### Create a new branch to work off
-Enabling collaboration, organisation and isolated development and testing of code
 * Create a new branch. This is switched to immediately after running the command. The new branch name should follow the format developers-full-name/ticket-description
 
       git checkout -b <developers-full-name/ticket-description>
@@ -58,32 +57,31 @@ Enabling collaboration, organisation and isolated development and testing of cod
 * In the pgAdmin browser panel expand the "Servers" node
 * Right-click on the server instance and click "Connect"
 * Right-click on the "Databases" node and select "Create" > "Database"
-* In the "Database" field enter the name of your new database
+* In the "Database" field enter the name of your new database (eg. cwc_website)
 * Leave other settings as default and click "Save"
 <p>&nbsp;</p>
 
 
 ### Create and fill out .env file
-A configuration file used to store environment variables. These variables are used to configure settings that the application needs to run, enhancing security and providing flexibility
-* In the root directory of the api folder create a new file called .env
-* In the .env file add the following information replacing username and password with the correct values
+* In the root directory of the api create a new file called .env
+* In the .env file add the following information replacing <username>, <password> and <database-name> with the correct values
 
       DATABASE_HOST=localhost
-      DATABASE_USERNAME=username
-      DATABASE_PASSWORD=password
-      DATABASE_NAME=database-name
+      DATABASE_USERNAME=<username>
+      DATABASE_PASSWORD=<password>
+      DATABASE_NAME=<database-name>
 * Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being commited to version control
 <p>&nbsp;</p>
 
 
 ### Run API and connect to local database
-* Install frontend dependancies
+* In your terminal move to the api directory
+
+      cd path/to/api/directory
+* Install api dependancies
 
       npm install
-
-npm install dotenv
-
-* Start the api in development mode
+* Start the api server in development mode with automatic restarts on file changes
 
       npm run start:dev
 <p>&nbsp;</p>
@@ -93,29 +91,31 @@ npm install dotenv
 * Use the migration command to apply pending migrations to your local database
 
       npm run migration:run
+* In the pgAdmin browser panel expand you new database node, then the "Schemas" node, then the "public" node
+* Right-click the "Tables" node and click refresh
+* Expand the "Tables" node and you should see new nodes added
 <p>&nbsp;</p>
 
 
 ### Run frontend and connect to API
-* Change directory to the frontend folder
+* In your terminal change directory to the frontend directory
 
-      cd path/to/frontend
-* In the root directory of the frontend folder create a new file called .env
-* In the .env file add the following information to connect the frontend to the api 
+      cd path/to/frontend/directory
+* In the root directory of the frontend create a new file called .env
+* In the .env file add the following to connect the frontend to the api 
 
       REACT_APP_API=http://localhost:3001/api
 * Ensure the .env file is listed in the frontend .gitignore file 
 * Install frontend dependancies
 
       npm install
-* Start the frontend server
+* Start the frontend server in development mode with automatic restarts on file changes
 
       npm start
 <p>&nbsp;</p>
 
 
 ### Push code to GitHub
-This involves adding and commiting your changes locally and then uploading those changes to the coding-with-callie-website repository on GitHub
 * In your terminal check the status of your files before commiting
 
       git status
@@ -142,7 +142,7 @@ This involves adding and commiting your changes locally and then uploading those
 ### Create pull request to merge code into main branch
 * Go to the coding-with-callie-website repository on GitHub
 * Here you should see a prompt that asks if you want to make a pull request from the branch you just pushed
-* Fill out the pull request form with a clear title and description of the changes you have made and any other relevant information
+* Fill out the pull request form with a concise title and description of the changes you have made and any other relevant information
 <p>&nbsp;</p>
 
 
@@ -169,9 +169,6 @@ This process updates local code with any changes that have been merged into `mai
 
       git pull origin main
 * If there are any conflicts between local changes and changes in the main branch Git will notify you. These conflicts need to be resolved manually
-* Once resolved, add the resolved files
-
-      git add <resolved-file>
 <p>&nbsp;</p>
 
 
