@@ -80,8 +80,10 @@ A configuration file used to store environment variables. These variables are us
 
 
 ### Run local database migration
+* Use the migration command to apply pending migrations to your local database
 
-npm run migration:run
+      npm run migration:run
+<p>&nbsp;</p>
 
 
 ### Run frontend and connect to API
