@@ -80,9 +80,12 @@ A configuration file used to store environment variables. These variables are us
 * Install frontend dependancies
 
       npm install
-* Start the api server
 
-      npm start
+npm install dotenv
+
+* Start the api in development mode
+
+      npm run start:dev
 <p>&nbsp;</p>
 
 
@@ -100,8 +103,8 @@ A configuration file used to store environment variables. These variables are us
 * In the root directory of the frontend folder create a new file called .env
 * In the .env file add the following information to connect the frontend to the api 
 
-      REACT_APP_API=http://localhost:3001
-* Ensure the .env file is listed in the frontend .gitignore file to prevent sensitive data being commited to version control
+      REACT_APP_API=http://localhost:3001/api
+* Ensure the .env file is listed in the frontend .gitignore file 
 * Install frontend dependancies
 
       npm install
