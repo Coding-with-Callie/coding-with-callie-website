@@ -42,10 +42,10 @@ Instructions for new CWC developers for setting up their local environment, from
 ### Create a new branch to work off
 * Create a new branch. This is switched to immediately after running the command. The new branch name should follow the format as below
 
-      git checkout -b <developers-full-name/ticket-description>
+      git checkout -b <developers-full-name>/<ticket-description>
 * Push the new branch to GitHub
 
-      git push origin <developers-full-name/ticket-description>
+      git push origin <developers-full-name>/<ticket-description>
 * Begin working on the new branch locally in VS Code
 
       code .
@@ -64,7 +64,7 @@ Instructions for new CWC developers for setting up their local environment, from
 
 ### Create and fill out api .env file
 * In the api root directory create a new file called .env
-* In the .env file add the following information replacing username, password and database-name with the correct values
+* In the .env file add the following information replacing username, password and database-name with their correct values
 
       DATABASE_HOST=localhost
       DATABASE_USERNAME=<username>
