@@ -20,7 +20,7 @@
 
 
 ## Instructions for CWC developers
-A set of instructions for new CWC developers to use for setting up their local environment, froming cloning the repository to merging a PR
+A set of instructions for new CWC developers to use for setting up their local environment, from cloning the repository to merging a PR
 
 
 ### Clone CWC website
@@ -135,10 +135,27 @@ This involves adding and commiting your changes locally and then uploading those
           git push
 <p>&nbsp;</p>
 
+
 ### Create pull request to merge code into main branch
+* Go to the coding-with-callie-website repository on GitHub
+* Here you should see a prompt that asks if you want to make a pull request from the branch you just pushed
+* Fill out the pull request form with a clear title and description of the changes you have made and any other relevant information
+<p>&nbsp;</p>
+
+
 ### Request a code review from Callie
+* On the right-hand side of the pull request page will be a section named "Reviewers"
+* Select "Request" at the top of this section, correlating to Callie's Cstoscup GitHub account
+* Click "Create pull request" and Callie will then be notified
+* Callie will then leave comments, request changes or approve the pull request
+<p>&nbsp;</p>
+
+
 ### Merge code into main after approved PR
+<p>&nbsp;</p>
+
 ### Update local code 
+<p>&nbsp;</p>
 with code that has been merged into main from other developers 
 
 ## Contact
