@@ -54,34 +54,52 @@ Enabling collaboration, organisation and isolated development and testing of cod
 
 
 ### Create a local database
-cd api
+
 
 
 
 ### Create and fill out .env file
 A configuration file used to store environment variables. These variables are used to configure settings that the application needs to run, enhancing security and providing flexibility
-* In the api folder create a new file called .env
+* In the root directory of the api folder create a new file called .env
 * In the .env file add the following information replacing username and password with the correct values
 
-      DB_HOST=localhost
-      DB_USERNAME=username
-      DB_PASSWORD=password
-* Ensure the .env file is listed in .gitignore to prevent sensitive data being commited to version control
+      DATABASE_HOST=localhost
+      DATABASE_USERNAME=username
+      DATABASE_PASSWORD=password
+* Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being commited to version control
 <p>&nbsp;</p>
 
 
 ### Run API and connect to local database
-npm install
-npm start
+* Install frontend dependancies
+
+      npm install
+* Start the api server
+
+      npm start
 
 
 ### Run local database migration
-npm run migrate
+
+npm run migration:run
+
 
 ### Run frontend and connect to API
-cd frontend
-npm install
-npm start
+* Change directory to the frontend folder
+
+      cd path/to/frontend
+* In the root directory of the frontend folder create a new file called .env
+* In the .env file add the following information to connect the frontend to the api 
+
+      REACT_APP_API=http://localhost:3001
+* Ensure the .env file is listed in the frontend .gitignore file to prevent sensitive data being commited to version control
+* Install frontend dependancies
+
+      npm install
+* Start the frontend server
+
+      npm start
+<p>&nbsp;</p>
 
 
 ### Push code to GitHub
@@ -115,4 +133,15 @@ This involves adding and commiting your changes locally and then uploading those
 with code that has been merged into main from other developers 
 
 ## Contact
+
+
+
+
+
+
+
+
+
+
+
 
