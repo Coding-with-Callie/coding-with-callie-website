@@ -1,12 +1,12 @@
 # Coding With Callie Website
 
 
-## Contents
+## Table of Contents
 * [Instructions for CWC developers](#instructions-for-cwc-developers) 
     * [Clone CWC website](#clone-cwc-website) 
     * [Create a new branch to work off](#create-a-new-branch-to-work-off) 
     * [Create a local database](#create-a-local-database) 
-    * [Create and fill out .env file](#create-and-fill-out-env-file)
+    * [Create and fill out api .env file](#create-and-fill-out-api-env-file)
     * [Create a local database](#create-a-local-database) 
     * [Run API and connect to local database](#run-api-and-connect-to-local-database) 
     * [Run local database migration](#run-local-database-migration) 
@@ -20,7 +20,7 @@
 
 
 ## Instructions for CWC developers
-A set of instructions for new CWC developers to use for setting up their local environment, from cloning the repository to merging a PR
+Instructions for new CWC developers for setting up their local environment, from cloning the repository to merging a PR
 
 
 ### Clone CWC website
@@ -40,7 +40,7 @@ A set of instructions for new CWC developers to use for setting up their local e
 
 
 ### Create a new branch to work off
-* Create a new branch. This is switched to immediately after running the command. The new branch name should follow the format developers-full-name/ticket-description
+* Create a new branch. This is switched to immediately after running the command. The new branch name should follow the format as below
 
       git checkout -b <developers-full-name/ticket-description>
 * Push the new branch to GitHub
@@ -62,9 +62,9 @@ A set of instructions for new CWC developers to use for setting up their local e
 <p>&nbsp;</p>
 
 
-### Create and fill out .env file
-* In the root directory of the api create a new file called .env
-* In the .env file add the following information replacing <username>, <password> and <database-name> with the correct values
+### Create and fill out api .env file
+* In the api root directory create a new file called .env
+* In the .env file add the following information replacing username, password and database-name with the correct values
 
       DATABASE_HOST=localhost
       DATABASE_USERNAME=<username>
@@ -93,19 +93,19 @@ A set of instructions for new CWC developers to use for setting up their local e
       npm run migration:run
 * In the pgAdmin browser panel expand you new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
-* Expand the "Tables" node and you should see new nodes added
+* Expand the "Tables" node and you should see new nodes have been added
 <p>&nbsp;</p>
 
 
 ### Run frontend and connect to API
-* In your terminal change directory to the frontend directory
-
-      cd path/to/frontend/directory
-* In the root directory of the frontend create a new file called .env
+* In the frontend root directory create a new file called .env
 * In the .env file add the following to connect the frontend to the api 
 
       REACT_APP_API=http://localhost:3001/api
 * Ensure the .env file is listed in the frontend .gitignore file 
+* In your terminal move to the frontend directory
+
+      cd path/to/frontend/directory
 * Install frontend dependancies
 
       npm install
@@ -155,8 +155,8 @@ A set of instructions for new CWC developers to use for setting up their local e
 
 
 ### Merge code into main after approved PR
-* Once Callie has approved the pull request it can be merged into the main branch
-* To do this click the "Merge pull request" button on the pull request page
+Once Callie has approved the pull request it can be merged into the `main` branch
+* Click the "Merge pull request" button on the pull request page
 <p>&nbsp;</p>
 
 
@@ -168,15 +168,14 @@ This process updates local code with any changes that have been merged into `mai
 * Pull the latest changes from the remote `main` branch to your local `main` branch
 
       git pull origin main
-* If there are any conflicts between local changes and changes in the main branch Git will notify you. These conflicts need to be resolved manually
+* If there are any conflicts between local changes and changes in the `main` branch Git will notify you. These conflicts need to be resolved manually
 <p>&nbsp;</p>
 
 
 ## Contact
-Callie Stoscup <br/>
-[Coding with Callie](https://coding-with-callie.com/) <br/>
-[calliestoscup@gmail.com](mailto:calliestoscup@gmail.com) <br/>
-[LinkedIn](https://www.linkedin.com/company/coding-with-callie/)
+Callie Stoscup: [calliestoscup@gmail.com](mailto:calliestoscup@gmail.com) <br/>
+Website: [www.coding-with-callie.com](https://coding-with-callie.com/) <br/>
+LinkedIn: [coding-with-callie](https://www.linkedin.com/company/coding-with-callie/)
 
 
 
