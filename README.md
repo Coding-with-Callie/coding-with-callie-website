@@ -172,8 +172,11 @@ This process updates local code with any changes that have been merged into `mai
 <p>&nbsp;</p>
 
 
-
 ## Contact
+Callie Stoscup <br/>
+[Coding with Callie](https://coding-with-callie.com/) <br/>
+[calliestoscup@gmail.com](mailto:calliestoscup@gmail.com) <br/>
+[LinkedIn](https://www.linkedin.com/company/coding-with-callie/)
 
 
 
