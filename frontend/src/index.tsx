@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -17,9 +16,9 @@ import Profile from "./Pages/Profile";
 import Reviews from "./Pages/Reviews";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Paragraph from "./Components/Paragraph";
-import Alumni from "./Pages/Alumni";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
+import Jobs from "./Pages/Jobs";
 
 export const showNotification = (
   message: string,
@@ -102,14 +101,8 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/alumni",
-        element: <Alumni />,
-        loader: async () => {
-          const response = await axios.get(
-            `${process.env.REACT_APP_API || "http://localhost:3001/api"}/alumni`
-          );
-          return response.data;
-        },
+        path: "/jobs",
+        element: <Jobs />,
       },
       {
         path: "/sign-up",

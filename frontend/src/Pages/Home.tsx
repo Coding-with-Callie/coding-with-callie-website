@@ -1,17 +1,7 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Image,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
-import { difference, mantra, why } from "./Workshops";
 import TextWithImageAndButton from "../Components/Home/TextWithImageAndButton";
 const callie = require("../../src/images/callie.png");
 
@@ -23,10 +13,9 @@ const homeText = [
 ];
 
 const zoomSessions = [
-  "We meet on Thursdays from 8PM to 9PM EST.",
-  "Each week, we have a guest speaker come to lead a mini-workshop and answer all of your questions about their experience in the software developement industry!",
+  "We have a guest speakers lead mini-workshops and answer all of your questions about their experience in the software developement industry!",
   "Past guests have included: self-taught developers that successfully broke into tech, engineering managers, product managers, frontend specialists, and more!",
-  "Every one is welcome at the meet-ups! You can find the Zoom link on the guest speaker page or the Coding with Callie LinkedIn page.",
+  "Every one is welcome at the meet-ups! You can see upcoming events on Coding with Callie's LinkedIn page.",
 ];
 
 const planYourProjects = [
@@ -39,8 +28,7 @@ const deployInPublicChallenge = [
   "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
   "The Deploy in Public Challenge will be run as a cohort from  August 8, 2024 - October 17, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop by October 17, 2024, will get an opportunity to make money developing Coding with Callie. If you complete the challenge, you'll get access to a list of available 'jobs' with predetermined payment amounts.",
-  "Complete a job, get paid 💵",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop will be eligible to complete paid web development tickets as available for Coding With Callie.",
 ];
 
 const buildInPublicChallenge = [
@@ -48,15 +36,13 @@ const buildInPublicChallenge = [
   "In this workshop, you'll build a fullstack minimum viable product (MVP), spending the necessary time to make sure users can actually use it.",
   "The Build in Public Challenge will be run as a cohort from  August 8, 2024 - October 17, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop by October 17, 2024, will get an opportunity to make money developing Coding with Callie. If you complete the challenge, you'll get access to a list of available 'jobs' with predetermined payment amounts.",
-  "Complete a job, get paid 💵",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop will be eligible to complete paid web development tickets as available for Coding With Callie.",
 ];
 
 const jobsFund = [
   "Junior developers need experience and deserve to be PAID for their work...and I need help developing Coding with Callie 💡",
   "So, I'm creating a list of Coding with Callie jobs that I would love to see completed...but don't have the time to do: adding new features, fixing bugs, refactoring code, researching tools, frameworks, and libraries, and creating MVPs, tutorials, documentation, etc.",
-  "Anyone who successfully COMPLETES a Coding with Callie challenge will be eligible to take on a job and get paid 💰",
-  "25% of Coding with Callie profits are going to fund these jobs, but I'd love to be able to fund as many jobs as possible.",
+  "Anyone who successfully COMPLETES Coding with Callie's Build in Public or Deploy in Public challenge will be eligible to take on a job (as available) and get paid. I will be a reserving a portion of Coding with Callie profits for the fund.",
   "If you'd like to donate to the Junior Developer Fund, please click the button below.",
 ];
 
@@ -118,7 +104,7 @@ const Home = () => {
         <TextWithImageAndButton
           heading={"Network with Industry Professionals"}
           imageUrl={"https://coding-with-callie.s3.amazonaws.com/meet-up.png"}
-          linkUrl="/guest-speakers"
+          linkUrl="https://www.linkedin.com/company/coding-with-callie"
           buttonText={"View Guest Speakers!"}
         >
           <BodyText textBlocks={zoomSessions} textAlignCenter={false} />

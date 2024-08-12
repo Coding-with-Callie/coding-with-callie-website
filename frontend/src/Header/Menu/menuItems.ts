@@ -19,8 +19,8 @@ export const menuItems = [
     hiddenWhenLoggedOut: true,
   },
   {
-    name: "Alumni",
-    path: "alumni",
+    name: "Jobs",
+    path: "jobs",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
   },

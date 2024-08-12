@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { transferCart } from "../../helpers/helpers";
 
 type Props = {
   updateCheckoutStep?: (newStep: number) => void;
@@ -123,27 +122,11 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
                   onFileUpload(response.data.id);
                 }
 
-                if (updateCheckoutStep) {
-                  let cart = localStorage.getItem("temp-cart");
-
-                  if (cart) {
-                    cart = JSON.parse(cart);
-                    if (Array.isArray(cart)) {
-                      await transferCart(cart, navigate, updateUser, onClose);
-                    }
-                  }
-                } else {
-                  showNotification(
-                    `Welcome to Coding with Callie, ${response.data.username}!`,
-                    "success"
-                  );
-                  navigate("/");
-                }
-              })
-              .then(() => {
-                if (updateCheckoutStep) {
-                  updateCheckoutStep(2);
-                }
+                showNotification(
+                  `Welcome to Coding with Callie, ${response.data.username}!`,
+                  "success"
+                );
+                navigate("/");
               });
           }
         })
