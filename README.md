@@ -57,7 +57,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * In the pgAdmin browser panel expand the "Servers" node
 * Right-click on the server instance and click "Connect"
 * Right-click on the "Databases" node and select "Create" > "Database"
-* In the "Database" field enter the name of your new database (eg. cwc_website)
+* In the "Database" field enter the name of your new database (e.g. cwc_website)
 * Leave other settings as default and click "Save"
 <p>&nbsp;</p>
 
@@ -91,7 +91,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * Use the migration command to apply pending migrations to your local database
 
       npm run migration:run
-* In the pgAdmin browser panel expand you new database node, then the "Schemas" node, then the "public" node
+* In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
 * Expand the "Tables" node and you should see new nodes have been added
 <p>&nbsp;</p>
@@ -132,7 +132,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * Push your changes to the Github repository
     - For the first time pushing to a new branch
 
-          git push --set-upstream origin branch-name
+          git push --set-upstream origin <branch-name>
     - After this use
 
           git push
@@ -140,6 +140,9 @@ Instructions for new CWC developers for setting up their local environment, from
 
 
 ### Create pull request to merge code into main branch
+* It is a good idea to pull from `main` before creating a PR to ensure that your branch is compatible with the current state of `main`. Use the following command and then follow the 'Push code to GitHub' steps as above
+
+      git pull origin main
 * Go to the coding-with-callie-website repository on GitHub
 * Here you should see a prompt that asks if you want to make a pull request from the branch you just pushed
 * Fill out the pull request form with a concise title and description of the changes you have made and any other relevant information
