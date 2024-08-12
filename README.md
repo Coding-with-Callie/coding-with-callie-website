@@ -144,7 +144,7 @@ Instructions for new CWC developers for setting up their local environment, from
 
       git pull origin main
 * Go to the coding-with-callie-website repository on GitHub
-* Here you should see a prompt that asks if you want to make a pull request from the branch you just pushed
+* Click the green "Compare & pull request" button inside the prompt displayed after pushing to GitHub
 * Fill out the pull request form with a concise title and description of the changes you have made and any other relevant information
 <p>&nbsp;</p>
 
