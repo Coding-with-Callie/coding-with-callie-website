@@ -125,7 +125,7 @@ Instructions for new CWC developers for setting up their local environment, from
           git add .
     - To stage specific files
 
-          git add filename1 filename2
+          git add <filename-1> <filename-2>
 * Commit files with a descriptive message
 
       git commit -m "A descriptive commit message"
@@ -162,13 +162,14 @@ Once Callie has approved the pull request it can be merged into the `main` branc
 
 ### Update local code
 This process updates local code with any changes that have been merged into `main` from other developers  
-* Switch to the main branch of the repository
-
-      git checkout main
-* Pull the latest changes from the remote `main` branch to your local `main` branch
+* Pull the latest changes from the remote `main` branch to your local branch
 
       git pull origin main
-* If there are any conflicts between local changes and changes in the `main` branch Git will notify you. These conflicts need to be resolved manually
+* If there are any conflicts between local changes and changes in the `main` branch Git will notify you. These conflicts need to be resolved manually, pushed to Github using the following steps and then approved with a PR
+
+      git add <file-you-fixed>
+      git commit -m "Resolved merge conflicts"
+      git push origin <your-branch-name>
 <p>&nbsp;</p>
 
 
