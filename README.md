@@ -46,14 +46,17 @@ Instructions for new CWC developers for setting up their local environment, from
 * Push the new branch to GitHub
 
       git push origin <developers-full-name>/<ticket-description>
-* Begin working on the new branch locally in VS Code
+* Begin working on the new branch locally in VS Code. The following command requires setting up if not done so before [How to Open VS Code From Your Terminal](https://www.freecodecamp.org/news/how-to-open-visual-studio-code-from-your-terminal/)
 
       code .
 <p>&nbsp;</p>
 
 
 ### Create a local database
+<!-- * Install PostgreSQL if not already installed
+* Install pgAdmin if not already installed -->
 * Open pgAdmin
+<!-- * Setup server  -->
 * In the pgAdmin browser panel expand the "Servers" node
 * Right-click on the server instance and click "Connect"
 * Right-click on the "Databases" node and select "Create" > "Database"
@@ -81,28 +84,34 @@ Instructions for new CWC developers for setting up their local environment, from
 * Install api dependancies
 
       npm install
-* Start the api server in development mode with automatic restarts on file changes
-
-      npm run start:dev
-<p>&nbsp;</p>
-
-
-### Run local database migration
 * Use the migration command to apply pending migrations to your local database
 
       npm run migration:run
 * In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
 * Expand the "Tables" node and you should see new nodes have been added
+* Start the api server in development mode with automatic restarts on file changes
+
+      npm run start:dev
 <p>&nbsp;</p>
 
 
+<!-- ### Run local database migration
+* Use the migration command to apply pending migrations to your local database
+
+      npm run migration:run
+* In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
+* Right-click the "Tables" node and click refresh
+* Expand the "Tables" node and you should see new nodes have been added
+<p>&nbsp;</p> -->
+
+
 ### Run frontend and connect to API
-* In the frontend root directory create a new file called .env
+<!-- * In the frontend root directory create a new file called .env
 * In the .env file add the following to connect the frontend to the api 
 
       REACT_APP_API=http://localhost:3001/api
-* Ensure the .env file is listed in the frontend .gitignore file 
+* Ensure the .env file is listed in the frontend .gitignore file  -->
 * In your terminal move to the frontend directory
 
       cd path/to/frontend/directory
@@ -140,7 +149,7 @@ Instructions for new CWC developers for setting up their local environment, from
 
 
 ### Create pull request to merge code into main branch
-* It is a good idea to pull from `main` before creating a PR to ensure that your branch is compatible with the current state of `main`. Use the following command and then follow the 'Push code to GitHub' steps as above
+* Pull from `main` before creating a PR to ensure that your branch is compatible with the current state of `main`. Use the following command and then follow the "Push code to GitHub" steps as above
 
       git pull origin main
 * Go to the coding-with-callie-website repository on GitHub
@@ -151,7 +160,7 @@ Instructions for new CWC developers for setting up their local environment, from
 
 ### Request a code review from Callie
 * On the right-hand side of the pull request page will be a section named "Reviewers"
-* Select "Request" at the top of this section, correlating to Callie's Cstoscup GitHub account
+* Select "Request" at the top of this section, then type in Callie's GitHub handle: Cstoscup
 * Click "Create pull request" and Callie will then be notified
 * Callie will leave comments, request changes or approve the pull request
 <p>&nbsp;</p>
