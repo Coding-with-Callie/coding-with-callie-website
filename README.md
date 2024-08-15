@@ -6,7 +6,7 @@
     * [Clone CWC website](#clone-cwc-website) 
     * [Create a new branch to work off](#create-a-new-branch-to-work-off) 
     * [Create a local database](#create-a-local-database) 
-    * [Create and fill out api .env file](#create-and-fill-out-api-env-file)
+    * [Create and fill out .env file](#create-and-fill-out-env-file)
     * [Create a local database](#create-a-local-database) 
     * [Run API and connect to local database](#run-api-and-connect-to-local-database) 
     * [Run local database migration](#run-local-database-migration) 
@@ -46,26 +46,37 @@ Instructions for new CWC developers for setting up their local environment, from
 * Push the new branch to GitHub
 
       git push origin <developers-full-name>/<ticket-description>
-* Begin working on the new branch locally in VS Code. The following command requires setting up if not done so before [How to Open VS Code From Your Terminal](https://www.freecodecamp.org/news/how-to-open-visual-studio-code-from-your-terminal/)
+* Begin working on the new branch locally in VS Code. The following command needs to be set up before use if it hasn't been set up already. [Set Up Instructions for Opening VS Code From Your Terminal](https://www.freecodecamp.org/news/how-to-open-visual-studio-code-from-your-terminal/)
 
       code .
 <p>&nbsp;</p>
 
 
 ### Create a local database
-<!-- * Install PostgreSQL if not already installed
-* Install pgAdmin if not already installed -->
-* Open pgAdmin
-<!-- * Setup server  -->
+* Install PostgreSQL and pgAdmin if not already installed. Depending on your chosen installation method, pgAdmin may be installed alongside PostgreSQL. If this is not the case pgAdmin can be installed separately
+    * [PostgreSQL packages or installers for various platforms](https://www.postgresql.org/download/)
+    * [pgAdmin packages or installers for various platforms](https://www.pgadmin.org/download/)
+    * Useful resources on installation options and setup:
+        * [PostgreSQL installation for Mac with Homebrew](https://launchschool.medium.com/how-to-install-postgresql-for-mac-os-x-61623df41f59)
+        * [pgAdmin installation for Mac with Homebrew](https://formulae.brew.sh/cask/pgadmin4)
+        * [PostgreSQL & pgAdmin installation guide with PATH environment variable for Windows & Mac](https://coding-boot-camp.github.io/full-stack/postgresql/postgresql-installation-guide)
+        * [Setting up pgAdmin after installation](https://www.w3schools.com/postgresql/postgresql_pgadmin4.php)
+* Open pgAdmin 
 * In the pgAdmin browser panel expand the "Servers" node
-* Right-click on the server instance and click "Connect"
+* Right-click on the server instance and click "Connect Server". If the server instance is not visible and therefore has not been created automatically:
+    * Right-click on the server instance and click "Register Server"
+    * In the "General" tab: Enter a name of your choice in the "Name" field 
+    * In the "Connections" tab: Enter "localhost" in the "Host name/address" field and enter your password in the "password" field, also ensuring the pre-filled port and username are correct
+    * Click "Save"
+    * Right-click on the server instance and click "Connect Server" 
+* Enter the password you set up on installation and click "OK"
 * Right-click on the "Databases" node and select "Create" > "Database"
 * In the "Database" field enter the name of your new database (e.g. cwc_website)
 * Leave other settings as default and click "Save"
 <p>&nbsp;</p>
 
 
-### Create and fill out api .env file
+### Create and fill out .env file
 * In the api root directory create a new file called .env
 * In the .env file add the following information replacing username, password and database-name with their correct values
 
@@ -84,7 +95,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * Install api dependancies
 
       npm install
-* Use the migration command to apply pending migrations to your local database
+* Use the migration command to apply pending migrations, updating your local database to match the latest state
 
       npm run migration:run
 * In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
@@ -96,22 +107,17 @@ Instructions for new CWC developers for setting up their local environment, from
 <p>&nbsp;</p>
 
 
-<!-- ### Run local database migration
-* Use the migration command to apply pending migrations to your local database
+### Run local database migration
+* Use the migration command to apply pending migrations, updating your local database to match the latest state
 
       npm run migration:run
 * In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
 * Expand the "Tables" node and you should see new nodes have been added
-<p>&nbsp;</p> -->
+<p>&nbsp;</p>
 
 
 ### Run frontend and connect to API
-<!-- * In the frontend root directory create a new file called .env
-* In the .env file add the following to connect the frontend to the api 
-
-      REACT_APP_API=http://localhost:3001/api
-* Ensure the .env file is listed in the frontend .gitignore file  -->
 * In your terminal move to the frontend directory
 
       cd path/to/frontend/directory
