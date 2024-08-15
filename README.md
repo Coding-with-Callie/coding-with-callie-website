@@ -64,11 +64,11 @@ Instructions for new CWC developers for setting up their local environment, from
 * Open pgAdmin 
 * In the pgAdmin browser panel expand the "Servers" node
 * Right-click on the server instance and click "Connect Server". If the server instance is not visible and therefore has not been created automatically:
-    * Right-click on the server instance and click "Register Server"
+    * Right-click on the "Servers" node and click "Register Server"
     * In the "General" tab: Enter a name of your choice in the "Name" field 
     * In the "Connections" tab: Enter "localhost" in the "Host name/address" field and enter your password in the "password" field, also ensuring the pre-filled port and username are correct
     * Click "Save"
-    * Right-click on the server instance and click "Connect Server" 
+    * Right-click on the server instance that has now been created and click "Connect Server" 
 * Enter the password you set up on installation and click "OK"
 * Right-click on the "Databases" node and select "Create" > "Database"
 * In the "Database" field enter the name of your new database (e.g. cwc_website)
