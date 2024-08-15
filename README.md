@@ -112,7 +112,7 @@ Instructions for new CWC developers for setting up their local environment, from
       npm run migration:run
 * In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
-* Expand the "Tables" node and you should see new nodes have been added
+* Expand the "Tables" node and you should see the changes
 <p>&nbsp;</p>
 
 
