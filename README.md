@@ -83,7 +83,7 @@ Instructions for new CWC developers for setting up their local environment, from
       DATABASE_USERNAME=<username>
       DATABASE_PASSWORD=<password>
       DATABASE_NAME=<database-name>
-* Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being commited to version control
+* Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being committed to version control
 <p>&nbsp;</p>
 
 
@@ -91,7 +91,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * In your terminal move to the api directory
 
       cd path/to/api/directory
-* Install api dependancies
+* Install api dependencies
 
       npm install
 * Use the migration command to apply pending migrations, updating your local database to match the latest state
@@ -120,7 +120,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * In your terminal move to the frontend directory
 
       cd path/to/frontend/directory
-* Install frontend dependancies
+* Install frontend dependencies
 
       npm install
 * Start the frontend server in development mode with automatic restarts on file changes
@@ -130,10 +130,10 @@ Instructions for new CWC developers for setting up their local environment, from
 
 
 ### Push code to GitHub
-* In your terminal check the status of your files before commiting
+* In your terminal check the status of your files before committing
 
       git status
-* Stage the files to be commited using the `git add` command
+* Stage the files to be committed using the `git add` command
     - To stage all changes
 
           git add .
