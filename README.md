@@ -60,8 +60,7 @@ Instructions for new CWC developers for setting up their local environment, from
         * [PostgreSQL installation for Mac with Homebrew](https://launchschool.medium.com/how-to-install-postgresql-for-mac-os-x-61623df41f59)
         * [pgAdmin installation for Mac with Homebrew](https://formulae.brew.sh/cask/pgadmin4)
         * [PostgreSQL & pgAdmin installation guide with PATH environment variable for Windows & Mac](https://coding-boot-camp.github.io/full-stack/postgresql/postgresql-installation-guide)
-        * [Setting up pgAdmin after installation](https://www.w3schools.com/postgresql/postgresql_pgadmin4.php)
-* Open pgAdmin 
+* Open pgAdmin and enter password if prompted
 * In the pgAdmin browser panel expand the "Servers" node
 * Right-click on the server instance and click "Connect Server". If the server instance is not visible and therefore has not been created automatically:
     * Right-click on the "Servers" node and click "Register Server"
