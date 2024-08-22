@@ -1,8 +1,6 @@
-import axios from "axios";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
-  redirect,
   RouterProvider,
 } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -19,6 +17,16 @@ import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
+import { 
+  BasicLoader,
+  AppLoader,
+  SignUpLoader,
+  LoginLoader,
+  ProfileLoader,
+  ProfileResetLoader,
+  UserProjectsLoader,
+  ProjectLoader
+} from "./helpers/loader_functions";
 
 export const showNotification = (
   message: string,
@@ -30,27 +38,7 @@ export const showNotification = (
 const router = createBrowserRouter([
   {
     element: <App />,
-    loader: async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/auth/profile`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          return response.data;
-        } catch (error) {
-          return {};
-        }
-      } else {
-        return {};
-      }
-    },
+    loader: AppLoader,
     children: [
       {
         path: "/",
@@ -63,26 +51,12 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
-        loader: async () => {
-          const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/workshops`
-          );
-          return response.data;
-        },
+        loader: () => BasicLoader("/workshops"),
       },
       {
         path: "/reviews",
         element: <Reviews />,
-        loader: async () => {
-          const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/reviews`
-          );
-          return response.data;
-        },
+        loader: () => BasicLoader("/reviews"),
       },
       {
         path: "/contact-callie",
@@ -91,14 +65,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: async () => {
-          const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/auth/speakers`
-          );
-          return response.data;
-        },
+        loader: () => BasicLoader("/auth/speakers"),
       },
       {
         path: "/jobs",
@@ -107,184 +74,32 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
-        loader: async () => {
-          const token = localStorage.getItem("token");
-          if (token) {
-            try {
-              await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              );
-              return redirect("/");
-            } catch (error) {
-              return { token: true };
-            }
-          } else {
-            return { token: false };
-          }
-        },
+        loader: SignUpLoader,
       },
       {
         path: "/log-in",
         element: <LogIn />,
-        loader: async () => {
-          const token = localStorage.getItem("token");
-
-          if (token) {
-            try {
-              await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              );
-              return redirect("/");
-            } catch (error) {
-              return null;
-            }
-          } else {
-            return {};
-          }
-        },
+        loader: LoginLoader,
       },
       {
         path: "/profile",
         element: <Profile />,
-        loader: async () => {
-          const token = localStorage.getItem("token");
-
-          if (token) {
-            try {
-              const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              );
-              return response.data;
-            } catch (error) {
-              showNotification(
-                "It looks like your session has expired. Please log in again to view your account details!",
-                "error"
-              );
-              return redirect("/log-in");
-            }
-          } else {
-            showNotification(
-              "You must have an account to view account details!",
-              "error"
-            );
-            return redirect("/sign-up");
-          }
-        },
+        loader: ProfileLoader,
       },
       {
         path: "/profile/:token/:id",
         element: <Profile />,
-        loader: async ({ params }) => {
-          const token = params.token as string;
-          const id = params.id;
-
-          try {
-            const response = await axios.get(
-              `${
-                process.env.REACT_APP_API || "http://localhost:3001/api"
-              }/auth/profile/${token}/${id}`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
-            localStorage.setItem("token", response.data);
-
-            showNotification("You can reset your password here!", "success");
-            return redirect("/profile");
-          } catch (error) {
-            showNotification(
-              "I'm sorry, this link is no longer active.",
-              "error"
-            );
-            return redirect("/log-in");
-          }
-        },
+        loader: ProfileResetLoader,
       },
       {
         path: "/project/:id",
         element: <Project />,
-        loader: async ({ params }) => {
-          const token = localStorage.getItem("token");
-
-          if (token) {
-            try {
-              const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/project/${params.id}`,
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-
-              if (response.data.length === 0) {
-                showNotification(
-                  "You do not have access to that project!",
-                  "error"
-                );
-                return redirect("/projects");
-              }
-
-              return response.data;
-            } catch (error) {
-              showNotification(
-                "You must be signed in to view this page!",
-                "error"
-              );
-              return redirect("/log-in");
-            }
-          } else {
-            showNotification(
-              "You must have an account to view this page!",
-              "error"
-            );
-            return redirect("/sign-up");
-          }
-        },
+        loader: ProjectLoader,
       },
       {
         path: "/projects",
         element: <Projects />,
-        loader: async () => {
-          const token = localStorage.getItem("token");
-
-          if (token) {
-            try {
-              const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/user-projects`,
-                { headers: { Authorization: `Bearer ${token}` } }
-              );
-              return response.data;
-            } catch (error) {
-              showNotification(
-                "You must be signed in to view this page!",
-                "error"
-              );
-              return redirect("/log-in");
-            }
-          } else {
-            showNotification(
-              "You must have an account to view this page!",
-              "error"
-            );
-            return redirect("/sign-up");
-          }
-        },
+        loader: UserProjectsLoader,
       },
     ],
   },

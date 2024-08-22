@@ -5,14 +5,14 @@ import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
 import { AlumniDto, NewUserDto } from './auth.controller';
 import { Logger } from 'nestjs-pino';
-import { ReviewService } from 'src/review/review.service';
-import { SpeakersService } from 'src/speakers/speakers.service';
-import { Speaker } from 'src/speakers/entities/speaker.entity';
-import { AlumniService } from 'src/alumni/alumni.service';
-import { FeaturesService } from 'src/features/features.service';
-import { ProjectsService } from 'src/projects/projects.service';
-import { TasksService } from 'src/tasks/tasks.service';
-import { UserStoriesService } from 'src/userStories/userStories.service';
+import { ReviewService } from '../review/review.service';
+import { SpeakersService } from '../speakers/speakers.service';
+import { Speaker } from '../speakers/entities/speaker.entity';
+import { AlumniService } from '../alumni/alumni.service';
+import { FeaturesService } from '../features/features.service';
+import { ProjectsService } from '../projects/projects.service';
+import { TasksService } from '../tasks/tasks.service';
+import { UserStoriesService } from '../userStories/userStories.service';
 @Injectable()
 export class AuthService {
   constructor(

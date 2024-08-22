@@ -1,4 +1,4 @@
-import { Workshop } from 'src/workshops/entities/workshop.entity';
+import { Workshop } from '../../workshops/entities/workshop.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
