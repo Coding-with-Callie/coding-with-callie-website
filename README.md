@@ -114,7 +114,7 @@ Instructions for new CWC developers for setting up their local environment, from
 * The password for both of these accounts is 'samplePassword'. 
 * The script also takes 2 optional parameters which allow you to customize the email address that these accounts are created with. If no email addresses are provided the accounts will be created with SampleEmail0@example.com and SampleEmail1@example.com instead.
 
-      npm run loadSampleData <emailForUser0> <emailForUser1> 
+      npm run load_sample_data <emailForUser0> <emailForUser1> 
 <p>&nbsp;</p>
 
 
