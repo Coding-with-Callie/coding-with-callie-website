@@ -8,8 +8,9 @@
     * [Create a local database](#create-a-local-database) 
     * [Create and fill out .env file](#create-and-fill-out-env-file)
     * [Create a local database](#create-a-local-database) 
-    * [Run API and connect to local database](#run-api-and-connect-to-local-database) 
-    * [Run local database migration](#run-local-database-migration) 
+    * [Install backend dependencies and run local database migration](#install-backend-dependencies-and-run-local-database-migration) 
+    * [Seed the database with some sample data](#seed-the-database-with-some-sample-data)
+    * [Run API and connect to local database](#run-API-and-connect-to-local-database) 
     * [Run frontend and connect to API](#run-frontend-and-connect-to-api) 
     * [Push code to GitHub](#push-code-to-github) 
     * [Create pull request to merge code into main branch](#create-pull-request-to-merge-code-into-main-branch) 
@@ -83,11 +84,14 @@ Instructions for new CWC developers for setting up their local environment, from
       DATABASE_USERNAME=<username>
       DATABASE_PASSWORD=<password>
       DATABASE_NAME=<database-name>
+* Also create a variable for the JWT secret if you will be testing user creation/login and assign any arbitrary value
+
+      JWT_SECRET=<jwt-secret>
 * Ensure the .env file is listed in the api .gitignore file to prevent sensitive data being committed to version control
 <p>&nbsp;</p>
 
 
-### Run API and connect to local database
+### Install backend dependencies and run local database migration
 * In your terminal move to the api directory
 
       cd path/to/api/directory
@@ -100,19 +104,24 @@ Instructions for new CWC developers for setting up their local environment, from
 * In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
 * Right-click the "Tables" node and click refresh
 * Expand the "Tables" node and you should see new nodes have been added
-* Start the api server in development mode with automatic restarts on file changes
-
-      npm run start:dev
 <p>&nbsp;</p>
 
 
-### Run local database migration
-* Use the migration command to apply pending migrations, updating your local database to match the latest state
+### Seed the database with some sample data
+* The script at api/sample_data/loadSampleData.ts can be run from the api folder to add some sample data to the database.
+* The script adds 2 of every entity to the database, but it can be modified if you need more.
+* 2 users will be created by default as well. 'sampleUserName0' will log you in as an admin and sampleUserName1 will log you in as a normal user. 
+* The password for both of these accounts is 'samplePassword'. 
+* The script also takes 2 optional parameters which allow you to customize the email address that these accounts are created with. If no email addresses are provided the accounts will be created with SampleEmail0@example.com and SampleEmail1@example.com instead.
 
-      npm run migration:run
-* In the pgAdmin browser panel expand your new database node, then the "Schemas" node, then the "public" node
-* Right-click the "Tables" node and click refresh
-* Expand the "Tables" node and you should see the changes
+      npm run load_sample_data <emailForUser0> <emailForUser1> 
+<p>&nbsp;</p>
+
+
+### Run API and connect to local database
+* Start the api server in development mode with automatic restarts on file changes
+
+      npm run start:dev
 <p>&nbsp;</p>
 
 

@@ -19,7 +19,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
-import { Speaker } from 'src/speakers/entities/speaker.entity';
+import { Speaker } from '../speakers/entities/speaker.entity';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
