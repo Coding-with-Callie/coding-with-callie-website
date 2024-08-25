@@ -53,9 +53,7 @@ const CreateTaskAccordion = ({
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/create-task`,
+          `https://${window.location.host}/api/auth/create-task`,
           {
             name,
             projectId,

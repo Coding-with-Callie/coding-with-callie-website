@@ -42,24 +42,14 @@ const LogInForm = ({
       userData.password !== ""
     ) {
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/login`,
-          userData
-        )
+        .post(`https://${window.location.host}/api/auth/login`, userData)
         .then((response) => {
           const token = response?.data.access_token;
           localStorage.setItem("token", token);
           axios
-            .get(
-              `${
-                process.env.REACT_APP_API || "http://localhost:3001/api"
-              }/auth/profile`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            )
+            .get(`https://${window.location.host}/api/auth/profile`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
             .then(async (response) => {
               updateUser(response.data);
 

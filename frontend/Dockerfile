@@ -8,17 +8,15 @@ COPY package*.json ./
 RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
-# add env variables
-ENV REACT_APP_API="/api"
 # Build the React app
 RUN npm run build
 # Use an official Nginx runtime as a parent image
-FROM --platform=linux/amd64 nginx:1.21.0-alpine
+FROM --platform=linux/amd64 caddy
 # Copy the ngnix.conf to the container
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY Caddyfile /etc/caddy/Caddyfile
 # Copy the React app build files to the container
-COPY --from=build /app/build /usr/share/nginx/html/
+COPY --from=build /app/build /usr/share/caddy
 # Expose port 80 for Nginx
 EXPOSE 80
 # Start Nginx when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

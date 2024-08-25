@@ -50,7 +50,7 @@ const ContactCallie = () => {
     } else {
       setFormSent(true);
       axios.post(
-        `${process.env.REACT_APP_API || "http://localhost:3001/api"}/contact`,
+        `https://${window.location.host}/api/contact`,
         contactFormData
       );
     }

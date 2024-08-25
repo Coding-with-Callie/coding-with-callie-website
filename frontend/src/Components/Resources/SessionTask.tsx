@@ -45,9 +45,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/submit-deliverable`,
+        `https://${window.location.host}/api/auth/submit-deliverable`,
         {
           workshopId,
           session: index + 1,
@@ -83,9 +81,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/edit-deliverable`,
+        `https://${window.location.host}/api/auth/edit-deliverable`,
         { session: index + 1, url, userId, workshopId },
         {
           headers: { Authorization: `Bearer ${token}` },

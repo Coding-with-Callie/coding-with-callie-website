@@ -86,9 +86,7 @@ const Profile = () => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-account`,
+        `https://${window.location.host}/api/auth/delete-account`,
         { id: context.user.id },
         {
           headers: { Authorization: `Bearer ${token}` },

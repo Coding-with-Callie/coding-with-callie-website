@@ -58,9 +58,7 @@ const CreateUserStoryAccordion = ({
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/create-user-story`,
+          `https://${window.location.host}/api/auth/create-user-story`,
           {
             name,
             description,

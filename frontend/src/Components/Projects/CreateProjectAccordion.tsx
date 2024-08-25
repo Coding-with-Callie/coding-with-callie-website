@@ -53,9 +53,7 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/create-project`,
+          `https://${window.location.host}/api/auth/create-project`,
           {
             name,
             description,

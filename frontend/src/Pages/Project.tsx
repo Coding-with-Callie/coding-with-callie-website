@@ -102,9 +102,7 @@ const Project = () => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/update-project`,
+        `https://${window.location.host}/api/auth/update-project`,
         {
           field,
           value,
@@ -153,9 +151,7 @@ const Project = () => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-project`,
+        `https://${window.location.host}/api/auth/delete-project`,
         {
           projectId: project.id,
         },

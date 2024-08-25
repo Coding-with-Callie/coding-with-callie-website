@@ -36,9 +36,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       formData.append("file", photo);
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/upload?id=${id}`,
+          `https://${window.location.host}/api/auth/upload?id=${id}`,
           formData,
           {
             headers: {
@@ -78,12 +76,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       userData.password !== ""
     ) {
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/signup`,
-          userData
-        )
+        .post(`https://${window.location.host}/api/auth/signup`, userData)
         .then((response) => {
           if (response.data === "user already exists") {
             const emptyUser = {
@@ -107,14 +100,9 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
             const token = response.data.access_token;
             localStorage.setItem("token", token);
             axios
-              .get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              )
+              .get(`https://${window.location.host}/api/auth/profile`, {
+                headers: { Authorization: `Bearer ${token}` },
+              })
               .then(async (response) => {
                 updateUser(response.data);
 

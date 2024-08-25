@@ -53,14 +53,9 @@ const Admin = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/adminData`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      .get(`https://${window.location.host}/api/auth/adminData`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         setReviewCount(response.data.reviewCount);
         setAdminData(response.data.adminData);

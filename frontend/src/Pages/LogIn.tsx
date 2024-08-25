@@ -44,12 +44,9 @@ const LogIn = () => {
 
   const resetPassword = async () => {
     axios
-      .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/forgot-password`,
-        { email }
-      )
+      .post(`https://${window.location.host}/api/auth/forgot-password`, {
+        email,
+      })
       .then((response) => {
         showNotification("Please check your email for next steps.", "info");
         setEmail("");

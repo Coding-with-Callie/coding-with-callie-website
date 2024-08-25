@@ -41,9 +41,7 @@ const ReviewForm = ({ setReviews, isLargerThan900, title, user }: Props) => {
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/submit-review`,
+          `https://${window.location.host}/api/auth/submit-review`,
           reviewFormData,
           {
             headers: { Authorization: `Bearer ${token}` },

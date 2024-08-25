@@ -111,9 +111,7 @@ const UserStoryDetailsAccordion = ({
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/update-user-story`,
+        `https://${window.location.host}/api/auth/update-user-story`,
         {
           field,
           value,
@@ -162,9 +160,7 @@ const UserStoryDetailsAccordion = ({
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-user-story`,
+        `https://${window.location.host}/api/auth/delete-user-story`,
         {
           userStoryId,
         },

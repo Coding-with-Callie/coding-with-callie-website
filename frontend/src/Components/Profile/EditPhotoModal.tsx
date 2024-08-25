@@ -29,9 +29,7 @@ const EditPhotoModal = ({ onClose }: Props) => {
       onClose();
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/upload?id=${context.user.id}`,
+          `https://${window.location.host}/api/auth/upload?id=${context.user.id}`,
           formData,
           {
             headers: {

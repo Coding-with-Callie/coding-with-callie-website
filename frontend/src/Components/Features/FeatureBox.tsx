@@ -20,14 +20,9 @@ const FeatureBox = ({ feature, projectId, setProject }: Props) => {
     const token = localStorage.getItem("token");
 
     axios
-      .get(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/project/${projectId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      .get(`https://${window.location.host}/api/auth/project/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         setProject(response.data);
         onClose();

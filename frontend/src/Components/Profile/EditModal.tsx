@@ -39,9 +39,7 @@ const EditModal = ({ field, onClose }: Props) => {
       const token = localStorage.getItem("token");
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/change-account-detail`,
+          `https://${window.location.host}/api/auth/change-account-detail`,
           { id: userId, value: newValue, field: field },
           {
             headers: { Authorization: `Bearer ${token}` },

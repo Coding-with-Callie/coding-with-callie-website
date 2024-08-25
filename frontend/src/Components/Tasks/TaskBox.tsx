@@ -58,9 +58,7 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/update-task`,
+        `https://${window.location.host}/api/auth/update-task`,
         {
           field,
           value,
@@ -121,9 +119,7 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-task`,
+        `https://${window.location.host}/api/auth/delete-task`,
         {
           taskId: task.id,
         },

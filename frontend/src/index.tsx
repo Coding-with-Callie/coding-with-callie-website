@@ -36,9 +36,7 @@ const router = createBrowserRouter([
       if (token) {
         try {
           const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/auth/profile`,
+            `https://${window.location.host}/api/auth/profile`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -65,9 +63,7 @@ const router = createBrowserRouter([
         element: <Workshops />,
         loader: async () => {
           const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/workshops`
+            `https://${window.location.host}/api/workshops`
           );
           return response.data;
         },
@@ -77,9 +73,7 @@ const router = createBrowserRouter([
         element: <Reviews />,
         loader: async () => {
           const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/reviews`
+            `https://${window.location.host}/api/reviews`
           );
           return response.data;
         },
@@ -93,9 +87,7 @@ const router = createBrowserRouter([
         element: <GuestSpeakers />,
         loader: async () => {
           const response = await axios.get(
-            `${
-              process.env.REACT_APP_API || "http://localhost:3001/api"
-            }/auth/speakers`
+            `https://${window.location.host}/api/auth/speakers`
           );
           return response.data;
         },
@@ -112,9 +104,7 @@ const router = createBrowserRouter([
           if (token) {
             try {
               await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                `https://${window.location.host}/api/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -137,9 +127,7 @@ const router = createBrowserRouter([
           if (token) {
             try {
               await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                `https://${window.location.host}/api/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -162,9 +150,7 @@ const router = createBrowserRouter([
           if (token) {
             try {
               const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
+                `https://${window.location.host}/api/auth/profile`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -195,9 +181,7 @@ const router = createBrowserRouter([
 
           try {
             const response = await axios.get(
-              `${
-                process.env.REACT_APP_API || "http://localhost:3001/api"
-              }/auth/profile/${token}/${id}`,
+              `https://${window.location.host}/api/auth/profile/${token}/${id}`,
               {
                 headers: { Authorization: `Bearer ${token}` },
               }
@@ -224,9 +208,7 @@ const router = createBrowserRouter([
           if (token) {
             try {
               const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/project/${params.id}`,
+                `https://${window.location.host}/api/auth/project/${params.id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
               );
 
@@ -264,9 +246,7 @@ const router = createBrowserRouter([
           if (token) {
             try {
               const response = await axios.get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/user-projects`,
+                `https://${window.location.host}/api/auth/user-projects`,
                 { headers: { Authorization: `Bearer ${token}` } }
               );
               return response.data;

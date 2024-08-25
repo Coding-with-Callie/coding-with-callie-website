@@ -111,9 +111,7 @@ const FeatureModal = ({
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/update-feature`,
+        `https://${window.location.host}/api/auth/update-feature`,
         {
           field,
           value,
@@ -162,9 +160,7 @@ const FeatureModal = ({
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-feature`,
+        `https://${window.location.host}/api/auth/delete-feature`,
         {
           featureId,
         },
