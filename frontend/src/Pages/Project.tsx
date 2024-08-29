@@ -18,6 +18,7 @@ import { UserStory } from "../Components/Features/FeatureModal";
 import axios from "axios";
 import DeleteModal from "../Components/DeleteModal";
 import StatusColumn, { Column } from "../Components/Project/StatusColumn";
+import { host } from "..";
 
 export type Feature = {
   name: string;
@@ -102,7 +103,7 @@ const Project = () => {
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/update-project`,
+        `${host}/api/auth/update-project`,
         {
           field,
           value,
@@ -151,7 +152,7 @@ const Project = () => {
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/delete-project`,
+        `${host}/api/auth/delete-project`,
         {
           projectId: project.id,
         },

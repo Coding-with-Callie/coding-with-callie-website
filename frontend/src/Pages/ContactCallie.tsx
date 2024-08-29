@@ -14,6 +14,7 @@ import {
   isInvalidMessage,
   isInvalidName,
 } from "../helpers/helpers";
+import { host } from "..";
 
 const thankYouMessage = ["Thank you! Callie will get back to you soon!"];
 
@@ -49,10 +50,7 @@ const ContactCallie = () => {
       setSubmitClicked(true);
     } else {
       setFormSent(true);
-      axios.post(
-        `https://${window.location.host}/api/contact`,
-        contactFormData
-      );
+      axios.post(`${host}/api/contact`, contactFormData);
     }
   };
 

@@ -23,6 +23,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
+import { host } from "../..";
 
 type Props = {
   isOpen: boolean;
@@ -111,7 +112,7 @@ const FeatureModal = ({
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/update-feature`,
+        `${host}/api/auth/update-feature`,
         {
           field,
           value,
@@ -160,7 +161,7 @@ const FeatureModal = ({
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/delete-feature`,
+        `${host}/api/auth/delete-feature`,
         {
           featureId,
         },

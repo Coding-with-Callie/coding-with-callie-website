@@ -1,7 +1,7 @@
 import { FormControl } from "@chakra-ui/react";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
-import { showNotification } from "../..";
+import { host, showNotification } from "../..";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -42,12 +42,12 @@ const LogInForm = ({
       userData.password !== ""
     ) {
       axios
-        .post(`https://${window.location.host}/api/auth/login`, userData)
+        .post(`${host}/api/auth/login`, userData)
         .then((response) => {
           const token = response?.data.access_token;
           localStorage.setItem("token", token);
           axios
-            .get(`https://${window.location.host}/api/auth/profile`, {
+            .get(`${host}/api/auth/profile`, {
               headers: { Authorization: `Bearer ${token}` },
             })
             .then(async (response) => {

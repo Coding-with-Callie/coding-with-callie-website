@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
+import { host } from "../..";
 
 type Props = {
   name: string;
@@ -111,7 +112,7 @@ const UserStoryDetailsAccordion = ({
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/update-user-story`,
+        `${host}/api/auth/update-user-story`,
         {
           field,
           value,
@@ -160,7 +161,7 @@ const UserStoryDetailsAccordion = ({
 
     axios
       .post(
-        `https://${window.location.host}/api/auth/delete-user-story`,
+        `${host}/api/auth/delete-user-story`,
         {
           userStoryId,
         },

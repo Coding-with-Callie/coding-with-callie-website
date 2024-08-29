@@ -20,6 +20,7 @@ import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import LogInForm from "../Components/LogIn/LogInForm";
+import { host } from "..";
 
 const LogIn = () => {
   const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
@@ -44,7 +45,7 @@ const LogIn = () => {
 
   const resetPassword = async () => {
     axios
-      .post(`https://${window.location.host}/api/auth/forgot-password`, {
+      .post(`${host}/api/auth/forgot-password`, {
         email,
       })
       .then((response) => {

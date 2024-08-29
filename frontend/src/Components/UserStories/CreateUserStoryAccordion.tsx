@@ -17,6 +17,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
+import { host } from "../..";
 
 type Props = {
   featureId: number;
@@ -58,7 +59,7 @@ const CreateUserStoryAccordion = ({
 
       axios
         .post(
-          `https://${window.location.host}/api/auth/create-user-story`,
+          `${host}/api/auth/create-user-story`,
           {
             name,
             description,

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Workshop } from "../../Pages/Workshops";
 import { Submission } from "../Resources/SessionTask";
+import { host } from "../..";
 
 export type User = {
   email: string;
@@ -53,7 +54,7 @@ const Admin = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`https://${window.location.host}/api/auth/adminData`, {
+      .get(`${host}/api/auth/adminData`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

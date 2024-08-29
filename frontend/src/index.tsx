@@ -32,6 +32,11 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
+export const host =
+  process.env.REACT_APP_ENV === "production"
+    ? `https://${window.location.host}`
+    : `http://localhost:3001`;
+
 const router = createBrowserRouter([
   {
     element: <App />,
@@ -48,12 +53,12 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
-        loader: () => BasicLoader("/workshops"),
+        loader: () => BasicLoader("workshops"),
       },
       {
         path: "/reviews",
         element: <Reviews />,
-        loader: () => BasicLoader("/reviews"),
+        loader: () => BasicLoader("reviews"),
       },
       {
         path: "/contact-callie",
@@ -62,7 +67,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("/auth/speakers"),
+        loader: () => BasicLoader("auth/speakers"),
       },
       {
         path: "/jobs",

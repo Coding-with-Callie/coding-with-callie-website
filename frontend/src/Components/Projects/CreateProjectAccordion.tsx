@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Project } from "../../Pages/Projects";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { host } from "../..";
 
 type Props = {
   projects: Project[];
@@ -53,7 +54,7 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
 
       axios
         .post(
-          `https://${window.location.host}/api/auth/create-project`,
+          `${host}/api/auth/create-project`,
           {
             name,
             description,

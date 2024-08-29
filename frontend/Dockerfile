@@ -8,9 +8,11 @@ COPY package*.json ./
 RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
+
+ENV REACT_APP_ENV=production
 # Build the React app
 RUN npm run build
-# Use an official Nginx runtime as a parent image
+# Use an official caddy runtime as a parent image
 FROM --platform=linux/amd64 caddy
 # Copy the ngnix.conf to the container
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -1,4 +1,4 @@
-new2.coding-with-callie.com {
+coding-with-callie.com {
   handle /api/* {
     reverse_proxy api:3001
   }
