@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { host } from "../..";
 
 type Props = {
   updateCheckoutStep?: (newStep: number) => void;
@@ -35,18 +36,12 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       const formData = new FormData();
       formData.append("file", photo);
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/upload?id=${id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`${host}/api/auth/upload?id=${id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           updateUser(response.data);
         })
@@ -78,12 +73,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       userData.password !== ""
     ) {
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/signup`,
-          userData
-        )
+        .post(`${host}/api/auth/signup`, userData)
         .then((response) => {
           if (response.data === "user already exists") {
             const emptyUser = {
@@ -107,14 +97,9 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
             const token = response.data.access_token;
             localStorage.setItem("token", token);
             axios
-              .get(
-                `${
-                  process.env.REACT_APP_API || "http://localhost:3001/api"
-                }/auth/profile`,
-                {
-                  headers: { Authorization: `Bearer ${token}` },
-                }
-              )
+              .get(`${host}/api/auth/profile`, {
+                headers: { Authorization: `Bearer ${token}` },
+              })
               .then(async (response) => {
                 updateUser(response.data);
 

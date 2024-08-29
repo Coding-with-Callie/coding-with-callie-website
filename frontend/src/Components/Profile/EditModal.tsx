@@ -2,7 +2,7 @@ import { Box, Input } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { showNotification } from "../..";
+import { host, showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
 
@@ -39,9 +39,7 @@ const EditModal = ({ field, onClose }: Props) => {
       const token = localStorage.getItem("token");
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/change-account-detail`,
+          `${host}/api/auth/change-account-detail`,
           { id: userId, value: newValue, field: field },
           {
             headers: { Authorization: `Bearer ${token}` },

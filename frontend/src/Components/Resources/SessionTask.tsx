@@ -2,7 +2,7 @@ import { Box, Text, Input, useDisclosure, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { showNotification } from "../..";
+import { host, showNotification } from "../..";
 import { Context } from "../../App";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
@@ -45,9 +45,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/submit-deliverable`,
+        `${host}/api/auth/submit-deliverable`,
         {
           workshopId,
           session: index + 1,
@@ -83,9 +81,7 @@ const SessionTask = ({ workshopId, session, index, userId }: Props) => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/edit-deliverable`,
+        `${host}/api/auth/edit-deliverable`,
         { session: index + 1, url, userId, workshopId },
         {
           headers: { Authorization: `Bearer ${token}` },

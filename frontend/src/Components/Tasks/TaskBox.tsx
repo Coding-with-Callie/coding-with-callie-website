@@ -12,6 +12,7 @@ import { Task } from "../UserStories/UserStoryDetailsAccordion";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { host } from "../..";
 
 type Props = {
   task: Task;
@@ -58,9 +59,7 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/update-task`,
+        `${host}/api/auth/update-task`,
         {
           field,
           value,
@@ -121,9 +120,7 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-task`,
+        `${host}/api/auth/delete-task`,
         {
           taskId: task.id,
         },

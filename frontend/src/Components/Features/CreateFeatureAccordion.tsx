@@ -18,6 +18,7 @@ import axios from "axios";
 import { Feature } from "../../Pages/Project";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
+import { host } from "../..";
 
 type Props = {
   features: Feature[];
@@ -55,9 +56,7 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/create-feature`,
+          `${host}/api/auth/create-feature`,
           {
             name,
             description,

@@ -2,7 +2,7 @@ import { Box, Input } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { showNotification } from "../..";
+import { host, showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
 
@@ -28,18 +28,12 @@ const EditPhotoModal = ({ onClose }: Props) => {
       formData.append("file", photo);
       onClose();
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/upload?id=${context.user.id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`${host}/api/auth/upload?id=${context.user.id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           showNotification(`Your profile photo has been changed`, "success");
           context.updateUser(response.data);

@@ -26,6 +26,7 @@ import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import Section from "../Components/Section";
 import Admin from "../Components/Profile/Admin";
+import { host } from "..";
 
 export type Data = {
   email: string;
@@ -86,9 +87,7 @@ const Profile = () => {
 
     axios
       .post(
-        `${
-          process.env.REACT_APP_API || "http://localhost:3001/api"
-        }/auth/delete-account`,
+        `${host}/api/auth/delete-account`,
         { id: context.user.id },
         {
           headers: { Authorization: `Bearer ${token}` },

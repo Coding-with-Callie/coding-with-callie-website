@@ -7,7 +7,7 @@ dotenvConfig();
 const config = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
-  port: 5432,
+  port: process.env.DATABASE_PORT,
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
@@ -15,6 +15,7 @@ const config = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
+  logging: true,
   ssl: process.env.ENVIRONMENT === 'production' ? true : false,
   extra:
     process.env.ENVIRONMENT === 'production'

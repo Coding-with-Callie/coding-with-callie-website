@@ -6,7 +6,7 @@ import TextAreaInput from "../Forms/TextAreaInput";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { isInvalidName } from "../../helpers/helpers";
-import { showNotification } from "../..";
+import { host, showNotification } from "../..";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "../Profile/Admin";
@@ -40,15 +40,9 @@ const ReviewForm = ({ setReviews, isLargerThan900, title, user }: Props) => {
       const token = localStorage.getItem("token");
 
       axios
-        .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/submit-review`,
-          reviewFormData,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+        .post(`${host}/api/auth/submit-review`, reviewFormData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((response) => {
           setRating(null);
           setReviewFormData({

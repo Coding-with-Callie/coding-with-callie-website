@@ -16,6 +16,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
+import { host } from "../..";
 
 type Props = {
   featureId: number;
@@ -53,9 +54,7 @@ const CreateTaskAccordion = ({
 
       axios
         .post(
-          `${
-            process.env.REACT_APP_API || "http://localhost:3001/api"
-          }/auth/create-task`,
+          `${host}/api/auth/create-task`,
           {
             name,
             projectId,

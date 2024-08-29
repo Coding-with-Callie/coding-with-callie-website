@@ -1,8 +1,5 @@
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import Home from "./Pages/Home";
@@ -17,7 +14,7 @@ import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
-import { 
+import {
   BasicLoader,
   AppLoader,
   SignUpLoader,
@@ -25,7 +22,7 @@ import {
   ProfileLoader,
   ProfileResetLoader,
   UserProjectsLoader,
-  ProjectLoader
+  ProjectLoader,
 } from "./helpers/loader_functions";
 
 export const showNotification = (
@@ -34,6 +31,11 @@ export const showNotification = (
 ) => {
   toast[type](message, { toastId: `${type}-${message}` });
 };
+
+export const host =
+  process.env.REACT_APP_ENV === "production"
+    ? `https://${window.location.host}`
+    : `http://localhost:3001`;
 
 const router = createBrowserRouter([
   {
@@ -51,12 +53,12 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
-        loader: () => BasicLoader("/workshops"),
+        loader: () => BasicLoader("workshops"),
       },
       {
         path: "/reviews",
         element: <Reviews />,
-        loader: () => BasicLoader("/reviews"),
+        loader: () => BasicLoader("reviews"),
       },
       {
         path: "/contact-callie",
@@ -65,7 +67,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("/auth/speakers"),
+        loader: () => BasicLoader("auth/speakers"),
       },
       {
         path: "/jobs",
