@@ -1,6 +1,7 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { useLoaderData } from "react-router-dom";
 import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
+import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 
 export type Speaker = {
   id: number;
@@ -28,10 +29,13 @@ const GuestSpeakers = () => {
   });
 
   return (
-    <Box m={"0 auto"}>
-      {speakers.map((speaker, index) => {
-        return <GuestSpeaker speaker={speaker} key={index} />;
-      })}
+    <Box>
+      <Center><GuestSpeakerForm /></Center>
+      <Box m={"0 auto"}>
+        {speakers.map((speaker, index) => {
+          return <GuestSpeaker speaker={speaker} key={index} />;
+        })}
+      </Box>
     </Box>
   );
 };
