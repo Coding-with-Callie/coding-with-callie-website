@@ -9,101 +9,100 @@ import {
   } from "@chakra-ui/react";
   import MyButton from "../MyButton";
   import { useState } from "react";
-  import { useNavigate } from "react-router-dom";
   import { toast } from "react-toastify";
   import axios from "axios";
   import { host } from "../..";
-import BodyHeading from "../BodyHeading";
-  
-  type Props = {
-    updateCheckoutStep?: (newStep: number) => void;
-    onClose?: () => void;
-    updateSpeaker: (newSpeaker: any) => void;
-  };
+  import BodyHeading from "../BodyHeading";
+  import { useEffect } from "react";
+  import { useLoaderData } from "react-router-dom";
+
+  export type Profile = {
+    role: string;
+    };
   
   const GuestSpeakerForm = () => {
+    const data = useLoaderData() as { loaderData: Profile };
+    const role = data.loaderData.role;
+
     const [speakerData, setSpeakerData] = useState<any>({});
     const [submitClicked, setSubmitClicked] = useState(false);
-  
-    const navigate = useNavigate();
+    const [userRole, setUserRole] = useState<string | null>(null);
   
     const showNotification = (message: string, type: "success" | "error") => {
       toast[type](message, { toastId: "success" });
     };
-  
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token && role === 'admin') {
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          setUserRole(role);
+        }
+      }, [role]);
+
+      const validURL = (str: string) => {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
+      }
   
     const onSubmit = () => {
+      setSubmitClicked(true);
       if (
         speakerData.name &&
         speakerData.name !== "" &&
         speakerData.date &&
         speakerData.date !== "" &&
-        speakerData.time &&
-        speakerData.time !== "" &&
         speakerData.sessionText &&
         speakerData.sessionText !== "" &&
         speakerData.bioText &&
         speakerData.bioText !== "" &&
         speakerData.websiteUrl &&
         speakerData.websiteUrl !== "" &&
+        validURL(speakerData.websiteUrl) &&
         speakerData.photoUrl &&
         speakerData.photoUrl !== "" &&
-        speakerData.sessionRecordingUrl &&
-        speakerData.sessionRecordingUrl !== ""
-      ) { console.log("SPEAKER DATA: ", speakerData)
-    //     axios
-    //       .post(`${host}/api/auth/speakers`, speakerData)
-    //       .then((response) => {
-    //         if (response.data === "speaker already exists") {
-    //           const emptySpeaker = {
-    //             name: "",
-    //             email: "",
-    //             username: "",
-    //             password: "",
-    //           };
-    //           setSpeakerData(emptySpeaker);
-    //           showNotification("User already exists!", "error");
-    //         } else if (response.data === "email already exists") {
-    //           const emptySpeaker = {
-    //             name: "",
-    //             email: "",
-    //             username: "",
-    //             password: "",
-    //           };
-    //           setSpeakerData(emptySpeaker);
-    //           showNotification("Email already exists!", "error");
-    //         } else {
-    //           const token = response.data.access_token;
-    //           localStorage.setItem("token", token);
-    //           axios
-    //             .get(`${host}/api/auth/profile`, {
-    //               headers: { Authorization: `Bearer ${token}` },
-    //             })
-    //             .then(async (response) => {
-    //               updateUser(response.data);            
+        validURL(speakerData.photoUrl)
+      ) {
+          speakerData.sessionText = speakerData.sessionText.split("\n\n").map((item: any) => item.trim());
+          speakerData.bioText = speakerData.bioText.split("\n\n").map((item: any) => item.trim());
   
-    //               showNotification(
-    //                 `Welcome to Coding with Callie, ${response.data.username}!`,
-    //                 "success"
-    //               );
-    //               navigate("/");
-    //             });
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         if (error.response.data.message === "Unauthorized") {
-    //           showNotification(
-    //             "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-    //             "error"
-    //           );
-    //           navigate("/log-in");
-    //         } else {
-    //           let message: string = error.response.data.message[0];
-    //           showNotification(`${message}`, "error");
-    //         }
-    //       });
-    //   } else {
-    //     setSubmitClicked(true);
+          console.log("SPEAKER DATA: ", speakerData)
+          
+          axios
+          .post(`${host}/api/auth/speaker`, speakerData)
+          .then((response) => {
+              const emptySpeaker = {
+              name: "",
+              date: "",
+              sessionText: "",
+              bioText: "",
+              websiteUrl: "",
+              photoUrl: "",
+              sessionRecordingUrl: "",
+              };
+              setSpeakerData(emptySpeaker);
+              setSubmitClicked(false)
+              showNotification("Guest speaker successfully added!", "success");
+          })
+        .catch((error) => {
+            console.log("ERROR: ", error.response.data)
+            if (error.response.data.message === "Unauthorized") {
+              showNotification(
+                "It looks like your session has expired. Please log in again to create guest speaker!",
+                "error"
+              );
+            } else {
+              let message: string = error.response.data.message[0];
+              showNotification(`${message}`, "error");
+            }
+          });
+      } else {
+        setSubmitClicked(true);
       }
     };
 
@@ -115,11 +114,6 @@ import BodyHeading from "../BodyHeading";
     const onChangeDate = (e: any) => {
       setSubmitClicked(false);
       setSpeakerData({ ...speakerData, date: e.target.value });
-    };
-  
-    const onChangeTime = (e: any) => {
-      setSubmitClicked(false);
-      setSpeakerData({ ...speakerData, time: e.target.value });
     };
   
     const onChangeSessionText = (e: any) => {
@@ -146,12 +140,16 @@ import BodyHeading from "../BodyHeading";
         setSubmitClicked(false);
         setSpeakerData({ ...speakerData, sessionRecordingUrl: e.target.value });
     };
+
+    if (userRole !== 'admin') {
+        return null;
+      }
   
     return (
       <Center w="100%" py={20}>
         <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
           <BodyHeading textAlignCenter={true} removeMargin>
-            Guest Speaker Form
+            Create Guest Speaker 
           </BodyHeading>
           <Box>
             <FormLabel layerStyle="input">Name</FormLabel>
@@ -185,19 +183,6 @@ import BodyHeading from "../BodyHeading";
                           Please enter a valid date.
                       </FormHelperText>
                   ) : null}
-          </Box>
-          <Box>
-            <FormLabel layerStyle="input">Time</FormLabel>
-            <Input
-              type="time"
-              layerStyle="input"
-              variant="filled"
-              value={speakerData.time}
-              onChange={onChangeTime}
-              isInvalid={
-                submitClicked && (!speakerData.time || speakerData.time === "")
-              }
-            />
           </Box>
           <Box>
             <FormLabel layerStyle="input">Session Description</FormLabel>
@@ -235,6 +220,12 @@ import BodyHeading from "../BodyHeading";
                 submitClicked && (!speakerData.websiteUrl || speakerData.websiteUrl === "")
               }
             />
+            {submitClicked && (!speakerData.websiteUrl ||
+              validURL(speakerData.websiteUrl) === false) ? (
+                <FormHelperText color="red">
+                  Please enter a valid url.
+                </FormHelperText>
+              ) : null}
           </Box>
           <Box>
             <FormLabel layerStyle="input">Photo URL</FormLabel>
@@ -248,6 +239,12 @@ import BodyHeading from "../BodyHeading";
                   submitClicked && (!speakerData.photoUrl || speakerData.photoUrl === "")
                   }
               />
+              {submitClicked && (!speakerData.photoUrl ||
+                validURL(speakerData.photoUrl) === false) ? (
+                <FormHelperText color="red">
+                    Please enter a valid url.
+                </FormHelperText>
+                ) : null}
           </Box>
           <Box>
             <FormLabel layerStyle="input">Session Recording URL</FormLabel>
@@ -257,10 +254,12 @@ import BodyHeading from "../BodyHeading";
               variant="filled"
               value={speakerData.sessionRecordingUrl}
               onChange={onChangeSessionRecordingUrl}
-              isInvalid={
-                submitClicked && (!speakerData.sessionRecordingUrl || speakerData.sessionRecordingUrl === "")
-              }
             />
+            {(validURL(speakerData.sessionRecordingUrl) === false && speakerData.sessionRecordingUrl) ? (
+              <FormHelperText color="red">
+                Please enter a valid url.
+              </FormHelperText>
+              ) : null}
           </Box>
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>

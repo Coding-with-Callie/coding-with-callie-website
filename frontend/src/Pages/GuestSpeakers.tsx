@@ -16,7 +16,8 @@ export type Speaker = {
 };
 
 const GuestSpeakers = () => {
-  let speakers = useLoaderData() as Speaker[];
+  const data = useLoaderData() as { basicData: Speaker[] };
+  let speakers = data.basicData;
 
   speakers = speakers.sort((a, b) => {
     const aDate = new Date(a.date);

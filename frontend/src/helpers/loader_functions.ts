@@ -150,3 +150,9 @@ export const UserProjectsLoader = async () => {
     return redirect("/sign-up");
   }
 };
+
+export async function CombinedLoader(endpoint: string, loader: () => any) {
+  const basicData = await BasicLoader(endpoint);
+  const loaderData = await loader();
+  return {basicData, loaderData};
+}

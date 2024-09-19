@@ -23,6 +23,7 @@ import {
   ProfileResetLoader,
   UserProjectsLoader,
   ProjectLoader,
+  CombinedLoader,
 } from "./helpers/loader_functions";
 
 export const showNotification = (
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("auth/speakers"),
+        loader: () => CombinedLoader("auth/speakers", ProfileLoader),
       },
       {
         path: "/jobs",
