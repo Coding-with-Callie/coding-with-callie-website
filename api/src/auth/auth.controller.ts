@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -263,6 +264,13 @@ export class AuthController {
   @Post('speaker')
   async createSpeaker(@Body() speaker: Speaker) {
     return await this.authService.createSpeaker(speaker);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Delete('speaker/:id')
+  deleteSpeaker(@Param('id') id: number) {
+    return this.authService.deleteSpeaker(id);
   }
 
   @Roles(['admin'])

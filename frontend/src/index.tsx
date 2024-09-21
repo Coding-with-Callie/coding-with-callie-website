@@ -14,6 +14,7 @@ import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
+import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
   BasicLoader,
   AppLoader,
@@ -104,6 +105,11 @@ const router = createBrowserRouter([
         element: <Projects />,
         loader: UserProjectsLoader,
       },
+      {
+        path: "/guest-speaker/:id",
+        element: <GuestSpeakerDetails />,
+        loader: () => CombinedLoader("auth/speakers", ProfileLoader),
+      }
     ],
   },
 ]);

@@ -15,9 +15,14 @@ export type Speaker = {
   sessionRecordingUrl: string;
 };
 
+export type Profile = {
+  role: string;
+  };
+
 const GuestSpeakers = () => {
-  const data = useLoaderData() as { basicData: Speaker[] };
+  const data = useLoaderData() as { basicData: Speaker[], loaderData: Profile };
   let speakers = data.basicData;
+  let profile = data.loaderData;
 
   speakers = speakers.sort((a, b) => {
     const aDate = new Date(a.date);
@@ -34,7 +39,7 @@ const GuestSpeakers = () => {
       <Center><GuestSpeakerForm /></Center>
       <Box m={"0 auto"}>
         {speakers.map((speaker, index) => {
-          return <GuestSpeaker speaker={speaker} key={index} />;
+          return <GuestSpeaker speaker={speaker} profile={profile} key={index} />;
         })}
       </Box>
     </Box>

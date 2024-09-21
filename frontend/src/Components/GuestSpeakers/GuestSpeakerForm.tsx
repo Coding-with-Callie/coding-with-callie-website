@@ -75,7 +75,7 @@ import {
           
           axios
           .post(`${host}/api/auth/speaker`, speakerData)
-          .then((response) => {
+          .then(() => {
               const emptySpeaker = {
               name: "",
               date: "",
