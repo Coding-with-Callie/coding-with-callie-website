@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Query,
   Request,
   UploadedFile,
@@ -54,7 +55,7 @@ export class AccountDetailDto {
 
   @IsNotEmpty({ message: 'You must provide a new value.' })
   @Transform((params) => sanitizeHTML(params.value))
-  value: string;
+  value: string ;
 
   @IsNotEmpty()
   field: string;
@@ -269,8 +270,23 @@ export class AuthController {
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
   @Delete('speaker/:id')
-  deleteSpeaker(@Param('id') id: number) {
-    return this.authService.deleteSpeaker(id);
+  async deleteSpeaker(@Param('id') id: number) {
+    return await this.authService.deleteSpeaker(id);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put('guest-speaker/:id')
+  async updateSpeaker(@Body() body: {
+    id: number; 
+    field: string; 
+    value: string | string[]
+  }) {
+    return await this.authService.changeSpeakerDetail(
+      body.id,
+      body.value,
+      body.field,
+    );
   }
 
   @Roles(['admin'])

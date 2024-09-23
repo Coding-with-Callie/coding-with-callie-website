@@ -1,7 +1,8 @@
-import { Box, Text, Avatar, Image } from '@chakra-ui/react';
+import { Box, Text, Image } from '@chakra-ui/react';
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import UserDetailsRow from '../Components/GuestSpeakers/DetailsRow';
 import { useParams } from 'react-router-dom';
+import MyButton from '../Components/MyButton';
 
 export type Speaker = {
   id: number;
@@ -23,17 +24,11 @@ const GuestSpeakerProfile = () => {
   const data = useLoaderData() as { basicData: Speaker[], loaderData: Profile };
   let speakers = data.basicData;
   let profile = data.loaderData;
+
   const { id } = useParams<{ id: string }>();
   const speaker = speakers.find(speaker => speaker.id === Number(id)) as Speaker;
 
   const navigate = useNavigate();
-
-  const truncateString = (str: string, num: number) => {
-    if (str.length <= num) {
-      return str;
-    }
-    return str.slice(0, num) + "...";
-  };
 
     if (profile.role !== 'admin') {
       return null;
@@ -62,16 +57,20 @@ const GuestSpeakerProfile = () => {
               />
             </Box>
             <Box w="100%" display="flex" flexDirection="column" gap={3}>
-              <UserDetailsRow field="Name" value={speaker.name} />
-              <UserDetailsRow field="Date" value={speaker.date} />
-              <UserDetailsRow field="Session Description" value={truncateString(speaker.sessionText.join("\n\n "), 20)} />
-              <UserDetailsRow field="Biography" value={truncateString(speaker.bioText.join("\n\n "), 20)} />
-              <UserDetailsRow field="Website" value={truncateString(speaker.websiteUrl, 20)} />
-              <UserDetailsRow field="Photo URL" value={truncateString(speaker.photoUrl, 20)} />
-              <UserDetailsRow field="Session Recording URL" value={speaker.sessionRecordingUrl} />
+              <UserDetailsRow field="Name" value={speaker.name} variableName="name" />
+              <UserDetailsRow field="Date" value={speaker.date} variableName="date"/>
+              <UserDetailsRow field="Time" value={speaker.time} variableName={"time"}/>
+              <UserDetailsRow field="Session Description" value={speaker.sessionText.join("\n\n")} variableName={"sessionText"}/>
+              <UserDetailsRow field="About" value={speaker.bioText.join("\n\n")} variableName={"bioText"}/>
+              <UserDetailsRow field="Website" value={speaker.websiteUrl} variableName={"websiteUrl"}/>
+              <UserDetailsRow field="Photo" value={speaker.photoUrl} variableName={"photoUrl"}/>
+              <UserDetailsRow field="Session Recording" value={speaker.sessionRecordingUrl} variableName={"sessionRecordingUrl"}/>
             </Box>
           </Box>
           <Box display='flex' gap={4} justifyContent='center'>
+            <MyButton onClick={() => navigate('/guest-speakers')}>
+              Back
+            </MyButton>
           </Box> 
         </Box>
     )

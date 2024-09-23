@@ -26,4 +26,10 @@ export class SpeakersService {
   async deleteSpeaker(speakerToDelete){
     return await this.speakersRepository.delete(speakerToDelete.id);
   }
+
+  async updateSpeaker(id: number, field: string, value: string | string[]) {
+    const speakerToUpdate = await this.findOneById(id);
+    speakerToUpdate[field] = value;
+    return await this.speakersRepository.save(speakerToUpdate);
+  }
 }

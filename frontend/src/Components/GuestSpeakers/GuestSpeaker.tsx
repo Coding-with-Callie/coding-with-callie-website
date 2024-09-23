@@ -21,7 +21,7 @@ import VideoModal from "./VideoModal";
 import ZoomModal from "./ZoomModal";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Profile/Alert";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { host } from "../..";
 import { toast } from "react-toastify";
@@ -36,11 +36,12 @@ type Profile = {
 };
 
 const GuestSpeaker = ({ speaker, profile }: Props) => {
+  const [isDeleted, setIsDeleted] = useState(false);
+
   const navigate = useNavigate();
 
   const role = profile.role;
 
-  const speakers = speaker
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenZoom,
@@ -57,19 +58,26 @@ const GuestSpeaker = ({ speaker, profile }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
-  const deleteGuestSpeaker = () => {
-    if (role) {
-      axios.delete(
-        `${host}/api/auth/speaker/${speaker.id}`,
-      ).then((response) => {
-        onCloseAlert();
-        toast.success("Guest speaker deleted successfully");
-      }).catch((error) => {
-        console.log(error)
-        toast.error("Error deleting guest speaker");
-      });
-    };
+  const deleteGuestSpeaker = async () => {
+  if (role) {
+    await axios.delete(
+      `${host}/api/auth/speaker/${speaker.id}`,
+    ).then(() => {
+      onCloseAlert();
+      toast.success("Guest speaker deleted successfully");
+      setIsDeleted(true);
+    }).catch(() => {
+      toast.error("Error deleting guest speaker");
+    });
   };
+};
+
+  useEffect(() =>{
+    if (isDeleted) {
+      navigate("/guest-speakers")
+      setIsDeleted(false);
+    };
+  }, [isDeleted, navigate]);
 
   return (
     <Section
@@ -172,7 +180,7 @@ const GuestSpeaker = ({ speaker, profile }: Props) => {
           {speaker.sessionRecordingUrl ? (
             <MyButton onClick={onOpen}>Watch Recording</MyButton>
           ) : (
-            <MyButton onClick={onOpenZoom}>Get Zoom Link</MyButton>
+            <MyButton onClick={onOpenZoom}>Zoom Link</MyButton>
           )}
           { role === "admin" ? (
             <>

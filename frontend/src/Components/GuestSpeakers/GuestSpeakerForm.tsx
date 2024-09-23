@@ -14,7 +14,8 @@ import {
   import { host } from "../..";
   import BodyHeading from "../BodyHeading";
   import { useEffect } from "react";
-  import { useLoaderData } from "react-router-dom";
+  import { useLoaderData, useNavigate } from "react-router-dom";
+
 
   export type Profile = {
     role: string;
@@ -26,7 +27,9 @@ import {
 
     const [speakerData, setSpeakerData] = useState<any>({});
     const [submitClicked, setSubmitClicked] = useState(false);
-    const [userRole, setUserRole] = useState<string | null>(null);
+    const [isCreated, setIsCreated] = useState(false);
+
+    const navigate = useNavigate();
   
     const showNotification = (message: string, type: "success" | "error") => {
       toast[type](message, { toastId: "success" });
@@ -36,9 +39,13 @@ import {
         const token = localStorage.getItem('token');
         if (token && role === 'admin') {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          setUserRole(role);
         }
-      }, [role]);
+
+        if (isCreated) {
+          navigate("/guest-speakers")
+          setIsCreated(false);
+        }
+      }, [role, isCreated, navigate]);
 
       const validURL = (str: string) => {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -50,7 +57,7 @@ import {
         return !!pattern.test(str);
       }
   
-    const onSubmit = () => {
+    const onSubmit = async () => {
       setSubmitClicked(true);
       if (
         speakerData.name &&
@@ -70,10 +77,17 @@ import {
       ) {
           speakerData.sessionText = speakerData.sessionText.split("\n\n").map((item: any) => item.trim());
           speakerData.bioText = speakerData.bioText.split("\n\n").map((item: any) => item.trim());
-  
-          console.log("SPEAKER DATA: ", speakerData)
           
-          axios
+          const [year, month, day] = speakerData.date.split('-').map(Number);
+          const dateValue = new Date(year, month - 1, day);
+          const options: Intl.DateTimeFormatOptions = {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+          };
+          speakerData.date = dateValue.toLocaleDateString('en-US', options);
+          
+          await axios
           .post(`${host}/api/auth/speaker`, speakerData)
           .then(() => {
               const emptySpeaker = {
@@ -87,10 +101,10 @@ import {
               };
               setSpeakerData(emptySpeaker);
               setSubmitClicked(false)
+              setIsCreated(true);
               showNotification("Guest speaker successfully added!", "success");
           })
         .catch((error) => {
-            console.log("ERROR: ", error.response.data)
             if (error.response.data.message === "Unauthorized") {
               showNotification(
                 "It looks like your session has expired. Please log in again to create guest speaker!",
@@ -141,7 +155,7 @@ import {
         setSpeakerData({ ...speakerData, sessionRecordingUrl: e.target.value });
     };
 
-    if (userRole !== 'admin') {
+    if (role !== 'admin') {
         return null;
       }
   
@@ -172,17 +186,9 @@ import {
               value={speakerData.date}
               onChange={onChangeDate}
               isInvalid={
-                submitClicked &&
-                (!speakerData.date ||
-                  new Date(speakerData.date).getTime() < new Date().setHours(0, 0, 0, 0)) 
+                submitClicked && !speakerData.date
               }
             />
-            {submitClicked && (!speakerData.date ||
-                  new Date(speakerData.date).getTime() < new Date().setHours(0, 0, 0, 0)) ? (
-                      <FormHelperText color="red">
-                          Please enter a valid date.
-                      </FormHelperText>
-                  ) : null}
           </Box>
           <Box>
             <FormLabel layerStyle="input">Session Description</FormLabel>
@@ -197,7 +203,7 @@ import {
             />
           </Box>
           <Box>
-            <FormLabel layerStyle="input">Biography</FormLabel>
+            <FormLabel layerStyle="input">About</FormLabel>
             <Textarea
               layerStyle="input"
               variant="filled"
