@@ -14,6 +14,7 @@ import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
+import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
   BasicLoader,
   AppLoader,
@@ -23,6 +24,8 @@ import {
   ProfileResetLoader,
   UserProjectsLoader,
   ProjectLoader,
+  CombinedLoader,
+  ProfileLoaderNoToast,
 } from "./helpers/loader_functions";
 
 export const showNotification = (
@@ -67,7 +70,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("auth/speakers"),
+        loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
       },
       {
         path: "/jobs",
@@ -103,6 +106,11 @@ const router = createBrowserRouter([
         element: <Projects />,
         loader: UserProjectsLoader,
       },
+      {
+        path: "/guest-speaker/:id",
+        element: <GuestSpeakerDetails />,
+        loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
+      }
     ],
   },
 ]);

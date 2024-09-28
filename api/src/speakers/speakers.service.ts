@@ -16,4 +16,20 @@ export class SpeakersService {
   async findAllSpeakers() {
     return await this.speakersRepository.find();
   }
+  
+  async findOneById(id: number) {
+    return await this.speakersRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async deleteSpeaker(speakerToDelete){
+    return await this.speakersRepository.delete(speakerToDelete.id);
+  }
+
+  async updateSpeaker(id: number, field: string, value: string | string[]) {
+    const speakerToUpdate = await this.findOneById(id);
+    speakerToUpdate[field] = value;
+    return await this.speakersRepository.save(speakerToUpdate);
+  }
 }

@@ -11,7 +11,7 @@ import {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  itemType: "account" | "project" | "feature" | "user story";
+  itemType: "account" | "project" | "feature" | "user story" | "guest speaker";
   deleteItem: () => void;
 };
 

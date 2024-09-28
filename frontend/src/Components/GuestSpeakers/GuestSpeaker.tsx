@@ -15,24 +15,69 @@ import {
 import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 import MyButton from "../MyButton";
+import DeleteButton from "../DeleteButton";
 import Paragraph from "../Paragraph";
 import VideoModal from "./VideoModal";
 import ZoomModal from "./ZoomModal";
+import { useNavigate } from "react-router-dom";
+import Alert from "../Profile/Alert";
+import { useRef, useState, useEffect } from "react";
+import axios from "axios";
+import { host } from "../..";
+import { toast } from "react-toastify";
 
 type Props = {
   speaker: Speaker;
+  profile: Profile;
 };
 
-const GuestSpeaker = ({ speaker }: Props) => {
+type Profile = {
+  role: string;
+};
+
+const GuestSpeaker = ({ speaker, profile }: Props) => {
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const navigate = useNavigate();
+
+  const role = profile.role;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isOpenZoom,
     onOpen: onOpenZoom,
     onClose: onCloseZoom,
   } = useDisclosure();
+  const {
+    isOpen: isOpenAlert,
+    onOpen: onOpenAlert,
+    onClose: onCloseAlert,
+  } = useDisclosure();
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+
+  const deleteGuestSpeaker = async () => {
+  if (role) {
+    await axios.delete(
+      `${host}/api/auth/speaker/${speaker.id}`,
+    ).then(() => {
+      onCloseAlert();
+      toast.success("Guest speaker deleted successfully");
+      setIsDeleted(true);
+    }).catch(() => {
+      toast.error("Error deleting guest speaker");
+    });
+  };
+};
+
+  useEffect(() =>{
+    if (isDeleted) {
+      navigate("/guest-speakers")
+      setIsDeleted(false);
+    };
+  }, [isDeleted, navigate]);
 
   return (
     <Section
@@ -135,12 +180,25 @@ const GuestSpeaker = ({ speaker }: Props) => {
           {speaker.sessionRecordingUrl ? (
             <MyButton onClick={onOpen}>Watch Recording</MyButton>
           ) : (
-            <MyButton onClick={onOpenZoom}>Get Zoom Link</MyButton>
+            <MyButton onClick={onOpenZoom}>Zoom Link</MyButton>
           )}
+          { role === "admin" ? (
+            <>
+              <MyButton onClick={()=>{navigate(`/guest-speaker/${speaker.id}`)}}>Edit</MyButton>
+              <DeleteButton onClick={onOpenAlert}>Delete</DeleteButton>
+            </>
+          ) : null}
         </Box>
       </Box>
       <VideoModal isOpen={isOpen} onClose={onClose} speaker={speaker} />
       <ZoomModal isOpen={isOpenZoom} onClose={onCloseZoom} />
+      <Alert
+        isOpenAlert={isOpenAlert}
+        onCloseAlert={onCloseAlert}
+        cancelRef={cancelRef}
+        item="guest speaker"
+        handleDelete={deleteGuestSpeaker}
+      />
     </Section>
   );
 };

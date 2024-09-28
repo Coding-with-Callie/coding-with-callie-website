@@ -85,6 +85,19 @@ export const ProfileLoader = async () => {
   }
 };
 
+export const ProfileLoaderNoToast = async () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const response = await axios.get(`${host}/api/auth/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } else {
+    return {};
+  }
+};
+
 export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   const token = params.token as string;
   const id = params.id;
@@ -150,3 +163,9 @@ export const UserProjectsLoader = async () => {
     return redirect("/sign-up");
   }
 };
+
+export async function CombinedLoader(endpoint: string, loader: () => any) {
+  const basicData = await BasicLoader(endpoint);
+  const loaderData = await loader();
+  return {basicData, loaderData};
+}

@@ -205,6 +205,15 @@ export class AuthService {
     return await this.speakersService.findAllSpeakers();
   }
 
+  async deleteSpeaker(id: number) {
+    const speaker = await this.speakersService.findOneById(id);
+    return await this.speakersService.deleteSpeaker(speaker);
+  }
+
+  async changeSpeakerDetail(id: number, value: string | string[], field: string) {
+    return await this.speakersService.updateSpeaker(id, field, value);
+  }
+
   async createAlumni(alumni: AlumniDto) {
     return await this.alumniService.createAlumni(alumni);
   }
