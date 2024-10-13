@@ -10,7 +10,7 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v2
         - name: Build image
-          run: docker build -t api .
+          run: docker build -t api ./api
         - name: Install doctl
           uses: digitalocean/action-doctl@v2
           with:
