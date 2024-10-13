@@ -32,7 +32,6 @@ export type Workshop = {
 };
 
 const openWorkshopInNewTab = (name: string) => {
-  console.log("NAME: ", name);
   if (name === "Build in Public Challenge") {
     window.open(
       "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",

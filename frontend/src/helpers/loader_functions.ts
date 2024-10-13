@@ -10,8 +10,6 @@ export const BasicLoader = async (endpoint: string) => {
 export const AppLoader = async () => {
   const token = localStorage.getItem("token");
 
-  console.log("host", host);
-
   if (token) {
     try {
       const response = await axios.get(`${host}/api/auth/profile`, {
@@ -167,5 +165,5 @@ export const UserProjectsLoader = async () => {
 export async function CombinedLoader(endpoint: string, loader: () => any) {
   const basicData = await BasicLoader(endpoint);
   const loaderData = await loader();
-  return {basicData, loaderData};
+  return { basicData, loaderData };
 }
