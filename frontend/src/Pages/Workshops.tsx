@@ -32,6 +32,7 @@ export type Workshop = {
 };
 
 const openWorkshopInNewTab = (name: string) => {
+  console.log("NAME: ", name);
   if (name === "Project Planning Tool: Fullstack") {
     window.open(
       "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",
