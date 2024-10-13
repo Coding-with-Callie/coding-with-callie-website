@@ -1,0 +1,50 @@
+name: Push Docker Image to Amazon ECR
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build-api:
+    name: Build and Push - API
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{secrets.AWS_REGION}}
+        - name: Log into Amazon ECR
+          id: login-aws-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+        - name: Build and push the tagged docker image to Amazon ECR
+          id: build
+          env:
+            ECR_IMAGE: ${{ steps.login-aws-ecr.outputs.registry }}/${{secrets.API_IMAGE_REPO}}:latest
+          run: |
+            docker build -t ${{ env.ECR_IMAGE }} ./api
+            docker push ${{ env.ECR_IMAGE }}
+
+  build-frontend:
+    name: Build and Push - Frontend
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{secrets.AWS_REGION}}
+        - name: Log into Amazon ECR
+          id: login-aws-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+        - name: Build and push the tagged docker image to Amazon ECR
+          id: build
+          env:
+            ECR_IMAGE: ${{ steps.login-aws-ecr.outputs.registry }}/${{secrets.FRONTEND_IMAGE_REPO}}:latest
+          run: |
+            docker build -t ${{ env.ECR_IMAGE }} ./frontend
+            docker push ${{ env.ECR_IMAGE }}
