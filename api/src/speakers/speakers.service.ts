@@ -16,14 +16,14 @@ export class SpeakersService {
   async findAllSpeakers() {
     return await this.speakersRepository.find();
   }
-  
+
   async findOneById(id: number) {
     return await this.speakersRepository.findOne({
       where: { id },
     });
   }
 
-  async deleteSpeaker(speakerToDelete){
+  async deleteSpeaker(speakerToDelete) {
     return await this.speakersRepository.delete(speakerToDelete.id);
   }
 
