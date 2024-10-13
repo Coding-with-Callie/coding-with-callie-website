@@ -33,7 +33,7 @@ export type Workshop = {
 
 const openWorkshopInNewTab = (name: string) => {
   console.log("NAME: ", name);
-  if (name === "Project Planning Tool: Fullstack") {
+  if (name === "Build in Public Challenge") {
     window.open(
       "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",
       "_blank",
@@ -104,9 +104,7 @@ const Workshops = () => {
                   key={index}
                 >
                   <Heading fontSize={28} color="#79A9CD" textAlign="center">
-                    {workshop.name === "Project Planning Tool: Fullstack"
-                      ? "Build in Public Challenge"
-                      : "Deploy in Public Challenge"}
+                    {workshop.name}
                   </Heading>
 
                   <Text color="#45446A" flex={1}>
