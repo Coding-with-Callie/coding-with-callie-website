@@ -38,13 +38,6 @@ const buildInPublicChallenge = [
   "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post about your project as you build it!",
 ];
 
-const jobsFund = [
-  "Junior developers need experience and deserve to be PAID for their work...and I need help developing Coding with Callie 💡",
-  "So, I'm creating a list of Coding with Callie jobs that I would love to see completed...but don't have the time to do: adding new features, fixing bugs, refactoring code, researching tools, frameworks, and libraries, and creating MVPs, tutorials, documentation, etc.",
-  "Anyone who successfully COMPLETES Coding with Callie's Build in Public or Deploy in Public challenge will be eligible to take on a job (as available) and get paid. I will be a reserving a portion of Coding with Callie profits for the fund.",
-  "If you'd like to donate to the Junior Developer Fund, please click the button below.",
-];
-
 const Home = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -107,18 +100,6 @@ const Home = () => {
           buttonText={"View Guest Speakers!"}
         >
           <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
-        </TextWithImageAndButton>
-      </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Donate to the Junior Developer Jobs Fund"}
-          imageUrl={"https://coding-with-callie.s3.amazonaws.com/donate.jpeg"}
-          linkUrl={
-            "https://pages.donately.com/codingwithcallie/campaign/junior-developer-jobs-fund"
-          }
-          buttonText={"Donate!"}
-        >
-          <BodyText textBlocks={jobsFund} textAlignCenter={false} />
         </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
