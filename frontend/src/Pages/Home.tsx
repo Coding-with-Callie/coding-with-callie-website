@@ -51,8 +51,6 @@ const Home = () => {
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
-  console.log("HELLO FROM HOME PAGE");
-
   return (
     <Box>
       <Section
