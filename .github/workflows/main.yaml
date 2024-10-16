@@ -55,5 +55,5 @@ jobs:
           script: |
             docker compose pull
             docker compose up -d
-            docker system prune -y
+            docker system prune -f
 
