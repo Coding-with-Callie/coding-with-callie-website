@@ -53,4 +53,5 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
           script: |
-            echo "Deploying to DigitalOcean Droplet" >> ~/test.txt
+            docker compose pull >> ~/test1.txt
+
