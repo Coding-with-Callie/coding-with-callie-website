@@ -28,7 +28,7 @@ const deployInPublicChallenge = [
   "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.",
   "In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop will be eligible to complete paid web development tickets as available for Coding With Callie.",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post your deployment progress as you go!",
 ];
 
 const buildInPublicChallenge = [
