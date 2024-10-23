@@ -70,7 +70,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
+        loader: () => BasicLoader("auth/speakers"),
       },
       {
         path: "/jobs",

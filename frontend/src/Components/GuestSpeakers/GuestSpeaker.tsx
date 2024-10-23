@@ -28,19 +28,31 @@ import { toast } from "react-toastify";
 
 type Props = {
   speaker: Speaker;
-  profile: Profile;
 };
 
-type Profile = {
-  role: string;
-};
-
-const GuestSpeaker = ({ speaker, profile }: Props) => {
+const GuestSpeaker = ({ speaker }: Props) => {
   const [isDeleted, setIsDeleted] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
-  const role = profile.role;
+  const profileLoader = async () => {
+    const token = localStorage.getItem("token");
+  
+    if (token) {
+      try {
+        const response = await axios.get(`${host}/api/auth/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        return response.data.role;
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+        return null; 
+      }
+    } else {
+      return null; 
+    }
+  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -77,7 +89,13 @@ const GuestSpeaker = ({ speaker, profile }: Props) => {
       navigate("/guest-speakers")
       setIsDeleted(false);
     };
-  }, [isDeleted, navigate]);
+    const loadProfile = async () => {
+      const userRole = await profileLoader();
+      setRole(userRole);
+    }
+    loadProfile();
+  }, [isDeleted, navigate, profileLoader]);
+
 
   return (
     <Section
