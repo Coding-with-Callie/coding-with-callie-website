@@ -29,36 +29,37 @@ import {
       toast[type](message, { toastId: "success" });
     };
 
-    const profileLoader = async () => {
-      const token = localStorage.getItem("token");
-    
-      if (token) {
-        try {
-          const response = await axios.get(`${host}/api/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          return response.data.role;
-        } catch (error) {
-          console.error("Failed to fetch profile:", error);
+    useEffect(() => {
+      const profileLoader = async () => {
+        const token = localStorage.getItem("token");
+      
+        if (token) {
+          try {
+            const response = await axios.get(`${host}/api/auth/profile`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            return response.data.role;
+          } catch (error) {
+            console.error("Failed to fetch profile:", error);
+            return null; 
+          }
+        } else {
           return null; 
         }
-      } else {
-        return null; 
-      }
-    };
+      };
 
-    useEffect(() => {
       const loadProfile = async () => {
         const userRole = await profileLoader();
         setRole(userRole);
       }
-      loadProfile();
 
-        if (isCreated) {
-          navigate("/guest-speakers")
-          setIsCreated(false);
-        }
-      }, [profileLoader, isCreated, navigate]);
+      if (isCreated) {
+        navigate("/guest-speakers")
+        setIsCreated(false);
+      }
+
+      loadProfile();
+      }, [isCreated, navigate]);
 
       const validURL = (str: string) => {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -99,9 +100,10 @@ import {
               day: 'numeric'
           };
           speakerData.date = dateValue.toLocaleDateString('en-US', options);
-          
+          const token = localStorage.getItem("token")
+
           await axios
-          .post(`${host}/api/auth/speaker`, speakerData)
+          .post(`${host}/api/auth/speaker`, speakerData, {headers: { Authorization: `Bearer ${token}` }})
           .then(() => {
               const emptySpeaker = {
               name: "",
