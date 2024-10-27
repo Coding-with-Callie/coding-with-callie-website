@@ -14,17 +14,11 @@ import {
   import { host } from "../..";
   import BodyHeading from "../BodyHeading";
   import { useEffect } from "react";
-  import { useLoaderData, useNavigate } from "react-router-dom";
+  import { useNavigate } from "react-router-dom";
 
-
-  export type Profile = {
-    role: string;
-    };
   
   const GuestSpeakerForm = () => {
-    const data = useLoaderData() as { loaderData: Profile };
-    const role = data.loaderData.role;
-
+    const [role, setRole] = useState<string | null>(null);
     const [speakerData, setSpeakerData] = useState<any>({});
     const [submitClicked, setSubmitClicked] = useState(false);
     const [isCreated, setIsCreated] = useState(false);
@@ -36,16 +30,36 @@ import {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token && role === 'admin') {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const profileLoader = async () => {
+        const token = localStorage.getItem("token");
+      
+        if (token) {
+          try {
+            const response = await axios.get(`${host}/api/auth/profile`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            return response.data.role;
+          } catch (error) {
+            console.error("Failed to fetch profile:", error);
+            return null; 
+          }
+        } else {
+          return null; 
         }
+      };
 
-        if (isCreated) {
-          navigate("/guest-speakers")
-          setIsCreated(false);
-        }
-      }, [role, isCreated, navigate]);
+      const loadProfile = async () => {
+        const userRole = await profileLoader();
+        setRole(userRole);
+      }
+
+      if (isCreated) {
+        navigate("/guest-speakers")
+        setIsCreated(false);
+      }
+
+      loadProfile();
+      }, [isCreated, navigate]);
 
       const validURL = (str: string) => {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -86,9 +100,10 @@ import {
               day: 'numeric'
           };
           speakerData.date = dateValue.toLocaleDateString('en-US', options);
-          
+          const token = localStorage.getItem("token")
+
           await axios
-          .post(`${host}/api/auth/speaker`, speakerData)
+          .post(`${host}/api/auth/speaker`, speakerData, {headers: { Authorization: `Bearer ${token}` }})
           .then(() => {
               const emptySpeaker = {
               name: "",
