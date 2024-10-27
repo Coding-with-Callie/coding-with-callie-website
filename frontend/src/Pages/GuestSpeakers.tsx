@@ -17,14 +17,9 @@ export type Speaker = {
   sessionRecordingUrl: string;
 };
 
-export type Profile = {
-  role: string;
-};
-
 const GuestSpeakers = () => {
-  const data = useLoaderData() as { basicData: Speaker[], loaderData: Profile };
-  let speakers = data.basicData;
-  let profile = data.loaderData;
+  const data = useLoaderData() as Speaker[];
+  let speakers = data;
   //Sort speakers in descending order based on date. Times are ignored.
   speakers = speakers.sort((a, b) => {
     const aDate = new Date(a.date);
@@ -38,7 +33,7 @@ const GuestSpeakers = () => {
   //Split speakers into upcomingSpeakers and pastSpeakers based on date
   const { upcomingSpeakers, pastSpeakers } = speakers.reduce(
     (
-      acc: { upcomingSpeakers: Speaker[], pastSpeakers: Speaker[] }, 
+      acc: { upcomingSpeakers: Speaker[]; pastSpeakers: Speaker[] },
       speaker: Speaker
     ) => {
       /*Speaker.date does not include a timestamp. So this object will be
@@ -55,34 +50,30 @@ const GuestSpeakers = () => {
         acc.pastSpeakers.push(speaker);
       }
       return acc;
-    }, 
+    },
     { upcomingSpeakers: [], pastSpeakers: [] }
   );
   return (
     <Box>
-      <Center><GuestSpeakerForm /></Center>
+      <Center>
+        <GuestSpeakerForm />
+      </Center>
       <Box m={"0 auto"}>
         <UpcomingCarousel speakers={upcomingSpeakers} />
-        <BodyHeading textAlignCenter={true}>
-          Past Speakers
-        </BodyHeading>
+        <BodyHeading textAlignCenter={true}>Past Speakers</BodyHeading>
         <Center>
-          <Divider 
-            w="80%" 
-            orientation='horizontal' 
-            borderColor="black" 
-            mb={4} 
+          <Divider
+            w="80%"
+            orientation="horizontal"
+            borderColor="black"
+            mb={4}
           />
         </Center>
         {pastSpeakers.map((speaker, index) => {
-            return (
-              <GuestSpeaker 
-                speaker={speaker} 
-                profile={profile} 
-                key={index} 
-              />
-            );
-          })}
+          return (
+            <GuestSpeaker speaker={speaker} profile={profile} key={index} />
+          );
+        })}
       </Box>
     </Box>
   );

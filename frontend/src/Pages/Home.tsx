@@ -25,25 +25,17 @@ const planYourProjects = [
 ];
 
 const deployInPublicChallenge = [
-  "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
-  "The Deploy in Public Challenge will be run as a cohort from  August 8, 2024 - October 17, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
+  "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.",
+  "In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop will be eligible to complete paid web development tickets as available for Coding With Callie.",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post your deployment progress as you go!",
 ];
 
 const buildInPublicChallenge = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc. When I started my software engineering position, however, I realized how much my projects were lacking when it comes to: error handling, testing, security, project management, documentation, etc.",
   "In this workshop, you'll build a fullstack minimum viable product (MVP), spending the necessary time to make sure users can actually use it.",
-  "The Build in Public Challenge will be run as a cohort from  August 8, 2024 - October 17, 2024. I'll post a weekly assignment, some helpful resources, and a few hours worth of videos of me working through the assignment.",
   "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Those who finish the workshop will be eligible to complete paid web development tickets as available for Coding With Callie.",
-];
-
-const jobsFund = [
-  "Junior developers need experience and deserve to be PAID for their work...and I need help developing Coding with Callie 💡",
-  "So, I'm creating a list of Coding with Callie jobs that I would love to see completed...but don't have the time to do: adding new features, fixing bugs, refactoring code, researching tools, frameworks, and libraries, and creating MVPs, tutorials, documentation, etc.",
-  "Anyone who successfully COMPLETES Coding with Callie's Build in Public or Deploy in Public challenge will be eligible to take on a job (as available) and get paid. I will be a reserving a portion of Coding with Callie profits for the fund.",
-  "If you'd like to donate to the Junior Developer Fund, please click the button below.",
+  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post about your project as you build it!",
 ];
 
 const Home = () => {
@@ -76,8 +68,8 @@ const Home = () => {
           imageUrl={
             "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
           }
-          linkUrl="https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge-8-8"
-          buttonText={"Join the cohort!"}
+          linkUrl="https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge"
+          buttonText={"Build a MVP with me!"}
         >
           <BodyText
             textBlocks={buildInPublicChallenge}
@@ -91,8 +83,8 @@ const Home = () => {
           imageUrl={
             "https://coding-with-callie.s3.amazonaws.com/deployment.png"
           }
-          linkUrl="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge-8-8"
-          buttonText={"Join the cohort!"}
+          linkUrl="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
+          buttonText={"Deploy with me!"}
         >
           <BodyText
             textBlocks={deployInPublicChallenge}
@@ -108,18 +100,6 @@ const Home = () => {
           buttonText={"View Guest Speakers!"}
         >
           <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
-        </TextWithImageAndButton>
-      </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Donate to the Junior Developer Jobs Fund"}
-          imageUrl={"https://coding-with-callie.s3.amazonaws.com/donate.jpeg"}
-          linkUrl={
-            "https://pages.donately.com/codingwithcallie/campaign/junior-developer-jobs-fund"
-          }
-          buttonText={"Donate!"}
-        >
-          <BodyText textBlocks={jobsFund} textAlignCenter={false} />
         </TextWithImageAndButton>
       </Section>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
