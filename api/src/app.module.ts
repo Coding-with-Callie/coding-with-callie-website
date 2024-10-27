@@ -66,9 +66,9 @@ import { ServerResponse } from 'http';
     ReviewModule,
     SpeakersModule,
     WorkshopsModule,
-    AlumniModule
+    AlumniModule,
   ],
   controllers: [AppController, ReviewController],
-  providers: [AppService, ],
+  providers: [AppService],
 })
 export class AppModule {}
