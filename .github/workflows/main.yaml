@@ -1,7 +1,7 @@
 name: Build and Deploy to DigitalOcean
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "prod" ]
 jobs:
   build-api:
     name: Build and Push - API
