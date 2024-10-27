@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Flex } from "@chakra-ui/react";
+import { Box, Center, Divider } from "@chakra-ui/react";
 import { useLoaderData } from "react-router-dom";
 import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
 import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
@@ -70,9 +70,7 @@ const GuestSpeakers = () => {
           />
         </Center>
         {pastSpeakers.map((speaker, index) => {
-          return (
-            <GuestSpeaker speaker={speaker} profile={profile} key={index} />
-          );
+          return <GuestSpeaker speaker={speaker} key={index} />;
         })}
       </Box>
     </Box>
