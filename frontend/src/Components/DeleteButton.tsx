@@ -1,4 +1,5 @@
 import { Button } from "@chakra-ui/react";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 type Props = {
   children: string;
@@ -14,6 +15,7 @@ const DeleteButton = ({ children, onClick, widthSize, disabled }: Props) => {
       w={widthSize}
       onClick={onClick}
       disabled={disabled}
+      rightIcon={<FaRegTrashAlt />}
     >
       {children}
     </Button>

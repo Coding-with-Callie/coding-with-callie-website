@@ -14,6 +14,7 @@ import { validURL } from "../helpers/helpers";
 import axios from "axios";
 import { host } from "..";
 import { ResourceType } from "../Pages/Home";
+import { toast } from "react-toastify";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -89,6 +90,7 @@ const ResourceForm = ({ setResources }: Props) => {
       )
       .then((response) => {
         setResources(response.data);
+        toast.success("Resource created successfully");
 
         setHeading("");
         setBodyText("");
@@ -97,6 +99,9 @@ const ResourceForm = ({ setResources }: Props) => {
         setLinkUrl("");
         setTarget(true);
         setSubmitClicked(false);
+      })
+      .catch(() => {
+        toast.error("Error creating resource");
       });
   };
 
