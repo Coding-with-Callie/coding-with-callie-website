@@ -19,4 +19,9 @@ export class ResourceService {
     await this.resourceRepository.save(resource);
     return await this.getResources();
   }
+
+  async deleteResource(id: number) {
+    await this.resourceRepository.delete(id);
+    return await this.getResources();
+  }
 }

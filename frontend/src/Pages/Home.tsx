@@ -18,6 +18,7 @@ const homeText = [
 ];
 
 export type ResourceType = {
+  id: number;
   heading: string;
   imageUrl: string;
   linkUrl: string;
@@ -63,6 +64,8 @@ const Home = () => {
     loadProfile();
   }, []);
 
+  console.log(resources);
+
   return (
     <Box>
       <Section
@@ -84,12 +87,15 @@ const Home = () => {
       </Section>
       {resources.map((resource) => (
         <Resource
+          id={resource.id}
           heading={resource.heading}
           imageUrl={resource.imageUrl}
           linkUrl={resource.linkUrl}
           buttonText={resource.buttonText}
           textBlocks={resource.bodyText}
           target={resource.target ? "_blank" : "_self"}
+          editable={role === "admin"}
+          setResources={setResources}
         />
       ))}
       {role === "admin" && (

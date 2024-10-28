@@ -293,6 +293,13 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @Delete('resource/:id')
+  async deleteResource(@Param('id') id: number) {
+    return await this.authService.deleteResource(id);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
   @Post('speaker')
   async createSpeaker(@Body() speaker: Speaker) {
     return await this.authService.createSpeaker(speaker);
