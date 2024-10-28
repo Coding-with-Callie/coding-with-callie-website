@@ -48,6 +48,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: () => BasicLoader("resources"),
       },
       {
         path: "/*",
@@ -110,7 +111,7 @@ const router = createBrowserRouter([
         path: "/guest-speaker/:id",
         element: <GuestSpeakerDetails />,
         loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
-      }
+      },
     ],
   },
 ]);

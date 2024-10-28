@@ -2,7 +2,12 @@ import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
-import TextWithImageAndButton from "../Components/Home/TextWithImageAndButton";
+import Resource from "../Components/Resource";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { host } from "..";
+import ResourceForm from "../Components/ResourceForm";
+import { useLoaderData } from "react-router-dom";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -12,36 +17,51 @@ const homeText = [
   "Currently, I'm a Site Reliability Engineer II at HashiCorp! I love coding a little too much and find it difficult to stop coding after hours. So, I decided to switch it up and spend my after hours coding time on Coding with Callie.",
 ];
 
-const zoomSessions = [
-  "We have a guest speakers lead mini-workshops and answer all of your questions about their experience in the software developement industry!",
-  "Past guests have included: self-taught developers that successfully broke into tech, engineering managers, product managers, frontend specialists, and more!",
-  "Every one is welcome at the meet-ups! You can see upcoming events on Coding with Callie's LinkedIn page.",
-];
-
-const planYourProjects = [
-  "It's important to plan out a project before you start coding! You can do this using the MVP from the project Planning Tool: Fullstack workshop.",
-  "First, you want to think about the features your project needs to offer. Then, you can break these features into user stories, the specific actions that your users can take on your application. Lastly, you have to figure out how to build out those user stories. You can break up each user story into doable develop tasks and update them as you go.",
-  "Let me know how you like using the tool, if you find any bugs, and any future features that you'd like to see.",
-];
-
-const deployInPublicChallenge = [
-  "Deploying an application is HARD. Knowing what resources to use, what steps to follow, and what to do when you get stuck can feel impossible.",
-  "In this 10 week workshop, we'll start simple and work our way up to deploying a fullstack application using AWS, Docker, Kubernetes, Github Actions and more",
-  "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post your deployment progress as you go!",
-];
-
-const buildInPublicChallenge = [
-  "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc. When I started my software engineering position, however, I realized how much my projects were lacking when it comes to: error handling, testing, security, project management, documentation, etc.",
-  "In this workshop, you'll build a fullstack minimum viable product (MVP), spending the necessary time to make sure users can actually use it.",
-  "Why is it called a challenge, though? 🤔",
-  "I was able to break into tech AND land my second job in tech through building in public...so I want to encourage others to do the same! Post about your project as you build it!",
-];
+export type ResourceType = {
+  heading: string;
+  imageUrl: string;
+  linkUrl: string;
+  buttonText: string;
+  bodyText: string[];
+  target: boolean;
+};
 
 const Home = () => {
+  const loaderData = useLoaderData() as ResourceType[];
+
+  const [resources, setResources] = useState<ResourceType[]>(loaderData);
+  const [role, setRole] = useState<string | null>(null);
+
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+
+  useEffect(() => {
+    const profileLoader = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const response = await axios.get(`${host}/api/auth/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          return response.data.role;
+        } catch (error) {
+          console.error("Failed to fetch profile:", error);
+          return null;
+        }
+      } else {
+        return null;
+      }
+    };
+
+    const loadProfile = async () => {
+      const userRole = await profileLoader();
+      setRole(userRole);
+    };
+
+    loadProfile();
+  }, []);
 
   return (
     <Box>
@@ -62,58 +82,21 @@ const Home = () => {
           <BodyText textBlocks={homeText} textAlignCenter={false} />
         </Box>
       </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Build in Public Challenge"}
-          imageUrl={
-            "https://coding-with-callie.s3.amazonaws.com/wire_frame.png"
-          }
-          linkUrl="https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge"
-          buttonText={"Build a MVP with me!"}
-        >
-          <BodyText
-            textBlocks={buildInPublicChallenge}
-            textAlignCenter={false}
-          />
-        </TextWithImageAndButton>
-      </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Deploy in Public Challenge"}
-          imageUrl={
-            "https://coding-with-callie.s3.amazonaws.com/deployment.png"
-          }
-          linkUrl="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
-          buttonText={"Deploy with me!"}
-        >
-          <BodyText
-            textBlocks={deployInPublicChallenge}
-            textAlignCenter={false}
-          />
-        </TextWithImageAndButton>
-      </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Network with Industry Professionals"}
-          imageUrl={"https://coding-with-callie.s3.amazonaws.com/meet-up.png"}
-          linkUrl="https://www.linkedin.com/company/coding-with-callie"
-          buttonText={"View Guest Speakers!"}
-        >
-          <BodyText textBlocks={zoomSessions} textAlignCenter={false} />
-        </TextWithImageAndButton>
-      </Section>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
-        <TextWithImageAndButton
-          heading={"Plan Your Projects"}
-          imageUrl={
-            "https://coding-with-callie.s3.amazonaws.com/planning_a_project.jpeg"
-          }
-          linkUrl="/projects"
-          buttonText={"Check it out!"}
-        >
-          <BodyText textBlocks={planYourProjects} textAlignCenter={false} />
-        </TextWithImageAndButton>
-      </Section>
+      {resources.map((resource) => (
+        <Resource
+          heading={resource.heading}
+          imageUrl={resource.imageUrl}
+          linkUrl={resource.linkUrl}
+          buttonText={resource.buttonText}
+          textBlocks={resource.bodyText}
+          target={resource.target ? "_blank" : "_self"}
+        />
+      ))}
+      {role === "admin" && (
+        <Box my={20}>
+          <ResourceForm setResources={setResources} />
+        </Box>
+      )}
     </Box>
   );
 };

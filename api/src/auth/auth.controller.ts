@@ -55,7 +55,7 @@ export class AccountDetailDto {
 
   @IsNotEmpty({ message: 'You must provide a new value.' })
   @Transform((params) => sanitizeHTML(params.value))
-  value: string ;
+  value: string;
 
   @IsNotEmpty()
   field: string;
@@ -193,6 +193,30 @@ export class UpdateProjectDto {
   projectId: number;
 }
 
+export class ResourceDTO {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  heading: string;
+
+  @IsNotEmpty()
+  bodyText: string[];
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  imageUrl: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  buttonText: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  linkUrl: string;
+
+  @IsNotEmpty()
+  target: boolean;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -262,6 +286,13 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @Post('resource')
+  async createResource(@Body() resource: ResourceDTO) {
+    return await this.authService.createResource(resource);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
   @Post('speaker')
   async createSpeaker(@Body() speaker: Speaker) {
     return await this.authService.createSpeaker(speaker);
@@ -277,11 +308,9 @@ export class AuthController {
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
   @Put('guest-speaker/:id')
-  async updateSpeaker(@Body() body: {
-    id: number; 
-    field: string; 
-    value: string | string[]
-  }) {
+  async updateSpeaker(
+    @Body() body: { id: number; field: string; value: string | string[] },
+  ) {
     return await this.authService.changeSpeakerDetail(
       body.id,
       body.value,

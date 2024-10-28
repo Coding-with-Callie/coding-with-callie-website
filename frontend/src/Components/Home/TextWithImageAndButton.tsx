@@ -10,6 +10,7 @@ type Props = {
   imageUrl: string;
   linkUrl: string;
   buttonText: string;
+  target: "_blank" | "_self";
 };
 
 const TextWithImageAndButton = ({
@@ -18,6 +19,7 @@ const TextWithImageAndButton = ({
   imageUrl,
   linkUrl,
   buttonText,
+  target,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
@@ -34,7 +36,7 @@ const TextWithImageAndButton = ({
         {children}
         <ImageWithBorder imageUrl={imageUrl} />
       </Box>
-      <Link to={linkUrl} target="_blank">
+      <Link to={linkUrl} target={target === "_blank" ? "_blank" : "_self"}>
         <MyButton widthSize="100%">{buttonText}</MyButton>
       </Link>
     </Box>

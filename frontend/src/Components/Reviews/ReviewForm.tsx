@@ -9,7 +9,11 @@ import { isInvalidName } from "../../helpers/helpers";
 import { host, showNotification } from "../..";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { User } from "../Profile/Admin";
+
+type User = {
+  id: number;
+  name: string;
+};
 
 type Props = {
   setReviews: React.Dispatch<React.SetStateAction<any>>;

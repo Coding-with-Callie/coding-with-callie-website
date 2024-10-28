@@ -14,6 +14,7 @@ import { FeaturesModule } from '../features/features.module';
 import { ProjectsModule } from '../projects/projects.module';
 import { TasksModule } from '../tasks/tasks.module';
 import { UserStoriesModule } from '../userStories/userStories.module';
+import { ResourceModule } from 'src/resource/resource.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UserStoriesModule } from '../userStories/userStories.module';
     FeaturesModule,
     UserStoriesModule,
     TasksModule,
+    ResourceModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {

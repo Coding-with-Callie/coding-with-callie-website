@@ -16,6 +16,7 @@ import { AlumniModule } from './alumni/alumni.module';
 import { LoggerModule } from 'nestjs-pino';
 import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
+import { ResourceModule } from './resource/resource.module';
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { ServerResponse } from 'http';
     SpeakersModule,
     WorkshopsModule,
     AlumniModule,
+    ResourceModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],
