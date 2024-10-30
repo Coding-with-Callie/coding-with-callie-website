@@ -9,7 +9,7 @@ export class Resource {
   heading: string;
 
   @Column('text', { array: true })
-  bodyText: string[];
+  bodyText: string[] | string;
 
   @Column()
   imageUrl: string;

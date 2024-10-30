@@ -2,7 +2,6 @@ import {
   Box,
   Checkbox,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
   Textarea,
@@ -23,6 +22,7 @@ type Props = {
 const ResourceForm = ({ setResources }: Props) => {
   const [heading, setHeading] = useState<string>("");
   const [bodyText, setBodyText] = useState<string>("");
+  const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [buttonText, setButtonText] = useState<string>("");
   const [linkUrl, setLinkUrl] = useState<string>("");
@@ -37,8 +37,8 @@ const ResourceForm = ({ setResources }: Props) => {
     setBodyText(e.target.value);
   };
 
-  const onChangeImageUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImageUrl(e.target.value);
+  const onChangeImage = (e: React.ChangeEvent<any>) => {
+    setImage(e.target.files[0]);
   };
 
   const onChangeButtonText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,35 +59,29 @@ const ResourceForm = ({ setResources }: Props) => {
     if (
       heading === "" ||
       bodyText === "" ||
-      imageUrl === "" ||
-      !validURL(imageUrl) ||
       buttonText === "" ||
       linkUrl === ""
     ) {
       return;
     }
 
-    const description: string[] = bodyText
-      .split("\n\n")
-      .map((item: any) => item.trim());
+    const formData = new FormData();
+    if (image) {
+      formData.append("file", image);
+    }
+    formData.append("heading", heading);
+    formData.append("bodyText", bodyText);
+    formData.append("buttonText", buttonText);
+    formData.append("linkUrl", linkUrl);
+    formData.append("target", target.toString());
 
     axios
-      .post(
-        `${host}/api/auth/resource`,
-        {
-          heading,
-          bodyText: description,
-          imageUrl,
-          buttonText,
-          linkUrl,
-          target,
+      .post(`${host}/api/auth/resource`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      })
       .then((response) => {
         setResources(response.data);
         toast.success("Resource created successfully");
@@ -141,23 +135,16 @@ const ResourceForm = ({ setResources }: Props) => {
           />
         </Box>
         <Box>
-          <FormLabel layerStyle="input">Image URL</FormLabel>
+          <FormLabel layerStyle="input">Resource Image</FormLabel>
           <Input
-            type="text"
-            layerStyle="input"
-            variant="filled"
-            id="imageUrl"
-            value={imageUrl}
-            onChange={onChangeImageUrl}
-            isInvalid={
-              submitClicked && (imageUrl === "" || !validURL(imageUrl))
-            }
+            p={0}
+            border="none"
+            borderRadius="0px"
+            type="file"
+            accept="image/*"
+            onChange={onChangeImage}
+            color="#45446A"
           />
-          {submitClicked && (imageUrl === "" || !validURL(imageUrl)) && (
-            <FormHelperText color="red">
-              Please enter a valid url.
-            </FormHelperText>
-          )}
         </Box>
         <Box>
           <FormLabel layerStyle="input">Button Text</FormLabel>

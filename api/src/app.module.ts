@@ -17,6 +17,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
 import { ResourceModule } from './resource/resource.module';
+import { FileUploadModule } from './file_upload/file_upload.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { ResourceModule } from './resource/resource.module';
     WorkshopsModule,
     AlumniModule,
     ResourceModule,
+    FileUploadModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],

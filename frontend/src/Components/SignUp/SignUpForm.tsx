@@ -36,7 +36,7 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       const formData = new FormData();
       formData.append("file", photo);
       axios
-        .post(`${host}/api/auth/upload?id=${id}`, formData, {
+        .post(`${host}/api/auth/upload-profile-image?id=${id}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",

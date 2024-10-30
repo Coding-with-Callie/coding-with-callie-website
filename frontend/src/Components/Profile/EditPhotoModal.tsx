@@ -28,12 +28,16 @@ const EditPhotoModal = ({ onClose }: Props) => {
       formData.append("file", photo);
       onClose();
       axios
-        .post(`${host}/api/auth/upload?id=${context.user.id}`, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(
+          `${host}/api/auth/upload-profile-image?id=${context.user.id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then((response) => {
           showNotification(`Your profile photo has been changed`, "success");
           context.updateUser(response.data);

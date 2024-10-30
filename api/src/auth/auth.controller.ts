@@ -199,19 +199,13 @@ export class ResourceDTO {
   heading: string;
 
   @IsNotEmpty()
-  bodyText: string[];
+  bodyText: string[] | string;
 
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  imageUrl: string;
+  imageUrl?: string;
 
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   buttonText: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  linkUrl: string;
 
   @IsNotEmpty()
   target: boolean;
@@ -268,13 +262,13 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('upload')
+  @Post('upload-profile-image')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
+  async uploadProfileImage(
     @UploadedFile() file: Express.Multer.File,
     @Query('id') id: number,
   ) {
-    await this.authService.uploadFile(id, file);
+    await this.authService.uploadProfileImage(id, file);
     return this.authService.getUserProfile(id);
   }
 
@@ -286,8 +280,23 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Post('resource')
-  async createResource(@Body() resource: ResourceDTO) {
+  async createResource(
+    @Body() resource: ResourceDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    console.log('FILE: ', file);
+    console.log('RESOURCE: ', resource);
+
+    resource.imageUrl = await this.authService.uploadFile(file);
+
+    if (typeof resource.bodyText === 'string') {
+      resource.bodyText = resource.bodyText
+        .split('\n\n')
+        .map((item: any) => item.trim());
+    }
+
     return await this.authService.createResource(resource);
   }
 

@@ -1,14 +1,8 @@
-import { Box, useDisclosure, useMediaQuery } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
 import Section from "./Section";
 import TextWithImageAndButton from "./Home/TextWithImageAndButton";
 import BodyText from "./BodyText";
-import axios from "axios";
-import { host } from "..";
 import { ResourceType } from "../Pages/Home";
-import DeleteButton from "./DeleteButton";
-import { useRef } from "react";
-import { toast } from "react-toastify";
-import Alert from "./Profile/Alert";
 
 type Props = {
   id: number;

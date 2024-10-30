@@ -13,7 +13,8 @@ import { FeaturesService } from '../features/features.service';
 import { ProjectsService } from '../projects/projects.service';
 import { TasksService } from '../tasks/tasks.service';
 import { UserStoriesService } from '../userStories/userStories.service';
-import { ResourceService } from 'src/resource/resource.service';
+import { ResourceService } from '../resource/resource.service';
+import { FileUploadService } from '../file_upload/file_upload.service';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +30,7 @@ export class AuthService {
     private userStoriesService: UserStoriesService,
     private tasksService: TasksService,
     private resourceService: ResourceService,
+    private fileUploadService: FileUploadService,
     private logger: Logger,
   ) {}
 
@@ -192,8 +194,14 @@ export class AuthService {
     }
   }
 
-  async uploadFile(id, file) {
-    return await this.usersService.uploadFile(id, file);
+  async uploadFile(file) {
+    return await this.fileUploadService.uploadFile(file);
+  }
+
+  async uploadProfileImage(id, file) {
+    const user = await this.usersService.findOneById(id);
+    const photoUrl = await this.uploadFile(file);
+    return await this.usersService.changeAccountDetail(user, 'photo', photoUrl);
   }
 
   async submitReview(review) {
