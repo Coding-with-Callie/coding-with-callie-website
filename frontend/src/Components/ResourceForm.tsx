@@ -9,7 +9,6 @@ import {
 import BodyHeading from "./BodyHeading";
 import MyButton from "./MyButton";
 import { useState } from "react";
-import { validURL } from "../helpers/helpers";
 import axios from "axios";
 import { host } from "..";
 import { ResourceType } from "../Pages/Home";
@@ -23,7 +22,6 @@ const ResourceForm = ({ setResources }: Props) => {
   const [heading, setHeading] = useState<string>("");
   const [bodyText, setBodyText] = useState<string>("");
   const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [buttonText, setButtonText] = useState<string>("");
   const [linkUrl, setLinkUrl] = useState<string>("");
   const [target, setTarget] = useState<boolean>(true);
@@ -88,7 +86,6 @@ const ResourceForm = ({ setResources }: Props) => {
 
         setHeading("");
         setBodyText("");
-        setImageUrl("");
         setButtonText("");
         setLinkUrl("");
         setTarget(true);
