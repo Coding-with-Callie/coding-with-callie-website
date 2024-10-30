@@ -64,8 +64,6 @@ const Home = () => {
     loadProfile();
   }, []);
 
-  console.log(resources);
-
   return (
     <Box>
       <Section

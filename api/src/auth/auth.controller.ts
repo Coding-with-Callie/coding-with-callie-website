@@ -286,9 +286,6 @@ export class AuthController {
     @Body() resource: ResourceDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log('FILE: ', file);
-    console.log('RESOURCE: ', resource);
-
     resource.imageUrl = await this.authService.uploadFile(file);
 
     if (typeof resource.bodyText === 'string') {
