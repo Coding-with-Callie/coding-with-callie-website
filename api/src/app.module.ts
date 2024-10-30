@@ -46,16 +46,16 @@ import { FileUploadModule } from './file_upload/file_upload.module';
             };
           },
         },
-        // transport: {
-        //   target: 'pino-pretty',
-        //   options: {
-        //     singleLine: true,
-        //     colorize: true,
-        //     levelFirst: true,
-        //     translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
-        //     ignore: 'pid,hostname',
-        //   },
-        // },
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+            colorize: true,
+            levelFirst: true,
+            translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
+            ignore: 'pid,hostname',
+          },
+        },
         autoLogging: {
           ignore: (req) => req.url === '/api/readyz',
         },

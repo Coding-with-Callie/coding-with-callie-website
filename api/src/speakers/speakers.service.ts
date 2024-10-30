@@ -10,11 +10,42 @@ export class SpeakersService {
     private readonly speakersRepository: Repository<Speaker>,
   ) {}
   async createSpeaker(speaker: Speaker) {
-    return await this.speakersRepository.save({ ...speaker });
+    await this.speakersRepository.save({ ...speaker });
+    return await this.findAllSpeakers();
   }
 
   async findAllSpeakers() {
-    return await this.speakersRepository.find();
+    const speakers = await this.speakersRepository.find();
+
+    const { upcomingSpeakers, pastSpeakers } = speakers.reduce(
+      (
+        acc: { upcomingSpeakers: Speaker[]; pastSpeakers: Speaker[] },
+        speaker: Speaker,
+      ) => {
+        const date = new Date(speaker.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (date >= today) {
+          acc.upcomingSpeakers.push(speaker);
+        } else {
+          acc.pastSpeakers.push(speaker);
+        }
+
+        return acc;
+      },
+      { upcomingSpeakers: [], pastSpeakers: [] },
+    );
+
+    pastSpeakers.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+    upcomingSpeakers.sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
+
+    return { upcomingSpeakers, pastSpeakers };
   }
 
   async findOneById(id: number) {
@@ -30,6 +61,7 @@ export class SpeakersService {
   async updateSpeaker(id: number, field: string, value: string | string[]) {
     const speakerToUpdate = await this.findOneById(id);
     speakerToUpdate[field] = value;
-    return await this.speakersRepository.save(speakerToUpdate);
+    await this.speakersRepository.save(speakerToUpdate);
+    return await this.findAllSpeakers();
   }
 }
