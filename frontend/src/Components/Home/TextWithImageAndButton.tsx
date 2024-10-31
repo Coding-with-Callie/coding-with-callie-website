@@ -1,4 +1,9 @@
-import { Box, useDisclosure, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import BodyHeading from "../BodyHeading";
 import ImageWithBorder from "./ImageWithBorder";
 import { Link } from "react-router-dom";
@@ -10,6 +15,7 @@ import axios from "axios";
 import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 type Props = {
   children: React.ReactNode;
@@ -66,7 +72,12 @@ const TextWithImageAndButton = ({
           <BodyHeading textAlignCenter={false}>{heading}</BodyHeading>
           {editable && (
             <Box mb={6}>
-              <DeleteButton onClick={onOpenAlert}>Delete</DeleteButton>
+              <IconButton
+                aria-label={"delete resource"}
+                icon={<FaRegTrashAlt />}
+                onClick={onOpenAlert}
+                colorScheme="red"
+              />
             </Box>
           )}
         </Box>
