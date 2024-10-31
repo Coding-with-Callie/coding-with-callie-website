@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Speaker } from './entities/speaker.entity';
+import { SpeakerDTO } from 'src/auth/auth.controller';
 
 @Injectable()
 export class SpeakersService {
@@ -9,8 +10,8 @@ export class SpeakersService {
     @InjectRepository(Speaker)
     private readonly speakersRepository: Repository<Speaker>,
   ) {}
-  async createSpeaker(speaker: Speaker) {
-    await this.speakersRepository.save({ ...speaker });
+  async createSpeaker(speaker: SpeakerDTO) {
+    await this.speakersRepository.save(speaker);
     return await this.findAllSpeakers();
   }
 
@@ -55,7 +56,8 @@ export class SpeakersService {
   }
 
   async deleteSpeaker(speakerToDelete) {
-    return await this.speakersRepository.delete(speakerToDelete.id);
+    await this.speakersRepository.delete(speakerToDelete.id);
+    return await this.findAllSpeakers();
   }
 
   async updateSpeaker(id: number, field: string, value: string | string[]) {

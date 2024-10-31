@@ -21,7 +21,6 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
-import { Speaker } from '../speakers/entities/speaker.entity';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -211,6 +210,34 @@ export class ResourceDTO {
   target: boolean;
 }
 
+export class SpeakerDTO {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  date: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  bioText: string[] | string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  sessionText: string[] | string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  websiteUrl: string;
+
+  @IsOptional()
+  @Transform((params) => sanitizeHTML(params.value))
+  sessionRecordingUrl: string;
+
+  photoUrl?: string;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -290,8 +317,10 @@ export class AuthController {
 
     if (typeof resource.bodyText === 'string') {
       resource.bodyText = resource.bodyText
-        .split('\n\n')
-        .map((item: any) => item.trim());
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
     }
 
     return await this.authService.createResource(resource);
@@ -306,8 +335,30 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
-  async createSpeaker(@Body() speaker: Speaker) {
+  async createSpeaker(
+    @Body() speaker: SpeakerDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    speaker.photoUrl = await this.authService.uploadFile(file);
+
+    if (typeof speaker.bioText === 'string') {
+      speaker.bioText = speaker.bioText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    if (typeof speaker.sessionText === 'string') {
+      speaker.sessionText = speaker.sessionText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
     return await this.authService.createSpeaker(speaker);
   }
 

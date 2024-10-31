@@ -21,7 +21,13 @@ type Props = {
 };
 
 const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
-  const [speakerData, setSpeakerData] = useState<any>({});
+  const [name, setName] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [sessionText, setSessionText] = useState<string>("");
+  const [bioText, setBioText] = useState<string>("");
+  const [websiteUrl, setWebsiteUrl] = useState<string>("");
+  const [image, setImage] = useState();
+  const [sessionRecordingUrl, setSessionRecordingUrl] = useState<string>("");
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const showNotification = (message: string, type: "success" | "error") => {
@@ -30,109 +36,102 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
 
   const onSubmit = async () => {
     setSubmitClicked(true);
+
     if (
-      speakerData.name &&
-      speakerData.name !== "" &&
-      speakerData.date &&
-      speakerData.date !== "" &&
-      speakerData.sessionText &&
-      speakerData.sessionText !== "" &&
-      speakerData.bioText &&
-      speakerData.bioText !== "" &&
-      speakerData.websiteUrl &&
-      speakerData.websiteUrl !== "" &&
-      validURL(speakerData.websiteUrl) &&
-      speakerData.photoUrl &&
-      speakerData.photoUrl !== "" &&
-      validURL(speakerData.photoUrl)
+      name === "" ||
+      date === "" ||
+      sessionText === "" ||
+      bioText === "" ||
+      websiteUrl === "" ||
+      !validURL(websiteUrl)
     ) {
-      speakerData.sessionText = speakerData.sessionText
-        .split("\n\n")
-        .map((item: any) => item.trim());
-      speakerData.bioText = speakerData.bioText
-        .split("\n\n")
-        .map((item: any) => item.trim());
-
-      const [year, month, day] = speakerData.date.split("-").map(Number);
-      const dateValue = new Date(year, month - 1, day);
-      const options: Intl.DateTimeFormatOptions = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      };
-      speakerData.date = dateValue.toLocaleDateString("en-US", options);
-
-      const token = localStorage.getItem("token");
-
-      await axios
-        .post(`${host}/api/auth/speaker`, speakerData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setPastSpeakers(response.data.pastSpeakers);
-          setUpcomingSpeakers(response.data.upcomingSpeakers);
-          const emptySpeaker = {
-            name: "",
-            date: "",
-            sessionText: "",
-            bioText: "",
-            websiteUrl: "",
-            photoUrl: "",
-            sessionRecordingUrl: "",
-          };
-          setSpeakerData(emptySpeaker);
-          setSubmitClicked(false);
-          showNotification("Guest speaker successfully added!", "success");
-        })
-        .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            showNotification(
-              "It looks like your session has expired. Please log in again to create guest speaker!",
-              "error"
-            );
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
-        });
-    } else {
-      setSubmitClicked(true);
+      return;
     }
+
+    const [year, month, day] = date.split("-").map(Number);
+    const dateValue = new Date(year, month - 1, day);
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const editedDate = dateValue.toLocaleDateString("en-US", options);
+
+    const formData = new FormData();
+    if (image) {
+      formData.append("file", image);
+    }
+    formData.append("name", name);
+    formData.append("date", editedDate);
+    formData.append("sessionText", sessionText);
+    formData.append("bioText", bioText);
+    formData.append("websiteUrl", websiteUrl);
+    formData.append("sessionRecordingUrl", sessionRecordingUrl);
+
+    const token = localStorage.getItem("token");
+
+    await axios
+      .post(`${host}/api/auth/speaker`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setPastSpeakers(response.data.pastSpeakers);
+        setUpcomingSpeakers(response.data.upcomingSpeakers);
+
+        setName("");
+        setDate("");
+        setSessionText("");
+        setBioText("");
+        setWebsiteUrl("");
+        setSessionRecordingUrl("");
+        setSubmitClicked(false);
+        showNotification("Guest speaker successfully added!", "success");
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized") {
+          showNotification(
+            "It looks like your session has expired. Please log in again to create guest speaker!",
+            "error"
+          );
+        } else {
+          let message: string = error.response.data.message[0];
+          showNotification(`${message}`, "error");
+        }
+      });
   };
 
   const onChangeName = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, name: e.target.value });
+    setName(e.target.value);
   };
 
   const onChangeDate = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, date: e.target.value });
+    setDate(e.target.value);
   };
 
   const onChangeSessionText = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, sessionText: e.target.value });
+    setSessionText(e.target.value);
   };
 
   const onChangeBioText = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, bioText: e.target.value });
+    setBioText(e.target.value);
   };
 
   const onChangeWebsiteUrl = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, websiteUrl: e.target.value });
-  };
-
-  const onChangePhotoUrl = (e: any) => {
-    setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, photoUrl: e.target.value });
+    setWebsiteUrl(e.target.value);
   };
 
   const onChangeSessionRecordingUrl = (e: any) => {
     setSubmitClicked(false);
-    setSpeakerData({ ...speakerData, sessionRecordingUrl: e.target.value });
+    setSessionRecordingUrl(e.target.value);
+  };
+
+  const onChangeImage = (e: React.ChangeEvent<any>) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -154,11 +153,9 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
             layerStyle="input"
             variant="filled"
             id="name"
-            value={speakerData.name}
+            value={name}
             onChange={onChangeName}
-            isInvalid={
-              submitClicked && (!speakerData.name || speakerData.name === "")
-            }
+            isInvalid={submitClicked && name === ""}
           />
         </Box>
         <Box>
@@ -167,9 +164,9 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
             type="date"
             layerStyle="input"
             variant="filled"
-            value={speakerData.date}
+            value={date}
             onChange={onChangeDate}
-            isInvalid={submitClicked && !speakerData.date}
+            isInvalid={submitClicked && date === ""}
           />
         </Box>
         <Box>
@@ -177,12 +174,9 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
           <Textarea
             layerStyle="input"
             variant="filled"
-            value={speakerData.sessionText}
+            value={sessionText}
             onChange={onChangeSessionText}
-            isInvalid={
-              submitClicked &&
-              (!speakerData.sessionText || speakerData.sessionText === "")
-            }
+            isInvalid={submitClicked && sessionText === ""}
           />
         </Box>
         <Box>
@@ -190,12 +184,9 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
           <Textarea
             layerStyle="input"
             variant="filled"
-            value={speakerData.bioText}
+            value={bioText}
             onChange={onChangeBioText}
-            isInvalid={
-              submitClicked &&
-              (!speakerData.bioText || speakerData.bioText === "")
-            }
+            isInvalid={submitClicked && bioText === ""}
           />
         </Box>
         <Box>
@@ -204,41 +195,29 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
             type="text"
             layerStyle="input"
             variant="filled"
-            value={speakerData.websiteUrl}
+            value={websiteUrl}
             onChange={onChangeWebsiteUrl}
             isInvalid={
-              submitClicked &&
-              (!speakerData.websiteUrl || speakerData.websiteUrl === "")
+              submitClicked && websiteUrl === "" && !validURL(websiteUrl)
             }
           />
-          {submitClicked &&
-          (!speakerData.websiteUrl ||
-            validURL(speakerData.websiteUrl) === false) ? (
+          {submitClicked && (!websiteUrl || validURL(websiteUrl) === false) ? (
             <FormHelperText color="red">
               Please enter a valid url.
             </FormHelperText>
           ) : null}
         </Box>
         <Box>
-          <FormLabel layerStyle="input">Photo URL</FormLabel>
+          <FormLabel layerStyle="input">Photo</FormLabel>
           <Input
-            type="text"
-            layerStyle="input"
-            variant="filled"
-            value={speakerData.photoUrl}
-            onChange={onChangePhotoUrl}
-            isInvalid={
-              submitClicked &&
-              (!speakerData.photoUrl || speakerData.photoUrl === "")
-            }
+            p={0}
+            border="none"
+            borderRadius="0px"
+            type="file"
+            accept="image/*"
+            onChange={onChangeImage}
+            color="#45446A"
           />
-          {submitClicked &&
-          (!speakerData.photoUrl ||
-            validURL(speakerData.photoUrl) === false) ? (
-            <FormHelperText color="red">
-              Please enter a valid url.
-            </FormHelperText>
-          ) : null}
         </Box>
         <Box>
           <FormLabel layerStyle="input">Session Recording URL</FormLabel>
@@ -246,11 +225,15 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
             type="text"
             layerStyle="input"
             variant="filled"
-            value={speakerData.sessionRecordingUrl}
+            value={sessionRecordingUrl}
             onChange={onChangeSessionRecordingUrl}
+            isInvalid={
+              submitClicked &&
+              websiteUrl === "" &&
+              !validURL(sessionRecordingUrl)
+            }
           />
-          {validURL(speakerData.sessionRecordingUrl) === false &&
-          speakerData.sessionRecordingUrl ? (
+          {!validURL(sessionRecordingUrl) && sessionRecordingUrl ? (
             <FormHelperText color="red">
               Please enter a valid url.
             </FormHelperText>

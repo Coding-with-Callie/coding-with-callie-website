@@ -77,7 +77,15 @@ const GuestSpeakers = () => {
           />
         </Center>
         {pastSpeakers.map((speaker, index) => {
-          return <GuestSpeaker speaker={speaker} key={index} />;
+          return (
+            <GuestSpeaker
+              speaker={speaker}
+              key={index}
+              role={role}
+              setPastSpeakers={setPastSpeakers}
+              setUpcomingSpeakers={setUpcomingSpeakers}
+            />
+          );
         })}
       </Box>
       {role === "admin" && (

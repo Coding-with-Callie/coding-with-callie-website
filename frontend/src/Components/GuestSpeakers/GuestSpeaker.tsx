@@ -21,19 +21,24 @@ import VideoModal from "./VideoModal";
 import ZoomModal from "./ZoomModal";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Profile/Alert";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import axios from "axios";
 import { host } from "../..";
 import { toast } from "react-toastify";
 
 type Props = {
   speaker: Speaker;
+  role: string | null;
+  setPastSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
+  setUpcomingSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
 };
 
-const GuestSpeaker = ({ speaker }: Props) => {
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [role, setRole] = useState<string | null>(null);
-
+const GuestSpeaker = ({
+  speaker,
+  role,
+  setPastSpeakers,
+  setUpcomingSpeakers,
+}: Props) => {
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,51 +58,22 @@ const GuestSpeaker = ({ speaker }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   const deleteGuestSpeaker = async () => {
-  if (role) {
-    await axios.delete(
-      `${host}/api/auth/speaker/${speaker.id}`,
-    ).then(() => {
-      onCloseAlert();
-      toast.success("Guest speaker deleted successfully");
-      setIsDeleted(true);
-    }).catch(() => {
-      toast.error("Error deleting guest speaker");
-    });
+    await axios
+      .delete(`${host}/api/auth/speaker/${speaker.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setPastSpeakers(response.data.pastSpeakers);
+        setUpcomingSpeakers(response.data.upcomingSpeakers);
+        onCloseAlert();
+        toast.success("Guest speaker deleted successfully");
+      })
+      .catch(() => {
+        toast.error("Error deleting guest speaker");
+      });
   };
-};
-
-  useEffect(() =>{
-    if (isDeleted) {
-      navigate("/guest-speakers")
-      setIsDeleted(false);
-    };
-
-    const profileLoader = async () => {
-      const token = localStorage.getItem("token");
-    
-      if (token) {
-        try {
-          const response = await axios.get(`${host}/api/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          return response.data.role;
-        } catch (error) {
-          console.error("Failed to fetch profile:", error);
-          return null; 
-        }
-      } else {
-        return null; 
-      }
-    };
-
-    const loadProfile = async () => {
-      const userRole = await profileLoader();
-      setRole(userRole);
-    }
-
-    loadProfile();
-  }, [isDeleted, navigate]);
-
 
   return (
     <Section
@@ -202,9 +178,15 @@ const GuestSpeaker = ({ speaker }: Props) => {
           ) : (
             <MyButton onClick={onOpenZoom}>Zoom Link</MyButton>
           )}
-          { role === "admin" ? (
+          {role === "admin" ? (
             <>
-              <MyButton onClick={()=>{navigate(`/guest-speaker/${speaker.id}`)}}>Edit</MyButton>
+              <MyButton
+                onClick={() => {
+                  navigate(`/guest-speaker/${speaker.id}`);
+                }}
+              >
+                Edit
+              </MyButton>
               <DeleteButton onClick={onOpenAlert}>Delete</DeleteButton>
             </>
           ) : null}

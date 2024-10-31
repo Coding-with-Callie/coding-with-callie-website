@@ -3,11 +3,15 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
-import { AlumniDto, NewUserDto, ResourceDTO } from './auth.controller';
+import {
+  AlumniDto,
+  NewUserDto,
+  ResourceDTO,
+  SpeakerDTO,
+} from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from '../review/review.service';
 import { SpeakersService } from '../speakers/speakers.service';
-import { Speaker } from '../speakers/entities/speaker.entity';
 import { AlumniService } from '../alumni/alumni.service';
 import { FeaturesService } from '../features/features.service';
 import { ProjectsService } from '../projects/projects.service';
@@ -216,7 +220,7 @@ export class AuthService {
     return await this.resourceService.deleteResource(id);
   }
 
-  async createSpeaker(speaker: Speaker) {
+  async createSpeaker(speaker: SpeakerDTO) {
     return await this.speakersService.createSpeaker(speaker);
   }
 

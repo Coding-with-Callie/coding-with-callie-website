@@ -15,10 +15,10 @@ export class Speaker {
   time: string;
 
   @Column('text', { array: true })
-  sessionText: string[];
+  sessionText: string | string[];
 
   @Column('text', { array: true })
-  bioText: string[];
+  bioText: string | string[];
 
   @Column()
   websiteUrl: string;
