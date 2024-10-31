@@ -3,12 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
-import {
-  AlumniDto,
-  NewUserDto,
-  ResourceDTO,
-  SpeakerDTO,
-} from './auth.controller';
+import { AlumniDto, NewUserDto, SpeakerDTO } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from '../review/review.service';
 import { SpeakersService } from '../speakers/speakers.service';
@@ -19,6 +14,7 @@ import { TasksService } from '../tasks/tasks.service';
 import { UserStoriesService } from '../userStories/userStories.service';
 import { ResourceService } from '../resource/resource.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
+import { Resource } from 'src/resource/entities/resource.entity';
 
 @Injectable()
 export class AuthService {
@@ -212,7 +208,7 @@ export class AuthService {
     return await this.reviewService.submitReview(review);
   }
 
-  async createResource(resource: ResourceDTO) {
+  async createResource(resource: Resource) {
     return await this.resourceService.createResource(resource);
   }
 

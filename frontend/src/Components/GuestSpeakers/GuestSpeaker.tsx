@@ -21,7 +21,7 @@ import VideoModal from "./VideoModal";
 import ZoomModal from "./ZoomModal";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Profile/Alert";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import axios from "axios";
 import { host } from "../..";
 import { toast } from "react-toastify";

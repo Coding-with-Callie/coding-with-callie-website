@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Resource } from './entities/resource.entity';
-import { ResourceDTO } from 'src/auth/auth.controller';
 
 @Injectable()
 export class ResourceService {
@@ -15,7 +14,7 @@ export class ResourceService {
     return await this.resourceRepository.find();
   }
 
-  async createResource(resource: ResourceDTO) {
+  async createResource(resource: Resource) {
     await this.resourceRepository.save(resource);
     return await this.getResources();
   }

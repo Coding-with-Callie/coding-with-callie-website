@@ -4,14 +4,15 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Spinner,
   Textarea,
 } from "@chakra-ui/react";
-import BodyHeading from "./BodyHeading";
-import MyButton from "./MyButton";
+import BodyHeading from "../BodyHeading";
+import MyButton from "../MyButton";
 import { useState } from "react";
 import axios from "axios";
-import { host } from "..";
-import { ResourceType } from "../Pages/Home";
+import { host } from "../..";
+import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -21,11 +22,13 @@ type Props = {
 const ResourceForm = ({ setResources }: Props) => {
   const [heading, setHeading] = useState<string>("");
   const [bodyText, setBodyText] = useState<string>("");
+  const [fileInputKey, setFileInputKey] = useState<string>("");
   const [image, setImage] = useState();
   const [buttonText, setButtonText] = useState<string>("");
   const [linkUrl, setLinkUrl] = useState<string>("");
   const [target, setTarget] = useState<boolean>(true);
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHeading(e.target.value);
@@ -73,6 +76,8 @@ const ResourceForm = ({ setResources }: Props) => {
     formData.append("linkUrl", linkUrl);
     formData.append("target", target.toString());
 
+    setLoading(true);
+
     axios
       .post(`${host}/api/auth/resource`, formData, {
         headers: {
@@ -82,12 +87,15 @@ const ResourceForm = ({ setResources }: Props) => {
       })
       .then((response) => {
         setResources(response.data);
+        setLoading(false);
         toast.success("Resource created successfully");
+        window.scrollTo(0, 0);
 
         setHeading("");
         setBodyText("");
         setButtonText("");
         setLinkUrl("");
+        setFileInputKey(new Date().getTime().toString());
         setTarget(true);
         setSubmitClicked(false);
       })
@@ -141,6 +149,7 @@ const ResourceForm = ({ setResources }: Props) => {
             accept="image/*"
             onChange={onChangeImage}
             color="#45446A"
+            key={fileInputKey}
           />
         </Box>
         <Box>
@@ -176,7 +185,9 @@ const ResourceForm = ({ setResources }: Props) => {
             Open Link in New Tab
           </Checkbox>
         </Box>
-        <MyButton onClick={onSubmit}>Submit</MyButton>
+        <MyButton onClick={onSubmit}>
+          {loading ? <Spinner /> : "Submit"}
+        </MyButton>
       </FormControl>
     </Box>
   );

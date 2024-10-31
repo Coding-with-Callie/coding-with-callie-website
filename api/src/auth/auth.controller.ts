@@ -21,6 +21,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
+import { Resource } from 'src/resource/entities/resource.entity';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -207,7 +208,11 @@ export class ResourceDTO {
   buttonText: string;
 
   @IsNotEmpty()
-  target: boolean;
+  @Transform((params) => sanitizeHTML(params.value))
+  linkUrl: string;
+
+  @IsNotEmpty()
+  target: string | boolean;
 }
 
 export class SpeakerDTO {
@@ -313,17 +318,24 @@ export class AuthController {
     @Body() resource: ResourceDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    resource.imageUrl = await this.authService.uploadFile(file);
+    const resourceToSave = new Resource();
 
-    if (typeof resource.bodyText === 'string') {
-      resource.bodyText = resource.bodyText
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.imageUrl = await this.authService.uploadFile(file);
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
         .replace(/\r\n/g, '\n') // Replace \r\n with \n
         .split(/\n+/) // Split at one or more newlines
         .map((item: string) => item.trim()) // Trim whitespace from each item
         .filter((item: string) => item.length > 0); // Remove empty items
     }
 
-    return await this.authService.createResource(resource);
+    return await this.authService.createResource(resourceToSave);
   }
 
   @Roles(['admin'])

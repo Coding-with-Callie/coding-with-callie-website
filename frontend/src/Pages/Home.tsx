@@ -6,7 +6,7 @@ import Resource from "../Components/Home/Resource";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { host } from "..";
-import ResourceForm from "../Components/ResourceForm";
+import ResourceForm from "../Components/Home/ResourceForm";
 import { useLoaderData } from "react-router-dom";
 const callie = require("../../src/images/callie.png");
 
