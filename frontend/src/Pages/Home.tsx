@@ -2,7 +2,7 @@ import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
-import Resource from "../Components/Resource";
+import Resource from "../Components/Home/Resource";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { host } from "..";

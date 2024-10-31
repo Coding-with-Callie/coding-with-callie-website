@@ -1,8 +1,8 @@
 import { useMediaQuery } from "@chakra-ui/react";
-import Section from "./Section";
-import TextWithImageAndButton from "./Home/TextWithImageAndButton";
-import BodyText from "./BodyText";
-import { ResourceType } from "../Pages/Home";
+import Section from "../Section";
+import TextWithImageAndButton from "./TextWithImageAndButton";
+import BodyText from "../BodyText";
+import { ResourceType } from "../../Pages/Home";
 
 type Props = {
   id: number;
