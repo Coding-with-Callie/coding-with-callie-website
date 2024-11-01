@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Patch,
+  Optional,
   Post,
   Put,
   Query,
@@ -348,9 +348,18 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Put('resource/:id')
-  async updateResource(@Param('id') id: number, @Body() resource: ResourceDTO) {
+  async updateResource(
+    @Param('id') id: number,
+    @Body() resource: ResourceDTO,
+    @UploadedFile() @Optional() file?: Express.Multer.File,
+  ) {
     const resourceToSave = new Resource();
+
+    if (file) {
+      resourceToSave.imageUrl = await this.authService.uploadFile(file);
+    }
 
     resourceToSave.heading = resource.heading;
     resourceToSave.bodyText = resource.bodyText;

@@ -100,23 +100,22 @@ const TextWithImageAndButton = ({
   };
 
   const submitEdit = () => {
+    const formData = new FormData();
+    if (image) {
+      formData.append("file", image);
+    }
+    formData.append("heading", headingValue);
+    formData.append("bodyText", textBlocksValue);
+    formData.append("buttonText", buttonTextValue);
+    formData.append("linkUrl", linkUrlValue);
+    formData.append("target", (targetValue === "_blank").toString());
+
     axios
-      .put(
-        `${host}/api/auth/resource/${id}`,
-        {
-          heading: headingValue,
-          bodyText: textBlocksValue.split("\n\n"),
-          image: image,
-          buttonText: buttonTextValue,
-          linkUrl: linkUrlValue,
-          target: targetValue === "_blank",
+      .put(`${host}/api/auth/resource/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      })
       .then((response) => {
         setResources(response.data);
         setEdit(false);

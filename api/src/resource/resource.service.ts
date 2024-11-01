@@ -21,6 +21,11 @@ export class ResourceService {
 
   async updateResource(id: number, resource: Resource) {
     const resourceToUpdate = await this.resourceRepository.findOneBy({ id });
+
+    if (resource.imageUrl) {
+      resourceToUpdate.imageUrl = resource.imageUrl;
+    }
+
     resourceToUpdate.heading = resource.heading;
     resourceToUpdate.bodyText = resource.bodyText;
     resourceToUpdate.buttonText = resource.buttonText;
