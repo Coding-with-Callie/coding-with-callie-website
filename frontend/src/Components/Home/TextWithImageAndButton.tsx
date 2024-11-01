@@ -126,7 +126,7 @@ const TextWithImageAndButton = ({
           {edit ? (
             <Input
               type="text"
-              layerStyle="input"
+              layerStyle="inputResource"
               variant="filled"
               id="heading"
               value={headingValue}
@@ -134,6 +134,8 @@ const TextWithImageAndButton = ({
               mr={2}
               onChange={onChangeHeading}
               isInvalid={headingValue === ""}
+              _hover={{ backgroundColor: "gray.50" }}
+              _focus={{ backgroundColor: "white" }}
             />
           ) : (
             <BodyHeading textAlignCenter={false}>{heading}</BodyHeading>
@@ -174,28 +176,38 @@ const TextWithImageAndButton = ({
           <Box>
             <Input
               type="text"
-              layerStyle="input"
+              layerStyle="inputResource"
               variant="filled"
               id="link"
               value={linkUrlValue}
               onChange={onChangeLinkUrl}
               isInvalid={linkUrlValue === ""}
               mb={2}
+              _hover={{ backgroundColor: "gray.50" }}
+              _focus={{ backgroundColor: "white" }}
             />
             <Box display="flex" gap={6} alignItems="center">
               <Input
                 type="text"
-                layerStyle="input"
+                layerStyle="inputResource"
                 variant="filled"
                 id="buttonText"
                 value={buttonTextValue}
                 onChange={onChangeButtonText}
                 isInvalid={buttonTextValue === ""}
-                // width="80%"
+                _hover={{ backgroundColor: "gray.50" }}
+                _focus={{ backgroundColor: "white" }}
               />
-              <Box width="25%">
+              <Box
+                width="25%"
+                backgroundColor="white"
+                lineHeight="40px"
+                borderRadius={5}
+                textAlign="center"
+                _hover={{ backgroundColor: "gray.50" }}
+              >
                 <Checkbox
-                  layerStyle="input"
+                  layerStyle="inputResource"
                   onChange={onChangeTarget}
                   isChecked={targetValue === "_blank"}
                 >

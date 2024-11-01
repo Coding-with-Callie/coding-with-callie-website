@@ -23,7 +23,7 @@ const ImageWithBorder = ({ imageUrl, edit, setImage, fileInputKey }: Props) => {
   return (
     <Box
       margin="0 auto"
-      backgroundColor={edit ? "#EDF2F7" : "white"}
+      backgroundColor="white"
       p={5}
       borderRadius={4}
       boxShadow="lg"
@@ -38,7 +38,7 @@ const ImageWithBorder = ({ imageUrl, edit, setImage, fileInputKey }: Props) => {
             accept="image/*"
             onChange={onChangeImage}
             key={fileInputKey}
-            backgroundColor="#EDF2F7"
+            backgroundColor="white"
           />
         ) : (
           <Image src={imageUrl} borderRadius={4} border={"1px solid #A9A9A9"} />

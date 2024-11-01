@@ -55,13 +55,15 @@ const Resource = ({
         >
           {edit ? (
             <Textarea
-              layerStyle="input"
+              layerStyle="inputResource"
               variant="filled"
               id="bodyText"
               value={textBlocksValue}
               onChange={onChangeBodyText}
               isInvalid={textBlocksValue === ""}
               height={293}
+              _hover={{ backgroundColor: "gray.50" }}
+              _focus={{ backgroundColor: "white" }}
             />
           ) : (
             <BodyText textBlocks={textBlocks} textAlignCenter={false} />
