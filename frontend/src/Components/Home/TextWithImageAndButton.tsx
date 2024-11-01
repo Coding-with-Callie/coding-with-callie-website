@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import MyButton from "../MyButton";
 import Alert from "../Profile/Alert";
 import { useRef } from "react";
-import DeleteButton from "../DeleteButton";
 import axios from "axios";
 import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
