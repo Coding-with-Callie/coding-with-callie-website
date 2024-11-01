@@ -1,8 +1,9 @@
-import { useMediaQuery } from "@chakra-ui/react";
+import { Textarea, useMediaQuery } from "@chakra-ui/react";
 import Section from "../Section";
 import TextWithImageAndButton from "./TextWithImageAndButton";
 import BodyText from "../BodyText";
 import { ResourceType } from "../../Pages/Home";
+import { useState } from "react";
 
 type Props = {
   id: number;
@@ -28,6 +29,14 @@ const Resource = ({
   setResources,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [edit, setEdit] = useState(false);
+  const [textBlocksValue, setTextBlocksValue] = useState(
+    textBlocks.join("\n\n")
+  );
+
+  const onChangeBodyText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextBlocksValue(e.target.value);
+  };
 
   return (
     <>
@@ -41,8 +50,22 @@ const Resource = ({
           editable={editable}
           setResources={setResources}
           id={id}
+          edit={edit}
+          setEdit={setEdit}
         >
-          <BodyText textBlocks={textBlocks} textAlignCenter={false} />
+          {edit ? (
+            <Textarea
+              layerStyle="input"
+              variant="filled"
+              id="bodyText"
+              value={textBlocksValue}
+              onChange={onChangeBodyText}
+              isInvalid={textBlocksValue === ""}
+              height={293}
+            />
+          ) : (
+            <BodyText textBlocks={textBlocks} textAlignCenter={false} />
+          )}
         </TextWithImageAndButton>
       </Section>
     </>
