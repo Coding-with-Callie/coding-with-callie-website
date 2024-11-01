@@ -216,6 +216,10 @@ export class AuthService {
     return await this.resourceService.deleteResource(id);
   }
 
+  async updateResource(id: number, resource: Resource) {
+    return await this.resourceService.updateResource(id, resource);
+  }
+
   async createSpeaker(speaker: SpeakerDTO) {
     return await this.speakersService.createSpeaker(speaker);
   }

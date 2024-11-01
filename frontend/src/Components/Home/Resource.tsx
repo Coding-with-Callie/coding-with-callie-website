@@ -52,6 +52,7 @@ const Resource = ({
           id={id}
           edit={edit}
           setEdit={setEdit}
+          textBlocksValue={textBlocksValue}
         >
           {edit ? (
             <Textarea

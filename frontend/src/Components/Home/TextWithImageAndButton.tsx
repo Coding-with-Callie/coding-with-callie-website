@@ -30,6 +30,7 @@ type Props = {
   id: number;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  textBlocksValue: string;
 };
 
 const TextWithImageAndButton = ({
@@ -44,6 +45,7 @@ const TextWithImageAndButton = ({
   id,
   edit,
   setEdit,
+  textBlocksValue,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const {
@@ -101,7 +103,14 @@ const TextWithImageAndButton = ({
     axios
       .put(
         `${host}/api/auth/resource/${id}`,
-        { heading: headingValue },
+        {
+          heading: headingValue,
+          bodyText: textBlocksValue.split("\n\n"),
+          image: image,
+          buttonText: buttonTextValue,
+          linkUrl: linkUrlValue,
+          target: targetValue === "_blank",
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

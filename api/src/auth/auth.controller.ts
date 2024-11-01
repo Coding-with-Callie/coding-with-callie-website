@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -343,6 +344,29 @@ export class AuthController {
   @Delete('resource/:id')
   async deleteResource(@Param('id') id: number) {
     return await this.authService.deleteResource(id);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put('resource/:id')
+  async updateResource(@Param('id') id: number, @Body() resource: ResourceDTO) {
+    const resourceToSave = new Resource();
+
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    return await this.authService.updateResource(id, resourceToSave);
   }
 
   @Roles(['admin'])
