@@ -39,6 +39,8 @@ type Props = {
   textBlocksValue: string;
   order: number;
   numResources: number;
+  bodyText: string;
+  setTextBlocksValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const TextWithImageAndButton = ({
@@ -56,6 +58,8 @@ const TextWithImageAndButton = ({
   textBlocksValue,
   order,
   numResources,
+  bodyText,
+  setTextBlocksValue,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const {
@@ -90,8 +94,15 @@ const TextWithImageAndButton = ({
   };
 
   const editResource = () => {
+    setHeadingValue(heading);
+    setLinkUrlValue(linkUrl);
+    setButtonTextValue(buttonText);
+    setTargetValue(target);
+    setTextBlocksValue(bodyText);
+
     setEdit(!edit);
     console.log("Order:", order);
+    console.log("HEADING", heading);
   };
 
   const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {

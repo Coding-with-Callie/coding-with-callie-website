@@ -59,6 +59,8 @@ const Resource = ({
           textBlocksValue={textBlocksValue}
           order={order}
           numResources={numResources}
+          setTextBlocksValue={setTextBlocksValue}
+          bodyText={textBlocks.join("\n\n")}
         >
           {edit ? (
             <Textarea
