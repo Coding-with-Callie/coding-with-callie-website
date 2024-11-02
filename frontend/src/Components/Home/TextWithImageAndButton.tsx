@@ -110,12 +110,19 @@ const TextWithImageAndButton = ({
     setTargetValue(e.target.checked ? "_blank" : "_self");
   };
 
-  const moveResource = (direction: string) => {
-    order = direction === "up" ? order - 1 : order + 1;
-    document.getElementById(order.toString())?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
+  const scrollToElement = (order: number) => {
+    return new Promise((resolve) => {
+      document.getElementById(order.toString())?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      setTimeout(resolve, 200);
     });
+  };
+
+  const moveResource = async (direction: string) => {
+    order = direction === "up" ? order - 1 : order + 1;
+    await scrollToElement(order);
 
     axios
       .post(
@@ -194,22 +201,20 @@ const TextWithImageAndButton = ({
                 onClick={edit ? submitEdit : editResource}
                 colorScheme="green"
               />
-              {order > 1 && (
-                <IconButton
-                  aria-label={"move resource up"}
-                  icon={<FaRegHandPointUp />}
-                  onClick={moveResource.bind(null, "up")}
-                  colorScheme="blue"
-                />
-              )}
-              {order !== numResources && (
-                <IconButton
-                  aria-label={"move resource down"}
-                  icon={<FaRegHandPointDown />}
-                  onClick={moveResource.bind(null, "down")}
-                  colorScheme="blue"
-                />
-              )}
+              <IconButton
+                aria-label={"move resource up"}
+                icon={<FaRegHandPointUp />}
+                onClick={moveResource.bind(null, "up")}
+                colorScheme="blue"
+                disabled={order === 1}
+              />
+              <IconButton
+                aria-label={"move resource down"}
+                icon={<FaRegHandPointDown />}
+                onClick={moveResource.bind(null, "down")}
+                colorScheme="blue"
+                disabled={order === numResources}
+              />
               <IconButton
                 aria-label={"delete resource"}
                 icon={<FaRegTrashAlt />}
