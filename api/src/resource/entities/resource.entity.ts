@@ -22,4 +22,7 @@ export class Resource {
 
   @Column()
   target: boolean;
+
+  @Column()
+  order: number;
 }

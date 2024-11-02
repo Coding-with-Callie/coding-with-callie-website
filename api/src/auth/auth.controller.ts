@@ -380,6 +380,16 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @Post('resource/:id/order')
+  async updateResourceOrder(
+    @Param('id') id,
+    @Body('direction') direction: string,
+  ) {
+    return await this.authService.updateResourceOrder(id, direction);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
   async createSpeaker(

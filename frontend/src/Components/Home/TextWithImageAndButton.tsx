@@ -16,7 +16,13 @@ import axios from "axios";
 import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
-import { FaRegCheckCircle, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import {
+  FaRegCheckCircle,
+  FaRegEdit,
+  FaRegHandPointDown,
+  FaRegHandPointUp,
+  FaRegTrashAlt,
+} from "react-icons/fa";
 
 type Props = {
   children: React.ReactNode;
@@ -99,6 +105,27 @@ const TextWithImageAndButton = ({
     setTargetValue(e.target.checked ? "_blank" : "_self");
   };
 
+  const moveResource = (direction: string) => {
+    axios
+      .post(
+        `${host}/api/auth/resource/${id}/order`,
+        {
+          direction,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        setResources(response.data);
+      })
+      .catch(() => {
+        toast.error("Error moving resource");
+      });
+  };
+
   const submitEdit = () => {
     const formData = new FormData();
     if (image) {
@@ -155,6 +182,18 @@ const TextWithImageAndButton = ({
                 icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
                 onClick={edit ? submitEdit : editResource}
                 colorScheme="green"
+              />
+              <IconButton
+                aria-label={"move resource up"}
+                icon={<FaRegHandPointUp />}
+                onClick={moveResource.bind(null, "up")}
+                colorScheme="blue"
+              />
+              <IconButton
+                aria-label={"move resource down"}
+                icon={<FaRegHandPointDown />}
+                onClick={moveResource.bind(null, "down")}
+                colorScheme="blue"
               />
               <IconButton
                 aria-label={"delete resource"}

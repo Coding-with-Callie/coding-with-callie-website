@@ -220,6 +220,10 @@ export class AuthService {
     return await this.resourceService.updateResource(id, resource);
   }
 
+  async updateResourceOrder(id: number, direction: string) {
+    return await this.resourceService.updateOrder(id, direction);
+  }
+
   async createSpeaker(speaker: SpeakerDTO) {
     return await this.speakersService.createSpeaker(speaker);
   }
