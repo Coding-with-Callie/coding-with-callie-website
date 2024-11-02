@@ -167,7 +167,7 @@ const TextWithImageAndButton = ({
 
   return (
     <>
-      <Box w="100%" border="1px">
+      <Box w="100%">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           {edit ? (
             <Input
