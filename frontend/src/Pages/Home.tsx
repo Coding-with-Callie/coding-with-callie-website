@@ -26,6 +26,7 @@ export type ResourceType = {
   buttonText: string;
   bodyText: string[];
   target: boolean;
+  order: number;
 };
 
 const Home = () => {
@@ -95,6 +96,7 @@ const Home = () => {
           target={resource.target ? "_blank" : "_self"}
           editable={role === "admin"}
           setResources={setResources}
+          order={resource.order}
         />
       ))}
       {role === "admin" && (

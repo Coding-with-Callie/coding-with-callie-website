@@ -1,4 +1,4 @@
-import { Textarea, useMediaQuery } from "@chakra-ui/react";
+import { Box, Textarea, useMediaQuery } from "@chakra-ui/react";
 import Section from "../Section";
 import TextWithImageAndButton from "./TextWithImageAndButton";
 import BodyText from "../BodyText";
@@ -15,6 +15,7 @@ type Props = {
   target: "_blank" | "_self";
   editable: boolean;
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
+  order: number;
 };
 
 const Resource = ({
@@ -27,6 +28,7 @@ const Resource = ({
   target,
   editable,
   setResources,
+  order,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [edit, setEdit] = useState(false);
@@ -39,7 +41,7 @@ const Resource = ({
   };
 
   return (
-    <>
+    <Box id={order.toString()}>
       <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
         <TextWithImageAndButton
           heading={heading}
@@ -53,6 +55,7 @@ const Resource = ({
           edit={edit}
           setEdit={setEdit}
           textBlocksValue={textBlocksValue}
+          order={order}
         >
           {edit ? (
             <Textarea
@@ -71,7 +74,7 @@ const Resource = ({
           )}
         </TextWithImageAndButton>
       </Section>
-    </>
+    </Box>
   );
 };
 

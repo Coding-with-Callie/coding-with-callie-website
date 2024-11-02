@@ -37,6 +37,7 @@ type Props = {
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   textBlocksValue: string;
+  order: number;
 };
 
 const TextWithImageAndButton = ({
@@ -52,6 +53,7 @@ const TextWithImageAndButton = ({
   edit,
   setEdit,
   textBlocksValue,
+  order,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const {
@@ -106,6 +108,12 @@ const TextWithImageAndButton = ({
   };
 
   const moveResource = (direction: string) => {
+    direction === "up" ? order-- : order++;
+    document.getElementById(order.toString())?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
     axios
       .post(
         `${host}/api/auth/resource/${id}/order`,
@@ -156,7 +164,7 @@ const TextWithImageAndButton = ({
 
   return (
     <>
-      <Box w="100%">
+      <Box w="100%" border="1px">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           {edit ? (
             <Input
