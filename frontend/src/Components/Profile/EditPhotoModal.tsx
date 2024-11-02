@@ -1,10 +1,10 @@
 import { Box, Input } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { host, showNotification } from "../..";
+import { showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   onClose: () => void;
@@ -21,23 +21,16 @@ const EditPhotoModal = ({ onClose }: Props) => {
   };
 
   const onFileUpload = () => {
-    const token = localStorage.getItem("token");
-
     if (photo) {
       const formData = new FormData();
       formData.append("file", photo);
       onClose();
-      axios
-        .post(
-          `${host}/api/auth/upload-profile-image?id=${context.user.id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+      axiosPrivate
+        .post(`/upload-profile-image?id=${context.user.id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           showNotification(`Your profile photo has been changed`, "success");
           context.updateUser(response.data);

@@ -1,37 +1,28 @@
-import axios from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router-dom";
-import { host, showNotification } from "..";
+import { showNotification } from "..";
+import { axiosPrivate, axiosPublic } from "./axios_instances";
 
 export const BasicLoader = async (endpoint: string) => {
-  const response = await axios.get(`${host}/api/${endpoint}`);
+  const response = await axiosPublic.get(`/${endpoint}`);
   return response.data;
 };
 
 export const AppLoader = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      const response = await axios.get(`${host}/api/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
-    } catch (error) {
-      return {};
-    }
-  } else {
+  try {
+    const response = await axiosPrivate.get("/profile");
+    return response.data;
+  } catch (error) {
     return {};
   }
 };
 
+// TODO: Simplify this function
 export const SignUpLoader = async () => {
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
-      await axios.get(`${host}/api/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axiosPrivate.get("/profile");
       return redirect("/");
     } catch (error) {
       return { token: true };
@@ -41,14 +32,13 @@ export const SignUpLoader = async () => {
   }
 };
 
+// TODO: Simplify this function
 export const LoginLoader = async () => {
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
-      await axios.get(`${host}/api/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axiosPrivate.get("/profile");
       return redirect("/");
     } catch (error) {
       return null;
@@ -58,14 +48,13 @@ export const LoginLoader = async () => {
   }
 };
 
+// TODO: Simplify this function
 export const ProfileLoader = async () => {
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
-      const response = await axios.get(`${host}/api/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosPrivate.get("/profile");
       return response.data;
     } catch (error) {
       showNotification(
@@ -83,30 +72,25 @@ export const ProfileLoader = async () => {
   }
 };
 
+// TODO: Simplify this function
 export const ProfileLoaderNoToast = async () => {
   const token = localStorage.getItem("token");
 
   if (token) {
-    const response = await axios.get(`${host}/api/auth/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axiosPrivate.get("/profile");
     return response.data;
   } else {
     return {};
   }
 };
 
+// TODO: Simplify this function
 export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   const token = params.token as string;
   const id = params.id;
 
   try {
-    const response = await axios.get(
-      `${host}/api/auth/profile/${token}/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await axiosPrivate.get(`/profile/${token}/${id}`);
     localStorage.setItem("token", response.data);
 
     showNotification("You can reset your password here!", "success");
@@ -117,15 +101,13 @@ export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   }
 };
 
+// TODO: Simplify this function
 export const ProjectLoader = async ({ params }: LoaderFunctionArgs) => {
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
-      const response = await axios.get(
-        `${host}/api/auth/project/${params.id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await axiosPrivate.get(`/project/${params.id}`);
 
       if (response.data.length === 0) {
         showNotification("You do not have access to that project!", "error");
@@ -148,9 +130,7 @@ export const UserProjectsLoader = async () => {
 
   if (token) {
     try {
-      const response = await axios.get(`${host}/api/auth/user-projects`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosPrivate.get("/user-projects");
       return response.data;
     } catch (error) {
       showNotification("You must be signed in to view this page!", "error");

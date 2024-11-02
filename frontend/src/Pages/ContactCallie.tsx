@@ -1,5 +1,4 @@
 import { FormControl } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
@@ -14,7 +13,7 @@ import {
   isInvalidMessage,
   isInvalidName,
 } from "../helpers/helpers";
-import { host } from "..";
+import { axiosPublic } from "../helpers/axios_instances";
 
 const thankYouMessage = ["Thank you! Callie will get back to you soon!"];
 
@@ -50,7 +49,7 @@ const ContactCallie = () => {
       setSubmitClicked(true);
     } else {
       setFormSent(true);
-      axios.post(`${host}/api/contact`, contactFormData);
+      axiosPublic.post("/contact", contactFormData);
     }
   };
 

@@ -2,9 +2,8 @@ import { Box, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { Feature } from "../../Pages/Project";
 import FeatureModal from "./FeatureModal";
 import { Project } from "../../Pages/Projects";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   feature: Feature;
@@ -18,12 +17,8 @@ const FeatureBox = ({ feature, projectId, setProject }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onCloseModal = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .get(`${host}/api/auth/project/${projectId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    axiosPrivate
+      .get(`/project/${projectId}`)
       .then((response) => {
         setProject(response.data);
         onClose();

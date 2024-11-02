@@ -35,11 +35,6 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-export const host =
-  process.env.REACT_APP_ENV === "production"
-    ? `https://${window.location.host}`
-    : `http://localhost:3001`;
-
 const router = createBrowserRouter([
   {
     element: <App />,

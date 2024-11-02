@@ -10,9 +10,8 @@ import {
 import { EditIcon, CheckIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Task } from "../UserStories/UserStoryDetailsAccordion";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   task: Task;
@@ -55,18 +54,12 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-task`,
-        {
-          field,
-          value,
-          taskId: task.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .post("/update-task", {
+        field,
+        value,
+        taskId: task.id,
+      })
       .then((response) => {
         setStoryStatus(response.data);
         setUpdateName(false);
@@ -116,16 +109,10 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
   };
 
   const deleteTask = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-task`,
-        {
-          taskId: task.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .post("/delete-task", {
+        taskId: task.id,
+      })
       .then((response) => {
         setStoryStatus(response.data.storyStatus);
         setTaskList(response.data.taskList);

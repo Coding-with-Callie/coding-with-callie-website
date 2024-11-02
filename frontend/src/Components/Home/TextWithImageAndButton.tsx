@@ -12,8 +12,6 @@ import { Link } from "react-router-dom";
 import MyButton from "../MyButton";
 import Alert from "../Profile/Alert";
 import { useRef, useState } from "react";
-import axios from "axios";
-import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
 import {
@@ -23,6 +21,7 @@ import {
   FaRegHandPointUp,
   FaRegTrashAlt,
 } from "react-icons/fa";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   children: React.ReactNode;
@@ -77,12 +76,8 @@ const TextWithImageAndButton = ({
   const [fileInputKey, setFileInputKey] = useState<string>("");
 
   const deleteResource = () => {
-    axios
-      .delete(`${host}/api/auth/resource/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+    axiosPrivate
+      .delete(`/resource/${id}`)
       .then((response) => {
         setResources(response.data);
         onCloseAlert();
@@ -135,18 +130,10 @@ const TextWithImageAndButton = ({
     order = direction === "up" ? order - 1 : order + 1;
     await scrollToElement(order);
 
-    axios
-      .post(
-        `${host}/api/auth/resource/${id}/order`,
-        {
-          direction,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+    axiosPrivate
+      .post(`/resource/${id}/order`, {
+        direction,
+      })
       .then((response) => {
         setResources(response.data);
       })
@@ -188,12 +175,8 @@ const TextWithImageAndButton = ({
     formData.append("linkUrl", linkUrlValue);
     formData.append("target", (targetValue === "_blank").toString());
 
-    axios
-      .put(`${host}/api/auth/resource/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+    axiosPrivate
+      .put(`/resource/${id}`, formData)
       .then((response) => {
         setResources(response.data);
         setEdit(false);

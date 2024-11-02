@@ -23,10 +23,9 @@ import CreateTaskAccordion from "../Tasks/CreateTaskAccordion";
 import { Project } from "../../Pages/Projects";
 import TaskBox from "../Tasks/TaskBox";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   name: string;
@@ -108,18 +107,12 @@ const UserStoryDetailsAccordion = ({
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-user-story`,
-        {
-          field,
-          value,
-          userStoryId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .post("/update-user-story", {
+        field,
+        value,
+        userStoryId,
+      })
       .then((response) => {
         setProject(response.data);
         setUpdateStoryName(false);
@@ -157,16 +150,10 @@ const UserStoryDetailsAccordion = ({
   };
 
   const deleteStory = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-user-story`,
-        {
-          userStoryId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .post("/delete-user-story", {
+        userStoryId,
+      })
       .then((response) => {
         setProject(response.data);
 

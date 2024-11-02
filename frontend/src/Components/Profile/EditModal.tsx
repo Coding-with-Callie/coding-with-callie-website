@@ -1,10 +1,10 @@
 import { Box, Input } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { host, showNotification } from "../..";
+import { showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   field: string;
@@ -36,15 +36,12 @@ const EditModal = ({ field, onClose }: Props) => {
       }
     }
     if (newValue !== "" && newValue) {
-      const token = localStorage.getItem("token");
-      axios
-        .post(
-          `${host}/api/auth/change-account-detail`,
-          { id: userId, value: newValue, field: field },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+      axiosPrivate
+        .post("auth/change-account-detail", {
+          id: userId,
+          value: newValue,
+          field: field,
+        })
         .then((response) => {
           showNotification(`Your account ${field} has been changed`, "success");
           context.updateUser(response.data);

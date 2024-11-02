@@ -8,7 +8,6 @@ import axios from "axios";
 import { host } from "..";
 import ResourceForm from "../Components/Home/ResourceForm";
 import { useLoaderData } from "react-router-dom";
-import MyButton from "../Components/MyButton";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [

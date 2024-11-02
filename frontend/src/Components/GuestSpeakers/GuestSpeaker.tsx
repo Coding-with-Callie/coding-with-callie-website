@@ -22,9 +22,8 @@ import ZoomModal from "./ZoomModal";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Profile/Alert";
 import { useRef } from "react";
-import axios from "axios";
-import { host } from "../..";
 import { toast } from "react-toastify";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   speaker: Speaker;
@@ -58,12 +57,8 @@ const GuestSpeaker = ({
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   const deleteGuestSpeaker = async () => {
-    await axios
-      .delete(`${host}/api/auth/speaker/${speaker.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+    await axiosPrivate
+      .delete(`/speaker/${speaker.id}`)
       .then((response) => {
         setPastSpeakers(response.data.pastSpeakers);
         setUpcomingSpeakers(response.data.upcomingSpeakers);

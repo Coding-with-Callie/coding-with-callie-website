@@ -9,11 +9,10 @@ import {
 import MyButton from "../MyButton";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { host } from "../..";
 import BodyHeading from "../BodyHeading";
 import { validURL } from "../../helpers/helpers";
 import { Speaker } from "../../Pages/GuestSpeakers";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   setPastSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
@@ -68,12 +67,8 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
     formData.append("websiteUrl", websiteUrl);
     formData.append("sessionRecordingUrl", sessionRecordingUrl);
 
-    const token = localStorage.getItem("token");
-
-    await axios
-      .post(`${host}/api/auth/speaker`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    await axiosPrivate
+      .post("/auth/speaker", formData)
       .then((response) => {
         setPastSpeakers(response.data.pastSpeakers);
         setUpcomingSpeakers(response.data.upcomingSpeakers);

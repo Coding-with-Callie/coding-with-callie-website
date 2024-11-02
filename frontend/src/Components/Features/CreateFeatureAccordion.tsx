@@ -14,11 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import axios from "axios";
 import { Feature } from "../../Pages/Project";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   features: Feature[];
@@ -52,18 +51,12 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
     if (name !== "") {
       setIsOpen(false);
 
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(
-          `${host}/api/auth/create-feature`,
-          {
-            name,
-            description,
-            projectId,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post("/create-feature", {
+          name,
+          description,
+          projectId,
+        })
         .then((response) => {
           setProject(response.data);
           setName("");

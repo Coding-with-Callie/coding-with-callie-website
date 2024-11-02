@@ -14,10 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   featureId: number;
@@ -55,19 +54,13 @@ const CreateUserStoryAccordion = ({
     if (name !== "") {
       setIsOpen(false);
 
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(
-          `${host}/api/auth/create-user-story`,
-          {
-            name,
-            description,
-            projectId,
-            featureId,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post("/create-user-story", {
+          name,
+          description,
+          projectId,
+          featureId,
+        })
         .then((response) => {
           setProject(response.data);
           setName("");

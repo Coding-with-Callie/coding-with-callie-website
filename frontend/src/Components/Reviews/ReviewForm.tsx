@@ -6,9 +6,9 @@ import TextAreaInput from "../Forms/TextAreaInput";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { isInvalidName } from "../../helpers/helpers";
-import { host, showNotification } from "../..";
+import { showNotification } from "../..";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type User = {
   id: number;
@@ -41,24 +41,18 @@ const ReviewForm = ({ setReviews, isLargerThan900, title, user }: Props) => {
       setSubmitClicked(true);
       showNotification("Please enter all the necessary information", "error");
     } else {
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(`${host}/api/auth/submit-review`, reviewFormData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setRating(null);
-          setReviewFormData({
-            rating: rating,
-            comments: "",
-            displayName: user.name,
-            userId: user.id,
-          });
-
-          showNotification("Thank you for your review!", "success");
-          setReviews(response.data);
+      axiosPrivate.post("/submit-review", reviewFormData).then((response) => {
+        setRating(null);
+        setReviewFormData({
+          rating: rating,
+          comments: "",
+          displayName: user.name,
+          userId: user.id,
         });
+
+        showNotification("Thank you for your review!", "success");
+        setReviews(response.data);
+      });
     }
   };
 

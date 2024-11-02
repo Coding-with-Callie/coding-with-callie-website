@@ -1,9 +1,9 @@
 import { FormControl } from "@chakra-ui/react";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
-import { host, showNotification } from "../..";
+import { showNotification } from "../..";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
 
 type Props = {
   userData: any;
@@ -41,24 +41,20 @@ const LogInForm = ({
       userData.password &&
       userData.password !== ""
     ) {
-      axios
-        .post(`${host}/api/auth/login`, userData)
+      axiosPublic
+        .post("/auth/login", userData)
         .then((response) => {
           const token = response?.data.access_token;
           localStorage.setItem("token", token);
-          axios
-            .get(`${host}/api/auth/profile`, {
-              headers: { Authorization: `Bearer ${token}` },
-            })
-            .then(async (response) => {
-              updateUser(response.data);
+          axiosPrivate.get("/profile").then(async (response) => {
+            updateUser(response.data);
 
-              showNotification(
-                `Welcome back, ${response.data.username}!`,
-                "success"
-              );
-              navigate("/");
-            });
+            showNotification(
+              `Welcome back, ${response.data.username}!`,
+              "success"
+            );
+            navigate("/");
+          });
         })
         .catch((error) => {
           if (error.response.data.message === "Unauthorized") {

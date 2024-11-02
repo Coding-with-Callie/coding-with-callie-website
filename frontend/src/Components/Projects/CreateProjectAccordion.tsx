@@ -15,9 +15,8 @@ import {
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { Project } from "../../Pages/Projects";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   projects: Project[];
@@ -50,17 +49,11 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
     if (name !== "") {
       setIsOpen(false);
 
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(
-          `${host}/api/auth/create-project`,
-          {
-            name,
-            description,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post("/create-project", {
+          name,
+          description,
+        })
         .then((response) => {
           setProjects(response.data);
           setName("");

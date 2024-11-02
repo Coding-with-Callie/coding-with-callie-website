@@ -1,0 +1,26 @@
+import axios from "axios";
+
+const host =
+  process.env.REACT_APP_ENV === "production"
+    ? `https://${window.location.host}`
+    : `http://localhost:3001`;
+
+const axiosPublic = axios.create({
+  baseURL: `${host}/api`,
+});
+
+const axiosPrivate = axios.create({
+  baseURL: `${host}/api/auth`,
+});
+
+axiosPrivate.interceptors.request.use(
+  (config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export { axiosPublic, axiosPrivate };

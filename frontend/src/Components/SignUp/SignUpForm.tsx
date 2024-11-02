@@ -9,16 +9,13 @@ import MyButton from "../MyButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { host } from "../..";
+import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
 
 type Props = {
-  updateCheckoutStep?: (newStep: number) => void;
-  onClose?: () => void;
   updateUser: (newUser: any) => void;
 };
 
-const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
+const SignUpForm = ({ updateUser }: Props) => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -30,15 +27,12 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
 
   const [photo, setPhoto] = useState();
   const onFileUpload = (id: number) => {
-    const token = localStorage.getItem("token");
-
     if (photo) {
       const formData = new FormData();
       formData.append("file", photo);
-      axios
-        .post(`${host}/api/auth/upload-profile-image?id=${id}`, formData, {
+      axiosPrivate
+        .post(`/upload-profile-image?id=${id}`, formData, {
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         })
@@ -72,8 +66,8 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
       userData.password &&
       userData.password !== ""
     ) {
-      axios
-        .post(`${host}/api/auth/signup`, userData)
+      axiosPublic
+        .post("/auth/signup", userData)
         .then((response) => {
           if (response.data === "user already exists") {
             const emptyUser = {
@@ -96,23 +90,19 @@ const SignUpForm = ({ updateCheckoutStep, onClose, updateUser }: Props) => {
           } else {
             const token = response.data.access_token;
             localStorage.setItem("token", token);
-            axios
-              .get(`${host}/api/auth/profile`, {
-                headers: { Authorization: `Bearer ${token}` },
-              })
-              .then(async (response) => {
-                updateUser(response.data);
+            axiosPrivate.get("/profile").then(async (response) => {
+              updateUser(response.data);
 
-                if (photo) {
-                  onFileUpload(response.data.id);
-                }
+              if (photo) {
+                onFileUpload(response.data.id);
+              }
 
-                showNotification(
-                  `Welcome to Coding with Callie, ${response.data.username}!`,
-                  "success"
-                );
-                navigate("/");
-              });
+              showNotification(
+                `Welcome to Coding with Callie, ${response.data.username}!`,
+                "success"
+              );
+              navigate("/");
+            });
           }
         })
         .catch((error) => {

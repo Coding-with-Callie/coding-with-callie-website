@@ -10,10 +10,9 @@ import {
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
 import { useState } from "react";
-import axios from "axios";
-import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -78,13 +77,8 @@ const ResourceForm = ({ setResources }: Props) => {
 
     setLoading(true);
 
-    axios
-      .post(`${host}/api/auth/resource`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+    axiosPrivate
+      .post("/resource", formData)
       .then((response) => {
         setResources(response.data);
         setLoading(false);

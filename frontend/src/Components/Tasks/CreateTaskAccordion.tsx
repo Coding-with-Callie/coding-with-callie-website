@@ -13,10 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   featureId: number;
@@ -50,19 +49,14 @@ const CreateTaskAccordion = ({
 
     if (name !== "") {
       setIsOpen(false);
-      const token = localStorage.getItem("token");
 
-      axios
-        .post(
-          `${host}/api/auth/create-task`,
-          {
-            name,
-            projectId,
-            featureId,
-            userStoryId,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post("/create-task", {
+          name,
+          projectId,
+          featureId,
+          userStoryId,
+        })
         .then((response) => {
           setProject(response.data);
           setName("");
