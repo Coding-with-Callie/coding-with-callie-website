@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import { Resource } from './entities/resource.entity';
 
 @Injectable()
@@ -65,6 +65,17 @@ export class ResourceService {
   }
 
   async deleteResource(id: number) {
+    const resource = await this.resourceRepository.findOneBy({ id });
+    const resources = await this.resourceRepository.find({
+      where: {
+        order: MoreThan(resource.order),
+      },
+    });
+    resources.forEach((resource) => {
+      resource.order -= 1;
+    });
+    await this.resourceRepository.save(resources);
+
     await this.resourceRepository.delete(id);
     return await this.getResources();
   }

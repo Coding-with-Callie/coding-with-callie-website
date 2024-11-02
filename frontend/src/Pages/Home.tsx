@@ -97,6 +97,7 @@ const Home = () => {
           editable={role === "admin"}
           setResources={setResources}
           order={resource.order}
+          numResources={resources.length}
         />
       ))}
       {role === "admin" && (

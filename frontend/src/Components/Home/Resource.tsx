@@ -16,6 +16,7 @@ type Props = {
   editable: boolean;
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
   order: number;
+  numResources: number;
 };
 
 const Resource = ({
@@ -29,6 +30,7 @@ const Resource = ({
   editable,
   setResources,
   order,
+  numResources,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [edit, setEdit] = useState(false);
@@ -56,6 +58,7 @@ const Resource = ({
           setEdit={setEdit}
           textBlocksValue={textBlocksValue}
           order={order}
+          numResources={numResources}
         >
           {edit ? (
             <Textarea

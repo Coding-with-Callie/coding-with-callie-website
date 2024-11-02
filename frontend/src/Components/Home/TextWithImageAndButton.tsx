@@ -38,6 +38,7 @@ type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   textBlocksValue: string;
   order: number;
+  numResources: number;
 };
 
 const TextWithImageAndButton = ({
@@ -54,6 +55,7 @@ const TextWithImageAndButton = ({
   setEdit,
   textBlocksValue,
   order,
+  numResources,
 }: Props) => {
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const {
@@ -89,6 +91,7 @@ const TextWithImageAndButton = ({
 
   const editResource = () => {
     setEdit(!edit);
+    console.log("Order:", order);
   };
 
   const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +111,7 @@ const TextWithImageAndButton = ({
   };
 
   const moveResource = (direction: string) => {
-    direction === "up" ? order-- : order++;
+    order = direction === "up" ? order - 1 : order + 1;
     document.getElementById(order.toString())?.scrollIntoView({
       behavior: "smooth",
       block: "center",
@@ -191,18 +194,22 @@ const TextWithImageAndButton = ({
                 onClick={edit ? submitEdit : editResource}
                 colorScheme="green"
               />
-              <IconButton
-                aria-label={"move resource up"}
-                icon={<FaRegHandPointUp />}
-                onClick={moveResource.bind(null, "up")}
-                colorScheme="blue"
-              />
-              <IconButton
-                aria-label={"move resource down"}
-                icon={<FaRegHandPointDown />}
-                onClick={moveResource.bind(null, "down")}
-                colorScheme="blue"
-              />
+              {order > 1 && (
+                <IconButton
+                  aria-label={"move resource up"}
+                  icon={<FaRegHandPointUp />}
+                  onClick={moveResource.bind(null, "up")}
+                  colorScheme="blue"
+                />
+              )}
+              {order !== numResources && (
+                <IconButton
+                  aria-label={"move resource down"}
+                  icon={<FaRegHandPointDown />}
+                  onClick={moveResource.bind(null, "down")}
+                  colorScheme="blue"
+                />
+              )}
               <IconButton
                 aria-label={"delete resource"}
                 icon={<FaRegTrashAlt />}
