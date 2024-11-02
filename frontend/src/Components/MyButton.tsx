@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 
 type Props = {
-  children: string;
+  children: any;
   onClick?: any;
   widthSize?: any;
   disabled?: boolean;

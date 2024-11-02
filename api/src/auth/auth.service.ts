@@ -3,16 +3,19 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../mail/mail.service';
-import { AlumniDto, NewUserDto } from './auth.controller';
+import { AlumniDto, NewUserDto, SpeakerDTO } from './auth.controller';
 import { Logger } from 'nestjs-pino';
 import { ReviewService } from '../review/review.service';
 import { SpeakersService } from '../speakers/speakers.service';
-import { Speaker } from '../speakers/entities/speaker.entity';
 import { AlumniService } from '../alumni/alumni.service';
 import { FeaturesService } from '../features/features.service';
 import { ProjectsService } from '../projects/projects.service';
 import { TasksService } from '../tasks/tasks.service';
 import { UserStoriesService } from '../userStories/userStories.service';
+import { ResourceService } from '../resource/resource.service';
+import { FileUploadService } from '../file_upload/file_upload.service';
+import { Resource } from 'src/resource/entities/resource.entity';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,6 +29,8 @@ export class AuthService {
     private featuresService: FeaturesService,
     private userStoriesService: UserStoriesService,
     private tasksService: TasksService,
+    private resourceService: ResourceService,
+    private fileUploadService: FileUploadService,
     private logger: Logger,
   ) {}
 
@@ -189,15 +194,37 @@ export class AuthService {
     }
   }
 
-  async uploadFile(id, file) {
-    return await this.usersService.uploadFile(id, file);
+  async uploadFile(file) {
+    return await this.fileUploadService.uploadFile(file);
+  }
+
+  async uploadProfileImage(id, file) {
+    const user = await this.usersService.findOneById(id);
+    const photoUrl = await this.uploadFile(file);
+    return await this.usersService.changeAccountDetail(user, 'photo', photoUrl);
   }
 
   async submitReview(review) {
     return await this.reviewService.submitReview(review);
   }
 
-  async createSpeaker(speaker: Speaker) {
+  async createResource(resource: Resource) {
+    return await this.resourceService.createResource(resource);
+  }
+
+  async deleteResource(id: number) {
+    return await this.resourceService.deleteResource(id);
+  }
+
+  async updateResource(id: number, resource: Resource) {
+    return await this.resourceService.updateResource(id, resource);
+  }
+
+  async updateResourceOrder(id: number, direction: string) {
+    return await this.resourceService.updateOrder(id, direction);
+  }
+
+  async createSpeaker(speaker: SpeakerDTO) {
     return await this.speakersService.createSpeaker(speaker);
   }
 
@@ -210,7 +237,11 @@ export class AuthService {
     return await this.speakersService.deleteSpeaker(speaker);
   }
 
-  async changeSpeakerDetail(id: number, value: string | string[], field: string) {
+  async changeSpeakerDetail(
+    id: number,
+    value: string | string[],
+    field: string,
+  ) {
     return await this.speakersService.updateSpeaker(id, field, value);
   }
 

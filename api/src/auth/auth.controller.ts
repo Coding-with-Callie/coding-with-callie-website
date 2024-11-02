@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Optional,
   Post,
   Put,
   Query,
@@ -21,7 +22,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
-import { Speaker } from '../speakers/entities/speaker.entity';
+import { Resource } from 'src/resource/entities/resource.entity';
 
 export class NewUserDto {
   @IsNotEmpty({ message: 'You must provide a name.' })
@@ -55,7 +56,7 @@ export class AccountDetailDto {
 
   @IsNotEmpty({ message: 'You must provide a new value.' })
   @Transform((params) => sanitizeHTML(params.value))
-  value: string ;
+  value: string;
 
   @IsNotEmpty()
   field: string;
@@ -193,6 +194,56 @@ export class UpdateProjectDto {
   projectId: number;
 }
 
+export class ResourceDTO {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  heading: string;
+
+  @IsNotEmpty()
+  bodyText: string[] | string;
+
+  imageUrl?: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  buttonText: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  linkUrl: string;
+
+  @IsNotEmpty()
+  target: string | boolean;
+}
+
+export class SpeakerDTO {
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  name: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  date: string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  bioText: string[] | string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  sessionText: string[] | string;
+
+  @IsNotEmpty()
+  @Transform((params) => sanitizeHTML(params.value))
+  websiteUrl: string;
+
+  @IsOptional()
+  @Transform((params) => sanitizeHTML(params.value))
+  sessionRecordingUrl: string;
+
+  photoUrl?: string;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -244,13 +295,13 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('upload')
+  @Post('upload-profile-image')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
+  async uploadProfileImage(
     @UploadedFile() file: Express.Multer.File,
     @Query('id') id: number,
   ) {
-    await this.authService.uploadFile(id, file);
+    await this.authService.uploadProfileImage(id, file);
     return this.authService.getUserProfile(id);
   }
 
@@ -262,8 +313,107 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('resource')
+  async createResource(
+    @Body() resource: ResourceDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const resourceToSave = new Resource();
+
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.imageUrl = await this.authService.uploadFile(file);
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    return await this.authService.createResource(resourceToSave);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Delete('resource/:id')
+  async deleteResource(@Param('id') id: number) {
+    return await this.authService.deleteResource(id);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @Put('resource/:id')
+  async updateResource(
+    @Param('id') id: number,
+    @Body() resource: ResourceDTO,
+    @UploadedFile() @Optional() file?: Express.Multer.File,
+  ) {
+    const resourceToSave = new Resource();
+
+    if (file) {
+      resourceToSave.imageUrl = await this.authService.uploadFile(file);
+    }
+
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    return await this.authService.updateResource(id, resourceToSave);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @Post('resource/:id/order')
+  async updateResourceOrder(
+    @Param('id') id,
+    @Body('direction') direction: string,
+  ) {
+    return await this.authService.updateResourceOrder(id, direction);
+  }
+
+  @Roles(['admin'])
+  @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
-  async createSpeaker(@Body() speaker: Speaker) {
+  async createSpeaker(
+    @Body() speaker: SpeakerDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    speaker.photoUrl = await this.authService.uploadFile(file);
+
+    if (typeof speaker.bioText === 'string') {
+      speaker.bioText = speaker.bioText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    if (typeof speaker.sessionText === 'string') {
+      speaker.sessionText = speaker.sessionText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
     return await this.authService.createSpeaker(speaker);
   }
 
@@ -277,11 +427,9 @@ export class AuthController {
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
   @Put('guest-speaker/:id')
-  async updateSpeaker(@Body() body: {
-    id: number; 
-    field: string; 
-    value: string | string[]
-  }) {
+  async updateSpeaker(
+    @Body() body: { id: number; field: string; value: string | string[] },
+  ) {
     return await this.authService.changeSpeakerDetail(
       body.id,
       body.value,

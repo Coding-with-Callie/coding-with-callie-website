@@ -25,7 +25,6 @@ import Alert from "../Components/Profile/Alert";
 import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import Section from "../Components/Section";
-import Admin from "../Components/Profile/Admin";
 import { host } from "..";
 
 export type Data = {
@@ -263,8 +262,6 @@ const Profile = () => {
           handleDelete={deleteAccount}
           item="Account"
         />
-
-        {context.user.role === "admin" ? <Admin /> : null}
       </Box>
     </>
   );

@@ -4,6 +4,9 @@ import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
 import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 import UpcomingCarousel from "../Components/GuestSpeakers/UpcomingCarousel";
 import BodyHeading from "../Components/BodyHeading";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { host } from "..";
 
 export type Speaker = {
   id: number;
@@ -17,47 +20,51 @@ export type Speaker = {
   sessionRecordingUrl: string;
 };
 
+export type GuestSpeakerData = {
+  upcomingSpeakers: Speaker[];
+  pastSpeakers: Speaker[];
+};
+
 const GuestSpeakers = () => {
-  const data = useLoaderData() as Speaker[];
-  let speakers = data;
-  //Sort speakers in descending order based on date. Times are ignored.
-  speakers = speakers.sort((a, b) => {
-    const aDate = new Date(a.date);
-    const bDate = new Date(b.date);
-    if (aDate > bDate) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
-  //Split speakers into upcomingSpeakers and pastSpeakers based on date
-  const { upcomingSpeakers, pastSpeakers } = speakers.reduce(
-    (
-      acc: { upcomingSpeakers: Speaker[]; pastSpeakers: Speaker[] },
-      speaker: Speaker
-    ) => {
-      /*Speaker.date does not include a timestamp. So this object will be
-      created as midgnight on the speaker's date*/
-      const date = new Date(speaker.date);
-      //Date() creates a date object with a timestamp of when it was created
-      const today = new Date();
-      /*set the time of today to midnight which will allow us to compare just
-      the dates and not times.*/
-      today.setHours(0, 0, 0, 0);
-      if (date >= today) {
-        acc.upcomingSpeakers.push(speaker);
-      } else {
-        acc.pastSpeakers.push(speaker);
-      }
-      return acc;
-    },
-    { upcomingSpeakers: [], pastSpeakers: [] }
+  const data = useLoaderData() as GuestSpeakerData;
+
+  const [role, setRole] = useState<string | null>(null);
+  const [upcomingSpeakers, setUpcomingSpeakers] = useState<Speaker[]>(
+    data.upcomingSpeakers
   );
+  const [pastSpeakers, setPastSpeakers] = useState<Speaker[]>(
+    data.pastSpeakers
+  );
+
+  useEffect(() => {
+    const profileLoader = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const response = await axios.get(`${host}/api/auth/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          return response.data.role;
+        } catch (error) {
+          console.error("Failed to fetch profile:", error);
+          return null;
+        }
+      } else {
+        return null;
+      }
+    };
+
+    const loadProfile = async () => {
+      const userRole = await profileLoader();
+      setRole(userRole);
+    };
+
+    loadProfile();
+  }, []);
+
   return (
     <Box>
-      <Center>
-        <GuestSpeakerForm />
-      </Center>
       <Box m={"0 auto"}>
         <UpcomingCarousel speakers={upcomingSpeakers} />
         <BodyHeading textAlignCenter={true}>Past Speakers</BodyHeading>
@@ -70,9 +77,25 @@ const GuestSpeakers = () => {
           />
         </Center>
         {pastSpeakers.map((speaker, index) => {
-          return <GuestSpeaker speaker={speaker} key={index} />;
+          return (
+            <GuestSpeaker
+              speaker={speaker}
+              key={index}
+              role={role}
+              setPastSpeakers={setPastSpeakers}
+              setUpcomingSpeakers={setUpcomingSpeakers}
+            />
+          );
         })}
       </Box>
+      {role === "admin" && (
+        <Box my={20}>
+          <GuestSpeakerForm
+            setPastSpeakers={setPastSpeakers}
+            setUpcomingSpeakers={setUpcomingSpeakers}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

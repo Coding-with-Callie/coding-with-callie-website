@@ -20,6 +20,10 @@ const UpcomingCarousel = ({ speakers }: Props) => {
   const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
   const [isLargerThan1200] = useMediaQuery("(min-width: 1200px)");
 
+  speakers = speakers.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
   return (
     <Section screenSizeParameter={isLargerThan1200} alignItemsCenter={true}>
       {speakers.length > 0 && (

@@ -16,6 +16,8 @@ import { AlumniModule } from './alumni/alumni.module';
 import { LoggerModule } from 'nestjs-pino';
 import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
+import { ResourceModule } from './resource/resource.module';
+import { FileUploadModule } from './file_upload/file_upload.module';
 
 @Module({
   imports: [
@@ -44,16 +46,16 @@ import { ServerResponse } from 'http';
             };
           },
         },
-        // transport: {
-        //   target: 'pino-pretty',
-        //   options: {
-        //     singleLine: true,
-        //     colorize: true,
-        //     levelFirst: true,
-        //     translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
-        //     ignore: 'pid,hostname',
-        //   },
-        // },
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+            colorize: true,
+            levelFirst: true,
+            translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
+            ignore: 'pid,hostname',
+          },
+        },
         autoLogging: {
           ignore: (req) => req.url === '/api/readyz',
         },
@@ -67,6 +69,8 @@ import { ServerResponse } from 'http';
     SpeakersModule,
     WorkshopsModule,
     AlumniModule,
+    ResourceModule,
+    FileUploadModule,
   ],
   controllers: [AppController, ReviewController],
   providers: [AppService],

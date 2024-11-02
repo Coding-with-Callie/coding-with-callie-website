@@ -15,7 +15,7 @@ const config = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
-  logging: true,
+  logging: false,
   ssl: process.env.ENVIRONMENT === 'production' ? true : false,
   extra:
     process.env.ENVIRONMENT === 'production'

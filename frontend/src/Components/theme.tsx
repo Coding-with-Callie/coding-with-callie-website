@@ -23,6 +23,12 @@ const theme = extendTheme({
     input: {
       color: purple,
     },
+    inputResource: {
+      color: purple,
+      backgroundColor: "white",
+      _hover: { backgroundColor: "gray.50" },
+      _focus: { backgroundColor: "white" },
+    },
     heading: {
       color: "#79A9CD",
     },

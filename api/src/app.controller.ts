@@ -10,6 +10,11 @@ export class AppController {
     return 'READY!';
   }
 
+  @Get('resources')
+  getAllResources() {
+    return this.appService.getAllResources();
+  }
+
   @Get('workshops')
   getAllWorkshops() {
     return this.appService.getAllWorkshops();
