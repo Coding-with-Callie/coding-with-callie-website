@@ -156,6 +156,28 @@ const TextWithImageAndButton = ({
   };
 
   const submitEdit = () => {
+    if (
+      headingValue === "" ||
+      textBlocksValue === "" ||
+      buttonTextValue === "" ||
+      linkUrlValue === ""
+    ) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    if (
+      headingValue === heading &&
+      textBlocksValue === bodyText &&
+      buttonTextValue === buttonText &&
+      linkUrlValue === linkUrl &&
+      targetValue === target &&
+      !image
+    ) {
+      setEdit(false);
+      return;
+    }
+
     const formData = new FormData();
     if (image) {
       formData.append("file", image);
