@@ -18,7 +18,6 @@ import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
   Load,
   ProfileResetLoader,
-  UserProjectsLoader,
   ProjectLoader,
   CombinedLoader,
   ProfileLoaderNoToast,
@@ -97,8 +96,10 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <Projects />,
-        loader: UserProjectsLoader,
+        loader: () => Load("user-projects"),
       },
+      // We need to refactor this to be a part of guest speakers page
+      // so this is less important to edit
       {
         path: "/guest-speaker/:id",
         element: <GuestSpeakerDetails />,

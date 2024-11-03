@@ -3,10 +3,10 @@ import BodyHeading from "../Components/BodyHeading";
 import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
 import Resource from "../Components/Home/Resource";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ResourceForm from "../Components/Home/ResourceForm";
-import { useLoaderData } from "react-router-dom";
-import { axiosPrivate } from "../helpers/axios_instances";
+import { useLoaderData, useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -31,36 +31,13 @@ const Home = () => {
   const loaderData = useLoaderData() as ResourceType[];
 
   const [resources, setResources] = useState<ResourceType[]>(loaderData);
-  const [role, setRole] = useState<string | null>(null);
 
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
-  useEffect(() => {
-    const profileLoader = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await axiosPrivate.get("/profile");
-          return response.data.role;
-        } catch (error) {
-          console.error("Failed to fetch profile:", error);
-          return null;
-        }
-      } else {
-        return null;
-      }
-    };
-
-    const loadProfile = async () => {
-      const userRole = await profileLoader();
-      setRole(userRole);
-    };
-
-    loadProfile();
-  }, []);
+  const context = useOutletContext() as Context;
+  const role = context.user.role;
 
   return (
     <Box>

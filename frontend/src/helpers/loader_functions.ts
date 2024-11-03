@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { showNotification } from "..";
 import { axiosPrivate, axiosPublic } from "./axios_instances";
 
-const privateEndpoints = ["profile", "user-details"];
+const privateEndpoints = ["profile", "user-details", "user-projects"];
 
 export const Load = async (endpoint: string) => {
   // User private axios instance if endpoint
@@ -98,23 +98,6 @@ export const ProjectLoader = async ({ params }: LoaderFunctionArgs) => {
         return redirect("/projects");
       }
 
-      return response.data;
-    } catch (error) {
-      showNotification("You must be signed in to view this page!", "error");
-      return redirect("/log-in");
-    }
-  } else {
-    showNotification("You must have an account to view this page!", "error");
-    return redirect("/sign-up");
-  }
-};
-
-export const UserProjectsLoader = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      const response = await axiosPrivate.get("/user-projects");
       return response.data;
     } catch (error) {
       showNotification("You must be signed in to view this page!", "error");

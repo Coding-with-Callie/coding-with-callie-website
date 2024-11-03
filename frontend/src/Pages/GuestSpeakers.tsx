@@ -1,11 +1,11 @@
 import { Box, Center, Divider } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
 import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 import UpcomingCarousel from "../Components/GuestSpeakers/UpcomingCarousel";
 import BodyHeading from "../Components/BodyHeading";
-import { useEffect, useState } from "react";
-import { axiosPrivate } from "../helpers/axios_instances";
+import { useState } from "react";
+import { Context } from "../App";
 
 export type Speaker = {
   id: number;
@@ -26,39 +26,15 @@ export type GuestSpeakerData = {
 
 const GuestSpeakers = () => {
   const data = useLoaderData() as GuestSpeakerData;
+  const context = useOutletContext() as Context;
+  const role = context.user.role;
 
-  const [role, setRole] = useState<string | null>(null);
   const [upcomingSpeakers, setUpcomingSpeakers] = useState<Speaker[]>(
     data.upcomingSpeakers
   );
   const [pastSpeakers, setPastSpeakers] = useState<Speaker[]>(
     data.pastSpeakers
   );
-
-  useEffect(() => {
-    const profileLoader = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await axiosPrivate.get("/profile");
-          return response.data.role;
-        } catch (error) {
-          console.error("Failed to fetch profile:", error);
-          return null;
-        }
-      } else {
-        return null;
-      }
-    };
-
-    const loadProfile = async () => {
-      const userRole = await profileLoader();
-      setRole(userRole);
-    };
-
-    loadProfile();
-  }, []);
 
   return (
     <Box>
