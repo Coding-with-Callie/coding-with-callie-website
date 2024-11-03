@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -39,6 +40,12 @@ export class UserLoginDto {
   password: string;
 }
 
+export class Email {
+  @IsEmail(undefined, { message: 'You must enter a valid email address.' })
+  @Transform((params) => sanitizeHTML(params.value))
+  email: string;
+}
+
 @Controller()
 export class AppController {
   constructor(
@@ -62,6 +69,16 @@ export class AppController {
   @Post('login')
   signIn(@Body() userLoginDto: UserLoginDto) {
     return this.appService.logIn(userLoginDto.username, userLoginDto.password);
+  }
+
+  @Get('profile/:token/:id')
+  getProfileReset(@Param('token') token: string, @Param('id') id: number) {
+    return this.appService.getProfileReset(token, id);
+  }
+
+  @Post('forgot-password')
+  forgotPassword(@Body() body: Email) {
+    return this.appService.forgotPassword(body.email);
   }
 
   @Get('resources')

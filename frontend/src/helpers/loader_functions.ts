@@ -80,7 +80,7 @@ export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   const id = params.id;
 
   try {
-    const response = await axiosPrivate.get(`/profile/${token}/${id}`);
+    const response = await axiosPublic.get(`/profile/${token}/${id}`);
     localStorage.setItem("token", response.data);
 
     showNotification("You can reset your password here!", "success");

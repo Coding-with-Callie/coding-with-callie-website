@@ -40,7 +40,7 @@ const LogIn = () => {
 
   const resetPassword = async () => {
     axiosPublic
-      .post("/auth/forgot-password", {
+      .post("/forgot-password", {
         email,
       })
       .then(() => {

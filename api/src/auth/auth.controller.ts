@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -34,12 +34,6 @@ export class AccountDetailDto {
 
   @IsNotEmpty()
   field: string;
-}
-
-export class Email {
-  @IsEmail(undefined, { message: 'You must enter a valid email address.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  email: string;
 }
 
 export class ReviewDto {
@@ -218,33 +212,21 @@ export class SpeakerDTO {
   photoUrl?: string;
 }
 
+@UseGuards(AuthGuard)
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(AuthGuard)
   @Get('user-details')
   getUserDetailsForHeader(@Request() req) {
     return this.authService.getUserProfile(req.user.sub);
   }
 
-  @UseGuards(AuthGuard)
   @Get('profile')
   getUserProfile(@Request() req) {
     return this.authService.getUserProfile(req.user.sub);
   }
 
-  @Get('profile/:token/:id')
-  getProfileReset(@Param('token') token: string, @Param('id') id: number) {
-    return this.authService.getProfileReset(token, id);
-  }
-
-  @Post('forgot-password')
-  forgotPassword(@Body() body: Email) {
-    return this.authService.forgotPassword(body.email);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('change-account-detail')
   changeAccountDetail(@Body() accountDetailDto: AccountDetailDto) {
     return this.authService.changeAccountDetail(
@@ -254,13 +236,11 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('delete-account')
   deleteAccount(@Body('id') id: number) {
     return this.authService.deleteUser(id);
   }
 
-  @UseGuards(AuthGuard)
   @Post('upload-profile-image')
   @UseInterceptors(FileInterceptor('file'))
   async uploadProfileImage(
@@ -271,14 +251,14 @@ export class AuthController {
     return this.authService.getUserProfile(id);
   }
 
-  @UseGuards(AuthGuard)
   @Post('submit-review')
   async submitReview(@Body() review: ReviewDto) {
     return await this.authService.submitReview(review);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post('resource')
   async createResource(
@@ -305,15 +285,17 @@ export class AuthController {
     return await this.authService.createResource(resourceToSave);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Delete('resource/:id')
   async deleteResource(@Param('id') id: number) {
     return await this.authService.deleteResource(id);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Put('resource/:id')
   async updateResource(
@@ -344,8 +326,9 @@ export class AuthController {
     return await this.authService.updateResource(id, resourceToSave);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Post('resource/:id/order')
   async updateResourceOrder(
     @Param('id') id,
@@ -354,8 +337,9 @@ export class AuthController {
     return await this.authService.updateResourceOrder(id, direction);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
   async createSpeaker(
@@ -383,15 +367,17 @@ export class AuthController {
     return await this.authService.createSpeaker(speaker);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Delete('speaker/:id')
   async deleteSpeaker(@Param('id') id: number) {
     return await this.authService.deleteSpeaker(id);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Put('speaker/:id')
   async updateSpeaker(
@@ -429,20 +415,19 @@ export class AuthController {
     return await this.authService.updateSpeaker(id, speakerToSave);
   }
 
+  // TODO: Move this to admin.controller.ts
   @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Post('create-alumni')
   async createAlumni(@Body() alumni: AlumniDto) {
     return await this.authService.createAlumni(alumni);
   }
 
-  @UseGuards(AuthGuard)
   @Get('user-projects')
   getUserProjects(@Request() req) {
     return this.authService.getUserProjects(req.user.sub);
   }
 
-  @UseGuards(AuthGuard)
   @Get('project/:id')
   async getProject(@Param('id') id: number, @Request() req) {
     const project = await this.authService.getProject(req.user.sub, id);
@@ -456,7 +441,6 @@ export class AuthController {
     return project;
   }
 
-  @UseGuards(AuthGuard)
   @Post('create-project')
   createProject(@Body() projectDto: ProjectDto, @Request() req) {
     return this.authService.createProject(
@@ -466,7 +450,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('update-project')
   updateProject(@Body() updateProjectDto: UpdateProjectDto, @Request() req) {
     return this.authService.updateProject(
@@ -477,13 +460,11 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('delete-project')
   deleteProject(@Body('projectId') projectId: number, @Request() req) {
     return this.authService.deleteProject(projectId, req.user.sub);
   }
 
-  @UseGuards(AuthGuard)
   @Post('create-feature')
   createFeature(@Body() featureDto: FeatureDto, @Request() req) {
     return this.authService.createFeature(
@@ -494,7 +475,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('update-feature')
   updateFeature(@Body() updateFeatureDto: UpdateFeatureDto, @Request() req) {
     return this.authService.updateFeature(
@@ -505,13 +485,11 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('delete-feature')
   deleteFeature(@Body('featureId') featureId: number, @Request() req) {
     return this.authService.deleteFeature(featureId, req.user.sub);
   }
 
-  @UseGuards(AuthGuard)
   @Post('create-user-story')
   createUserStory(@Body() userStoryDto: UserStoryDto, @Request() req) {
     return this.authService.createUserStory(
@@ -523,7 +501,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('update-user-story')
   updateUserStory(
     @Body() updateUserStoryDto: UpdateUserStoryDto,
@@ -537,13 +514,11 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('delete-user-story')
   deleteUserStory(@Body('userStoryId') userStoryId: number, @Request() req) {
     return this.authService.deleteUserStory(userStoryId, req.user.sub);
   }
 
-  @UseGuards(AuthGuard)
   @Post('create-task')
   createTask(@Body() taskDto: TaskDto, @Request() req) {
     return this.authService.createTask(
@@ -555,7 +530,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('update-task')
   updateTask(@Body() updateTaskDto: UpdateTaskDto, @Request() req) {
     return this.authService.updateTask(
@@ -566,7 +540,6 @@ export class AuthController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Post('delete-task')
   deleteTask(@Body('taskId') taskId: number, @Request() req) {
     return this.authService.deleteTask(taskId, req.user.sub);

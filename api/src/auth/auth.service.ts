@@ -85,44 +85,6 @@ export class AuthService {
     return 'deleted';
   }
 
-  // create password reset JWT
-  async forgotPassword(email: string) {
-    const user = await this.usersService.findOneByEmail(email);
-    if (user === null) {
-      throw new UnauthorizedException();
-    }
-
-    const payload = { sub: user.id, username: user.username };
-    const secret = user.password;
-    const access_token = await this.jwtService.signAsync(payload, {
-      secret,
-      expiresIn: '10m',
-    });
-
-    return await this.mailService.sendPasswordResetEmail(
-      user,
-      access_token,
-      user.id,
-    );
-  }
-
-  // check password reset token
-  async getProfileReset(token, id) {
-    const user = await this.usersService.findOneById(id);
-    const payload = await this.jwtService.verifyAsync(token, {
-      secret: user.password,
-    });
-
-    if (payload) {
-      return await this.jwtService.signAsync({
-        sub: user.id,
-        username: user.username,
-      });
-    } else {
-      throw new UnauthorizedException();
-    }
-  }
-
   async uploadFile(file) {
     return await this.fileUploadService.uploadFile(file);
   }
@@ -182,9 +144,6 @@ export class AuthService {
 
   async getProject(userId: number, id: number) {
     const projects = await this.projectsService.getUserProjects(userId);
-
-    console.log('PROJECTS', projects);
-
     return projects.find((project) => project.id === id);
   }
 
