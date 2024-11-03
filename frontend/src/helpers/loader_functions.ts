@@ -10,13 +10,16 @@ const privateEndpoints = [
 ];
 
 export const Load = async (endpoint: string) => {
+  // Check if the endpoint requires authentication
+  // Disregard the query parameters
+  const useAxiosPrivate = privateEndpoints.includes(endpoint.split("/")[0]);
+
   // User private axios instance if endpoint
   // requires authentication
   try {
-    const response = await (privateEndpoints.includes(endpoint.split("/")[0])
-      ? axiosPrivate
-      : axiosPublic
-    ).get(`/${endpoint}`);
+    const response = await (useAxiosPrivate ? axiosPrivate : axiosPublic).get(
+      `/${endpoint}`
+    );
 
     return response.data;
   } catch (error: any) {
