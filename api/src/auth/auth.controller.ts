@@ -20,7 +20,8 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
-import { Resource } from 'src/resource/entities/resource.entity';
+import { Resource } from '../resource/entities/resource.entity';
+import { Speaker } from '../speakers/entities/speaker.entity';
 
 export class AccountDetailDto {
   @IsNotEmpty()
@@ -390,15 +391,41 @@ export class AuthController {
 
   @Roles(['admin'])
   @UseGuards(AuthGuard, RolesGuard)
-  @Put('guest-speaker/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  @Put('speaker/:id')
   async updateSpeaker(
-    @Body() body: { id: number; field: string; value: string | string[] },
+    @Param('id') id: number,
+    @Body() speaker: SpeakerDTO,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.authService.changeSpeakerDetail(
-      body.id,
-      body.value,
-      body.field,
-    );
+    const speakerToSave = new Speaker();
+
+    if (file) {
+      speakerToSave.photoUrl = await this.authService.uploadFile(file);
+    }
+
+    speakerToSave.name = speaker.name;
+    speakerToSave.date = speaker.date;
+    speakerToSave.websiteUrl = speaker.websiteUrl;
+    speakerToSave.sessionRecordingUrl = speaker.sessionRecordingUrl;
+
+    if (typeof speaker.bioText === 'string') {
+      speakerToSave.bioText = speaker.bioText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    if (typeof speaker.sessionText === 'string') {
+      speakerToSave.sessionText = speaker.sessionText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    return await this.authService.updateSpeaker(id, speakerToSave);
   }
 
   @Roles(['admin'])

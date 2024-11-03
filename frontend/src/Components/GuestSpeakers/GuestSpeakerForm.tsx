@@ -167,11 +167,13 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
         <Box>
           <FormLabel layerStyle="input">Session Description</FormLabel>
           <Textarea
-            layerStyle="input"
+            layerStyle="inputResource"
             variant="filled"
             value={sessionText}
             onChange={onChangeSessionText}
             isInvalid={submitClicked && sessionText === ""}
+            _hover={{ backgroundColor: "gray.50" }}
+            _focus={{ backgroundColor: "white" }}
           />
         </Box>
         <Box>

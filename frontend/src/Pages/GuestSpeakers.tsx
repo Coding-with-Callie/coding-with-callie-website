@@ -54,7 +54,7 @@ const GuestSpeakers = () => {
             <GuestSpeaker
               speaker={speaker}
               key={index}
-              role={role}
+              editable={role === "admin"}
               setPastSpeakers={setPastSpeakers}
               setUpcomingSpeakers={setUpcomingSpeakers}
             />

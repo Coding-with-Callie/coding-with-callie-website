@@ -96,8 +96,6 @@ const TextWithImageAndButton = ({
     setTextBlocksValue(bodyText);
 
     setEdit(!edit);
-    console.log("Order:", order);
-    console.log("HEADING", heading);
   };
 
   const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {

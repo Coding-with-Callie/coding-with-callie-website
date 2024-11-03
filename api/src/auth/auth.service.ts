@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { MailService } from '../mail/mail.service';
 import { AlumniDto, SpeakerDTO } from './auth.controller';
-import { Logger } from 'nestjs-pino';
 import { ReviewService } from '../review/review.service';
 import { SpeakersService } from '../speakers/speakers.service';
 import { AlumniService } from '../alumni/alumni.service';
@@ -15,6 +14,7 @@ import { ResourceService } from '../resource/resource.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { Resource } from '../resource/entities/resource.entity';
 import { hashPassword } from '../helpers/helpers';
+import { Speaker } from '../speakers/entities/speaker.entity';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +31,6 @@ export class AuthService {
     private tasksService: TasksService,
     private resourceService: ResourceService,
     private fileUploadService: FileUploadService,
-    private logger: Logger,
   ) {}
   async getUserProfile(id: number) {
     const user = await this.usersService.findOneById(id);
@@ -58,8 +57,6 @@ export class AuthService {
       field,
       value,
     );
-
-    this.logger.log(user.username + ' changed ' + field);
 
     return {
       id: user.id,
@@ -165,12 +162,8 @@ export class AuthService {
     return await this.speakersService.deleteSpeaker(speaker);
   }
 
-  async changeSpeakerDetail(
-    id: number,
-    value: string | string[],
-    field: string,
-  ) {
-    return await this.speakersService.updateSpeaker(id, field, value);
+  async updateSpeaker(id: number, speaker: Speaker) {
+    return await this.speakersService.updateSpeaker(id, speaker);
   }
 
   async createAlumni(alumni: AlumniDto) {

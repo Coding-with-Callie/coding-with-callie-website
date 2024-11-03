@@ -60,9 +60,21 @@ export class SpeakersService {
     return await this.findAllSpeakers();
   }
 
-  async updateSpeaker(id: number, field: string, value: string | string[]) {
+  async updateSpeaker(id: number, speaker: Speaker) {
     const speakerToUpdate = await this.findOneById(id);
-    speakerToUpdate[field] = value;
+
+    if (speaker.photoUrl) {
+      speakerToUpdate.photoUrl = speaker.photoUrl;
+    }
+
+    speakerToUpdate.name = speaker.name;
+    speakerToUpdate.date = speaker.date;
+    speakerToUpdate.time = speaker.time;
+    speakerToUpdate.sessionText = speaker.sessionText;
+    speakerToUpdate.bioText = speaker.bioText;
+    speakerToUpdate.websiteUrl = speaker.websiteUrl;
+    speakerToUpdate.sessionRecordingUrl = speaker.sessionRecordingUrl;
+
     await this.speakersRepository.save(speakerToUpdate);
     return await this.findAllSpeakers();
   }

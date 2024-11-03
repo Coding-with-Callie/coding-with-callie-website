@@ -71,7 +71,7 @@ export class AppService {
     return {
       access_token: await this.jwtService.signAsync(payload, {
         secret: process.env.JWT_SECRET,
-        expiresIn: '10m',
+        expiresIn: '24h',
       }),
     };
   }
