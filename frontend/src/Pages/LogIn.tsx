@@ -10,9 +10,8 @@ import {
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
@@ -20,21 +19,17 @@ import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import LogInForm from "../Components/LogIn/LogInForm";
-import { host } from "..";
+import { axiosPublic } from "../helpers/axios_instances";
 
 const LogIn = () => {
   const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const data = useLoaderData();
-  const [userData, setUserData] = useState<any>(data);
+
+  const [userData, setUserData] = useState<any>({});
   const [email, setEmail] = useState<string>("");
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const context: Context = useOutletContext();
-
-  if (data) {
-    context.updateUser(data);
-  }
 
   const showNotification = (
     message: string,
@@ -44,11 +39,11 @@ const LogIn = () => {
   };
 
   const resetPassword = async () => {
-    axios
-      .post(`${host}/api/auth/forgot-password`, {
+    axiosPublic
+      .post("/auth/forgot-password", {
         email,
       })
-      .then((response) => {
+      .then(() => {
         showNotification("Please check your email for next steps.", "info");
         setEmail("");
         onClose();

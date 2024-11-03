@@ -2,73 +2,57 @@ import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { showNotification } from "..";
 import { axiosPrivate, axiosPublic } from "./axios_instances";
 
-export const BasicLoader = async (endpoint: string) => {
-  const response = await axiosPublic.get(`/${endpoint}`);
-  return response.data;
-};
+const privateEndpoints = ["profile", "user-details"];
 
-export const AppLoader = async () => {
+export const Load = async (endpoint: string) => {
+  // User private axios instance if endpoint
+  // requires authentication
   try {
-    const response = await axiosPrivate.get("/profile");
+    const response = await (privateEndpoints.includes(endpoint)
+      ? axiosPrivate
+      : axiosPublic
+    ).get(`/${endpoint}`);
     return response.data;
-  } catch (error) {
-    return {};
-  }
-};
-
-// TODO: Simplify this function
-export const SignUpLoader = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      await axiosPrivate.get("/profile");
-      return redirect("/");
-    } catch (error) {
-      return { token: true };
+  } catch (error: any) {
+    // User is not logged in and trying to access public endpoint
+    // We were just trying to access the profile endpoint to update
+    // the user's information
+    if (endpoint === "user-details") {
+      return {};
     }
-  } else {
-    return { token: false };
-  }
-};
 
-// TODO: Simplify this function
-export const LoginLoader = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      await axiosPrivate.get("/profile");
-      return redirect("/");
-    } catch (error) {
-      return null;
+    // There is no token in local storage. User likely does not have an account.
+    if (error.code === "ERR_CANCELED") {
+      showNotification(
+        "You must have an account to view account details!",
+        "error"
+      );
+      return redirect("/sign-up");
     }
-  } else {
-    return {};
-  }
-};
 
-// TODO: Simplify this function
-export const ProfileLoader = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    try {
-      const response = await axiosPrivate.get("/profile");
-      return response.data;
-    } catch (error) {
+    // User has a token, but it is invalid. User's session has expired.
+    if (error.response.status === 401) {
       showNotification(
         "It looks like your session has expired. Please log in again to view your account details!",
         "error"
       );
       return redirect("/log-in");
     }
-  } else {
-    showNotification(
-      "You must have an account to view account details!",
-      "error"
-    );
-    return redirect("/sign-up");
+
+    // Some other error occurred
+    showNotification(`An error occurred loading ${endpoint}.`, "error");
+    return {};
+  }
+};
+
+export const RedirectLoggedInUser = async () => {
+  // Check if the user is already logged in
+  // If they are, redirect them to the home page
+  try {
+    await axiosPrivate.get("/user-details");
+    return redirect("/");
+  } catch (error) {
+    return {};
   }
 };
 
@@ -143,7 +127,7 @@ export const UserProjectsLoader = async () => {
 };
 
 export async function CombinedLoader(endpoint: string, loader: () => any) {
-  const basicData = await BasicLoader(endpoint);
+  const basicData = await Load(endpoint);
   const loaderData = await loader();
   return { basicData, loaderData };
 }

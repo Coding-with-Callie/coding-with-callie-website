@@ -4,15 +4,13 @@ import Section from "../Components/Section";
 import SignUpForm from "../Components/SignUp/SignUpForm";
 import Paragraph from "../Components/Paragraph";
 import MyButton from "../Components/MyButton";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { Context } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export type SignUpData = {
   token: boolean;
 };
 
 const SignUp = () => {
-  const context: Context = useOutletContext();
   const navigate = useNavigate();
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
@@ -21,7 +19,7 @@ const SignUp = () => {
       <BodyHeading textAlignCenter={true}>
         Join the Coding with Callie community!
       </BodyHeading>
-      <SignUpForm updateUser={context.updateUser} />
+      <SignUpForm />
       <Box
         display="flex"
         gap={isLargerThan500 ? 10 : 2}

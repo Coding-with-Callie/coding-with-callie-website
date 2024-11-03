@@ -16,16 +16,13 @@ import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
 import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
-  BasicLoader,
-  AppLoader,
-  SignUpLoader,
-  LoginLoader,
-  ProfileLoader,
+  Load,
   ProfileResetLoader,
   UserProjectsLoader,
   ProjectLoader,
   CombinedLoader,
   ProfileLoaderNoToast,
+  RedirectLoggedInUser,
 } from "./helpers/loader_functions";
 
 export const showNotification = (
@@ -38,12 +35,12 @@ export const showNotification = (
 const router = createBrowserRouter([
   {
     element: <App />,
-    loader: AppLoader,
+    loader: () => Load("user-details"),
     children: [
       {
         path: "/",
         element: <Home />,
-        loader: () => BasicLoader("resources"),
+        loader: () => Load("resources"),
       },
       {
         path: "/*",
@@ -52,12 +49,12 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
-        loader: () => BasicLoader("workshops"),
+        loader: () => Load("workshops"),
       },
       {
         path: "/reviews",
         element: <Reviews />,
-        loader: () => BasicLoader("reviews"),
+        loader: () => Load("reviews"),
       },
       {
         path: "/contact-callie",
@@ -66,7 +63,7 @@ const router = createBrowserRouter([
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("auth/speakers"),
+        loader: () => Load("speakers"),
       },
       {
         path: "/jobs",
@@ -75,17 +72,17 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
-        loader: SignUpLoader,
+        loader: RedirectLoggedInUser,
       },
       {
         path: "/log-in",
         element: <LogIn />,
-        loader: LoginLoader,
+        loader: RedirectLoggedInUser,
       },
       {
         path: "/profile",
         element: <Profile />,
-        loader: ProfileLoader,
+        loader: () => Load("profile"),
       },
       {
         path: "/profile/:token/:id",

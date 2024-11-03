@@ -5,8 +5,7 @@ import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 import UpcomingCarousel from "../Components/GuestSpeakers/UpcomingCarousel";
 import BodyHeading from "../Components/BodyHeading";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { host } from "..";
+import { axiosPrivate } from "../helpers/axios_instances";
 
 export type Speaker = {
   id: number;
@@ -42,9 +41,7 @@ const GuestSpeakers = () => {
 
       if (token) {
         try {
-          const response = await axios.get(`${host}/api/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const response = await axiosPrivate.get("/profile");
           return response.data.role;
         } catch (error) {
           console.error("Failed to fetch profile:", error);

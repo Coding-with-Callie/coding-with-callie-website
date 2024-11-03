@@ -15,10 +15,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { Project as ProjectType } from "./Projects";
 import { useState } from "react";
 import { UserStory } from "../Components/Features/FeatureModal";
-import axios from "axios";
 import DeleteModal from "../Components/DeleteModal";
 import StatusColumn, { Column } from "../Components/Project/StatusColumn";
-import { host } from "..";
+import { axiosPrivate } from "../helpers/axios_instances";
 
 export type Feature = {
   name: string;
@@ -99,18 +98,12 @@ const Project = () => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-project`,
-        {
-          field,
-          value,
-          projectId: project.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .post("/update-project", {
+        field,
+        value,
+        projectId: project.id,
+      })
       .then((response) => {
         setProject(response.data);
         setUpdateProjectName(false);
@@ -148,17 +141,11 @@ const Project = () => {
   };
 
   const deleteProject = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-project`,
-        {
-          projectId: project.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((response) => {
+    axiosPrivate
+      .post("/delete-project", {
+        projectId: project.id,
+      })
+      .then(() => {
         onClose();
         navigate("/projects");
         toast({

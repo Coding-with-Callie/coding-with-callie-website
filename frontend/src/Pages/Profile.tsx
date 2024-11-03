@@ -13,7 +13,6 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -25,7 +24,7 @@ import Alert from "../Components/Profile/Alert";
 import EditModal from "../Components/Profile/EditModal";
 import EditPhotoModal from "../Components/Profile/EditPhotoModal";
 import Section from "../Components/Section";
-import { host } from "..";
+import { axiosPrivate } from "../helpers/axios_instances";
 
 export type Data = {
   email: string;
@@ -82,23 +81,13 @@ const Profile = () => {
   };
 
   const deleteAccount = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-account`,
-        { id: context.user.id },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then(() => {
-        localStorage.removeItem("token");
-        const newUser = {};
-        context.updateUser(newUser);
-        navigate("/sign-up");
-        showNotification("Your account has been deleted!", "success");
-      });
+    axiosPrivate.post("/delete-account", { id: context.user.id }).then(() => {
+      localStorage.removeItem("token");
+      const newUser = {};
+      context.updateUser(newUser);
+      navigate("/sign-up");
+      showNotification("Your account has been deleted!", "success");
+    });
   };
 
   return (

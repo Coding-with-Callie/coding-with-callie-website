@@ -18,12 +18,14 @@ import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
 import { ResourceModule } from './resource/resource.module';
 import { FileUploadModule } from './file_upload/file_upload.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import jwt from './config/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [typeorm],
+      load: [typeorm, jwt],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -71,8 +73,25 @@ import { FileUploadModule } from './file_upload/file_upload.module';
     AlumniModule,
     ResourceModule,
     FileUploadModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        const jwtSecret = configService.get<string>('JWT_SECRET');
+
+        if (!jwtSecret) {
+          throw new Error('JWT_SECRET is not defined');
+        }
+        return {
+          secret: jwtSecret,
+          signOptions: {
+            expiresIn: '24h',
+          },
+        };
+      },
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController, ReviewController],
-  providers: [AppService],
+  providers: [AppService, JwtService],
 })
 export class AppModule {}

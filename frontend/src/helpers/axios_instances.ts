@@ -15,7 +15,16 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      const source = axios.CancelToken.source();
+      config.cancelToken = source.token;
+      source.cancel("No token provided"); // Cancel the request
+    } else {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => {

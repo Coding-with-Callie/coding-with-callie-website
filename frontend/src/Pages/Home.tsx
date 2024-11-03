@@ -4,10 +4,9 @@ import BodyText from "../Components/BodyText";
 import Section from "../Components/Section";
 import Resource from "../Components/Home/Resource";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { host } from "..";
 import ResourceForm from "../Components/Home/ResourceForm";
 import { useLoaderData } from "react-router-dom";
+import { axiosPrivate } from "../helpers/axios_instances";
 const callie = require("../../src/images/callie.png");
 
 const homeText = [
@@ -44,9 +43,7 @@ const Home = () => {
 
       if (token) {
         try {
-          const response = await axios.get(`${host}/api/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const response = await axiosPrivate.get("/profile");
           return response.data.role;
         } catch (error) {
           console.error("Failed to fetch profile:", error);

@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   Optional,
   Post,
@@ -23,32 +21,6 @@ import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles, RolesGuard } from './roles.guard';
 import { Resource } from 'src/resource/entities/resource.entity';
-
-export class NewUserDto {
-  @IsNotEmpty({ message: 'You must provide a name.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsEmail(undefined, { message: 'You must enter a valid email address.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  email: string;
-
-  @IsNotEmpty({ message: 'You must provide a username.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  username: string;
-
-  @IsNotEmpty()
-  password: string;
-}
-
-export class UserLoginDto {
-  @IsNotEmpty({ message: 'You must provide a username.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  username: string;
-
-  @IsNotEmpty()
-  password: string;
-}
 
 export class AccountDetailDto {
   @IsNotEmpty()
@@ -248,18 +220,10 @@ export class SpeakerDTO {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signup')
-  async signUp(@Body() newUserDto: NewUserDto) {
-    return await this.authService.signUp(newUserDto);
-  }
-
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() userLoginDto: UserLoginDto) {
-    return this.authService.signIn(
-      userLoginDto.username,
-      userLoginDto.password,
-    );
+  @UseGuards(AuthGuard)
+  @Get('user-details')
+  getUserDetailsForHeader(@Request() req) {
+    return this.authService.getUserProfile(req.user.sub);
   }
 
   @UseGuards(AuthGuard)
@@ -442,11 +406,6 @@ export class AuthController {
   @Post('create-alumni')
   async createAlumni(@Body() alumni: AlumniDto) {
     return await this.authService.createAlumni(alumni);
-  }
-
-  @Get('speakers')
-  async getSpeakers() {
-    return await this.authService.getSpeakers();
   }
 
   @UseGuards(AuthGuard)

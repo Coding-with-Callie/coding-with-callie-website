@@ -9,49 +9,17 @@ import MyButton from "../MyButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
+import { axiosPublic } from "../../helpers/axios_instances";
 
-type Props = {
-  updateUser: (newUser: any) => void;
-};
-
-const SignUpForm = ({ updateUser }: Props) => {
+const SignUpForm = () => {
   const [userData, setUserData] = useState<any>({});
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [photo, setPhoto] = useState();
 
   const navigate = useNavigate();
 
   const showNotification = (message: string, type: "success" | "error") => {
     toast[type](message, { toastId: "success" });
-  };
-
-  const [photo, setPhoto] = useState();
-  const onFileUpload = (id: number) => {
-    if (photo) {
-      const formData = new FormData();
-      formData.append("file", photo);
-      axiosPrivate
-        .post(`/upload-profile-image?id=${id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          updateUser(response.data);
-        })
-        .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            showNotification(
-              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-              "error"
-            );
-            navigate("/log-in");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
-        });
-    }
   };
 
   const onSubmit = () => {
@@ -66,8 +34,23 @@ const SignUpForm = ({ updateUser }: Props) => {
       userData.password &&
       userData.password !== ""
     ) {
+      const formData = new FormData();
+
+      if (photo) {
+        formData.append("file", photo);
+      }
+
+      formData.append("name", userData.name);
+      formData.append("email", userData.email);
+      formData.append("username", userData.username);
+      formData.append("password", userData.password);
+
       axiosPublic
-        .post("/auth/signup", userData)
+        .post("/signup", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           if (response.data === "user already exists") {
             const emptyUser = {
@@ -88,39 +71,22 @@ const SignUpForm = ({ updateUser }: Props) => {
             setUserData(emptyUser);
             showNotification("Email already exists!", "error");
           } else {
-            const token = response.data.access_token;
-            localStorage.setItem("token", token);
-            axiosPrivate.get("/profile").then(async (response) => {
-              updateUser(response.data);
-
-              if (photo) {
-                onFileUpload(response.data.id);
-              }
-
-              showNotification(
-                `Welcome to Coding with Callie, ${response.data.username}!`,
-                "success"
-              );
-              navigate("/");
-            });
+            showNotification(
+              `Welcome to Coding with Callie, ${userData.name}!`,
+              "success"
+            );
+            navigate("/log-in");
           }
         })
         .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            showNotification(
-              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-              "error"
-            );
-            navigate("/log-in");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
+          let message: string = error.response.data.message[0];
+          showNotification(`${message}`, "error");
         });
     } else {
       setSubmitClicked(true);
     }
   };
+
   const onChangeName = (e: any) => {
     setSubmitClicked(false);
     setUserData({ ...userData, name: e.target.value });

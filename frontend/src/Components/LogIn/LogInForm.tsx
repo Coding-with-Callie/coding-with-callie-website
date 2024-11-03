@@ -42,7 +42,7 @@ const LogInForm = ({
       userData.password !== ""
     ) {
       axiosPublic
-        .post("/auth/login", userData)
+        .post("/login", userData)
         .then((response) => {
           const token = response?.data.access_token;
           localStorage.setItem("token", token);
