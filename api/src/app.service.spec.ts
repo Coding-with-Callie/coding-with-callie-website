@@ -24,7 +24,7 @@ describe('AppService', () => {
   };
 
   const mockSpeakersService = {
-    findAllSpeakers: jest.fn().mockResolvedValue([]),
+    getSpeakers: jest.fn().mockResolvedValue([]),
   };
 
   const mockUsersService = {
@@ -70,5 +70,12 @@ describe('AppService', () => {
     expect(mockWorkshopsService.getWorkshops).toHaveBeenCalled();
     expect(mockWorkshopsService.getWorkshops).toHaveBeenCalledTimes(1);
     expect(workshops).toEqual([]);
+  });
+
+  it('should call getSpeakers', async () => {
+    const speakers = await service.getAllSpeakers();
+    expect(mockSpeakersService.getSpeakers).toHaveBeenCalled();
+    expect(mockSpeakersService.getSpeakers).toHaveBeenCalledTimes(1);
+    expect(speakers).toEqual([]);
   });
 });

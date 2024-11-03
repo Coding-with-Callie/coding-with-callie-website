@@ -28,7 +28,7 @@ export class AppService {
   }
 
   async getAllSpeakers() {
-    return await this.speakersService.findAllSpeakers();
+    return await this.speakersService.getSpeakers();
   }
 
   async signUp(user: NewUserDto, photoUrl: string) {

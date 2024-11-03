@@ -12,10 +12,10 @@ export class SpeakersService {
   ) {}
   async createSpeaker(speaker: SpeakerDTO) {
     await this.speakersRepository.save(speaker);
-    return await this.findAllSpeakers();
+    return await this.getSpeakers();
   }
 
-  async findAllSpeakers() {
+  async getSpeakers() {
     const speakers = await this.speakersRepository.find();
 
     const { upcomingSpeakers, pastSpeakers } = speakers.reduce(
@@ -57,7 +57,7 @@ export class SpeakersService {
 
   async deleteSpeaker(speakerToDelete) {
     await this.speakersRepository.delete(speakerToDelete.id);
-    return await this.findAllSpeakers();
+    return await this.getSpeakers();
   }
 
   async updateSpeaker(id: number, speaker: Speaker) {
@@ -76,6 +76,6 @@ export class SpeakersService {
     speakerToUpdate.sessionRecordingUrl = speaker.sessionRecordingUrl;
 
     await this.speakersRepository.save(speakerToUpdate);
-    return await this.findAllSpeakers();
+    return await this.getSpeakers();
   }
 }
