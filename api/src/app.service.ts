@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { WorkshopsService } from './workshops/workshops.service';
-import { AlumniService } from './alumni/alumni.service';
 import { ResourceService } from './resource/resource.service';
 import { SpeakersService } from './speakers/speakers.service';
 import { hashPassword, verifyPasswordMatches } from './helpers/helpers';
@@ -15,7 +14,6 @@ export class AppService {
     private readonly jwtService: JwtService,
     private readonly resourceService: ResourceService,
     private readonly workshopsService: WorkshopsService,
-    private readonly alumniService: AlumniService,
     private readonly speakersService: SpeakersService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
@@ -27,10 +25,6 @@ export class AppService {
 
   async getAllWorkshops() {
     return await this.workshopsService.findAll();
-  }
-
-  async getAllAlumni() {
-    return await this.alumniService.findAllAlumni();
   }
 
   async getAllSpeakers() {

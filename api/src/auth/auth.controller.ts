@@ -18,7 +18,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-export class AccountDetailDto {
+export class AccountDetailDTO {
   @IsNotEmpty()
   id: number;
 
@@ -30,7 +30,7 @@ export class AccountDetailDto {
   field: string;
 }
 
-export class ReviewDto {
+export class ReviewDTO {
   @IsNotEmpty()
   rating: number;
 
@@ -42,16 +42,6 @@ export class ReviewDto {
   displayName: string;
 
   userId: number;
-}
-
-export class AlumniDto {
-  name: string;
-  opportunities: string[];
-  bioText: string[];
-  linkedInUrl: string;
-  photoUrl: string;
-  projectUrl: string;
-  workshopId: number;
 }
 
 export class ProjectDto {
@@ -172,11 +162,11 @@ export class AuthController {
   }
 
   @Post('change-account-detail')
-  changeAccountDetail(@Body() accountDetailDto: AccountDetailDto) {
+  changeAccountDetail(@Body() accountDetails: AccountDetailDTO) {
     return this.authService.changeAccountDetail(
-      accountDetailDto.id,
-      accountDetailDto.value,
-      accountDetailDto.field,
+      accountDetails.id,
+      accountDetails.value,
+      accountDetails.field,
     );
   }
 
@@ -196,7 +186,7 @@ export class AuthController {
   }
 
   @Post('submit-review')
-  async submitReview(@Body() review: ReviewDto) {
+  async submitReview(@Body() review: ReviewDTO) {
     return await this.authService.submitReview(review);
   }
 

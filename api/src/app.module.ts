@@ -12,7 +12,6 @@ import { ReviewModule } from './review/review.module';
 import { ReviewController } from './review/review.controller';
 import { SpeakersModule } from './speakers/speakers.module';
 import { WorkshopsModule } from './workshops/workshops.module';
-import { AlumniModule } from './alumni/alumni.module';
 import { LoggerModule } from 'nestjs-pino';
 import { IncomingMessage } from 'http';
 import { ServerResponse } from 'http';
@@ -72,7 +71,6 @@ import { AdminModule } from './admin/admin.module';
     ReviewModule,
     SpeakersModule,
     WorkshopsModule,
-    AlumniModule,
     ResourceModule,
     FileUploadModule,
     JwtModule.registerAsync({
