@@ -145,12 +145,21 @@ const GuestSpeaker = ({
       return;
     }
 
+    const [year, month, day] = date.split("-").map(Number);
+    const dateValue = new Date(year, month - 1, day);
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const editedDate = dateValue.toLocaleDateString("en-US", options);
+
     const formData = new FormData();
     if (image) {
       formData.append("file", image);
     }
     formData.append("name", name);
-    formData.append("date", date);
+    formData.append("date", editedDate);
     formData.append("sessionText", sessionText);
     formData.append("bioText", bioText);
     formData.append("websiteUrl", websiteUrl);
@@ -275,7 +284,7 @@ const GuestSpeaker = ({
                   _focus={{ backgroundColor: "white" }}
                 />
               ) : (
-                <Paragraph>{`${date} ${speaker.time}`}</Paragraph>
+                <Paragraph>{`${speaker.date} ${speaker.time}`}</Paragraph>
               )}
             </AccordionPanel>
           </AccordionItem>
