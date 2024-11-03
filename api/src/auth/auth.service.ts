@@ -182,6 +182,9 @@ export class AuthService {
 
   async getProject(userId: number, id: number) {
     const projects = await this.projectsService.getUserProjects(userId);
+
+    console.log('PROJECTS', projects);
+
     return projects.find((project) => project.id === id);
   }
 

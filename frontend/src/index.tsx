@@ -17,7 +17,6 @@ import Jobs from "./Pages/Jobs";
 import {
   Load,
   ProfileResetLoader,
-  ProjectLoader,
   RedirectLoggedInUser,
 } from "./helpers/loader_functions";
 
@@ -88,7 +87,7 @@ const router = createBrowserRouter([
       {
         path: "/project/:id",
         element: <Project />,
-        loader: ProjectLoader,
+        loader: ({ params }) => Load("project", params.id),
       },
       {
         path: "/projects",

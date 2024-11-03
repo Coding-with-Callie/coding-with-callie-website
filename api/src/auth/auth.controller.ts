@@ -12,6 +12,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
@@ -443,8 +444,16 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Get('project/:id')
-  getProject(@Param('id') id: number, @Request() req) {
-    return this.authService.getProject(req.user.sub, id);
+  async getProject(@Param('id') id: number, @Request() req) {
+    const project = await this.authService.getProject(req.user.sub, id);
+
+    if (!project) {
+      throw new UnauthorizedException(
+        'You do not have access to that project.',
+      );
+    }
+
+    return project;
   }
 
   @UseGuards(AuthGuard)
