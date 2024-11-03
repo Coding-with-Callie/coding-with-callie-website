@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import BodyHeading from "../BodyHeading";
 import { validURL } from "../../helpers/helpers";
 import { Speaker } from "../../Pages/GuestSpeakers";
-import { axiosPrivate } from "../../helpers/axios_instances";
+import { axiosAdmin } from "../../helpers/axios_instances";
 
 type Props = {
   setPastSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
@@ -67,8 +67,8 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
     formData.append("websiteUrl", websiteUrl);
     formData.append("sessionRecordingUrl", sessionRecordingUrl);
 
-    await axiosPrivate
-      .post("/auth/speaker", formData)
+    await axiosAdmin
+      .post("/speaker", formData)
       .then((response) => {
         setPastSpeakers(response.data.pastSpeakers);
         setUpcomingSpeakers(response.data.upcomingSpeakers);

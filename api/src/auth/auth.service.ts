@@ -1,35 +1,24 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { MailService } from '../mail/mail.service';
-import { AlumniDto, SpeakerDTO } from './auth.controller';
 import { ReviewService } from '../review/review.service';
 import { SpeakersService } from '../speakers/speakers.service';
-import { AlumniService } from '../alumni/alumni.service';
 import { FeaturesService } from '../features/features.service';
 import { ProjectsService } from '../projects/projects.service';
 import { TasksService } from '../tasks/tasks.service';
 import { UserStoriesService } from '../userStories/userStories.service';
-import { ResourceService } from '../resource/resource.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { Resource } from '../resource/entities/resource.entity';
 import { hashPassword } from '../helpers/helpers';
-import { Speaker } from '../speakers/entities/speaker.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private mailService: MailService,
-    private jwtService: JwtService,
     private reviewService: ReviewService,
     private speakersService: SpeakersService,
-    private alumniService: AlumniService,
     private projectsService: ProjectsService,
     private featuresService: FeaturesService,
     private userStoriesService: UserStoriesService,
     private tasksService: TasksService,
-    private resourceService: ResourceService,
     private fileUploadService: FileUploadService,
   ) {}
   async getUserProfile(id: number) {
@@ -97,39 +86,6 @@ export class AuthService {
 
   async submitReview(review) {
     return await this.reviewService.submitReview(review);
-  }
-
-  async createResource(resource: Resource) {
-    return await this.resourceService.createResource(resource);
-  }
-
-  async deleteResource(id: number) {
-    return await this.resourceService.deleteResource(id);
-  }
-
-  async updateResource(id: number, resource: Resource) {
-    return await this.resourceService.updateResource(id, resource);
-  }
-
-  async updateResourceOrder(id: number, direction: string) {
-    return await this.resourceService.updateOrder(id, direction);
-  }
-
-  async createSpeaker(speaker: SpeakerDTO) {
-    return await this.speakersService.createSpeaker(speaker);
-  }
-
-  async deleteSpeaker(id: number) {
-    const speaker = await this.speakersService.findOneById(id);
-    return await this.speakersService.deleteSpeaker(speaker);
-  }
-
-  async updateSpeaker(id: number, speaker: Speaker) {
-    return await this.speakersService.updateSpeaker(id, speaker);
-  }
-
-  async createAlumni(alumni: AlumniDto) {
-    return await this.alumniService.createAlumni(alumni);
   }
 
   async getUserProjects(userId: number) {

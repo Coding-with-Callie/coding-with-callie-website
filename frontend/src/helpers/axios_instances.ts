@@ -9,6 +9,29 @@ const axiosPublic = axios.create({
   baseURL: `${host}/api`,
 });
 
+const axiosAdmin = axios.create({
+  baseURL: `${host}/api/admin`,
+});
+
+axiosAdmin.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      const source = axios.CancelToken.source();
+      config.cancelToken = source.token;
+      source.cancel("No token provided"); // Cancel the request
+    } else {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 const axiosPrivate = axios.create({
   baseURL: `${host}/api/auth`,
 });
@@ -32,4 +55,4 @@ axiosPrivate.interceptors.request.use(
   }
 );
 
-export { axiosPublic, axiosPrivate };
+export { axiosPublic, axiosPrivate, axiosAdmin };

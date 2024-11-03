@@ -12,7 +12,7 @@ import MyButton from "../MyButton";
 import { useState } from "react";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
-import { axiosPrivate } from "../../helpers/axios_instances";
+import { axiosAdmin } from "../../helpers/axios_instances";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -77,7 +77,7 @@ const ResourceForm = ({ setResources }: Props) => {
 
     setLoading(true);
 
-    axiosPrivate
+    axiosAdmin
       .post("/resource", formData)
       .then((response) => {
         setResources(response.data);

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Speaker } from './entities/speaker.entity';
-import { SpeakerDTO } from 'src/auth/auth.controller';
+import { SpeakerDTO } from '../admin/admin.controller';
 
 @Injectable()
 export class SpeakersService {

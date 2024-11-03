@@ -20,6 +20,7 @@ import { ResourceModule } from './resource/resource.module';
 import { FileUploadModule } from './file_upload/file_upload.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import jwt from './config/jwt';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import jwt from './config/jwt';
     }),
     MessageModule,
     AuthModule,
+    AdminModule,
     UsersModule,
     MailModule,
     ReviewModule,

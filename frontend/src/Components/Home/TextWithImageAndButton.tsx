@@ -21,7 +21,7 @@ import {
   FaRegHandPointUp,
   FaRegTrashAlt,
 } from "react-icons/fa";
-import { axiosPrivate } from "../../helpers/axios_instances";
+import { axiosAdmin } from "../../helpers/axios_instances";
 
 type Props = {
   children: React.ReactNode;
@@ -76,7 +76,7 @@ const TextWithImageAndButton = ({
   const [fileInputKey, setFileInputKey] = useState<string>("");
 
   const deleteResource = () => {
-    axiosPrivate
+    axiosAdmin
       .delete(`/resource/${id}`)
       .then((response) => {
         setResources(response.data);
@@ -128,7 +128,7 @@ const TextWithImageAndButton = ({
     order = direction === "up" ? order - 1 : order + 1;
     await scrollToElement(order);
 
-    axiosPrivate
+    axiosAdmin
       .post(`/resource/${id}/order`, {
         direction,
       })
@@ -173,7 +173,7 @@ const TextWithImageAndButton = ({
     formData.append("linkUrl", linkUrlValue);
     formData.append("target", (targetValue === "_blank").toString());
 
-    axiosPrivate
+    axiosAdmin
       .put(`/resource/${id}`, formData)
       .then((response) => {
         setResources(response.data);

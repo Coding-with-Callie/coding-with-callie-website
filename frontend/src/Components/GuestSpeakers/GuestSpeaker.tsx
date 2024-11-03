@@ -25,7 +25,7 @@ import ZoomModal from "./ZoomModal";
 import Alert from "../Profile/Alert";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { axiosPrivate } from "../../helpers/axios_instances";
+import { axiosAdmin } from "../../helpers/axios_instances";
 import { FaRegCheckCircle, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { validURL } from "../../helpers/helpers";
 
@@ -73,7 +73,7 @@ const GuestSpeaker = ({
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   const deleteGuestSpeaker = async () => {
-    await axiosPrivate
+    await axiosAdmin
       .delete(`/speaker/${speaker.id}`)
       .then((response) => {
         setPastSpeakers(response.data.pastSpeakers);
@@ -165,7 +165,7 @@ const GuestSpeaker = ({
     formData.append("websiteUrl", websiteUrl);
     formData.append("sessionRecordingUrl", sessionRecordingUrl);
 
-    axiosPrivate
+    axiosAdmin
       .put(`/speaker/${speaker.id}`, formData)
       .then((response) => {
         setPastSpeakers(response.data.pastSpeakers);

@@ -9,12 +9,10 @@ import { AuthService } from './auth.service';
 import { ReviewModule } from '../review/review.module';
 import { SpeakersModule } from '../speakers/speakers.module';
 import { WorkshopsModule } from '../workshops/workshops.module';
-import { AlumniModule } from '../alumni/alumni.module';
 import { FeaturesModule } from '../features/features.module';
 import { ProjectsModule } from '../projects/projects.module';
 import { TasksModule } from '../tasks/tasks.module';
 import { UserStoriesModule } from '../userStories/userStories.module';
-import { ResourceModule } from '../resource/resource.module';
 import { FileUploadModule } from '../file_upload/file_upload.module';
 
 @Module({
@@ -28,12 +26,10 @@ import { FileUploadModule } from '../file_upload/file_upload.module';
     MailModule,
     SpeakersModule,
     WorkshopsModule,
-    AlumniModule,
     ProjectsModule,
     FeaturesModule,
     UserStoriesModule,
     TasksModule,
-    ResourceModule,
     FileUploadModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
