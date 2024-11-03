@@ -9,17 +9,14 @@ const privateEndpoints = [
   "project",
 ];
 
-export const Load = async (
-  endpoint: string,
-  param: string | undefined = undefined
-) => {
+export const Load = async (endpoint: string) => {
   // User private axios instance if endpoint
   // requires authentication
   try {
-    const response = await (privateEndpoints.includes(endpoint)
+    const response = await (privateEndpoints.includes(endpoint.split("/")[0])
       ? axiosPrivate
       : axiosPublic
-    ).get(`/${param ? `${endpoint}/${param}` : endpoint}`);
+    ).get(`/${endpoint}`);
 
     return response.data;
   } catch (error: any) {
@@ -74,7 +71,7 @@ export const RedirectLoggedInUser = async () => {
   }
 };
 
-// TODO: Simplify this function
+// TODO: Change when we refactor authentication
 export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   const token = params.token as string;
   const id = params.id;

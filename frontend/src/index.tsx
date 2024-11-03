@@ -87,7 +87,7 @@ const router = createBrowserRouter([
       {
         path: "/project/:id",
         element: <Project />,
-        loader: ({ params }) => Load("project", params.id),
+        loader: ({ params }) => Load(`project/${params.id}`),
       },
       {
         path: "/projects",
