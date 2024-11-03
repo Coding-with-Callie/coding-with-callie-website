@@ -24,7 +24,7 @@ export class AppService {
   }
 
   async getAllWorkshops() {
-    return await this.workshopsService.findAll();
+    return await this.workshopsService.getWorkshops();
   }
 
   async getAllSpeakers() {

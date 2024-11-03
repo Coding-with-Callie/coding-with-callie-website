@@ -15,7 +15,7 @@ export class WorkshopsService {
     return await this.workshopsRepository.save(workshop);
   }
 
-  async findAll() {
+  async getWorkshops() {
     return await this.workshopsRepository.find();
   }
 }
