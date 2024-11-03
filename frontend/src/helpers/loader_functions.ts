@@ -57,18 +57,6 @@ export const RedirectLoggedInUser = async () => {
 };
 
 // TODO: Simplify this function
-export const ProfileLoaderNoToast = async () => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    const response = await axiosPrivate.get("/profile");
-    return response.data;
-  } else {
-    return {};
-  }
-};
-
-// TODO: Simplify this function
 export const ProfileResetLoader = async ({ params }: LoaderFunctionArgs) => {
   const token = params.token as string;
   const id = params.id;
@@ -108,9 +96,3 @@ export const ProjectLoader = async ({ params }: LoaderFunctionArgs) => {
     return redirect("/sign-up");
   }
 };
-
-export async function CombinedLoader(endpoint: string, loader: () => any) {
-  const basicData = await Load(endpoint);
-  const loaderData = await loader();
-  return { basicData, loaderData };
-}

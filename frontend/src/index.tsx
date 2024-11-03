@@ -14,13 +14,10 @@ import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
 import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
-import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
   Load,
   ProfileResetLoader,
   ProjectLoader,
-  CombinedLoader,
-  ProfileLoaderNoToast,
   RedirectLoggedInUser,
 } from "./helpers/loader_functions";
 
@@ -97,13 +94,6 @@ const router = createBrowserRouter([
         path: "/projects",
         element: <Projects />,
         loader: () => Load("user-projects"),
-      },
-      // We need to refactor this to be a part of guest speakers page
-      // so this is less important to edit
-      {
-        path: "/guest-speaker/:id",
-        element: <GuestSpeakerDetails />,
-        loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
       },
     ],
   },
