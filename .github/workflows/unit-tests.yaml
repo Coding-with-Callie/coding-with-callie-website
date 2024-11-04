@@ -15,5 +15,7 @@ jobs:
           node-version: '14'
       - name: Install dependencies
         run: npm install
+      - name: Open API folder
+        run: cd api
       - name: Run unit tests
         run: npm run test
