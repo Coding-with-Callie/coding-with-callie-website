@@ -7,6 +7,7 @@ import { UsersService } from './users/users.service';
 import { MailService } from './mail/mail.service';
 import { NewUserDto } from './app.controller';
 import { JwtService } from '@nestjs/jwt';
+import { Users } from './users/entities/users.entity';
 
 @Injectable()
 export class AppService {
@@ -32,34 +33,33 @@ export class AppService {
   }
 
   async signUp(user: NewUserDto, photoUrl: string) {
-    const existingUsername = await this.usersService.findOneByUsername(
-      user.username,
-    );
-
-    const existingEmail = await this.usersService.findOneByEmail(user.email);
-
-    if (existingUsername !== null) {
+    // Check if username exists in database
+    if (await this.usersService.checkIfUsernameExists(user.username)) {
       return 'user already exists';
-    } else if (existingEmail !== null) {
-      return 'email already exists';
-    } else {
-      const hashedPassword = await hashPassword(user.password);
-
-      await this.usersService.createUser({
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        password: hashedPassword,
-        photo: photoUrl,
-      });
-
-      this.mailService.sendNewUserEmail(user);
-      this.mailService.sendEmailToNewUser(user);
-      return { message: 'User created' };
     }
+
+    // Check if email exists in database
+    if (await this.usersService.checkIfEmailExists(user.email)) {
+      return 'email already exists';
+    }
+
+    // Otherwise, create user
+    const hashedPassword = await hashPassword(user.password);
+
+    await this.usersService.createUser({
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      password: hashedPassword,
+      photo: photoUrl,
+    });
+
+    this.mailService.sendNewUserEmail(user);
+    this.mailService.sendEmailToNewUser(user);
+    return { message: 'User created' };
   }
 
-  async createAccessToken(user) {
+  async createAccessToken(user: Users) {
     const payload = { sub: user.id, username: user.username, role: user.role };
 
     return {

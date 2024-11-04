@@ -18,6 +18,16 @@ export class UsersService {
     return await this.usersRepository.remove(userToDelete);
   }
 
+  async checkIfUsernameExists(username: string) {
+    const user = await this.findOneByUsername(username);
+    return user ? true : false;
+  }
+
+  async checkIfEmailExists(email: string) {
+    const user = await this.findOneByEmail(email);
+    return user ? true : false;
+  }
+
   async findOneByUsername(username: string) {
     return await this.usersRepository
       .createQueryBuilder()
