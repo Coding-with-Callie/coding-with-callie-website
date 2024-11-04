@@ -92,7 +92,7 @@
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(ts|tsx)$": "babel-jest",
+      "^.+\\.(ts|tsx)$": "babel-jest"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
