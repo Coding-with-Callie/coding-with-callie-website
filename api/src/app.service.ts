@@ -99,21 +99,21 @@ export class AppService {
       expiresIn: '10m',
     });
 
-    return await this.mailService.sendPasswordResetEmail(
-      user,
-      access_token,
-      user.id,
-    );
+    await this.mailService.sendPasswordResetEmail(user, access_token, user.id);
+    return { message: 'Password reset email sent' };
   }
 
   // check password reset token
   async getProfileReset(token, id) {
     const user = await this.usersService.findOneById(id);
-    const payload = await this.jwtService.verifyAsync(token, {
-      secret: user.password,
-    });
 
-    if (payload) {
+    try {
+      await this.jwtService.verifyAsync(token, {
+        secret: user.password,
+      });
+    } catch (error) {
+      throw new UnauthorizedException();
+    } finally {
       return await this.jwtService.signAsync(
         {
           sub: user.id,
@@ -124,8 +124,6 @@ export class AppService {
           expiresIn: '24h',
         },
       );
-    } else {
-      throw new UnauthorizedException();
     }
   }
 }
