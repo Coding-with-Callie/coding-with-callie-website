@@ -25,7 +25,7 @@ export class ResourceDTO {
   heading: string;
 
   @IsNotEmpty()
-  bodyText: string[] | string;
+  bodyText: string;
 
   imageUrl?: string;
 

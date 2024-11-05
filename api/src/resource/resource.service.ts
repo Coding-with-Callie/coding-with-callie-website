@@ -30,13 +30,11 @@ export class ResourceService {
     resourceToSave.linkUrl = resource.linkUrl;
     resourceToSave.target = resource.target === 'true';
 
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
+    resourceToSave.bodyText = resourceToSave.bodyText
+      .replace(/\r\n/g, '\n') // Replace \r\n with \n
+      .split(/\n+/) // Split at one or more newlines
+      .map((item: string) => item.trim()) // Trim whitespace from each item
+      .filter((item: string) => item.length > 0); // Remove empty items
 
     const highestOrderResource = await this.resourceRepository
       .createQueryBuilder('resource')
