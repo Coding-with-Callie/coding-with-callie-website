@@ -17,7 +17,6 @@ export class ResourceService {
     const resources = await this.resourceRepository.find({
       order: { order: 'ASC' },
     });
-    console.log('RESOURCES', resources);
     return resources;
   }
 

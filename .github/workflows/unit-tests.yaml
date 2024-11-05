@@ -1,7 +1,6 @@
 name: Run NestJS Unit Tests
 on:
-  push:
-    branches: [ "cs-refactor-axios" ]
+  [push]
 jobs:
   run-unit-tests:
     name: Run NestJS Unit Tests
@@ -12,7 +11,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '22'
       - name: Install dependencies
         run: |
           cd api
