@@ -33,36 +33,6 @@ import { AdminModule } from './admin/admin.module';
         return configService.get('typeorm');
       },
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        serializers: {
-          req(request: IncomingMessage) {
-            return {
-              method: request.method,
-              url: request.url,
-            };
-          },
-          res(reply: ServerResponse) {
-            return {
-              statusCode: reply.statusCode,
-            };
-          },
-        },
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            singleLine: true,
-            colorize: true,
-            levelFirst: true,
-            translateTime: 'SYS:mm/dd/yyyy h:MM:ss TT',
-            ignore: 'pid,hostname',
-          },
-        },
-        autoLogging: {
-          ignore: (req) => req.url === '/api/readyz',
-        },
-      },
-    }),
     MessageModule,
     AuthModule,
     AdminModule,

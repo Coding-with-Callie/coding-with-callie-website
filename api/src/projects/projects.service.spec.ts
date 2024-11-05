@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ProjectsService } from './projects.service';
 import { Project } from './entities/project.entity';
-import { Feature } from 'src/features/entities/feature.entity';
+import { Feature } from '../features/entities/feature.entity';
 import { BadRequestException } from '@nestjs/common';
 
 describe('ProjectsService', () => {
