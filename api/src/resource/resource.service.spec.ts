@@ -50,10 +50,7 @@ describe('ResourceService', () => {
     }).compile();
 
     service = module.get<ResourceService>(ResourceService);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks(); // Clear all mocks after each test
+    jest.clearAllMocks(); // Clear all mocks before each test
   });
 
   it('should be defined', () => {

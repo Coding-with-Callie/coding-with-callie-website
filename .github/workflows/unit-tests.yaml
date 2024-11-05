@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd api
-          npm install
+          npm ci
       - name: Run unit tests
         run: |
           cd api
