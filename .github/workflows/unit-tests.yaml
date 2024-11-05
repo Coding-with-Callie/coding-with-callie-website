@@ -5,6 +5,9 @@ jobs:
   run-unit-tests:
     name: Run NestJS Unit Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14, 16]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,8 +22,8 @@ jobs:
       - name: build
         run: |
           cd api
-          npm run build
+          npm build
       - name: Run unit tests
         run: |
           cd api
-          npm run test
+          npm test
