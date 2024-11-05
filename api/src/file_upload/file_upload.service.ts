@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Upload } from '@aws-sdk/lib-storage';
-import { S3 } from '@aws-sdk/client-s3';
+import { ObjectCannedACL, S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FileUploadService {
@@ -35,7 +35,7 @@ export class FileUploadService {
       Bucket: bucket,
       Key: String(name),
       Body: file,
-      ACL: 'public-read',
+      ACL: ObjectCannedACL.public_read_write,
       ContentType: mimetype,
       ContentDisposition: 'inline',
       CreateBucketConfiguration: {
