@@ -2,27 +2,53 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThan, Repository } from 'typeorm';
 import { Resource } from './entities/resource.entity';
+import { ResourceDTO } from '../admin/admin.controller';
+import { FileUploadService } from '../file_upload/file_upload.service';
 
 @Injectable()
 export class ResourceService {
   constructor(
     @InjectRepository(Resource)
     private resourceRepository: Repository<Resource>,
+    private fileUploadService: FileUploadService,
   ) {}
 
   async getResources() {
-    return await this.resourceRepository.find({ order: { order: 'ASC' } });
+    const resources = await this.resourceRepository.find({
+      order: { order: 'ASC' },
+    });
+    console.log('RESOURCES', resources);
+    return resources;
   }
 
-  async createResource(resource: Resource) {
+  async createResource(resource: ResourceDTO, file: Express.Multer.File) {
+    const resourceToSave = new Resource();
+
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.imageUrl = await this.fileUploadService.uploadFile(file);
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
     const highestOrderResource = await this.resourceRepository
       .createQueryBuilder('resource')
       .orderBy('resource.order', 'DESC')
       .getOne();
 
-    resource.order = highestOrderResource ? highestOrderResource.order + 1 : 1;
+    resourceToSave.order = highestOrderResource
+      ? highestOrderResource.order + 1
+      : 1;
 
-    await this.resourceRepository.save(resource);
+    await this.resourceRepository.save(resourceToSave);
     return await this.getResources();
   }
 
@@ -48,7 +74,31 @@ export class ResourceService {
     return await this.getResources();
   }
 
-  async updateResource(id: number, resource: Resource) {
+  async updateResource(
+    id: number,
+    resource: ResourceDTO,
+    file: Express.Multer.File,
+  ) {
+    const resourceToSave = new Resource();
+
+    if (file) {
+      resourceToSave.imageUrl = await this.fileUploadService.uploadFile(file);
+    }
+
+    resourceToSave.heading = resource.heading;
+    resourceToSave.bodyText = resource.bodyText;
+    resourceToSave.buttonText = resource.buttonText;
+    resourceToSave.linkUrl = resource.linkUrl;
+    resourceToSave.target = resource.target === 'true';
+
+    if (typeof resourceToSave.bodyText === 'string') {
+      resourceToSave.bodyText = resourceToSave.bodyText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
     const resourceToUpdate = await this.resourceRepository.findOneBy({ id });
 
     if (resource.imageUrl) {
@@ -59,7 +109,7 @@ export class ResourceService {
     resourceToUpdate.bodyText = resource.bodyText;
     resourceToUpdate.buttonText = resource.buttonText;
     resourceToUpdate.linkUrl = resource.linkUrl;
-    resourceToUpdate.target = resource.target;
+    resourceToUpdate.target = resource.target === 'true' ? true : false;
     await this.resourceRepository.save(resourceToUpdate);
     return await this.getResources();
   }

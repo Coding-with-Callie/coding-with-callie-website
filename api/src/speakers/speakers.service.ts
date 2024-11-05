@@ -3,14 +3,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Speaker } from './entities/speaker.entity';
 import { SpeakerDTO } from '../admin/admin.controller';
+import { FileUploadService } from '../file_upload/file_upload.service';
 
 @Injectable()
 export class SpeakersService {
   constructor(
     @InjectRepository(Speaker)
     private readonly speakersRepository: Repository<Speaker>,
+    private readonly fileUploadService: FileUploadService,
   ) {}
-  async createSpeaker(speaker: SpeakerDTO) {
+  async createSpeaker(speaker: SpeakerDTO, file: Express.Multer.File) {
+    speaker.photoUrl = await this.fileUploadService.uploadFile(file);
+
+    if (typeof speaker.bioText === 'string') {
+      speaker.bioText = speaker.bioText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
+    if (typeof speaker.sessionText === 'string') {
+      speaker.sessionText = speaker.sessionText
+        .replace(/\r\n/g, '\n') // Replace \r\n with \n
+        .split(/\n+/) // Split at one or more newlines
+        .map((item: string) => item.trim()) // Trim whitespace from each item
+        .filter((item: string) => item.length > 0); // Remove empty items
+    }
+
     await this.speakersRepository.save(speaker);
     return await this.getSpeakers();
   }

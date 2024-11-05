@@ -16,8 +16,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
-import { Resource } from '../resource/entities/resource.entity';
 import { Speaker } from '../speakers/entities/speaker.entity';
+import { FileUploadService } from '../file_upload/file_upload.service';
 
 export class ResourceDTO {
   @IsNotEmpty()
@@ -73,7 +73,10 @@ export class SpeakerDTO {
 @UseGuards(RolesGuard)
 @Controller('admin')
 export class AdminController {
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private fileUploadService: FileUploadService,
+  ) {}
 
   @UseInterceptors(FileInterceptor('file'))
   @Post('resource')
@@ -81,24 +84,7 @@ export class AdminController {
     @Body() resource: ResourceDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const resourceToSave = new Resource();
-
-    resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
-    resourceToSave.imageUrl = await this.adminService.uploadFile(file);
-    resourceToSave.buttonText = resource.buttonText;
-    resourceToSave.linkUrl = resource.linkUrl;
-    resourceToSave.target = resource.target === 'true';
-
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.adminService.createResource(resourceToSave);
+    return await this.adminService.createResource(resource, file);
   }
 
   @Delete('resource/:id')
@@ -113,27 +99,7 @@ export class AdminController {
     @Body() resource: ResourceDTO,
     @UploadedFile() @Optional() file?: Express.Multer.File,
   ) {
-    const resourceToSave = new Resource();
-
-    if (file) {
-      resourceToSave.imageUrl = await this.adminService.uploadFile(file);
-    }
-
-    resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
-    resourceToSave.buttonText = resource.buttonText;
-    resourceToSave.linkUrl = resource.linkUrl;
-    resourceToSave.target = resource.target === 'true';
-
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.adminService.updateResource(id, resourceToSave);
+    return await this.adminService.updateResource(id, resource, file);
   }
 
   @Post('resource/:id/order')
@@ -144,32 +110,13 @@ export class AdminController {
     return await this.adminService.updateResourceOrder(id, direction);
   }
 
-  // TODO: Move this to admin.controller.ts
   @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
   async createSpeaker(
     @Body() speaker: SpeakerDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    speaker.photoUrl = await this.adminService.uploadFile(file);
-
-    if (typeof speaker.bioText === 'string') {
-      speaker.bioText = speaker.bioText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    if (typeof speaker.sessionText === 'string') {
-      speaker.sessionText = speaker.sessionText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.adminService.createSpeaker(speaker);
+    return await this.adminService.createSpeaker(speaker, file);
   }
 
   // TODO: Move this to admin.controller.ts
@@ -189,7 +136,7 @@ export class AdminController {
     const speakerToSave = new Speaker();
 
     if (file) {
-      speakerToSave.photoUrl = await this.adminService.uploadFile(file);
+      speakerToSave.photoUrl = await this.fileUploadService.uploadFile(file);
     }
 
     speakerToSave.name = speaker.name;

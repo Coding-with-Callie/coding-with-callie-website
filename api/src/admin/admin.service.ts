@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { Resource } from '../resource/entities/resource.entity';
 import { ResourceService } from '../resource/resource.service';
-import { SpeakerDTO } from './admin.controller';
+import { ResourceDTO, SpeakerDTO } from './admin.controller';
 import { Speaker } from '../speakers/entities/speaker.entity';
 import { SpeakersService } from '../speakers/speakers.service';
 
@@ -13,29 +12,28 @@ export class AdminService {
     private resourceService: ResourceService,
     private speakersService: SpeakersService,
   ) {}
-
-  async uploadFile(file) {
-    return await this.fileUploadService.uploadFile(file);
-  }
-
-  async createResource(resource: Resource) {
-    return await this.resourceService.createResource(resource);
+  async createResource(resource: ResourceDTO, file: Express.Multer.File) {
+    return await this.resourceService.createResource(resource, file);
   }
 
   async deleteResource(id: number) {
     return await this.resourceService.deleteResource(id);
   }
 
-  async updateResource(id: number, resource: Resource) {
-    return await this.resourceService.updateResource(id, resource);
+  async updateResource(
+    id: number,
+    resource: ResourceDTO,
+    file: Express.Multer.File,
+  ) {
+    return await this.resourceService.updateResource(id, resource, file);
   }
 
   async updateResourceOrder(id: number, direction: string) {
     return await this.resourceService.updateOrder(id, direction);
   }
 
-  async createSpeaker(speaker: SpeakerDTO) {
-    return await this.speakersService.createSpeaker(speaker);
+  async createSpeaker(speaker: SpeakerDTO, file: Express.Multer.File) {
+    return await this.speakersService.createSpeaker(speaker, file);
   }
 
   async deleteSpeaker(id: number) {
