@@ -3,6 +3,6 @@ module.exports = {
   plugins: [
     ['@babel/plugin-syntax-decorators', { decoratorsBeforeExport: true }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-transform-class-properties',
   ],
 };
