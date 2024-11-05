@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import * as AWS from 'aws-sdk';
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FileUploadService {
   private readonly AWS_S3_BUCKET: string;
-  private readonly s3: AWS.S3;
+  private readonly s3: S3;
 
   constructor() {
     this.AWS_S3_BUCKET = 'coding-with-callie';
-    this.s3 = new AWS.S3({
-      accessKeyId: process.env.ACCESS_KEY,
-      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    this.s3 = new S3({
+      credentials: {
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      },
     });
   }
 
@@ -41,7 +44,10 @@ export class FileUploadService {
     };
 
     try {
-      const s3Response = await this.s3.upload(params).promise();
+      const s3Response = await new Upload({
+        client: this.s3,
+        params,
+      }).done();
       return s3Response;
     } catch (e) {
       console.log(e);
