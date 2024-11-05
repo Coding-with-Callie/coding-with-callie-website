@@ -4,6 +4,8 @@ import { ResourceService } from './resource.service';
 import { Resource } from './entities/resource.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FileUploadService } from '../file_upload/file_upload.service';
+import { mock } from 'node:test';
+import e from 'express';
 
 describe('ResourceService', () => {
   let service: ResourceService;
@@ -26,7 +28,7 @@ describe('ResourceService', () => {
 
   const mockResourceRepository = {
     find: jest.fn(),
-    findOne: jest.fn(),
+    findOneBy: jest.fn(),
     save: jest.fn(),
     createQueryBuilder: jest.fn(() => mockQueryBuilder),
   };
@@ -122,5 +124,137 @@ describe('ResourceService', () => {
 
     const result = await service.createResource(resourceToCreate, file);
     expect(result).toEqual([updatedHighestOrderResource, newResource]);
+  });
+
+  it('should update the order of a resource so it moves up', async () => {
+    const id = 1;
+    const direction = 'down';
+
+    const resource = {
+      id: 1,
+      heading: 'Heading 1',
+      bodyText: 'Body text 1',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text',
+      linkUrl: 'linkurl1.com',
+      target: true,
+      order: 1,
+    };
+
+    const resourceToSwap = {
+      id: 2,
+      heading: 'Heading 2',
+      bodyText: 'Body text 2',
+      imageUrl: 'image2url.com',
+      buttonText: 'button 2 text',
+      linkUrl: 'linkurl2.com',
+      target: true,
+      order: 2,
+    };
+
+    mockResourceRepository.findOneBy.mockResolvedValueOnce(resource);
+    mockResourceRepository.findOneBy.mockResolvedValueOnce(resourceToSwap);
+
+    const resources = [
+      {
+        id: 1,
+        heading: 'Heading 1',
+        bodyText: 'Body text 1',
+        imageUrl: 'image1url.com',
+        buttonText: 'button 1 text',
+        linkUrl: 'linkurl1.com',
+        target: true,
+        order: 2,
+      },
+      {
+        id: 2,
+        heading: 'Heading 2',
+        bodyText: 'Body text 2',
+        imageUrl: 'image2url.com',
+        buttonText: 'button 2 text',
+        linkUrl: 'linkurl2.com',
+        target: true,
+        order: 1,
+      },
+    ];
+
+    mockResourceRepository.find.mockResolvedValue(resources);
+
+    const result = await service.updateOrder(id, direction);
+    expect(result).toEqual(resources);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(2);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ order: 2 });
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(resources);
+    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.find).toHaveBeenCalledWith({
+      order: { order: 'ASC' },
+    });
+    expect(resource.order).toBe(2);
+    expect(resourceToSwap.order).toBe(1);
+  });
+
+  it('should update the order of a resource so it moves down', async () => {
+    const id = 2;
+    const direction = 'up';
+
+    const resource = {
+      id: 2,
+      heading: 'Heading 2',
+      bodyText: 'Body text 2',
+      imageUrl: 'image2url.com',
+      buttonText: 'button 2 text',
+      linkUrl: 'linkurl2.com',
+      target: true,
+      order: 2,
+    };
+
+    const resourceToSwap = {
+      id: 1,
+      heading: 'Heading 1',
+      bodyText: 'Body text 1',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text',
+      linkUrl: 'linkurl1.com',
+      target: true,
+      order: 1,
+    };
+
+    mockResourceRepository.findOneBy.mockResolvedValueOnce(resource);
+    mockResourceRepository.findOneBy.mockResolvedValueOnce(resourceToSwap);
+
+    const resources = [
+      {
+        id: 2,
+        heading: 'Heading 2',
+        bodyText: 'Body text 2',
+        imageUrl: 'image2url.com',
+        buttonText: 'button 2 text',
+        linkUrl: 'linkurl2.com',
+        target: true,
+        order: 1,
+      },
+      {
+        id: 1,
+        heading: 'Heading 1',
+        bodyText: 'Body text 1',
+        imageUrl: 'image1url.com',
+        buttonText: 'button 1 text',
+        linkUrl: 'linkurl1.com',
+        target: true,
+        order: 2,
+      },
+    ];
+
+    mockResourceRepository.find.mockResolvedValue(resources);
+
+    const result = await service.updateOrder(id, direction);
+    expect(result).toEqual(resources);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(2);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id: 2 });
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ order: 1 });
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(resources);
   });
 });
