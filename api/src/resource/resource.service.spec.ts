@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResourceService } from './resource.service';
 import { Resource } from './entities/resource.entity';
