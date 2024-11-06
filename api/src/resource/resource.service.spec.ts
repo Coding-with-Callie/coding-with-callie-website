@@ -5,7 +5,6 @@ import { Resource } from './entities/resource.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { mock } from 'node:test';
-import e from 'express';
 
 describe('ResourceService', () => {
   let service: ResourceService;
@@ -31,6 +30,7 @@ describe('ResourceService', () => {
     findOneBy: jest.fn(),
     save: jest.fn(),
     createQueryBuilder: jest.fn(() => mockQueryBuilder),
+    delete: jest.fn(),
   };
 
   const mockFileUploadService = {
@@ -54,6 +54,10 @@ describe('ResourceService', () => {
 
     service = module.get<ResourceService>(ResourceService);
     jest.clearAllMocks(); // Clear all mocks before each test
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks(); // Clear all mocks after each test
   });
 
   it('should be defined', () => {
@@ -358,5 +362,65 @@ describe('ResourceService', () => {
     expect(mockResourceRepository.find).toHaveBeenCalledWith({
       order: { order: 'ASC' },
     });
+  });
+
+  it('should delete a resource', async () => {
+    const id = 1;
+
+    const resourceToDelete = {
+      id: 1,
+      heading: 'Heading 1',
+      bodyText: 'Body text 1',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text',
+      linkUrl: 'linkurl1.com',
+      target: true,
+      order: 1,
+    };
+
+    const resources = [
+      {
+        id: 2,
+        heading: 'Heading 2',
+        bodyText: 'Body text 2',
+        imageUrl: 'image2url.com',
+        buttonText: 'button 2 text',
+        linkUrl: 'linkurl2.com',
+        target: true,
+        order: 2,
+      },
+    ];
+
+    const updatedResources = [
+      {
+        id: 2,
+        heading: 'Heading 2',
+        bodyText: 'Body text 2',
+        imageUrl: 'image2url.com',
+        buttonText: 'button 2 text',
+        linkUrl: 'linkurl2.com',
+        target: true,
+        order: 1,
+      },
+    ];
+
+    mockResourceRepository.findOneBy.mockResolvedValue(resourceToDelete);
+    mockResourceRepository.find.mockResolvedValueOnce(resources);
+    mockResourceRepository.save.mockResolvedValue(updatedResources);
+    mockResourceRepository.delete.mockResolvedValue({ affected: 1 });
+    mockResourceRepository.find.mockResolvedValue(updatedResources);
+
+    const result = await service.deleteResource(id);
+    expect(result).toEqual(updatedResources);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
+    expect(mockResourceRepository.find).toHaveBeenCalledTimes(2);
+    expect(mockResourceRepository.find).toHaveBeenCalledWith({
+      order: { order: 'ASC' },
+    });
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResources);
+    expect(mockResourceRepository.delete).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.delete).toHaveBeenCalledWith(id);
   });
 });
