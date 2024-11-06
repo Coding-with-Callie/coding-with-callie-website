@@ -4,7 +4,6 @@ import { ResourceService } from './resource.service';
 import { Resource } from './entities/resource.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { mock } from 'node:test';
 
 describe('ResourceService', () => {
   let service: ResourceService;
