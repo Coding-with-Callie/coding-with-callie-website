@@ -24,13 +24,11 @@ export class ResourceService {
     const resourceToSave = new Resource();
 
     resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
     resourceToSave.imageUrl = await this.fileUploadService.uploadFile(file);
     resourceToSave.buttonText = resource.buttonText;
     resourceToSave.linkUrl = resource.linkUrl;
     resourceToSave.target = resource.target === 'true';
-
-    resourceToSave.bodyText = resourceToSave.bodyText
+    resourceToSave.bodyText = resource.bodyText
       .replace(/\r\n/g, '\n') // Replace \r\n with \n
       .split(/\n+/) // Split at one or more newlines
       .map((item: string) => item.trim()) // Trim whitespace from each item
@@ -83,18 +81,14 @@ export class ResourceService {
     }
 
     resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
     resourceToSave.buttonText = resource.buttonText;
     resourceToSave.linkUrl = resource.linkUrl;
     resourceToSave.target = resource.target === 'true';
-
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
+    resourceToSave.bodyText = resource.bodyText
+      .replace(/\r\n/g, '\n') // Replace \r\n with \n
+      .split(/\n+/) // Split at one or more newlines
+      .map((item: string) => item.trim()) // Trim whitespace from each item
+      .filter((item: string) => item.length > 0); // Remove empty items
 
     const resourceToUpdate = await this.resourceRepository.findOneBy({ id });
 

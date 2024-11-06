@@ -257,4 +257,106 @@ describe('ResourceService', () => {
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(resources);
   });
+
+  it('should update all resource fields and an uploaded file', async () => {
+    const id = 1;
+    const resource = {
+      heading: 'Heading 1 EDITED',
+      bodyText: 'Body text 1 EDITED',
+      buttonText: 'button 1 text EDITED',
+      linkUrl: 'newimageurl.com',
+      target: 'false',
+    };
+    const file = {} as Express.Multer.File;
+
+    const resourceToUpdate = {
+      id: 1,
+      heading: 'Heading 1',
+      bodyText: 'Body text 1',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text',
+      linkUrl: 'linkurl1.com',
+      target: true,
+      order: 1,
+    };
+
+    const updatedResource = {
+      id: 1,
+      heading: 'Heading 1 EDITED',
+      bodyText: 'Body text 1 EDITED',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text EDITED',
+      linkUrl: 'newimageurl.com',
+      target: false,
+      order: 1,
+    };
+
+    const resources = [updatedResource];
+
+    mockFileUploadService.uploadFile.mockResolvedValue('newimageurl.com');
+    mockResourceRepository.findOneBy.mockResolvedValue(resourceToUpdate);
+    mockResourceRepository.save.mockResolvedValue(updatedResource);
+    mockResourceRepository.find.mockResolvedValue(resources);
+
+    const result = await service.updateResource(id, resource, file);
+    expect(result).toEqual(resources);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResource);
+    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.find).toHaveBeenCalledWith({
+      order: { order: 'ASC' },
+    });
+  });
+
+  it('should update all resource fields without an uploaded file', async () => {
+    const id = 1;
+    const resource = {
+      heading: 'Heading 1 EDITED',
+      bodyText: 'Body text 1 EDITED',
+      buttonText: 'button 1 text EDITED',
+      linkUrl: 'linkurl1edited.com',
+      target: 'false',
+    };
+    const file = null;
+
+    const resourceToUpdate = {
+      id: 1,
+      heading: 'Heading 1',
+      bodyText: 'Body text 1',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text',
+      linkUrl: 'linkurl1.com',
+      target: true,
+      order: 1,
+    };
+
+    const updatedResource = {
+      id: 1,
+      heading: 'Heading 1 EDITED',
+      bodyText: 'Body text 1 EDITED',
+      imageUrl: 'image1url.com',
+      buttonText: 'button 1 text EDITED',
+      linkUrl: 'linkurl1edited.com',
+      target: false,
+      order: 1,
+    };
+
+    mockResourceRepository.findOneBy.mockResolvedValue(resourceToUpdate);
+    mockResourceRepository.find.mockResolvedValue([updatedResource]);
+
+    const result = await service.updateResource(id, resource, file);
+    expect(result).toEqual([updatedResource]);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(0);
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResource);
+    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.find).toHaveBeenCalledWith({
+      order: { order: 'ASC' },
+    });
+  });
 });

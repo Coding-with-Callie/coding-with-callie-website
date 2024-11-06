@@ -119,13 +119,11 @@ export class AdminController {
     return await this.adminService.createSpeaker(speaker, file);
   }
 
-  // TODO: Move this to admin.controller.ts
   @Delete('speaker/:id')
   async deleteSpeaker(@Param('id') id: number) {
     return await this.adminService.deleteSpeaker(id);
   }
 
-  // TODO: Move this to admin.controller.ts
   @UseInterceptors(FileInterceptor('file'))
   @Put('speaker/:id')
   async updateSpeaker(
