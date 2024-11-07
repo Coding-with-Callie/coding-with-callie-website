@@ -13,7 +13,7 @@ export class UsersService {
     return await this.usersRepository.save({ ...user, role: 'user' });
   }
 
-  async deleteUser(id) {
+  async deleteUser(id: number) {
     const userToDelete = await this.findOneById(id);
     return await this.usersRepository.remove(userToDelete);
   }
