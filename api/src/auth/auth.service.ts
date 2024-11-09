@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { ReviewService } from '../review/review.service';
-import { SpeakersService } from '../speakers/speakers.service';
 import { FeaturesService } from '../features/features.service';
 import { ProjectsService } from '../projects/projects.service';
 import { TasksService } from '../tasks/tasks.service';
@@ -14,7 +13,6 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private reviewService: ReviewService,
-    private speakersService: SpeakersService,
     private projectsService: ProjectsService,
     private featuresService: FeaturesService,
     private userStoriesService: UserStoriesService,

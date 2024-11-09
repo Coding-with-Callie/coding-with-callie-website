@@ -7,7 +7,6 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ReviewModule } from '../review/review.module';
-import { SpeakersModule } from '../speakers/speakers.module';
 import { WorkshopsModule } from '../workshops/workshops.module';
 import { FeaturesModule } from '../features/features.module';
 import { ProjectsModule } from '../projects/projects.module';
@@ -24,7 +23,6 @@ import { FileUploadModule } from '../file_upload/file_upload.module';
     UsersModule,
     ReviewModule,
     MailModule,
-    SpeakersModule,
     WorkshopsModule,
     ProjectsModule,
     FeaturesModule,
