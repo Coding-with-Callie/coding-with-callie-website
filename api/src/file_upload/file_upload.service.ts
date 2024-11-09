@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Upload } from '@aws-sdk/lib-storage';
 import { ObjectCannedACL, S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
@@ -20,14 +19,14 @@ export class FileUploadService {
   async uploadFile(file: Express.Multer.File) {
     const { originalname } = file;
 
-    const response = await this.s3_upload(
+    await this.s3_upload(
       file.buffer,
       this.AWS_S3_BUCKET,
       originalname,
       file.mimetype,
     );
 
-    return response.Location;
+    return `https://${this.AWS_S3_BUCKET}.s3.amazonaws.com/${originalname}`;
   }
 
   async s3_upload(file, bucket, name, mimetype) {
@@ -44,11 +43,7 @@ export class FileUploadService {
     };
 
     try {
-      const s3Response = await new Upload({
-        client: this.s3,
-        params,
-      }).done();
-      return s3Response;
+      await this.s3.putObject(params);
     } catch (e) {
       console.log(e);
     }
