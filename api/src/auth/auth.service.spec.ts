@@ -12,8 +12,9 @@ describe('AuthService', () => {
   let service: AuthService;
 
   const mockUsersService = {
-    findOneById: jest.fn(),
+    getFrontendFriendlyUser: jest.fn(),
     changeAccountDetail: jest.fn(),
+    softDeleteUser: jest.fn(),
   };
 
   const mockReviewService = {
@@ -72,5 +73,101 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should return a user profile', async () => {
+    const id = 1;
+    const user = {
+      id,
+      name: 'Callie Stoscup',
+      email: 'calliestoscup@gmail.com',
+      username: 'calliestoscup',
+      role: 'admin',
+      photo: 'photourl.com',
+    };
+
+    mockUsersService.getFrontendFriendlyUser.mockResolvedValue(user);
+
+    const result = await service.getUserProfile(id);
+    expect(result).toEqual(user);
+    expect(mockUsersService.getFrontendFriendlyUser).toHaveBeenCalledTimes(1);
+    expect(mockUsersService.getFrontendFriendlyUser).toHaveBeenCalledWith(id);
+  });
+
+  it('should call changeAccountDetail in user service', async () => {
+    const id = 1;
+    const field = 'name';
+    const value = 'EDITED NAME';
+
+    const returnedUser = {
+      id,
+      name: 'EDITED NAME',
+      email: 'calliestoscup@gmail.com',
+      username: 'calliestoscup',
+      role: 'admin',
+      photo: 'photourl.com',
+    };
+
+    mockUsersService.changeAccountDetail.mockResolvedValue(returnedUser);
+
+    const result = await service.changeAccountDetail(id, field, value);
+    expect(result).toEqual(returnedUser);
+    expect(mockUsersService.changeAccountDetail).toHaveBeenCalledTimes(1);
+    expect(mockUsersService.changeAccountDetail).toHaveBeenCalledWith(
+      id,
+      field,
+      value,
+    );
+  });
+
+  it('should call softDeleteUser in user service', async () => {
+    const id = 1;
+
+    mockUsersService.softDeleteUser.mockResolvedValue('user deleted');
+
+    const result = await service.deleteUser(id);
+    expect(result).toEqual('user deleted');
+    expect(mockUsersService.softDeleteUser).toHaveBeenCalledTimes(1);
+    expect(mockUsersService.softDeleteUser).toHaveBeenCalledWith(id);
+  });
+
+  it('should call uploadFile in file upload service', async () => {
+    const file = {} as Express.Multer.File;
+
+    const photoUrl = 'photourl.com';
+    mockFileUploadService.uploadFile.mockResolvedValue(photoUrl);
+
+    const result = await service.uploadFile(file);
+    expect(result).toEqual(photoUrl);
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(1);
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledWith(file);
+  });
+
+  it('should call changeAccountDetail in user service with photoUrl', async () => {
+    const id = 1;
+    const file = {} as Express.Multer.File;
+
+    const returnedUser = {
+      id,
+      name: 'Callie Stoscup',
+      email: 'calliestoscup@gmail.com',
+      username: 'calliestoscup',
+      role: 'admin',
+      photo: 'photourl.com',
+    };
+
+    mockFileUploadService.uploadFile.mockResolvedValue('photourl.com');
+    mockUsersService.changeAccountDetail.mockResolvedValue(returnedUser);
+
+    const result = await service.uploadProfileImage(id, file);
+    expect(result).toEqual(returnedUser);
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(1);
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledWith(file);
+    expect(mockUsersService.changeAccountDetail).toHaveBeenCalledTimes(1);
+    expect(mockUsersService.changeAccountDetail).toHaveBeenCalledWith(
+      id,
+      'photo',
+      'photourl.com',
+    );
   });
 });

@@ -20,66 +20,24 @@ export class AuthService {
     private fileUploadService: FileUploadService,
   ) {}
   async getUserProfile(id: number) {
-    const user = await this.usersService.findOneById(id);
-
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      photo: user.photo,
-    };
+    return await this.usersService.getFrontendFriendlyUser(id);
   }
 
-  async changeAccountDetail(id: number, value: string, field: string) {
-    const userToUpdate = await this.usersService.findOneById(id);
-
-    if (field === 'password') {
-      value = await hashPassword(value);
-    }
-
-    const user = await this.usersService.changeAccountDetail(
-      userToUpdate,
-      field,
-      value,
-    );
-
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      submissions: user.submissions,
-      feedback: user.feedback,
-      photo: user.photo,
-    };
+  async changeAccountDetail(id: number, field: string, value: string) {
+    return await this.usersService.changeAccountDetail(id, field, value);
   }
 
   async deleteUser(id: number) {
-    const user = await this.usersService.findOneById(id);
-
-    await this.usersService.changeAccountDetail(user, 'name', 'deleted');
-    await this.usersService.changeAccountDetail(
-      user,
-      'username',
-      `deleted-${Date.now()}`,
-    );
-    await this.usersService.changeAccountDetail(user, 'email', 'deleted');
-    await this.usersService.changeAccountDetail(user, 'password', 'deleted');
-
-    return 'deleted';
+    return await this.usersService.softDeleteUser(id);
   }
 
-  async uploadFile(file) {
+  async uploadFile(file: Express.Multer.File) {
     return await this.fileUploadService.uploadFile(file);
   }
 
-  async uploadProfileImage(id, file) {
-    const user = await this.usersService.findOneById(id);
+  async uploadProfileImage(id: number, file: Express.Multer.File) {
     const photoUrl = await this.uploadFile(file);
-    return await this.usersService.changeAccountDetail(user, 'photo', photoUrl);
+    return await this.usersService.changeAccountDetail(id, 'photo', photoUrl);
   }
 
   async submitReview(review) {

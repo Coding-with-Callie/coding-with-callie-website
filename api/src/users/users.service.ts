@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from './entities/users.entity';
 import { NewUserDto } from 'src/app.controller';
+import { hashPassword } from '../helpers/helpers';
 
 @Injectable()
 export class UsersService {
@@ -14,9 +15,20 @@ export class UsersService {
     return await this.usersRepository.save({ ...user, role: 'user' });
   }
 
-  async deleteUser(id: number) {
-    const userToDelete = await this.findOneById(id);
-    return await this.usersRepository.remove(userToDelete);
+  async softDeleteUser(id: number) {
+    const userToDelete = await this.usersRepository.findOneBy({ id });
+
+    if (!userToDelete) {
+      return null;
+    }
+
+    userToDelete.name = 'deleted';
+    userToDelete.username = `deleted-${Date.now()}`;
+    userToDelete.email = 'deleted';
+    userToDelete.password = 'deleted';
+
+    await this.usersRepository.save(userToDelete);
+    return 'user deleted';
   }
 
   async checkIfUsernameExists(username: string) {
@@ -38,9 +50,10 @@ export class UsersService {
       .getOne();
   }
 
-  async findOneById(id: number) {
+  async getFrontendFriendlyUser(id: number) {
     return await this.usersRepository.findOne({
       where: { id },
+      select: ['id', 'name', 'email', 'username', 'role', 'photo'],
     });
   }
 
@@ -53,10 +66,26 @@ export class UsersService {
       .getOne();
   }
 
-  async changeAccountDetail(userToUpdate, field, value) {
-    userToUpdate[field] = value;
+  async changeAccountDetail(id: number, field: string, value: string) {
+    const userToUpdate = await this.usersRepository.findOneBy({ id });
 
-    return await this.usersRepository.save(userToUpdate);
+    if (field === 'password') {
+      value = await hashPassword(value);
+    }
+
+    const user = await this.usersRepository.save({
+      ...userToUpdate,
+      [field]: value,
+    });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      photo: user.photo,
+    };
   }
 
   async findAllUsers() {

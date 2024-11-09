@@ -165,8 +165,8 @@ export class AuthController {
   changeAccountDetail(@Body() accountDetails: AccountDetailDTO) {
     return this.authService.changeAccountDetail(
       accountDetails.id,
-      accountDetails.value,
       accountDetails.field,
+      accountDetails.value,
     );
   }
 
