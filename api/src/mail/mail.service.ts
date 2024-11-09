@@ -5,7 +5,7 @@ import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
 import { MailerService } from '@nestjs-modules/mailer';
 import { NewUserDto } from '../app.controller';
-import path from 'path';
+import * as path from 'path';
 import { MessageDto } from '../message/dto/message.dto';
 
 @Injectable()
