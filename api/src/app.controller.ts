@@ -29,6 +29,8 @@ export class NewUserDto {
 
   @IsNotEmpty()
   password: string;
+
+  photo?: string;
 }
 
 export class UserLoginDto {
