@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SENDMAIL } from './mail';
+import { sendEmail } from './mail';
 import { HTML_TEMPLATE as newMessageTemplate } from './new-message-mail-template';
 import { HTML_TEMPLATE as newUserTemplate } from './new-user-mail-template';
 import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user';
@@ -10,7 +10,7 @@ const path = require('path');
 @Injectable()
 export class MailService {
   async sendNewUserEmail(data) {
-    SENDMAIL(
+    sendEmail(
       {
         from: 'calliestoscup@gmail.com>', // sender address
         to: 'calliestoscup@gmail.com', // receiver email
@@ -26,13 +26,13 @@ export class MailService {
         html: newUserTemplate(data),
       },
       () => {
-        console.log('new user notfication email sent');
+        return 'new user notfication email sent';
       },
     );
   }
 
   async sendNewMessageEmail(data) {
-    SENDMAIL(
+    sendEmail(
       {
         from: 'calliestoscup@gmail.com>', // sender address
         to: 'calliestoscup@gmail.com', // receiver email
@@ -54,7 +54,7 @@ export class MailService {
   }
 
   async sendEmailToNewUser(data) {
-    SENDMAIL(
+    sendEmail(
       {
         from: 'calliestoscup@gmail.com>', // sender address
         to:
@@ -79,7 +79,7 @@ export class MailService {
   }
 
   async sendPasswordResetEmail(user, access_token, id) {
-    SENDMAIL(
+    sendEmail(
       {
         from: 'calliestoscup@gmail.com>', // sender address
         to:
