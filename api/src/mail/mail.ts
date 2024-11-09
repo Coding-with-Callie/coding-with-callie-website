@@ -15,6 +15,8 @@ const transporter = nodemailer.createTransport({
 });
 
 export const SENDMAIL = async (mailDetails, callback) => {
+  console.log('PASSWORD', process.env.GMAIL_PASSWORD);
+
   try {
     const info = await transporter.sendMail(mailDetails);
     callback(info);
