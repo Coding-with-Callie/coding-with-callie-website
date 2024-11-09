@@ -29,11 +29,16 @@ export class FileUploadService {
     return `https://${this.AWS_S3_BUCKET}.s3.amazonaws.com/${originalname}`;
   }
 
-  async s3_upload(file, bucket, name, mimetype) {
+  async s3_upload(
+    buffer: Buffer,
+    bucket: string,
+    name: string,
+    mimetype: string,
+  ) {
     const params = {
       Bucket: bucket,
       Key: String(name),
-      Body: file,
+      Body: buffer,
       ACL: ObjectCannedACL.public_read_write,
       ContentType: mimetype,
       ContentDisposition: 'inline',
@@ -44,8 +49,8 @@ export class FileUploadService {
 
     try {
       await this.s3.putObject(params);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error('S3 Error:', error.message);
     }
   }
 }

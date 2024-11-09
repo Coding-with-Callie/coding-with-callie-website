@@ -65,16 +65,16 @@ describe('MailService', () => {
       username: 'callie',
       password: 'password',
     };
-    // Save the original console.error implementation
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
+
+    // Suppress console.error output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockMailerService.sendMail.mockRejectedValue(new Error('error'));
     await service.sendNewUserEmail(newUser);
-    expect(console.error).toHaveBeenCalled();
-
-    // Reset console.error to its original implementation
-    console.error = originalConsoleError;
+    expect(console.error).toHaveBeenCalledWith(
+      'There was an error emailing a new user:',
+      'error',
+    );
   });
 
   it('should send new message email when nodemailer is configured properly', async () => {
@@ -111,16 +111,15 @@ describe('MailService', () => {
       message: 'Hello!',
     };
 
-    // Save the original console.error implementation
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
+    // Suppress console.error output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockMailerService.sendMail.mockRejectedValue(new Error('error'));
     await service.sendNewMessageEmail(message);
-    expect(console.error).toHaveBeenCalled();
-
-    // Reset console.error to its original implementation
-    console.error = originalConsoleError;
+    expect(console.error).toHaveBeenCalledWith(
+      'There was an error emailing a message:',
+      'error',
+    );
   });
 
   it('should send email to new user when nodemailer is configured properly', async () => {
@@ -162,16 +161,15 @@ describe('MailService', () => {
       password: 'password',
     };
 
-    // Save the original console.error implementation
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
+    // Suppress console.error output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockMailerService.sendMail.mockRejectedValue(new Error('error'));
     await service.sendEmailToNewUser(newUser);
-    expect(console.error).toHaveBeenCalled();
-
-    // Reset console.error to its original implementation
-    console.error = originalConsoleError;
+    expect(console.error).toHaveBeenCalledWith(
+      'There was an error emailing a new user:',
+      'error',
+    );
   });
 
   it('should send password reset email when nodemailer is configured properly', async () => {
@@ -214,15 +212,14 @@ describe('MailService', () => {
     const access_token = 'access token';
     const id = 1;
 
-    // Save the original console.error implementation
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
+    // Suppress console.error output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockMailerService.sendMail.mockRejectedValue(new Error('error'));
     await service.sendPasswordResetEmail(email, access_token, id);
-    expect(console.error).toHaveBeenCalled();
-
-    // Reset console.error to its original implementation
-    console.error = originalConsoleError;
+    expect(console.error).toHaveBeenCalledWith(
+      'There was an error sending a password reset email:',
+      'error',
+    );
   });
 });

@@ -22,14 +22,14 @@ describe('FileUploadService', () => {
     }).compile();
 
     service = module.get<FileUploadService>(FileUploadService);
-    // jest.clearAllMocks(); // Clear mock calls from previous tests
+    jest.clearAllMocks(); // Clear mock calls from previous tests
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('should upload a file', async () => {
+  it('should return an S3 url if S3 putObject is succesful', async () => {
     const file = {
       buffer: Buffer.from('file content'),
       originalname: 'file.txt',
@@ -39,6 +39,34 @@ describe('FileUploadService', () => {
     const response = await service.uploadFile(file);
     expect(response).toEqual(
       'https://coding-with-callie.s3.amazonaws.com/file.txt',
+    );
+    expect(s3Mock).toHaveReceivedCommandTimes(PutObjectCommand, 1);
+    expect(s3Mock).toHaveReceivedCommandWith(PutObjectCommand, {
+      Bucket: 'coding-with-callie',
+      Key: 'file.txt',
+      Body: file.buffer,
+      ACL: 'public-read-write',
+      ContentType: file.mimetype,
+      ContentDisposition: 'inline',
+    });
+  });
+
+  it('should return an error if S3 putObject fails', async () => {
+    s3Mock.on(PutObjectCommand).rejects('Error uploading file');
+
+    // Suppress console.error output
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const file = {
+      buffer: Buffer.from('file content'),
+      originalname: 'file.txt',
+      mimetype: 'text/plain',
+    } as Express.Multer.File;
+
+    await service.uploadFile(file);
+    expect(console.error).toHaveBeenCalledWith(
+      'S3 Error:',
+      'Error uploading file',
     );
   });
 });
