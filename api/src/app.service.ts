@@ -99,7 +99,11 @@ export class AppService {
       expiresIn: '10m',
     });
 
-    await this.mailService.sendPasswordResetEmail(user, access_token, user.id);
+    await this.mailService.sendPasswordResetEmail(
+      user.email,
+      access_token,
+      user.id,
+    );
     return { message: 'Password reset email sent' };
   }
 
