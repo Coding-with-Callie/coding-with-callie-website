@@ -14,7 +14,7 @@ export const menuItems = [
   },
   {
     name: "Projects",
-    path: "projects",
+    path: "project",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: true,
   },

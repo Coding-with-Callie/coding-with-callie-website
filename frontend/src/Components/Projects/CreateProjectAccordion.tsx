@@ -50,7 +50,7 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
       setIsOpen(false);
 
       axiosPrivate
-        .post("/create-project", {
+        .post("/project", {
           name,
           description,
         })

@@ -52,10 +52,9 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
       setIsOpen(false);
 
       axiosPrivate
-        .post("/create-feature", {
+        .post(`/project/${projectId}/feature`, {
           name,
           description,
-          projectId,
         })
         .then((response) => {
           setProject(response.data);

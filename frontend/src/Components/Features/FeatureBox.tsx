@@ -18,7 +18,7 @@ const FeatureBox = ({ feature, projectId, setProject }: Props) => {
 
   const onCloseModal = () => {
     axiosPrivate
-      .get(`/project/${projectId}`)
+      .get(`project/${projectId}`)
       .then((response) => {
         setProject(response.data);
         onClose();

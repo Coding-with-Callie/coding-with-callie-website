@@ -99,10 +99,9 @@ const Project = () => {
     }
 
     axiosPrivate
-      .post("/update-project", {
+      .patch(`/project/${project.id}`, {
         field,
         value,
-        projectId: project.id,
       })
       .then((response) => {
         setProject(response.data);
@@ -142,12 +141,10 @@ const Project = () => {
 
   const deleteProject = () => {
     axiosPrivate
-      .post("/delete-project", {
-        projectId: project.id,
-      })
+      .delete(`/project/${project.id}`)
       .then(() => {
         onClose();
-        navigate("/projects");
+        navigate("/project");
         toast({
           title: "Success",
           description: "Your project has been deleted!",

@@ -14,16 +14,12 @@ export type Project = {
   features: Feature[];
 };
 
-type LoaderData = {
-  projects: Project[];
-};
-
 const Projects = () => {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData() as Project[];
   const { user } = useOutletContext() as Context;
   const [isLargerThan825] = useMediaQuery("(min-width: 825px)");
 
-  const [projects, setProjects] = useState(data.projects);
+  const [projects, setProjects] = useState(data);
 
   return (
     <Box mt={20}>

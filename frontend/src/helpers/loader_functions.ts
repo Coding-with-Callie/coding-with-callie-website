@@ -2,12 +2,7 @@ import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { showNotification } from "..";
 import { axiosPrivate, axiosPublic } from "./axios_instances";
 
-const privateEndpoints = [
-  "profile",
-  "user-details",
-  "user-projects",
-  "project",
-];
+const privateEndpoints = ["profile", "user-details", "project"];
 
 export const Load = async (endpoint: string) => {
   // Check if the endpoint requires authentication
@@ -41,13 +36,14 @@ export const Load = async (endpoint: string) => {
 
     // User has a token, but it is invalid. User's session has expired.
     if (error.response.status === 401) {
+      console.log(error.response.data);
       // User requested a project they do not have access to
       if (
         error.response.data.message ===
         "You do not have access to that project."
       ) {
         showNotification("You do not have access to that project!", "error");
-        return redirect("/projects");
+        return redirect("/project");
       }
 
       showNotification(

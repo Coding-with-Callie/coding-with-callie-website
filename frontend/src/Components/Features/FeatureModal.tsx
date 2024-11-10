@@ -108,10 +108,9 @@ const FeatureModal = ({
     }
 
     axiosPrivate
-      .post("/update-feature", {
+      .patch(`/project/${projectId}/feature/${featureId}`, {
         field,
         value,
-        featureId,
       })
       .then((response) => {
         setProject(response.data);
@@ -151,9 +150,7 @@ const FeatureModal = ({
 
   const deleteFeature = () => {
     axiosPrivate
-      .post("/delete-feature", {
-        featureId,
-      })
+      .delete(`/project/${projectId}/feature/${featureId}`)
       .then((response) => {
         setProject(response.data);
         onCloseDelete();

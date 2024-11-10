@@ -1,15 +1,16 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Request,
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
@@ -17,6 +18,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ProjectAccessGuard } from './project-access.guard';
 
 export class AccountDetailDTO {
   @IsNotEmpty()
@@ -62,9 +64,6 @@ export class FeatureDto {
   @IsOptional()
   @Transform((params) => sanitizeHTML(params.value))
   description: string;
-
-  @IsNotEmpty()
-  projectId: number;
 }
 
 export class UserStoryDto {
@@ -129,9 +128,6 @@ export class UpdateFeatureDto {
   // @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   value: string;
-
-  @IsNotEmpty()
-  featureId: number;
 }
 
 export class UpdateProjectDto {
@@ -141,9 +137,6 @@ export class UpdateProjectDto {
   // @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   value: string;
-
-  @IsNotEmpty()
-  projectId: number;
 }
 
 @UseGuards(AuthGuard)
@@ -190,25 +183,18 @@ export class AuthController {
     return await this.authService.submitReview(review);
   }
 
-  @Get('user-projects')
+  @Get('project')
   getUserProjects(@Request() req) {
     return this.authService.getUserProjects(req.user.sub);
   }
 
+  @UseGuards(ProjectAccessGuard)
   @Get('project/:id')
-  async getProject(@Param('id') id: number, @Request() req) {
-    const project = await this.authService.getProject(req.user.sub, id);
-
-    if (!project) {
-      throw new UnauthorizedException(
-        'You do not have access to that project.',
-      );
-    }
-
-    return project;
+  async getProject(@Param('id') id: number) {
+    return await this.authService.getProject(id);
   }
 
-  @Post('create-project')
+  @Post('project')
   createProject(@Body() projectDto: ProjectDto, @Request() req) {
     return this.authService.createProject(
       projectDto.name,
@@ -217,44 +203,56 @@ export class AuthController {
     );
   }
 
-  @Post('update-project')
-  updateProject(@Body() updateProjectDto: UpdateProjectDto, @Request() req) {
+  @UseGuards(ProjectAccessGuard)
+  @Patch('project/:id')
+  updateProject(
+    @Param('id') id: number,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
     return this.authService.updateProject(
       updateProjectDto.field,
       updateProjectDto.value,
-      req.user.sub,
-      updateProjectDto.projectId,
+      id,
     );
   }
 
-  @Post('delete-project')
-  deleteProject(@Body('projectId') projectId: number, @Request() req) {
-    return this.authService.deleteProject(projectId, req.user.sub);
+  @UseGuards(ProjectAccessGuard)
+  @Delete('project/:id')
+  deleteProject(@Param('id') id: number) {
+    return this.authService.deleteProject(id);
   }
 
-  @Post('create-feature')
-  createFeature(@Body() featureDto: FeatureDto, @Request() req) {
+  @UseGuards(ProjectAccessGuard)
+  @Post('project/:id/feature')
+  createFeature(
+    @Param('id') projectId: number,
+    @Body() featureDto: FeatureDto,
+  ) {
     return this.authService.createFeature(
       featureDto.name,
       featureDto.description,
-      req.user.sub,
-      featureDto.projectId,
+      projectId,
     );
   }
 
-  @Post('update-feature')
-  updateFeature(@Body() updateFeatureDto: UpdateFeatureDto, @Request() req) {
+  @UseGuards(ProjectAccessGuard)
+  @Patch('project/:id/feature/:featureId')
+  updateFeature(
+    @Param('featureId') featureId: number,
+    @Body() updateFeatureDto: UpdateFeatureDto,
+  ) {
     return this.authService.updateFeature(
       updateFeatureDto.field,
       updateFeatureDto.value,
-      req.user.sub,
-      updateFeatureDto.featureId,
+      featureId,
     );
   }
 
-  @Post('delete-feature')
-  deleteFeature(@Body('featureId') featureId: number, @Request() req) {
-    return this.authService.deleteFeature(featureId, req.user.sub);
+  @UseGuards(ProjectAccessGuard)
+  @Delete('project/:id/feature/:featureId')
+  deleteFeature(@Param('featureId') featureId: number) {
+    console.log('featureId', featureId);
+    return this.authService.deleteFeature(featureId);
   }
 
   @Post('create-user-story')

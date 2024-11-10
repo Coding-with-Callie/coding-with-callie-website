@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Feature } from './entities/feature.entity';
@@ -19,23 +19,7 @@ export class FeaturesService {
     });
   }
 
-  async createFeature(
-    name: string,
-    description: string,
-    projectId: number,
-    userId: number,
-  ) {
-    const isOwner = await this.projectsService.checkProjectOwnership(
-      projectId,
-      userId,
-    );
-
-    if (!isOwner) {
-      throw new BadRequestException(
-        'You cannot create a feature for that project',
-      );
-    }
-
+  async createFeature(name: string, description: string, projectId: number) {
     await this.featuresRepository.save({
       name,
       description,
@@ -46,45 +30,30 @@ export class FeaturesService {
     return await this.projectsService.getProjectById(projectId);
   }
 
-  async updateFeature(
-    field: string,
-    value: string,
-    userId: number,
-    featureId: number,
-  ) {
+  async updateFeature(field: string, value: string, id: number) {
     const featureToUpdate = await this.featuresRepository.findOne({
       where: {
-        id: featureId,
-        project: { user: { id: userId } },
+        id,
       },
       relations: ['project'],
     });
-
-    if (!featureToUpdate) {
-      throw new BadRequestException('You cannot edit that feature');
-    }
 
     featureToUpdate[field] = value;
     const updatedFeature = await this.featuresRepository.save(featureToUpdate);
 
-    return updatedFeature.project.id;
+    return await this.projectsService.getProjectById(updatedFeature.project.id);
   }
 
-  async deleteFeature(featureId: number, userId: number) {
+  async deleteFeature(id: number) {
     const featureToDelete = await this.featuresRepository.findOne({
       where: {
-        id: featureId,
-        project: { user: { id: userId } },
+        id,
       },
       relations: ['project'],
     });
 
-    if (featureToDelete) {
-      await this.featuresRepository.delete(featureToDelete);
+    await this.featuresRepository.delete(featureToDelete);
 
-      return featureToDelete.project.id;
-    } else {
-      throw new BadRequestException('You cannot delete that feature');
-    }
+    return this.projectsService.getProjectById(featureToDelete.project.id);
   }
 }

@@ -48,67 +48,36 @@ export class AuthService {
     return await this.projectsService.getUserProjects(userId);
   }
 
-  async getProject(userId: number, id: number) {
-    return await this.projectsService.getProjectById(id, userId);
+  async getProject(id: number) {
+    return await this.projectsService.getProjectById(id);
   }
 
   async createProject(name: string, description: string, userId: number) {
     return await this.projectsService.createProject(name, description, userId);
   }
 
-  async updateProject(
-    field: string,
-    value: string,
-    userId: number,
-    projectId: number,
-  ) {
-    return await this.projectsService.updateProject(
-      field,
-      value,
-      userId,
-      projectId,
-    );
+  async updateProject(field: string, value: string, projectId: number) {
+    return await this.projectsService.updateProject(field, value, projectId);
   }
 
-  async deleteProject(projectId: number, userId: number) {
-    return await this.projectsService.deleteProject(projectId, userId);
+  async deleteProject(projectId: number) {
+    return await this.projectsService.deleteProject(projectId);
   }
 
-  async createFeature(
-    name: string,
-    description: string,
-    projectId: number,
-    userId: number,
-  ) {
+  async createFeature(name: string, description: string, projectId: number) {
     return await this.featuresService.createFeature(
       name,
       description,
       projectId,
-      userId,
     );
   }
 
-  async updateFeature(
-    field: string,
-    value: string,
-    userId: number,
-    featureId: number,
-  ) {
-    const projectId = await this.featuresService.updateFeature(
-      field,
-      value,
-      userId,
-      featureId,
-    );
-    return await this.projectsService.getProjectById(projectId);
+  async updateFeature(field: string, value: string, featureId: number) {
+    return await this.featuresService.updateFeature(field, value, featureId);
   }
 
-  async deleteFeature(featureId: number, userId: number) {
-    const projectId = await this.featuresService.deleteFeature(
-      featureId,
-      userId,
-    );
-    return await this.projectsService.getProjectById(projectId);
+  async deleteFeature(featureId: number) {
+    return await this.featuresService.deleteFeature(featureId);
   }
 
   async createUserStory(
