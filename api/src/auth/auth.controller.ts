@@ -251,7 +251,6 @@ export class AuthController {
   @UseGuards(ProjectAccessGuard)
   @Delete('project/:id/feature/:featureId')
   deleteFeature(@Param('featureId') featureId: number) {
-    console.log('featureId', featureId);
     return this.authService.deleteFeature(featureId);
   }
 

@@ -15,15 +15,10 @@ export class ProjectAccessGuard implements CanActivate {
     const userId = request.user.sub;
     const projectId = request.params.id;
 
-    console.log('userId', userId);
-    console.log('projectId', projectId);
-
     const hasAccess = await this.projectsService.checkProjectAccess(
       projectId,
       userId,
     );
-
-    console.log('hasAccess', hasAccess);
 
     if (!hasAccess) {
       throw new UnauthorizedException(
