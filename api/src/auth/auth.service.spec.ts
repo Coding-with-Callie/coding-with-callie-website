@@ -8,6 +8,7 @@ import { UserStoriesService } from '../userStories/userStories.service';
 import { TasksService } from '../tasks/tasks.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { ReviewDTO } from './auth.controller';
+import { mock } from 'node:test';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -270,7 +271,7 @@ describe('AuthService', () => {
     expect(mockProjectsService.deleteProject).toHaveBeenCalledWith(projectId);
   });
 
-  it('should call createFeature in feature service', async () => {
+  it('should call createFeature in feature service and getProjectById in project service', async () => {
     const name = 'Feature 1';
     const description = 'Description 1';
     const projectId = 1;
@@ -282,7 +283,8 @@ describe('AuthService', () => {
       features: [{ id: 1, name: 'Feature 1', description: '' }],
     };
 
-    mockFeaturesService.createFeature.mockResolvedValue(updatedProject);
+    mockFeaturesService.createFeature.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
 
     const result = await service.createFeature(name, description, projectId);
     expect(result).toEqual(updatedProject);
@@ -292,5 +294,7 @@ describe('AuthService', () => {
       description,
       projectId,
     );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
   });
 });
