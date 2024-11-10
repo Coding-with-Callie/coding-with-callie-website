@@ -49,15 +49,7 @@ export class AuthService {
   }
 
   async getProject(userId: number, id: number) {
-    const project = await this.projectsService.getProjectById(id, userId);
-
-    if (!project) {
-      throw new UnauthorizedException(
-        'You do not have access to that project.',
-      );
-    }
-
-    return project;
+    return await this.projectsService.getProjectById(id, userId);
   }
 
   async createProject(name: string, description: string, userId: number) {

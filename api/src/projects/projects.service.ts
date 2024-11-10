@@ -115,6 +115,10 @@ export class ProjectsService {
       ],
     });
 
+    if (!project) {
+      throw new BadRequestException('You do not have access to that project.');
+    }
+
     return this.addStatusesToProject(project);
   }
 

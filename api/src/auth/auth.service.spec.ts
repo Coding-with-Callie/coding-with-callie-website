@@ -200,7 +200,7 @@ describe('AuthService', () => {
     expect(mockProjectsService.getUserProjects).toHaveBeenCalledWith(userId);
   });
 
-  it('should call getProject in project service and return a project', async () => {
+  it('should call getProject in project service', async () => {
     const userId = 1;
     const id = 1;
     const project = {
@@ -214,19 +214,6 @@ describe('AuthService', () => {
 
     const result = await service.getProject(userId, id);
     expect(result).toEqual(project);
-    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
-    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(id, userId);
-  });
-
-  it('should throw an error if project is not found', async () => {
-    const userId = 1;
-    const id = 1;
-
-    mockProjectsService.getProjectById.mockResolvedValue(null);
-
-    await expect(service.getProject(userId, id)).rejects.toThrow(
-      'You do not have access to that project.',
-    );
     expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
     expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(id, userId);
   });
@@ -245,6 +232,46 @@ describe('AuthService', () => {
     expect(mockProjectsService.createProject).toHaveBeenCalledWith(
       name,
       description,
+      userId,
+    );
+  });
+
+  it('should call updateProject in project service and return projects', async () => {
+    const field = 'name';
+    const value = 'Project 1 EDITED';
+    const userId = 1;
+    const projectId = 1;
+    const updatedProject = {
+      id: 1,
+      name: 'Project 1 EDITED',
+      description: '',
+      features: [],
+    };
+
+    mockProjectsService.updateProject.mockResolvedValue(updatedProject);
+
+    const result = await service.updateProject(field, value, userId, projectId);
+    expect(result).toEqual(updatedProject);
+    expect(mockProjectsService.updateProject).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.updateProject).toHaveBeenCalledWith(
+      field,
+      value,
+      userId,
+      projectId,
+    );
+  });
+
+  it('should call deleteProject in project service', async () => {
+    const projectId = 1;
+    const userId = 1;
+
+    mockProjectsService.deleteProject.mockResolvedValue('project deleted');
+
+    const result = await service.deleteProject(projectId, userId);
+    expect(result).toEqual('project deleted');
+    expect(mockProjectsService.deleteProject).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.deleteProject).toHaveBeenCalledWith(
+      projectId,
       userId,
     );
   });
