@@ -143,9 +143,9 @@ export class ProjectsService {
     const projectToUpdate = await this.projectsRepository.findOneBy({ id });
 
     projectToUpdate[field] = value;
-    const updatedProject = await this.projectsRepository.save(projectToUpdate);
+    await this.projectsRepository.save(projectToUpdate);
 
-    return await this.getProjectById(updatedProject.id);
+    return await this.getProjectById(id);
   }
 
   async deleteProject(id: number) {

@@ -4,7 +4,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { ProjectsService } from './projects.service';
 import { Project } from './entities/project.entity';
 import { Feature } from '../features/entities/feature.entity';
-import { BadRequestException } from '@nestjs/common';
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
@@ -12,6 +11,7 @@ describe('ProjectsService', () => {
   const mockProjectsRepository = {
     find: jest.fn(),
     findOne: jest.fn(),
+    findOneBy: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
   };
@@ -1075,7 +1075,6 @@ describe('ProjectsService', () => {
   it('updateProject => updates a project name and returns the project with statuses', async () => {
     const field = 'name';
     const value = 'Project 1 - Edited';
-    const userId = 15;
     const projectId = 1;
 
     const projectToUpdate = {
@@ -1105,23 +1104,17 @@ describe('ProjectsService', () => {
       features: [] as Feature[],
     };
 
-    jest
-      .spyOn(mockProjectsRepository, 'findOne')
-      .mockReturnValueOnce(projectToUpdate);
-    jest.spyOn(mockProjectsRepository, 'save').mockReturnValue(updatedProject);
-    jest
-      .spyOn(mockProjectsRepository, 'findOne')
-      .mockReturnValueOnce(projectWithRelations);
+    mockProjectsRepository.findOneBy.mockReturnValue(projectToUpdate);
+    // It doesn't matter what the return value is as we do not use it
+    mockProjectsRepository.save.mockReturnValue({});
+    mockProjectsRepository.findOne.mockReturnValueOnce(projectWithRelations);
 
-    const result = await service.updateProject(field, value, userId, projectId);
+    const result = await service.updateProject(field, value, projectId);
 
     expect(result).toEqual(projectWithRelationsAndStatuses);
-    expect(mockProjectsRepository.findOne).toHaveBeenCalled();
-    expect(mockProjectsRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
+    expect(mockProjectsRepository.findOneBy).toHaveBeenCalled();
+    expect(mockProjectsRepository.findOneBy).toHaveBeenCalledWith({
+      id: projectId,
     });
     expect(mockProjectsRepository.findOne).toHaveBeenLastCalledWith({
       where: { id: projectId },
@@ -1143,13 +1136,12 @@ describe('ProjectsService', () => {
       ],
     });
     expect(mockProjectsRepository.save).toHaveBeenCalled();
-    expect(mockProjectsRepository.save).toHaveBeenCalledWith(projectToUpdate);
+    expect(mockProjectsRepository.save).toHaveBeenCalledWith(updatedProject);
   });
 
   it('updateProject => updates a project description and returns the project with statuses', async () => {
     const field = 'description';
     const value = 'p1 description - Edited';
-    const userId = 15;
     const projectId = 1;
 
     const projectToUpdate = {
@@ -1179,25 +1171,20 @@ describe('ProjectsService', () => {
       features: [] as Feature[],
     };
 
-    jest
-      .spyOn(mockProjectsRepository, 'findOne')
-      .mockReturnValueOnce(projectToUpdate);
-    jest.spyOn(mockProjectsRepository, 'save').mockReturnValue(updatedProject);
-    jest
-      .spyOn(mockProjectsRepository, 'findOne')
-      .mockReturnValueOnce(projectWithRelations);
+    mockProjectsRepository.findOneBy.mockReturnValue(projectToUpdate);
+    // It doesn't matter what the return value is as we do not use it
+    mockProjectsRepository.save.mockReturnValue({});
+    mockProjectsRepository.findOne.mockReturnValueOnce(projectWithRelations);
 
-    const result = await service.updateProject(field, value, userId, projectId);
+    const result = await service.updateProject(field, value, projectId);
 
     expect(result).toEqual(projectWithRelationsAndStatuses);
+    expect(mockProjectsRepository.findOneBy).toHaveBeenCalled();
+    expect(mockProjectsRepository.findOneBy).toHaveBeenCalledWith({
+      id: projectId,
+    });
     expect(mockProjectsRepository.findOne).toHaveBeenCalled();
     expect(mockProjectsRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
-    });
-    expect(mockProjectsRepository.findOne).toHaveBeenLastCalledWith({
       where: { id: projectId },
       order: {
         features: {
@@ -1217,78 +1204,20 @@ describe('ProjectsService', () => {
       ],
     });
     expect(mockProjectsRepository.save).toHaveBeenCalled();
-    expect(mockProjectsRepository.save).toHaveBeenCalledWith(projectToUpdate);
-  });
-
-  it('updateProject => throws an error when project is not found', async () => {
-    const field = 'name';
-    const value = 'Project 1 - Edited';
-    const userId = 100;
-    const projectId = 1;
-
-    jest.spyOn(mockProjectsRepository, 'findOne').mockReturnValue(undefined);
-
-    expect(async () => {
-      await service.updateProject(field, value, userId, projectId);
-    }).rejects.toThrow(BadRequestException);
-    expect(mockProjectsRepository.findOne).toHaveBeenCalled();
-    expect(mockProjectsRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
-    });
+    expect(mockProjectsRepository.save).toHaveBeenCalledWith(updatedProject);
   });
 
   it('deleteProject => should delete a project and return the delete project information', async () => {
     const projectId = 1;
-    const userId = 15;
 
-    const projectToDelete = {
-      id: 1,
-      name: 'Project 1',
-      description: 'p1 description',
-    };
+    mockProjectsRepository.delete.mockReturnValue({ affected: 1 });
 
-    const deleteResult = {
-      raw: [],
-      affected: 1,
-    };
+    const result = await service.deleteProject(projectId);
 
-    jest
-      .spyOn(mockProjectsRepository, 'findOne')
-      .mockReturnValue(projectToDelete);
-    jest.spyOn(mockProjectsRepository, 'delete').mockReturnValue(deleteResult);
-
-    const result = await service.deleteProject(projectId, userId);
-
-    expect(result).toEqual(deleteResult);
-    expect(mockProjectsRepository.findOne).toHaveBeenCalled();
-    expect(mockProjectsRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
-    });
+    expect(result).toEqual({ affected: 1 });
     expect(mockProjectsRepository.delete).toHaveBeenCalled();
-    expect(mockProjectsRepository.delete).toHaveBeenCalledWith(projectToDelete);
-  });
-
-  it('deleteProject => throws an error when project is not found', async () => {
-    const projectId = 1;
-    const userId = 100;
-
-    jest.spyOn(mockProjectsRepository, 'findOne').mockReturnValue(undefined);
-
-    expect(async () => {
-      await service.deleteProject(projectId, userId);
-    }).rejects.toThrow(BadRequestException);
-    expect(mockProjectsRepository.findOne).toHaveBeenCalled();
-    expect(mockProjectsRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
+    expect(mockProjectsRepository.delete).toHaveBeenCalledWith({
+      id: projectId,
     });
   });
 });
