@@ -7,6 +7,7 @@ import { FeaturesService } from '../features/features.service';
 import { UserStoriesService } from '../userStories/userStories.service';
 import { TasksService } from '../tasks/tasks.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
+import { ReviewDTO } from './auth.controller';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -168,6 +169,83 @@ describe('AuthService', () => {
       id,
       'photo',
       'photourl.com',
+    );
+  });
+
+  it('should call submitReview in review service', async () => {
+    const review: ReviewDTO = {
+      rating: 5,
+      comments: 'Great project!',
+      displayName: 'Callie Stoscup',
+      userId: 1,
+    };
+
+    mockReviewService.submitReview.mockResolvedValue([review]);
+
+    const result = await service.submitReview(review);
+    expect(result).toEqual([review]);
+    expect(mockReviewService.submitReview).toHaveBeenCalledTimes(1);
+    expect(mockReviewService.submitReview).toHaveBeenCalledWith(review);
+  });
+
+  it('should call getUserProjects in project service', async () => {
+    const userId = 1;
+    const projects = [];
+
+    mockProjectsService.getUserProjects.mockResolvedValue(projects);
+
+    const result = await service.getUserProjects(userId);
+    expect(result).toEqual(projects);
+    expect(mockProjectsService.getUserProjects).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getUserProjects).toHaveBeenCalledWith(userId);
+  });
+
+  it('should call getProject in project service and return a project', async () => {
+    const userId = 1;
+    const id = 1;
+    const project = {
+      id,
+      name: 'Project 1',
+      description: 'Description 1',
+      features: [],
+    };
+
+    mockProjectsService.getProjectById.mockResolvedValue(project);
+
+    const result = await service.getProject(userId, id);
+    expect(result).toEqual(project);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(id, userId);
+  });
+
+  it('should throw an error if project is not found', async () => {
+    const userId = 1;
+    const id = 1;
+
+    mockProjectsService.getProjectById.mockResolvedValue(null);
+
+    await expect(service.getProject(userId, id)).rejects.toThrow(
+      'You do not have access to that project.',
+    );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(id, userId);
+  });
+
+  it('should call createProject in project service', async () => {
+    const name = 'Project 1';
+    const description = 'Description 1';
+    const userId = 1;
+    const projects = [{ id: 1, name, description, features: [] }];
+
+    mockProjectsService.createProject.mockResolvedValue(projects);
+
+    const result = await service.createProject(name, description, userId);
+    expect(result).toEqual(projects);
+    expect(mockProjectsService.createProject).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.createProject).toHaveBeenCalledWith(
+      name,
+      description,
+      userId,
     );
   });
 });

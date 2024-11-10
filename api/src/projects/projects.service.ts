@@ -92,9 +92,11 @@ export class ProjectsService {
     });
   }
 
-  async getProjectById(id: number): Promise<any> {
+  async getProjectById(id: number, userId?: number): Promise<any> {
+    const whereClause = userId ? { id, user: { id: userId } } : { id };
+
     const project = await this.projectsRepository.findOne({
-      where: { id },
+      where: whereClause,
       order: {
         features: {
           id: 'ASC',

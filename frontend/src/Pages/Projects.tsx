@@ -1,10 +1,10 @@
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
-import { Data } from "./Profile";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import CreateProjectAccordion from "../Components/Projects/CreateProjectAccordion";
 import { useState } from "react";
 import { Feature } from "./Project";
 import ProjectBox from "../Components/Projects/ProjectBox";
+import { Context } from "../App";
 
 export type Project = {
   id: number;
@@ -15,13 +15,12 @@ export type Project = {
 };
 
 type LoaderData = {
-  user: Data;
   projects: Project[];
 };
 
 const Projects = () => {
   const data = useLoaderData() as LoaderData;
-  const user = data.user as Data;
+  const { user } = useOutletContext() as Context;
   const [isLargerThan825] = useMediaQuery("(min-width: 825px)");
 
   const [projects, setProjects] = useState(data.projects);
