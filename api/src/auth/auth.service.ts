@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { ReviewService } from '../review/review.service';
 import { FeaturesService } from '../features/features.service';
@@ -65,48 +70,38 @@ export class AuthService {
   }
 
   async createFeature(name: string, description: string, projectId: number) {
-    return await this.featuresService.createFeature(
-      name,
-      description,
-      projectId,
-    );
+    await this.featuresService.createFeature(name, description, projectId);
+    return await this.projectsService.getProjectById(projectId);
   }
 
   async updateFeature(field: string, value: string, featureId: number) {
-    return await this.featuresService.updateFeature(field, value, featureId);
+    await this.featuresService.updateFeature(field, value, featureId);
+    return await this.projectsService.getProjectById(featureId);
   }
 
   async deleteFeature(featureId: number) {
-    return await this.featuresService.deleteFeature(featureId);
+    await this.featuresService.deleteFeature(featureId);
+    return await this.projectsService.getProjectById(featureId);
   }
 
   async createUserStory(
     name: string,
     description: string,
-    userId: number,
     projectId: number,
     featureId: number,
   ) {
-    const projects = await this.projectsService.getUserProjects(userId);
-    const project = projects.find((project) => project.id === projectId);
+    const featureExistsInProject =
+      await this.featuresService.checkIfFeatureExistsInProject(
+        featureId,
+        projectId,
+      );
 
-    if (project) {
-      const features = project.features;
-      const feature = features.find((feature) => feature.id === featureId);
-
-      if (feature) {
-        await this.userStoriesService.createUserStory(
-          name,
-          description,
-          featureId,
-        );
-        return await this.projectsService.getProjectById(projectId);
-      } else {
-        throw new UnauthorizedException('Unauthorized');
-      }
-    } else {
-      throw new UnauthorizedException('Unauthorized');
+    if (!featureExistsInProject) {
+      throw new NotFoundException('Feature does not exist in project');
     }
+
+    await this.userStoriesService.createUserStory(name, description, featureId);
+    return await this.projectsService.getProjectById(projectId);
   }
 
   async updateUserStory(

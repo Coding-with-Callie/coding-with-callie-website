@@ -255,11 +255,10 @@ export class AuthController {
   }
 
   @Post('create-user-story')
-  createUserStory(@Body() userStoryDto: UserStoryDto, @Request() req) {
+  createUserStory(@Body() userStoryDto: UserStoryDto) {
     return this.authService.createUserStory(
       userStoryDto.name,
       userStoryDto.description,
-      req.user.sub,
       userStoryDto.projectId,
       userStoryDto.featureId,
     );

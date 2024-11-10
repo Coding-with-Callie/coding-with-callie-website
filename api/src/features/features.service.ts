@@ -1,33 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Feature } from './entities/feature.entity';
-import { ProjectsService } from '../projects/projects.service';
 
 @Injectable()
 export class FeaturesService {
   constructor(
     @InjectRepository(Feature)
     private featuresRepository: Repository<Feature>,
-    private projectsService: ProjectsService,
   ) {}
 
-  async getProjectFeatures(id: number) {
-    return await this.featuresRepository.find({
-      where: { project: { id } },
+  async checkIfFeatureExistsInProject(id: number, projectId: number) {
+    const feature = await this.featuresRepository.findOne({
+      where: { id, project: { id: projectId } },
       relations: ['userStories'],
     });
+
+    if (!feature) {
+      return false;
+    }
+
+    return true;
   }
 
   async createFeature(name: string, description: string, projectId: number) {
-    await this.featuresRepository.save({
+    return await this.featuresRepository.save({
       name,
       description,
       project: {
         id: projectId,
       },
     });
-    return await this.projectsService.getProjectById(projectId);
   }
 
   async updateFeature(field: string, value: string, id: number) {
@@ -38,10 +41,12 @@ export class FeaturesService {
       relations: ['project'],
     });
 
-    featureToUpdate[field] = value;
-    const updatedFeature = await this.featuresRepository.save(featureToUpdate);
+    if (!featureToUpdate) {
+      throw new NotFoundException('Feature not found');
+    }
 
-    return await this.projectsService.getProjectById(updatedFeature.project.id);
+    featureToUpdate[field] = value;
+    return await this.featuresRepository.save(featureToUpdate);
   }
 
   async deleteFeature(id: number) {
@@ -52,8 +57,10 @@ export class FeaturesService {
       relations: ['project'],
     });
 
-    await this.featuresRepository.delete(featureToDelete);
+    if (!featureToDelete) {
+      throw new NotFoundException('Feature not found');
+    }
 
-    return this.projectsService.getProjectById(featureToDelete.project.id);
+    return await this.featuresRepository.delete(featureToDelete);
   }
 }
