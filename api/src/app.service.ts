@@ -85,8 +85,7 @@ export class AppService {
     }
   }
 
-  // create password reset JWT
-  async forgotPassword(email: string) {
+  async sendPasswordResetEmail(email: string) {
     const user = await this.usersService.findOneByEmail(email);
     if (user === null) {
       throw new UnauthorizedException();
@@ -107,9 +106,8 @@ export class AppService {
     return { message: 'Password reset email sent' };
   }
 
-  // check password reset token
-  async getProfileReset(token, id) {
-    const user = await this.usersService.findOneById(id);
+  async getLongTermToken(token: string, id: number) {
+    const user = await this.usersService.getUser(id);
 
     try {
       await this.jwtService.verifyAsync(token, {
@@ -120,7 +118,7 @@ export class AppService {
     } finally {
       return await this.jwtService.signAsync(
         {
-          sub: user.id,
+          sub: id,
           username: user.username,
         },
         {

@@ -74,13 +74,13 @@ export class AppController {
   }
 
   @Get('profile/:token/:id')
-  getProfileReset(@Param('token') token: string, @Param('id') id: number) {
-    return this.appService.getProfileReset(token, id);
+  getLongTermToken(@Param('token') token: string, @Param('id') id: number) {
+    return this.appService.getLongTermToken(token, id);
   }
 
   @Post('forgot-password')
-  forgotPassword(@Body() body: Email) {
-    return this.appService.forgotPassword(body.email);
+  sendPasswordResetEmail(@Body() body: Email) {
+    return this.appService.sendPasswordResetEmail(body.email);
   }
 
   @Get('resources')

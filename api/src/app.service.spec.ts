@@ -34,7 +34,7 @@ describe('AppService', () => {
     checkIfEmailExists: jest.fn(),
     findOneByUsername: jest.fn(),
     findOneByEmail: jest.fn(),
-    findOneById: jest.fn(),
+    getUser: jest.fn(),
     createUser: jest.fn().mockResolvedValue({}),
   };
 
@@ -225,7 +225,7 @@ describe('AppService', () => {
     }
   });
 
-  it('should call forgotPassword and send a password reset email', async () => {
+  it('should call sendPasswordResetEmail', async () => {
     const email = 'email';
     const user = {
       id: 1,
@@ -239,25 +239,25 @@ describe('AppService', () => {
       projects: [],
     };
     mockUsersService.findOneByEmail.mockResolvedValue(user);
-    const response = await service.forgotPassword(email);
+    const response = await service.sendPasswordResetEmail(email);
     expect(mockUsersService.findOneByEmail).toHaveBeenCalled();
     expect(mockJwtService.signAsync).toHaveBeenCalled();
     expect(mockMailService.sendPasswordResetEmail).toHaveBeenCalled();
     expect(response.message).toEqual('Password reset email sent');
   });
 
-  it('should call forgotPassword and throw an error when user does not exist', async () => {
+  it('should call sendPasswordResetEmail and throw an error when user does not exist', async () => {
     const email = 'email';
     mockUsersService.findOneByEmail.mockResolvedValue(null);
     try {
-      await service.forgotPassword(email);
+      await service.sendPasswordResetEmail(email);
     } catch (error) {
       expect(error.status).toEqual(401);
       expect(error.message).toEqual('Unauthorized');
     }
   });
 
-  it('should call getProfileReset and return a token', async () => {
+  it('should call getLongTermToken and return a token', async () => {
     const token = 'token';
     const id = 1;
 
@@ -273,16 +273,16 @@ describe('AppService', () => {
       projects: [],
     };
 
-    mockUsersService.findOneById.mockResolvedValue(user);
+    mockUsersService.getUser.mockResolvedValue(user);
     mockJwtService.verifyAsync.mockResolvedValue({});
-    const response = await service.getProfileReset(token, id);
-    expect(mockUsersService.findOneById).toHaveBeenCalled();
+    const response = await service.getLongTermToken(token, id);
+    expect(mockUsersService.getUser).toHaveBeenCalled();
     expect(mockJwtService.verifyAsync).toHaveBeenCalled();
     expect(mockJwtService.signAsync).toHaveBeenCalled();
     expect(response).toEqual('token');
   });
 
-  it('should call getProfileReset and throw an error when token is invalid', async () => {
+  it('should call getLongTermToken and throw an error when token is invalid', async () => {
     const token = 'invalid token';
     const id = 1;
 
@@ -298,12 +298,12 @@ describe('AppService', () => {
       projects: [],
     };
 
-    mockUsersService.findOneById.mockResolvedValue(user);
+    mockUsersService.getUser.mockResolvedValue(user);
     jest
       .spyOn(mockJwtService, 'verifyAsync')
       .mockRejectedValue(new Error('Invalid token'));
     try {
-      await service.getProfileReset(token, id);
+      await service.getLongTermToken(token, id);
     } catch (error) {
       expect(error.status).toEqual(401);
       expect(error.message).toEqual('Unauthorized');

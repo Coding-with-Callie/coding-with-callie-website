@@ -57,6 +57,10 @@ export class UsersService {
     });
   }
 
+  async getUser(id: number) {
+    return await this.usersRepository.findOneBy({ id });
+  }
+
   async findOneByEmail(email: string) {
     return await this.usersRepository
       .createQueryBuilder()

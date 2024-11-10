@@ -6,7 +6,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { TasksService } from '../tasks/tasks.service';
 import { UserStoriesService } from '../userStories/userStories.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { hashPassword } from '../helpers/helpers';
+import { ReviewDTO } from './auth.controller';
 
 @Injectable()
 export class AuthService {
@@ -40,7 +40,7 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, 'photo', photoUrl);
   }
 
-  async submitReview(review) {
+  async submitReview(review: ReviewDTO) {
     return await this.reviewService.submitReview(review);
   }
 
