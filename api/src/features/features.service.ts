@@ -2,12 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Feature } from './entities/feature.entity';
+import { ProjectsService } from '../projects/projects.service';
 
 @Injectable()
 export class FeaturesService {
   constructor(
     @InjectRepository(Feature)
     private featuresRepository: Repository<Feature>,
+    private projectsService: ProjectsService,
   ) {}
 
   async getProjectFeatures(id: number) {
@@ -17,7 +19,23 @@ export class FeaturesService {
     });
   }
 
-  async createFeature(name: string, description: string, projectId: number) {
+  async createFeature(
+    name: string,
+    description: string,
+    projectId: number,
+    userId: number,
+  ) {
+    const isOwner = await this.projectsService.checkProjectOwnership(
+      projectId,
+      userId,
+    );
+
+    if (!isOwner) {
+      throw new BadRequestException(
+        'You cannot create a feature for that project',
+      );
+    }
+
     await this.featuresRepository.save({
       name,
       description,
@@ -25,7 +43,7 @@ export class FeaturesService {
         id: projectId,
       },
     });
-    return await this.getProjectFeatures(projectId);
+    return await this.projectsService.getProjectById(projectId);
   }
 
   async updateFeature(
@@ -42,15 +60,14 @@ export class FeaturesService {
       relations: ['project'],
     });
 
-    if (featureToUpdate) {
-      featureToUpdate[field] = value;
-      const updatedFeature =
-        await this.featuresRepository.save(featureToUpdate);
-
-      return updatedFeature.project.id;
-    } else {
+    if (!featureToUpdate) {
       throw new BadRequestException('You cannot edit that feature');
     }
+
+    featureToUpdate[field] = value;
+    const updatedFeature = await this.featuresRepository.save(featureToUpdate);
+
+    return updatedFeature.project.id;
   }
 
   async deleteFeature(featureId: number, userId: number) {

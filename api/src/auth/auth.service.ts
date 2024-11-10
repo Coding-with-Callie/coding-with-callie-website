@@ -77,18 +77,15 @@ export class AuthService {
   async createFeature(
     name: string,
     description: string,
-    userId: number,
     projectId: number,
+    userId: number,
   ) {
-    const projects = await this.projectsService.getUserProjects(userId);
-    const project = projects.find((project) => project.id === projectId);
-
-    if (project) {
-      await this.featuresService.createFeature(name, description, projectId);
-      return await this.projectsService.getProjectById(projectId);
-    } else {
-      throw new UnauthorizedException('Unauthorized');
-    }
+    return await this.featuresService.createFeature(
+      name,
+      description,
+      projectId,
+      userId,
+    );
   }
 
   async updateFeature(

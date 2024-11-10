@@ -92,6 +92,18 @@ export class ProjectsService {
     });
   }
 
+  async checkProjectOwnership(projectId: number, userId: number) {
+    const project = await this.projectsRepository.findOne({
+      where: { id: projectId, user: { id: userId } },
+    });
+
+    if (!project) {
+      return false;
+    }
+
+    return true;
+  }
+
   async getProjectById(id: number, userId?: number): Promise<any> {
     const whereClause = userId ? { id, user: { id: userId } } : { id };
 
@@ -165,10 +177,10 @@ export class ProjectsService {
       },
     });
 
-    if (projectToDelete) {
-      return await this.projectsRepository.delete(projectToDelete);
-    } else {
+    if (!projectToDelete) {
       throw new BadRequestException('You cannot delete that project');
     }
+
+    return await this.projectsRepository.delete(projectToDelete);
   }
 }

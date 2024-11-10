@@ -28,6 +28,7 @@ describe('AuthService', () => {
     updateProject: jest.fn(),
     deleteProject: jest.fn(),
     getProjectById: jest.fn(),
+    checkProjectOwnership: jest.fn(),
   };
 
   const mockFeaturesService = {
@@ -271,6 +272,37 @@ describe('AuthService', () => {
     expect(result).toEqual('project deleted');
     expect(mockProjectsService.deleteProject).toHaveBeenCalledTimes(1);
     expect(mockProjectsService.deleteProject).toHaveBeenCalledWith(
+      projectId,
+      userId,
+    );
+  });
+
+  it('should call createFeature in feature service', async () => {
+    const name = 'Feature 1';
+    const description = 'Description 1';
+    const projectId = 1;
+    const userId = 1;
+
+    const updatedProject = {
+      id: 1,
+      name: 'Project 1',
+      description: '',
+      features: [{ id: 1, name: 'Feature 1', description: '' }],
+    };
+
+    mockFeaturesService.createFeature.mockResolvedValue(updatedProject);
+
+    const result = await service.createFeature(
+      name,
+      description,
+      projectId,
+      userId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(mockFeaturesService.createFeature).toHaveBeenCalledTimes(1);
+    expect(mockFeaturesService.createFeature).toHaveBeenCalledWith(
+      name,
+      description,
       projectId,
       userId,
     );

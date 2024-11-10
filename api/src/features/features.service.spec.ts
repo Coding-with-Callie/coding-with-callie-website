@@ -4,6 +4,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { FeaturesService } from './features.service';
 import { Feature } from './entities/feature.entity';
 import { BadRequestException } from '@nestjs/common';
+import { ProjectsService } from '../projects/projects.service';
+import { mock } from 'node:test';
 
 describe('FeaturesService', () => {
   let service: FeaturesService;
@@ -15,6 +17,11 @@ describe('FeaturesService', () => {
     delete: jest.fn(),
   };
 
+  const mockProjectsService = {
+    checkProjectOwnership: jest.fn(),
+    getProjectById: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -22,6 +29,10 @@ describe('FeaturesService', () => {
         {
           provide: getRepositoryToken(Feature),
           useValue: mockFeatureRepository,
+        },
+        {
+          provide: ProjectsService,
+          useValue: mockProjectsService,
         },
       ],
     }).compile();
@@ -62,45 +73,30 @@ describe('FeaturesService', () => {
     });
   });
 
-  it("createFeature => should add a feature to a project and return a list of that project's features", async () => {
-    const name = 'Feature 3';
-    const description = 'f3 description';
+  it('createFeature => should add a feature to a project and return a list of the updated project', async () => {
+    const name = 'Feature 1';
+    const description = 'f1 description';
     const projectId = 1;
+    const userId = 1;
 
-    const savedFeature = {
-      id: 3,
-      name: 'Feature 3',
-      description: 'f3 description',
-      userStories: [],
-    } as Feature;
+    const project = {
+      id: 1,
+      name: 'Project 1',
+      features: [{ id: 1, name: 'Feature 1', description: 'f1 description' }],
+    };
 
-    const features = [
-      {
-        id: 1,
-        name: 'Feature 1',
-        description: 'f1 description',
-        userStories: [],
-      },
-      {
-        id: 2,
-        name: 'Feature 2',
-        description: 'f2 description',
-        userStories: [],
-      },
-      {
-        id: 3,
-        name: 'Feature 3',
-        description: 'f3 description',
-        userStories: [],
-      },
-    ] as Feature[];
+    mockProjectsService.checkProjectOwnership.mockReturnValue(true);
+    mockFeatureRepository.save.mockReturnValue({});
+    mockProjectsService.getProjectById.mockReturnValue(project);
 
-    jest.spyOn(mockFeatureRepository, 'save').mockReturnValue(savedFeature);
-    jest.spyOn(mockFeatureRepository, 'find').mockReturnValue(features);
+    const result = await service.createFeature(
+      name,
+      description,
+      projectId,
+      userId,
+    );
 
-    const result = await service.createFeature(name, description, projectId);
-
-    expect(result).toEqual(features);
+    expect(result).toEqual(project);
     expect(mockFeatureRepository.save).toHaveBeenCalled();
     expect(mockFeatureRepository.save).toHaveBeenCalledWith({
       name,
