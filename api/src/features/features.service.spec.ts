@@ -48,7 +48,6 @@ describe('FeaturesService', () => {
     expect(mockFeatureRepository.findOne).toHaveBeenCalled();
     expect(mockFeatureRepository.findOne).toHaveBeenCalledWith({
       where: { id: featureId, project: { id: projectId } },
-      relations: ['userStories'],
     });
   });
 
@@ -67,7 +66,6 @@ describe('FeaturesService', () => {
     expect(mockFeatureRepository.findOne).toHaveBeenCalled();
     expect(mockFeatureRepository.findOne).toHaveBeenCalledWith({
       where: { id: featureId, project: { id: projectId } },
-      relations: ['userStories'],
     });
   });
 

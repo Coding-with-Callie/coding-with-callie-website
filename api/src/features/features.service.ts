@@ -13,7 +13,6 @@ export class FeaturesService {
   async checkIfFeatureExistsInProject(id: number, projectId: number) {
     const feature = await this.featuresRepository.findOne({
       where: { id, project: { id: projectId } },
-      relations: ['userStories'],
     });
 
     if (!feature) {

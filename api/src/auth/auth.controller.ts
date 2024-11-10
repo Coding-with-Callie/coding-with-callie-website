@@ -74,12 +74,6 @@ export class UserStoryDto {
   @IsOptional()
   @Transform((params) => sanitizeHTML(params.value))
   description: string;
-
-  @IsNotEmpty()
-  projectId: number;
-
-  @IsNotEmpty()
-  featureId: number;
 }
 
 export class TaskDto {
@@ -254,13 +248,18 @@ export class AuthController {
     return this.authService.deleteFeature(featureId);
   }
 
-  @Post('create-user-story')
-  createUserStory(@Body() userStoryDto: UserStoryDto) {
+  @UseGuards(ProjectAccessGuard)
+  @Post('project/:id/feature/:featureId/user-story')
+  createUserStory(
+    @Param('id') id: number,
+    @Param('featureId') featureId: number,
+    @Body() userStoryDto: UserStoryDto,
+  ) {
     return this.authService.createUserStory(
       userStoryDto.name,
       userStoryDto.description,
-      userStoryDto.projectId,
-      userStoryDto.featureId,
+      id,
+      featureId,
     );
   }
 

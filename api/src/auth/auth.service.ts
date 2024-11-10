@@ -89,13 +89,12 @@ export class AuthService {
     projectId: number,
     featureId: number,
   ) {
-    const featureExistsInProject =
-      await this.featuresService.checkIfFeatureExistsInProject(
-        featureId,
-        projectId,
-      );
+    const exists = await this.featuresService.checkIfFeatureExistsInProject(
+      featureId,
+      projectId,
+    );
 
-    if (!featureExistsInProject) {
+    if (!exists) {
       throw new NotFoundException('Feature does not exist in project');
     }
 

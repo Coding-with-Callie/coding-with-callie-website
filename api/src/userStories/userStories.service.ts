@@ -24,6 +24,7 @@ export class UserStoriesService {
         id: featureId,
       },
     });
+
     return await this.getFeatureUserStories(featureId);
   }
 

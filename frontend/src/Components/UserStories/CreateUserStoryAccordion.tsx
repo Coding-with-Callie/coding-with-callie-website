@@ -55,11 +55,9 @@ const CreateUserStoryAccordion = ({
       setIsOpen(false);
 
       axiosPrivate
-        .post("/create-user-story", {
+        .post(`/project/${projectId}/feature/${featureId}/user-story`, {
           name,
           description,
-          projectId,
-          featureId,
         })
         .then((response) => {
           setProject(response.data);
