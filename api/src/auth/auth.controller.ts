@@ -170,8 +170,8 @@ export class AuthController {
   }
 
   @Post('submit-review')
-  async submitReview(@Body() review: ReviewDTO) {
-    return await this.authService.submitReview(review);
+  async submitReviewAndReturnUpdatedReviews(@Body() review: ReviewDTO) {
+    return await this.authService.submitReviewAndReturnUpdatedReviews(review);
   }
 
   @Get('project')
@@ -186,8 +186,11 @@ export class AuthController {
   }
 
   @Post('project')
-  createProject(@Body() projectDto: ProjectDto, @Request() req) {
-    return this.authService.createProject(
+  createProjectAndReturnUpdatedProjects(
+    @Body() projectDto: ProjectDto,
+    @Request() req,
+  ) {
+    return this.authService.createProjectAndReturnUpdatedProjects(
       projectDto.name,
       projectDto.description,
       req.user.sub,
@@ -196,11 +199,11 @@ export class AuthController {
 
   @UseGuards(ProjectAccessGuard)
   @Patch('project/:id')
-  updateProject(
+  updateProjectAndReturnUpdatedProject(
     @Param('id') id: number,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
-    return this.authService.updateProject(
+    return this.authService.updateProjectAndReturnUpdatedProject(
       updateProjectDto.field,
       updateProjectDto.value,
       id,
@@ -219,7 +222,7 @@ export class AuthController {
     @Param('id') projectId: number,
     @Body() featureDto: FeatureDto,
   ) {
-    return this.authService.createFeature(
+    return this.authService.createFeatureAndReturnUpdatedProject(
       featureDto.name,
       featureDto.description,
       projectId,
@@ -228,11 +231,11 @@ export class AuthController {
 
   @UseGuards(ProjectAccessGuard)
   @Patch('project/:id/feature/:featureId')
-  updateFeature(
+  updateFeatureAndReturnUpdatedProject(
     @Param('featureId') featureId: number,
     @Body() updateFeatureDto: UpdateFeatureDto,
   ) {
-    return this.authService.updateFeature(
+    return this.authService.updateFeatureAndReturnUpdatedProject(
       updateFeatureDto.field,
       updateFeatureDto.value,
       featureId,
@@ -241,18 +244,18 @@ export class AuthController {
 
   @UseGuards(ProjectAccessGuard)
   @Delete('project/:id/feature/:featureId')
-  deleteFeature(@Param('featureId') featureId: number) {
-    return this.authService.deleteFeature(featureId);
+  deleteFeatureAndReturnUpdatedProject(@Param('featureId') featureId: number) {
+    return this.authService.deleteFeatureAndReturnUpdatedProject(featureId);
   }
 
   @UseGuards(ProjectAccessGuard)
   @Post('project/:id/feature/:featureId/user-story')
-  createUserStory(
+  createUserStoryAndReturnUpdatedProject(
     @Param('id') id: number,
     @Param('featureId') featureId: number,
     @Body() userStoryDto: UserStoryDto,
   ) {
-    return this.authService.createUserStory(
+    return this.authService.createUserStoryAndReturnUpdatedProject(
       userStoryDto.name,
       userStoryDto.description,
       id,
@@ -262,12 +265,12 @@ export class AuthController {
 
   @UseGuards(ProjectAccessGuard)
   @Patch('project/:id/feature/:featureId/user-story/:userStoryId')
-  updateUserStory(
+  updateUserStoryAndReturnUpdatedProject(
     @Param('userStoryId') userStoryId: number,
     @Param('id') projectId: number,
     @Body() updateUserStoryDto: UpdateUserStoryDto,
   ) {
-    return this.authService.updateUserStory(
+    return this.authService.updateUserStoryAndReturnUpdatedProject(
       updateUserStoryDto.field,
       updateUserStoryDto.value,
       userStoryId,
@@ -275,9 +278,16 @@ export class AuthController {
     );
   }
 
-  @Post('delete-user-story')
-  deleteUserStory(@Body('userStoryId') userStoryId: number, @Request() req) {
-    return this.authService.deleteUserStory(userStoryId, req.user.sub);
+  @UseGuards(ProjectAccessGuard)
+  @Delete('project/:id/feature/:featureId/user-story/:userStoryId')
+  deleteUserStoryAndReturnUpdatedProject(
+    @Param('userStoryId') userStoryId: number,
+    @Param('id') projectId: number,
+  ) {
+    return this.authService.deleteUserStoryAndReturnUpdatedProject(
+      userStoryId,
+      projectId,
+    );
   }
 
   @Post('create-task')

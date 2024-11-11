@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserStory } from './entities/userStory.entity';
 
 @Injectable()
@@ -67,21 +67,17 @@ export class UserStoriesService {
     return 'User story updated';
   }
 
-  async deleteUserStory(userStoryId: number, userId: number) {
+  async deleteUserStory(id: number) {
     const storyToDelete = await this.userStoriesRepository.findOne({
-      where: {
-        id: userStoryId,
-        feature: { project: { user: { id: userId } } },
-      },
-      relations: ['feature', 'feature.project'],
+      where: { id },
     });
 
-    if (storyToDelete) {
-      await this.userStoriesRepository.delete(storyToDelete);
-
-      return storyToDelete.feature.project.id;
-    } else {
+    if (!storyToDelete) {
       throw new BadRequestException('You cannot delete that user story');
     }
+
+    await this.userStoriesRepository.delete(storyToDelete);
+
+    return { message: 'User story deleted' };
   }
 }

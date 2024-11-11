@@ -44,8 +44,12 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, 'photo', photoUrl);
   }
 
-  async submitReview(review: ReviewDTO) {
-    return await this.reviewService.submitReview(review);
+  async submitReviewAndReturnUpdatedReviews(review: ReviewDTO) {
+    // Submit the review
+    await this.reviewService.submitReview(review);
+
+    // Return the updated reviews
+    return await this.reviewService.getAllReviews();
   }
 
   async getUserProjects(userId: number) {
@@ -56,39 +60,74 @@ export class AuthService {
     return await this.projectsService.getProjectById(id);
   }
 
-  async createProject(name: string, description: string, userId: number) {
-    return await this.projectsService.createProject(name, description, userId);
+  async createProjectAndReturnUpdatedProjects(
+    name: string,
+    description: string,
+    userId: number,
+  ) {
+    // Create the project
+    await this.projectsService.createProject(name, description, userId);
+
+    // Return the updated projects
+    return await this.projectsService.getUserProjects(userId);
   }
 
-  async updateProject(field: string, value: string, projectId: number) {
-    return await this.projectsService.updateProject(field, value, projectId);
-  }
+  async updateProjectAndReturnUpdatedProject(
+    field: string,
+    value: string,
+    projectId: number,
+  ) {
+    // Update the project
+    await this.projectsService.updateProject(field, value, projectId);
 
-  async deleteProject(projectId: number) {
-    return await this.projectsService.deleteProject(projectId);
-  }
-
-  async createFeature(name: string, description: string, projectId: number) {
-    await this.featuresService.createFeature(name, description, projectId);
+    // Return the updated project with statuses
     return await this.projectsService.getProjectById(projectId);
   }
 
-  async updateFeature(field: string, value: string, featureId: number) {
+  async deleteProject(projectId: number) {
+    // Delete the project and return success message
+    return await this.projectsService.deleteProject(projectId);
+  }
+
+  async createFeatureAndReturnUpdatedProject(
+    name: string,
+    description: string,
+    projectId: number,
+  ) {
+    // Create the feature
+    await this.featuresService.createFeature(name, description, projectId);
+
+    // Return the updated project
+    return await this.projectsService.getProjectById(projectId);
+  }
+
+  async updateFeatureAndReturnUpdatedProject(
+    field: string,
+    value: string,
+    featureId: number,
+  ) {
+    // Update the feature
     await this.featuresService.updateFeature(field, value, featureId);
+
+    // Return the updated project
     return await this.projectsService.getProjectById(featureId);
   }
 
-  async deleteFeature(featureId: number) {
+  async deleteFeatureAndReturnUpdatedProject(featureId: number) {
+    // Delete the feature
     await this.featuresService.deleteFeature(featureId);
+
+    // Return the updated project
     return await this.projectsService.getProjectById(featureId);
   }
 
-  async createUserStory(
+  async createUserStoryAndReturnUpdatedProject(
     name: string,
     description: string,
     projectId: number,
     featureId: number,
   ) {
+    // Check if the feature exists in the project
     const exists = await this.featuresService.checkIfFeatureExistsInProject(
       featureId,
       projectId,
@@ -98,25 +137,34 @@ export class AuthService {
       throw new NotFoundException('Feature does not exist in project');
     }
 
+    // Create the user story
     await this.userStoriesService.createUserStory(name, description, featureId);
+
+    // Return the updated project
     return await this.projectsService.getProjectById(projectId);
   }
 
-  async updateUserStory(
+  async updateUserStoryAndReturnUpdatedProject(
     field: string,
     value: string,
     userStoryId: number,
     projectId: number,
   ) {
+    // Update the user story
     await this.userStoriesService.updateUserStory(field, value, userStoryId);
+
+    // Return the updated project
     return await this.projectsService.getProjectById(projectId);
   }
 
-  async deleteUserStory(userStoryId: number, userId: number) {
-    const projectId = await this.userStoriesService.deleteUserStory(
-      userStoryId,
-      userId,
-    );
+  async deleteUserStoryAndReturnUpdatedProject(
+    userStoryId: number,
+    projectId: number,
+  ) {
+    // Delete the user story
+    await this.userStoriesService.deleteUserStory(userStoryId);
+
+    // Return the updated project
     return await this.projectsService.getProjectById(projectId);
   }
 

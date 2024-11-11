@@ -317,63 +317,42 @@ describe('UserStoriesService', () => {
     });
   });
 
-  it('deleteUserStory => deletes the user story found by the passed in id and returns the associated project id', async () => {
+  it('deleteUserStory => deletes the user story found by the passed in id', async () => {
     const userStoryId = 11;
-    const userId = 15;
 
-    const story = {
-      id: 11,
-      name: 'User Story 11',
-      description: 'us 11 description',
-      feature: {
-        id: 4,
-        project: {
-          id: 2,
-        },
-      },
-    } as UserStory;
+    const userStoryToDelete = {} as UserStory;
 
-    const deleteResult = {
-      raw: [],
-      affected: 1,
-    };
+    mockUserStoriesRepository.findOne.mockReturnValue(userStoryToDelete);
+    mockUserStoriesRepository.delete.mockReturnValue({});
 
-    jest.spyOn(mockUserStoriesRepository, 'findOne').mockReturnValue(story);
-    jest
-      .spyOn(mockUserStoriesRepository, 'delete')
-      .mockReturnValue(deleteResult);
+    const result = await service.deleteUserStory(userStoryId);
 
-    const result = await service.deleteUserStory(userStoryId, userId);
-
-    expect(result).toEqual(2);
+    expect(result).toEqual({ message: 'User story deleted' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
-      relations: ['feature', 'feature.project'],
     });
     expect(mockUserStoriesRepository.delete).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.delete).toHaveBeenCalledWith(story);
+    expect(mockUserStoriesRepository.delete).toHaveBeenCalledWith(
+      userStoryToDelete,
+    );
   });
 
   it('deleteUserStory => throws an error when a user story is not found', async () => {
     const userStoryId = 11;
-    const userId = 100;
 
-    jest.spyOn(mockUserStoriesRepository, 'findOne').mockReturnValue(undefined);
+    mockUserStoriesRepository.findOne.mockReturnValue(undefined);
 
     expect(async () => {
-      await service.deleteUserStory(userStoryId, userId);
+      await service.deleteUserStory(userStoryId);
     }).rejects.toThrow(BadRequestException);
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
-      relations: ['feature', 'feature.project'],
     });
   });
 });

@@ -42,6 +42,6 @@ export class ReviewService {
       user,
     });
 
-    return await this.getAllReviews();
+    return { message: 'Review submitted successfully' };
   }
 }

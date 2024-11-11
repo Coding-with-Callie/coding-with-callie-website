@@ -136,7 +136,7 @@ export class ProjectsService {
         id: userId,
       },
     });
-    return await this.getUserProjects(userId);
+    return { message: 'Project created' };
   }
 
   async updateProject(field: string, value: string, id: number): Promise<any> {
@@ -148,8 +148,7 @@ export class ProjectsService {
 
     projectToUpdate[field] = value;
     await this.projectsRepository.save(projectToUpdate);
-
-    return await this.getProjectById(id);
+    return { message: 'Project updated' };
   }
 
   async deleteProject(id: number) {
@@ -159,6 +158,7 @@ export class ProjectsService {
       throw new NotFoundException('Project not found');
     }
 
-    return await this.projectsRepository.delete({ id });
+    await this.projectsRepository.delete({ id });
+    return { message: 'Project deleted' };
   }
 }
