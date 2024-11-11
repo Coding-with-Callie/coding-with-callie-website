@@ -153,7 +153,7 @@ export class ProjectsService {
   }
 
   async deleteProject(id: number) {
-    const project = await this.projectsRepository.findOne({ id });
+    const project = await this.projectsRepository.findOneBy({ id });
 
     if (!project) {
       throw new NotFoundException('Project not found');

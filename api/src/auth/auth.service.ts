@@ -105,15 +105,10 @@ export class AuthService {
   async updateUserStory(
     field: string,
     value: string,
-    userId: number,
     userStoryId: number,
+    projectId: number,
   ) {
-    const projectId = await this.userStoriesService.updateUserStory(
-      field,
-      value,
-      userId,
-      userStoryId,
-    );
+    await this.userStoriesService.updateUserStory(field, value, userStoryId);
     return await this.projectsService.getProjectById(projectId);
   }
 

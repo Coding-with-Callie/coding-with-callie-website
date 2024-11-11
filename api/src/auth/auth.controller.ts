@@ -110,9 +110,6 @@ export class UpdateUserStoryDto {
   // @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   value: string;
-
-  @IsNotEmpty()
-  userStoryId: number;
 }
 
 export class UpdateFeatureDto {
@@ -263,16 +260,18 @@ export class AuthController {
     );
   }
 
-  @Post('update-user-story')
+  @UseGuards(ProjectAccessGuard)
+  @Patch('project/:id/feature/:featureId/user-story/:userStoryId')
   updateUserStory(
+    @Param('userStoryId') userStoryId: number,
+    @Param('id') projectId: number,
     @Body() updateUserStoryDto: UpdateUserStoryDto,
-    @Request() req,
   ) {
     return this.authService.updateUserStory(
       updateUserStoryDto.field,
       updateUserStoryDto.value,
-      req.user.sub,
-      updateUserStoryDto.userStoryId,
+      userStoryId,
+      projectId,
     );
   }
 

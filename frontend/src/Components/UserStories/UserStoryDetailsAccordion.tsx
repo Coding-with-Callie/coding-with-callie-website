@@ -108,11 +108,13 @@ const UserStoryDetailsAccordion = ({
     }
 
     axiosPrivate
-      .post("/update-user-story", {
-        field,
-        value,
-        userStoryId,
-      })
+      .patch(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`,
+        {
+          field,
+          value,
+        }
+      )
       .then((response) => {
         setProject(response.data);
         setUpdateStoryName(false);
