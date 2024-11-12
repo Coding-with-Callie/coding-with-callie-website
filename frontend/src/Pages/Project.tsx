@@ -144,7 +144,7 @@ const Project = () => {
       .delete(`/project/${project.id}`)
       .then(() => {
         onClose();
-        navigate("/project");
+        navigate("/projects");
         toast({
           title: "Success",
           description: "Your project has been deleted!",

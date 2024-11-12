@@ -191,33 +191,36 @@ export class AuthService {
     return await this.getProject(projectId);
   }
 
-  async updateTask(
+  async updateTaskAndReturnTaskCompletionRatio(
     field: string,
     value: string,
-    userId: number,
     taskId: number,
-  ): Promise<any> {
-    const userStoryId = await this.tasksService.updateTask(
-      field,
-      value,
-      userId,
-      taskId,
-    );
+    userStoryId: number,
+  ) {
+    // Update the task
+    await this.tasksService.updateTask(field, value, taskId);
+
+    // Return user story status (completed tasks over total tasks)
     return await this.userStoriesService.getUserStoryStatusById(userStoryId);
   }
 
-  async deleteTask(taskId: number, userId: number) {
-    const userStoryId = await this.tasksService.deleteTask(taskId, userId);
+  async deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
+    taskId: number,
+    userStoryId: number,
+  ) {
+    // Delete the task
+    await this.tasksService.deleteTask(taskId);
 
+    // Get user story status (completed tasks over total tasks)
     const storyStatus =
       await this.userStoriesService.getUserStoryStatusById(userStoryId);
 
-    const updatedUserStory =
-      await this.userStoriesService.getUserStoryById(userStoryId);
+    // Get the updated tasks for the user story
+    const updatedTasks = await this.tasksService.getUserStoryTasks(userStoryId);
 
     return {
       storyStatus,
-      taskList: updatedUserStory.tasks,
+      taskList: updatedTasks,
     };
   }
 }

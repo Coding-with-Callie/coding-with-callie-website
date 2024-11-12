@@ -26,45 +26,30 @@ export class TasksService {
     return { message: 'Task created' };
   }
 
-  async updateTask(
-    field: string,
-    value: string,
-    userId: number,
-    taskId: number,
-  ) {
+  async updateTask(field: string, value: string, id: number) {
     const taskToUpdate = await this.tasksRepository.findOne({
-      where: {
-        id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
-      },
+      where: { id },
       relations: ['userStory'],
     });
 
-    if (taskToUpdate) {
-      taskToUpdate[field] = value;
-      await this.tasksRepository.save(taskToUpdate);
-
-      return taskToUpdate.userStory.id;
-    } else {
-      throw new BadRequestException('You cannot edit that task');
+    if (!taskToUpdate) {
+      throw new BadRequestException('Task not found');
     }
+
+    taskToUpdate[field] = value;
+    await this.tasksRepository.save(taskToUpdate);
+
+    return { message: 'Task updated' };
   }
 
-  async deleteTask(taskId: number, userId: number) {
-    const taskToDelete = await this.tasksRepository.findOne({
-      where: {
-        id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
-      },
-      relations: ['userStory'],
-    });
+  async deleteTask(id: number) {
+    const taskToDelete = await this.tasksRepository.findOneBy({ id });
 
-    if (taskToDelete) {
-      await this.tasksRepository.delete(taskToDelete);
-
-      return taskToDelete.userStory.id;
-    } else {
-      throw new BadRequestException('You cannot delete that task');
+    if (!taskToDelete) {
+      throw new BadRequestException('Task not found');
     }
+
+    await this.tasksRepository.delete(taskToDelete);
+    return { message: 'Task deleted' };
   }
 }

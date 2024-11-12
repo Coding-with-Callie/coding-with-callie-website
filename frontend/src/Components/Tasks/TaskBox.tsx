@@ -17,9 +17,19 @@ type Props = {
   task: Task;
   setStoryStatus: React.Dispatch<React.SetStateAction<string>>;
   setTaskList: React.Dispatch<React.SetStateAction<Task[]>>;
+  projectId: number;
+  featureId: number;
+  userStoryId: number;
 };
 
-const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
+const TaskBox = ({
+  task,
+  setStoryStatus,
+  setTaskList,
+  projectId,
+  featureId,
+  userStoryId,
+}: Props) => {
   const toast = useToast();
   const navigate = useNavigate();
   const [isLargerThan920] = useMediaQuery("(min-width: 920px)");
@@ -55,11 +65,13 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
     }
 
     axiosPrivate
-      .post("/update-task", {
-        field,
-        value,
-        taskId: task.id,
-      })
+      .patch(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task/${task.id}`,
+        {
+          field,
+          value,
+        }
+      )
       .then((response) => {
         setStoryStatus(response.data);
         setUpdateName(false);

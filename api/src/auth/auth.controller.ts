@@ -89,9 +89,6 @@ export class UpdateTaskDto {
   // @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   value: string;
-
-  @IsNotEmpty()
-  taskId: number;
 }
 
 export class UpdateUserStoryDto {
@@ -283,7 +280,7 @@ export class AuthController {
 
   @UseGuards(ProjectAccessGuard)
   @Post('project/:id/feature/:featureId/user-story/:userStoryId/task')
-  createTask(
+  createTaskAndReturnUpdatedProject(
     @Param('id') projectId: number,
     @Param('featureId') featureId: number,
     @Param('userStoryId') userStoryId: number,
@@ -297,18 +294,30 @@ export class AuthController {
     );
   }
 
-  @Post('update-task')
-  updateTask(@Body() updateTaskDto: UpdateTaskDto, @Request() req) {
-    return this.authService.updateTask(
+  @UseGuards(ProjectAccessGuard)
+  @Patch('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
+  updateTaskAndReturnTaskCompletionRatio(
+    @Param('taskId') taskId: number,
+    @Param('userStoryId') userStoryId: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.authService.updateTaskAndReturnTaskCompletionRatio(
       updateTaskDto.field,
       updateTaskDto.value,
-      req.user.sub,
-      updateTaskDto.taskId,
+      taskId,
+      userStoryId,
     );
   }
 
-  @Post('delete-task')
-  deleteTask(@Body('taskId') taskId: number, @Request() req) {
-    return this.authService.deleteTask(taskId, req.user.sub);
+  @UseGuards(ProjectAccessGuard)
+  @Delete('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
+  deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
+    @Param('taskId') taskId: number,
+    @Param('userStoryId') userStoryId: number,
+  ) {
+    return this.authService.deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
+      taskId,
+      userStoryId,
+    );
   }
 }

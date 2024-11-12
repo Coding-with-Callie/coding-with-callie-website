@@ -54,12 +54,15 @@ export class UserStoriesService {
   async getUserStoryStatusById(id: number) {
     const userStory = await this.getUserStoryById(id);
 
-    const tasks = userStory.tasks;
-    const taskCount = tasks.length;
-    const completedTasks = tasks.filter((task) => task.status === 'Done!');
-    const completedTasksLength = completedTasks.length;
+    if (!userStory) {
+      throw new NotFoundException('User story not found');
+    }
 
-    return `${completedTasksLength}/${taskCount}`;
+    const completedTasks = userStory.tasks.filter(
+      (task) => task.status === 'Done!',
+    );
+
+    return `${completedTasks.length}/${userStory.tasks.length}`;
   }
 
   async updateUserStory(field: string, value: string, userStoryId: number) {

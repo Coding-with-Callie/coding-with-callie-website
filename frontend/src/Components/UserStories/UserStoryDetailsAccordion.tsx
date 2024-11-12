@@ -344,6 +344,9 @@ const UserStoryDetailsAccordion = ({
                           task={task}
                           setStoryStatus={setStoryStatus}
                           setTaskList={setTaskList}
+                          projectId={projectId}
+                          featureId={featureId}
+                          userStoryId={userStoryId}
                         />
                       );
                     })}
