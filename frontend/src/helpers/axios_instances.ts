@@ -1,7 +1,4 @@
 import axios from "axios";
-import { showNotification } from "..";
-import { toast } from "react-toastify";
-import { redirect } from "react-router-dom";
 
 const host =
   process.env.REACT_APP_ENV === "production"
