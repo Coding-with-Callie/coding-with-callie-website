@@ -13,13 +13,6 @@ export class UserStoriesService {
     @InjectRepository(UserStory)
     private userStoriesRepository: Repository<UserStory>,
   ) {}
-
-  async getFeatureUserStories(id: number) {
-    return await this.userStoriesRepository.find({
-      where: { feature: { id } },
-    });
-  }
-
   async checkIfUserStoryExistsInFeatureInProject(
     userStoryId: number,
     featureId: number,

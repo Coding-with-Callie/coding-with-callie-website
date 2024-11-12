@@ -38,38 +38,6 @@ describe('UserStoriesService', () => {
     expect(service).toBeDefined();
   });
 
-  it('getFeatureUserStories => should find user stories corresponding to a feature id', async () => {
-    const id = 3;
-    const userStories = [
-      {
-        id: 11,
-        name: 'User Story 11',
-        description: 'us description 11',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 12,
-        name: 'User Story 12',
-        description: 'us description 12',
-        feature: {
-          id: 3,
-        },
-      },
-    ] as UserStory[];
-
-    jest.spyOn(mockUserStoriesRepository, 'find').mockReturnValue(userStories);
-
-    const result = await service.getFeatureUserStories(id);
-
-    expect(result).toEqual(userStories);
-    expect(mockUserStoriesRepository.find).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.find).toHaveBeenCalledWith({
-      where: { feature: { id } },
-    });
-  });
-
   it('createUserStory => save the user story that is passed in and return the list of user stories for the feature id that was passed in', async () => {
     const name = 'User Story 13';
     const description = 'us description 13';
