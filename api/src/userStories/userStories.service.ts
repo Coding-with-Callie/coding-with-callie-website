@@ -20,6 +20,25 @@ export class UserStoriesService {
     });
   }
 
+  async checkIfUserStoryExistsInFeatureInProject(
+    userStoryId: number,
+    featureId: number,
+    projectId: number,
+  ) {
+    const userStory = await this.userStoriesRepository.findOne({
+      where: {
+        id: userStoryId,
+        feature: { id: featureId, project: { id: projectId } },
+      },
+    });
+
+    if (!userStory) {
+      return false;
+    }
+
+    return true;
+  }
+
   async createUserStory(name: string, description: string, featureId: number) {
     await this.userStoriesRepository.save({
       name,
@@ -29,7 +48,7 @@ export class UserStoriesService {
       },
     });
 
-    return await this.getFeatureUserStories(featureId);
+    return { message: 'User story created' };
   }
 
   async getUserStoryById(id: number) {
@@ -64,7 +83,7 @@ export class UserStoriesService {
 
     storyToUpdate[field] = value;
     await this.userStoriesRepository.save(storyToUpdate);
-    return 'User story updated';
+    return { message: 'User story updated' };
   }
 
   async deleteUserStory(id: number) {

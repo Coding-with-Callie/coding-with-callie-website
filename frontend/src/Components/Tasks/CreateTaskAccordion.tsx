@@ -51,12 +51,10 @@ const CreateTaskAccordion = ({
       setIsOpen(false);
 
       axiosPrivate
-        .post("/create-task", {
-          name,
-          projectId,
-          featureId,
-          userStoryId,
-        })
+        .post(
+          `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task`,
+          { name }
+        )
         .then((response) => {
           setProject(response.data);
           setName("");

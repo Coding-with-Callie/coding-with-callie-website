@@ -29,6 +29,11 @@ describe('UserStoriesService', () => {
     service = module.get<UserStoriesService>(UserStoriesService);
   });
 
+  // Clear all mocks after each test
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -70,50 +75,13 @@ describe('UserStoriesService', () => {
     const description = 'us description 13';
     const featureId = 3;
 
-    const savedUserStory = {
-      id: 13,
-      name: 'User Story 13',
-      description: 'us description 13',
-      feature: {
-        id: 3,
-      },
-    } as UserStory;
+    const savedUserStory = {} as UserStory;
 
-    const userStories = [
-      {
-        id: 11,
-        name: 'User Story 11',
-        description: 'us description 11',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 12,
-        name: 'User Story 12',
-        description: 'us description 12',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 13,
-        name: 'User Story 13',
-        description: 'us description 13',
-        feature: {
-          id: 3,
-        },
-      },
-    ] as UserStory[];
-
-    jest
-      .spyOn(mockUserStoriesRepository, 'save')
-      .mockReturnValue(savedUserStory);
-    jest.spyOn(mockUserStoriesRepository, 'find').mockReturnValue(userStories);
+    mockUserStoriesRepository.save.mockReturnValue(savedUserStory);
 
     const result = await service.createUserStory(name, description, featureId);
 
-    expect(result).toEqual(userStories);
+    expect(result).toEqual({ message: 'User story created' });
     expect(mockUserStoriesRepository.save).toHaveBeenCalled();
     expect(mockUserStoriesRepository.save).toHaveBeenCalledWith({
       name,
@@ -121,10 +89,6 @@ describe('UserStoriesService', () => {
       feature: {
         id: featureId,
       },
-    });
-    expect(mockUserStoriesRepository.find).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.find).toHaveBeenCalledWith({
-      where: { feature: { id: featureId } },
     });
   });
 
@@ -238,7 +202,7 @@ describe('UserStoriesService', () => {
 
     const result = await service.updateUserStory(field, value, userStoryId);
 
-    expect(result).toEqual('User story updated');
+    expect(result).toEqual({ message: 'User story updated' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
@@ -286,7 +250,7 @@ describe('UserStoriesService', () => {
 
     const result = await service.updateUserStory(field, value, userStoryId);
 
-    expect(result).toEqual('User story updated');
+    expect(result).toEqual({ message: 'User story updated' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {

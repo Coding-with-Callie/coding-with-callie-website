@@ -23,7 +23,7 @@ export class AuthService {
     private tasksService: TasksService,
     private fileUploadService: FileUploadService,
   ) {}
-  async getUserProfile(id: number) {
+  async getFrontendFriendlyUser(id: number) {
     return await this.usersService.getFrontendFriendlyUser(id);
   }
 
@@ -69,7 +69,7 @@ export class AuthService {
     await this.projectsService.createProject(name, description, userId);
 
     // Return the updated projects
-    return await this.projectsService.getUserProjects(userId);
+    return await this.getUserProjects(userId);
   }
 
   async updateProjectAndReturnUpdatedProject(
@@ -81,7 +81,7 @@ export class AuthService {
     await this.projectsService.updateProject(field, value, projectId);
 
     // Return the updated project with statuses
-    return await this.projectsService.getProjectById(projectId);
+    return await this.getProject(projectId);
   }
 
   async deleteProject(projectId: number) {
@@ -98,7 +98,7 @@ export class AuthService {
     await this.featuresService.createFeature(name, description, projectId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(projectId);
+    return await this.getProject(projectId);
   }
 
   async updateFeatureAndReturnUpdatedProject(
@@ -110,7 +110,7 @@ export class AuthService {
     await this.featuresService.updateFeature(field, value, featureId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(featureId);
+    return await this.getProject(featureId);
   }
 
   async deleteFeatureAndReturnUpdatedProject(featureId: number) {
@@ -118,7 +118,7 @@ export class AuthService {
     await this.featuresService.deleteFeature(featureId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(featureId);
+    return await this.getProject(featureId);
   }
 
   async createUserStoryAndReturnUpdatedProject(
@@ -141,7 +141,7 @@ export class AuthService {
     await this.userStoriesService.createUserStory(name, description, featureId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(projectId);
+    return await this.getProject(projectId);
   }
 
   async updateUserStoryAndReturnUpdatedProject(
@@ -154,7 +154,7 @@ export class AuthService {
     await this.userStoriesService.updateUserStory(field, value, userStoryId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(projectId);
+    return await this.getProject(projectId);
   }
 
   async deleteUserStoryAndReturnUpdatedProject(
@@ -165,39 +165,34 @@ export class AuthService {
     await this.userStoriesService.deleteUserStory(userStoryId);
 
     // Return the updated project
-    return await this.projectsService.getProjectById(projectId);
+    return await this.getProject(projectId);
   }
 
-  async createTask(
+  async createTaskAndReturnUpdatedProject(
     name: string,
-    userId: number,
     projectId: number,
     featureId: number,
     userStoryId: number,
   ) {
-    const projects = await this.projectsService.getUserProjects(userId);
-    const project = projects.find((project) => project.id === projectId);
+    // Check if the user story exists in the feature in the project
+    const exists =
+      await this.userStoriesService.checkIfUserStoryExistsInFeatureInProject(
+        userStoryId,
+        featureId,
+        projectId,
+      );
 
-    if (project) {
-      const features = project.features;
-      const feature = features.find((feature) => feature.id === featureId);
-
-      if (feature) {
-        const userStories = feature.userStories;
-        const userStory = userStories.find((story) => story.id === userStoryId);
-
-        if (userStory) {
-          await this.tasksService.createTask(name, userStoryId);
-          return await this.projectsService.getProjectById(projectId);
-        } else {
-          throw new UnauthorizedException('Unauthorized');
-        }
-      } else {
-        throw new UnauthorizedException('Unauthorized');
-      }
-    } else {
-      throw new UnauthorizedException('Unauthorized');
+    if (!exists) {
+      throw new NotFoundException(
+        'User story does not exist in feature in project',
+      );
     }
+
+    // Create the task
+    await this.tasksService.createTask(name, userStoryId);
+
+    // Return the updated project
+    return await this.getProject(projectId);
   }
 
   async updateTask(

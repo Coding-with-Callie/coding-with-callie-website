@@ -8,8 +8,6 @@ import { UserStoriesService } from '../userStories/userStories.service';
 import { TasksService } from '../tasks/tasks.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { ReviewDTO } from './auth.controller';
-import { get } from 'http';
-import { mock } from 'node:test';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -93,7 +91,7 @@ describe('AuthService', () => {
 
     mockUsersService.getFrontendFriendlyUser.mockResolvedValue(user);
 
-    const result = await service.getUserProfile(id);
+    const result = await service.getFrontendFriendlyUser(id);
     expect(result).toEqual(user);
     expect(mockUsersService.getFrontendFriendlyUser).toHaveBeenCalledTimes(1);
     expect(mockUsersService.getFrontendFriendlyUser).toHaveBeenCalledWith(id);

@@ -59,60 +59,22 @@ describe('TasksService', () => {
     });
   });
 
-  it('createTask => should return the tasks associated with the user story id that is passed in in addition to an extra task with name that was passed in', async () => {
+  it('createTask => create a task and return a success message', async () => {
     const name = 'Task 3';
     const userStoryId = 1;
-    const savedTask = {
-      id: 3,
-      name: 'Task 3',
-      status: 'To Do',
-      userStory: {
-        id: 1,
-      },
-    } as Task;
-    const tasks = [
-      {
-        id: 1,
-        name: 'Task 1',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-      {
-        id: 2,
-        name: 'Task 2',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-      {
-        id: 3,
-        name: 'Task 3',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-    ] as Task[];
+    const savedTask = {} as Task;
 
-    jest.spyOn(mockTaskRepository, 'save').mockReturnValue(savedTask);
-    jest.spyOn(mockTaskRepository, 'find').mockReturnValue(tasks);
+    mockTaskRepository.save.mockReturnValue(savedTask);
 
     const result = await service.createTask(name, userStoryId);
 
-    expect(result).toEqual(tasks);
+    expect(result).toEqual({ message: 'Task created' });
     expect(mockTaskRepository.save).toHaveBeenCalled();
     expect(mockTaskRepository.save).toHaveBeenCalledWith({
       name,
       userStory: {
         id: userStoryId,
       },
-    });
-    expect(mockTaskRepository.find).toHaveBeenCalled();
-    expect(mockTaskRepository.find).toHaveBeenCalledWith({
-      where: { userStory: { id: userStoryId } },
     });
   });
 

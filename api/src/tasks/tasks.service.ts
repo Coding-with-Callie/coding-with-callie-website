@@ -23,7 +23,7 @@ export class TasksService {
         id: userStoryId,
       },
     });
-    return await this.getUserStoryTasks(userStoryId);
+    return { message: 'Task created' };
   }
 
   async updateTask(

@@ -80,15 +80,6 @@ export class TaskDto {
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   name: string;
-
-  @IsNotEmpty()
-  projectId: number;
-
-  @IsNotEmpty()
-  featureId: number;
-
-  @IsNotEmpty()
-  userStoryId: number;
 }
 
 export class UpdateTaskDto {
@@ -137,12 +128,12 @@ export class AuthController {
 
   @Get('user-details')
   getUserDetailsForHeader(@Request() req) {
-    return this.authService.getUserProfile(req.user.sub);
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
   }
 
   @Get('profile')
   getUserProfile(@Request() req) {
-    return this.authService.getUserProfile(req.user.sub);
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
   }
 
   @Post('change-account-detail')
@@ -166,7 +157,7 @@ export class AuthController {
     @Query('id') id: number,
   ) {
     await this.authService.uploadProfileImage(id, file);
-    return this.authService.getUserProfile(id);
+    return this.authService.getFrontendFriendlyUser(id);
   }
 
   @Post('submit-review')
@@ -290,14 +281,19 @@ export class AuthController {
     );
   }
 
-  @Post('create-task')
-  createTask(@Body() taskDto: TaskDto, @Request() req) {
-    return this.authService.createTask(
+  @UseGuards(ProjectAccessGuard)
+  @Post('project/:id/feature/:featureId/user-story/:userStoryId/task')
+  createTask(
+    @Param('id') projectId: number,
+    @Param('featureId') featureId: number,
+    @Param('userStoryId') userStoryId: number,
+    @Body() taskDto: TaskDto,
+  ) {
+    return this.authService.createTaskAndReturnUpdatedProject(
       taskDto.name,
-      req.user.sub,
-      taskDto.projectId,
-      taskDto.featureId,
-      taskDto.userStoryId,
+      projectId,
+      featureId,
+      userStoryId,
     );
   }
 
