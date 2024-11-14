@@ -356,4 +356,27 @@ describe('AuthService', () => {
     expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
     expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(1);
   });
+
+  it('should call deleteFeature in feature service and getProjectById in project service', async () => {
+    const featureId = 1;
+    const projectId = 1;
+
+    const updatedProject = {
+      id: 1,
+      name: 'Project 1',
+      description: '',
+      features: [],
+    };
+
+    mockFeaturesService.deleteFeature.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result =
+      await service.deleteFeatureAndReturnUpdatedProject(featureId);
+    expect(result).toEqual(updatedProject);
+    expect(mockFeaturesService.deleteFeature).toHaveBeenCalledTimes(1);
+    expect(mockFeaturesService.deleteFeature).toHaveBeenCalledWith(featureId);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
 });
