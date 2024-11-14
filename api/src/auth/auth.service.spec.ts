@@ -8,6 +8,7 @@ import { UserStoriesService } from '../userStories/userStories.service';
 import { TasksService } from '../tasks/tasks.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { ReviewDTO } from './auth.controller';
+import { Project } from '../projects/entities/project.entity';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -36,6 +37,7 @@ describe('AuthService', () => {
     createFeature: jest.fn(),
     updateFeature: jest.fn(),
     deleteFeature: jest.fn(),
+    checkIfFeatureExistsInProject: jest.fn(),
   };
 
   const mockUserStoriesService = {
@@ -378,5 +380,64 @@ describe('AuthService', () => {
     expect(mockFeaturesService.deleteFeature).toHaveBeenCalledWith(featureId);
     expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
     expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call checkIfFeatureExistsInProject in feature service, createUserStory in user story service and getProjectById in project service', async () => {
+    const name = 'User Story 1';
+    const description = 'Description 1';
+    const projectId = 1;
+    const featureId = 1;
+
+    const updatedProject = {} as Project;
+
+    mockFeaturesService.checkIfFeatureExistsInProject.mockResolvedValue(true);
+    mockUserStoriesService.createUserStory.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result = await service.createUserStoryAndReturnUpdatedProject(
+      name,
+      description,
+      projectId,
+      featureId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(
+      mockFeaturesService.checkIfFeatureExistsInProject,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockFeaturesService.checkIfFeatureExistsInProject,
+    ).toHaveBeenCalledWith(featureId, projectId);
+    expect(mockUserStoriesService.createUserStory).toHaveBeenCalledTimes(1);
+    expect(mockUserStoriesService.createUserStory).toHaveBeenCalledWith(
+      name,
+      description,
+      featureId,
+    );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call checkIfFeatureExistsInProject in feature service and throw an error if feature does not exist', async () => {
+    const name = 'User Story 1';
+    const description = 'Description 1';
+    const projectId = 1;
+    const featureId = 1;
+
+    mockFeaturesService.checkIfFeatureExistsInProject.mockResolvedValue(false);
+
+    await expect(
+      service.createUserStoryAndReturnUpdatedProject(
+        name,
+        description,
+        projectId,
+        featureId,
+      ),
+    ).rejects.toThrowError('Feature does not exist in project');
+    expect(
+      mockFeaturesService.checkIfFeatureExistsInProject,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockFeaturesService.checkIfFeatureExistsInProject,
+    ).toHaveBeenCalledWith(featureId, projectId);
   });
 });
