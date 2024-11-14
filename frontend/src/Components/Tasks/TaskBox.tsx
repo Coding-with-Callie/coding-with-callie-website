@@ -122,10 +122,11 @@ const TaskBox = ({
 
   const deleteTask = () => {
     axiosPrivate
-      .post("/delete-task", {
-        taskId: task.id,
-      })
+      .delete(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task/${task.id}`
+      )
       .then((response) => {
+        console.log(response.data);
         setStoryStatus(response.data.storyStatus);
         setTaskList(response.data.taskList);
 

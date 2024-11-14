@@ -143,8 +143,8 @@ export class AuthController {
   }
 
   @Post('delete-account')
-  deleteAccount(@Body('id') id: number) {
-    return this.authService.deleteUser(id);
+  softDeleteUser(@Body('id') id: number) {
+    return this.authService.softDeleteUser(id);
   }
 
   @Post('upload-profile-image')

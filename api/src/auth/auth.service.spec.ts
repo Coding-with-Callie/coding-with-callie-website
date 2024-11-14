@@ -78,7 +78,7 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return a user profile', async () => {
+  it('should call getFrontendFriendlyUser in user service return a user profile', async () => {
     const id = 1;
     const user = {
       id,
@@ -97,7 +97,7 @@ describe('AuthService', () => {
     expect(mockUsersService.getFrontendFriendlyUser).toHaveBeenCalledWith(id);
   });
 
-  it('should call changeAccountDetail in user service', async () => {
+  it('should call changeAccountDetail in user service and return an updated user', async () => {
     const id = 1;
     const field = 'name';
     const value = 'EDITED NAME';
@@ -123,18 +123,18 @@ describe('AuthService', () => {
     );
   });
 
-  it('should call softDeleteUser in user service', async () => {
+  it('should call softDeleteUser in user service and return a success message', async () => {
     const id = 1;
 
     mockUsersService.softDeleteUser.mockResolvedValue('user deleted');
 
-    const result = await service.deleteUser(id);
+    const result = await service.softDeleteUser(id);
     expect(result).toEqual('user deleted');
     expect(mockUsersService.softDeleteUser).toHaveBeenCalledTimes(1);
     expect(mockUsersService.softDeleteUser).toHaveBeenCalledWith(id);
   });
 
-  it('should call uploadFile in file upload service', async () => {
+  it('should call uploadFile in file upload service and return a photoUrl', async () => {
     const file = {} as Express.Multer.File;
 
     const photoUrl = 'photourl.com';
@@ -174,7 +174,7 @@ describe('AuthService', () => {
     );
   });
 
-  it('should call submitReview in review service', async () => {
+  it('should call submitReview and getAllReviews in review service and return all reviews', async () => {
     const review: ReviewDTO = {
       rating: 5,
       comments: 'Great project!',
@@ -194,7 +194,7 @@ describe('AuthService', () => {
     expect(mockReviewService.getAllReviews).toHaveBeenCalledTimes(1);
   });
 
-  it('should call getUserProjects in project service', async () => {
+  it('should call getUserProjects in project service and return all user projects', async () => {
     const userId = 1;
     const projects = [];
 
@@ -206,7 +206,7 @@ describe('AuthService', () => {
     expect(mockProjectsService.getUserProjects).toHaveBeenCalledWith(userId);
   });
 
-  it('should call getProject in project service', async () => {
+  it('should call getProject in project service and return a project', async () => {
     const id = 1;
     const project = {
       id,
@@ -223,7 +223,7 @@ describe('AuthService', () => {
     expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(id);
   });
 
-  it('should call createProject in project service', async () => {
+  it('should call createProject and getUserProjects in project service and return all user projects', async () => {
     const name = 'Project 1';
     const description = 'Description 1';
     const userId = 1;
@@ -246,9 +246,11 @@ describe('AuthService', () => {
       description,
       userId,
     );
+    expect(mockProjectsService.getUserProjects).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getUserProjects).toHaveBeenCalledWith(userId);
   });
 
-  it('should call updateProject in project service and return updated project', async () => {
+  it('should call updateProject and getProject in project service and return updated project', async () => {
     const field = 'name';
     const value = 'Project 1 EDITED';
     const projectId = 1;
@@ -276,9 +278,11 @@ describe('AuthService', () => {
       value,
       projectId,
     );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
   });
 
-  it('should call deleteProject in project service', async () => {
+  it('should call deleteProject in project service and return a success message', async () => {
     const projectId = 1;
 
     mockProjectsService.deleteProject.mockResolvedValue({
@@ -320,5 +324,36 @@ describe('AuthService', () => {
     );
     expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
     expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call updateFeature in feature service and getProjectById in project service', async () => {
+    const field = 'name';
+    const value = 'Feature 1 EDITED';
+    const featureId = 1;
+
+    const updatedProject = {
+      id: 1,
+      name: 'Project 1',
+      description: '',
+      features: [{ id: 1, name: 'Feature 1 EDITED', description: '' }],
+    };
+
+    mockFeaturesService.updateFeature.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result = await service.updateFeatureAndReturnUpdatedProject(
+      field,
+      value,
+      featureId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(mockFeaturesService.updateFeature).toHaveBeenCalledTimes(1);
+    expect(mockFeaturesService.updateFeature).toHaveBeenCalledWith(
+      field,
+      value,
+      featureId,
+    );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(1);
   });
 });

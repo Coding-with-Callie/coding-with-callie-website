@@ -27,7 +27,7 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, field, value);
   }
 
-  async deleteUser(id: number) {
+  async softDeleteUser(id: number) {
     return await this.usersService.softDeleteUser(id);
   }
 
