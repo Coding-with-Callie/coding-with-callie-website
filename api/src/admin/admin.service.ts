@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { FileUploadService } from '../file_upload/file_upload.service';
 import { ResourceService } from '../resource/resource.service';
 import { ResourceDTO, SpeakerDTO } from './admin.controller';
 import { Speaker } from '../speakers/entities/speaker.entity';
@@ -8,7 +7,6 @@ import { SpeakersService } from '../speakers/speakers.service';
 @Injectable()
 export class AdminService {
   constructor(
-    private fileUploadService: FileUploadService,
     private resourceService: ResourceService,
     private speakersService: SpeakersService,
   ) {}
