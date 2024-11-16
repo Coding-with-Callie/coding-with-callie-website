@@ -46,12 +46,14 @@ describe('AuthService', () => {
     deleteUserStory: jest.fn(),
     getUserStoryStatusById: jest.fn(),
     getUserStoryById: jest.fn(),
+    checkIfUserStoryExistsInFeatureInProject: jest.fn(),
   };
 
   const mockTasksService = {
     createTask: jest.fn(),
     updateTask: jest.fn(),
     deleteTask: jest.fn(),
+    getUserStoryTasks: jest.fn(),
   };
 
   const mockFileUploadService = {
@@ -439,5 +441,173 @@ describe('AuthService', () => {
     expect(
       mockFeaturesService.checkIfFeatureExistsInProject,
     ).toHaveBeenCalledWith(featureId, projectId);
+    expect(mockUserStoriesService.createUserStory).not.toHaveBeenCalled();
+    expect(mockProjectsService.getProjectById).not.toHaveBeenCalled();
+  });
+
+  it('should call updateUserStory in user story service and getProjectById in project service', async () => {
+    const field = 'name';
+    const value = 'User Story 1 EDITED';
+    const userStoryId = 1;
+    const projectId = 1;
+
+    const updatedProject = {} as Project;
+
+    mockUserStoriesService.updateUserStory.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result = await service.updateUserStoryAndReturnUpdatedProject(
+      field,
+      value,
+      userStoryId,
+      projectId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(mockUserStoriesService.updateUserStory).toHaveBeenCalledTimes(1);
+    expect(mockUserStoriesService.updateUserStory).toHaveBeenCalledWith(
+      field,
+      value,
+      userStoryId,
+    );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call deleteUserStory in user story service and getProjectById in project service', async () => {
+    const userStoryId = 1;
+    const projectId = 1;
+
+    const updatedProject = {} as Project;
+
+    mockUserStoriesService.deleteUserStory.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result = await service.deleteUserStoryAndReturnUpdatedProject(
+      userStoryId,
+      projectId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(mockUserStoriesService.deleteUserStory).toHaveBeenCalledTimes(1);
+    expect(mockUserStoriesService.deleteUserStory).toHaveBeenCalledWith(
+      userStoryId,
+    );
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call checkIfUserStoryExistsInFeatureInProject in user story service, createTask in task service and getProjectById in project service', async () => {
+    const name = 'Task 1';
+    const projectId = 1;
+    const featureId = 1;
+    const userStoryId = 1;
+
+    const updatedProject = {} as Project;
+
+    mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject.mockResolvedValue(
+      true,
+    );
+    mockTasksService.createTask.mockResolvedValue({});
+    mockProjectsService.getProjectById.mockResolvedValue(updatedProject);
+
+    const result = await service.createTaskAndReturnUpdatedProject(
+      name,
+      projectId,
+      featureId,
+      userStoryId,
+    );
+    expect(result).toEqual(updatedProject);
+    expect(
+      mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject,
+    ).toHaveBeenCalledWith(userStoryId, featureId, projectId);
+    expect(mockTasksService.createTask).toHaveBeenCalledTimes(1);
+    expect(mockTasksService.createTask).toHaveBeenCalledWith(name, userStoryId);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledTimes(1);
+    expect(mockProjectsService.getProjectById).toHaveBeenCalledWith(projectId);
+  });
+
+  it('should call checkIfUserStoryExistsInFeatureInProject in user story service and throw an error if user story does not exist', async () => {
+    const name = 'Task 1';
+    const projectId = 1;
+    const featureId = 1;
+    const userStoryId = 1;
+
+    mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject.mockResolvedValue(
+      false,
+    );
+
+    await expect(
+      service.createTaskAndReturnUpdatedProject(
+        name,
+        projectId,
+        featureId,
+        userStoryId,
+      ),
+    ).rejects.toThrow('User story does not exist in feature in project');
+    expect(
+      mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject,
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      mockUserStoriesService.checkIfUserStoryExistsInFeatureInProject,
+    ).toHaveBeenCalledWith(userStoryId, featureId, projectId);
+    expect(mockTasksService.createTask).not.toHaveBeenCalled();
+    expect(mockProjectsService.getProjectById).not.toHaveBeenCalled();
+  });
+
+  it('should call updateTask in task service and getUserStoryStatusById', async () => {
+    const field = 'name';
+    const value = 'Task 1 EDITED';
+    const taskId = 1;
+    const userStoryId = 1;
+
+    mockTasksService.updateTask.mockResolvedValue({});
+    mockUserStoriesService.getUserStoryStatusById.mockResolvedValue('1/5');
+
+    const result = await service.updateTaskAndReturnTaskCompletionRatio(
+      field,
+      value,
+      taskId,
+      userStoryId,
+    );
+
+    expect(result).toEqual('1/5');
+    expect(mockTasksService.updateTask).toHaveBeenCalledTimes(1);
+    expect(mockTasksService.updateTask).toHaveBeenCalledWith(
+      field,
+      value,
+      taskId,
+    );
+    expect(mockUserStoriesService.getUserStoryStatusById).toHaveBeenCalledTimes(
+      1,
+    );
+    expect(mockUserStoriesService.getUserStoryStatusById).toHaveBeenCalledWith(
+      taskId,
+    );
+  });
+
+  it('should call deleteTask and getUserStoryTasks in task service and getUserStoryStatusById in user stories service', async () => {
+    const taskId = 1;
+    const userStoryId = 1;
+
+    mockTasksService.deleteTask.mockResolvedValue({});
+    mockUserStoriesService.getUserStoryStatusById.mockResolvedValue('1/5');
+
+    const result =
+      await service.deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
+        taskId,
+        userStoryId,
+      );
+
+    expect(result).toEqual({ storyStatus: '1/5', taskList: undefined });
+    expect(mockTasksService.deleteTask).toHaveBeenCalledTimes(1);
+    expect(mockTasksService.deleteTask).toHaveBeenCalledWith(taskId);
+    expect(mockUserStoriesService.getUserStoryStatusById).toHaveBeenCalledTimes(
+      1,
+    );
+    expect(mockUserStoriesService.getUserStoryStatusById).toHaveBeenCalledWith(
+      userStoryId,
+    );
   });
 });
