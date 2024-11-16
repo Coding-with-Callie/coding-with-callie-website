@@ -20,7 +20,7 @@ export class ReviewService {
     });
   }
 
-  async findReview(userId) {
+  async findReview(userId: number) {
     return await this.reviewRepository.find({
       where: {
         user: {
@@ -31,17 +31,7 @@ export class ReviewService {
   }
 
   async submitReview(review: ReviewDTO) {
-    const user = await this.reviewRepository.findOneBy({ id: review.userId });
-
-    if (!user) {
-      return null;
-    }
-
-    await this.reviewRepository.save({
-      ...review,
-      user,
-    });
-
-    return { message: 'Review submitted successfully' };
+    await this.reviewRepository.save(review);
+    return { message: 'Review submitted successfully.' };
   }
 }
