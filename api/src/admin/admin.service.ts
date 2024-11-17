@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ResourceService } from '../resource/resource.service';
 import { ResourceDTO, SpeakerDTO } from './admin.controller';
-import { Speaker } from '../speakers/entities/speaker.entity';
 import { SpeakersService } from '../speakers/speakers.service';
 
 @Injectable()
@@ -52,16 +51,34 @@ export class AdminService {
     return await this.resourceService.getResources();
   }
 
-  async createSpeaker(speaker: SpeakerDTO, file: Express.Multer.File) {
-    return await this.speakersService.createSpeaker(speaker, file);
+  async createSpeakerAndReturnUpdatedSpeakers(
+    speaker: SpeakerDTO,
+    file: Express.Multer.File,
+  ) {
+    // Create the speaker
+    await this.speakersService.createSpeaker(speaker, file);
+
+    // Return the updated speakers
+    return await this.speakersService.getSpeakers();
   }
 
-  async deleteSpeaker(id: number) {
-    const speaker = await this.speakersService.findOneById(id);
-    return await this.speakersService.deleteSpeaker(speaker);
+  async deleteSpeakerAndReturnUpdatedSpeakers(id: number) {
+    // Delete the speaker
+    await this.speakersService.deleteSpeaker(id);
+
+    // Return the updated speakers
+    return await this.speakersService.getSpeakers();
   }
 
-  async updateSpeaker(id: number, speaker: Speaker) {
-    return await this.speakersService.updateSpeaker(id, speaker);
+  async updateSpeakerAndReturnUpdatedSpeakers(
+    id: number,
+    speaker: SpeakerDTO,
+    file: Express.Multer.File,
+  ) {
+    // Update the speaker
+    await this.speakersService.updateSpeaker(id, speaker, file);
+
+    // Return the updated speakers
+    return await this.speakersService.getSpeakers();
   }
 }

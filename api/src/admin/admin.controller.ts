@@ -16,7 +16,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
-import { Speaker } from '../speakers/entities/speaker.entity';
 import { FileUploadService } from '../file_upload/file_upload.service';
 
 export class ResourceDTO {
@@ -123,52 +122,32 @@ export class AdminController {
 
   @UseInterceptors(FileInterceptor('file'))
   @Post('speaker')
-  async createSpeaker(
+  async createSpeakerAndReturnUpdatedSpeakers(
     @Body() speaker: SpeakerDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.adminService.createSpeaker(speaker, file);
+    return await this.adminService.createSpeakerAndReturnUpdatedSpeakers(
+      speaker,
+      file,
+    );
   }
 
   @Delete('speaker/:id')
-  async deleteSpeaker(@Param('id') id: number) {
-    return await this.adminService.deleteSpeaker(id);
+  async deleteSpeakerAndReturnUpdatedSpeakers(@Param('id') id: number) {
+    return await this.adminService.deleteSpeakerAndReturnUpdatedSpeakers(id);
   }
 
   @UseInterceptors(FileInterceptor('file'))
   @Put('speaker/:id')
-  async updateSpeaker(
+  async updateSpeakerAndReturnUpdatedSpeakers(
     @Param('id') id: number,
     @Body() speaker: SpeakerDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const speakerToSave = new Speaker();
-
-    if (file) {
-      speakerToSave.photoUrl = await this.fileUploadService.uploadFile(file);
-    }
-
-    speakerToSave.name = speaker.name;
-    speakerToSave.date = speaker.date;
-    speakerToSave.websiteUrl = speaker.websiteUrl;
-    speakerToSave.sessionRecordingUrl = speaker.sessionRecordingUrl;
-
-    if (typeof speaker.bioText === 'string') {
-      speakerToSave.bioText = speaker.bioText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    if (typeof speaker.sessionText === 'string') {
-      speakerToSave.sessionText = speaker.sessionText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.adminService.updateSpeaker(id, speakerToSave);
+    return await this.adminService.updateSpeakerAndReturnUpdatedSpeakers(
+      id,
+      speaker,
+      file,
+    );
   }
 }

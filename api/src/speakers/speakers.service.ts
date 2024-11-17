@@ -94,31 +94,49 @@ export class SpeakersService {
     });
   }
 
-  async deleteSpeaker(speakerToDelete) {
+  async deleteSpeaker(id: number) {
     // Delete the speaker
-    await this.speakersRepository.delete(speakerToDelete.id);
+    const result = await this.speakersRepository.delete(id);
+
+    // If no speaker was deleted, throw an error
+    if (result.affected === 0) {
+      throw new Error('Speaker not found');
+    }
 
     // Return a success message
     return { message: 'Speaker deleted successfully' };
   }
 
-  async updateSpeaker(id: number, speaker: Speaker) {
+  async updateSpeaker(
+    id: number,
+    speaker: SpeakerDTO,
+    file: Express.Multer.File,
+  ) {
     // Get the speaker to update
     const speakerToUpdate = await this.findOneById(id);
 
-    // Update the speaker to update's photoUrl, if a new photoUrl was provided
-    if (speaker.photoUrl) {
-      speakerToUpdate.photoUrl = speaker.photoUrl;
+    // If a new photo was uploaded, upload the photo to S3 and update the photoUrl
+    if (file) {
+      speakerToUpdate.photoUrl = await this.fileUploadService.uploadFile(file);
     }
 
-    // Update the rest of the speaker to update's properties
+    // Update the rest of the speaker's properties
     speakerToUpdate.name = speaker.name;
     speakerToUpdate.date = speaker.date;
-    speakerToUpdate.time = speaker.time;
-    speakerToUpdate.sessionText = speaker.sessionText;
-    speakerToUpdate.bioText = speaker.bioText;
     speakerToUpdate.websiteUrl = speaker.websiteUrl;
     speakerToUpdate.sessionRecordingUrl = speaker.sessionRecordingUrl;
+
+    speakerToUpdate.bioText = speaker.bioText
+      .replace(/\r\n/g, '\n') // Replace \r\n with \n
+      .split(/\n+/) // Split at one or more newlines
+      .map((item: string) => item.trim()) // Trim whitespace from each item
+      .filter((item: string) => item.length > 0); // Remove empty items
+
+    speakerToUpdate.sessionText = speaker.sessionText
+      .replace(/\r\n/g, '\n') // Replace \r\n with \n
+      .split(/\n+/) // Split at one or more newlines
+      .map((item: string) => item.trim()) // Trim whitespace from each item
+      .filter((item: string) => item.length > 0); // Remove empty items
 
     // Save the updated speaker
     await this.speakersRepository.save(speakerToUpdate);

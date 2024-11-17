@@ -2,8 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AdminService } from './admin.service';
 import { ResourceService } from '../resource/resource.service';
 import { SpeakersService } from '../speakers/speakers.service';
-import { ResourceDTO } from './admin.controller';
+import { ResourceDTO, SpeakerDTO } from './admin.controller';
 import { Resource } from '../resource/entities/resource.entity';
+import { Speaker } from '../speakers/entities/speaker.entity';
 
 describe('AdminService', () => {
   let service: AdminService;
@@ -20,6 +21,7 @@ describe('AdminService', () => {
     createSpeaker: jest.fn(),
     deleteSpeaker: jest.fn(),
     updateSpeaker: jest.fn(),
+    getSpeakers: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -121,5 +123,62 @@ describe('AdminService', () => {
     expect(mockResourceService.updateOrder).toHaveBeenCalled();
     expect(mockResourceService.updateOrder).toHaveBeenCalledWith(id, direction);
     expect(mockResourceService.getResources).toHaveBeenCalled();
+  });
+
+  it('should call createSpeaker and getSpeakers from speakers service', async () => {
+    const speaker = {} as SpeakerDTO;
+    const file = {} as Express.Multer.File;
+    const speakers = [{}] as Speaker[];
+
+    mockSpeakersService.createSpeaker.mockResolvedValue(speaker);
+    mockSpeakersService.getSpeakers.mockResolvedValue(speakers);
+
+    const result = await service.createSpeakerAndReturnUpdatedSpeakers(
+      speaker,
+      file,
+    );
+    expect(result).toEqual(speakers);
+    expect(mockSpeakersService.createSpeaker).toHaveBeenCalled();
+    expect(mockSpeakersService.createSpeaker).toHaveBeenCalledWith(
+      speaker,
+      file,
+    );
+    expect(mockSpeakersService.getSpeakers).toHaveBeenCalled();
+  });
+
+  it('should call deleteSpeaker and getSpeakers from speakers service', async () => {
+    const id = 1;
+    const speakers = [{}] as Speaker[];
+
+    mockSpeakersService.getSpeakers.mockResolvedValue(speakers);
+
+    const result = await service.deleteSpeakerAndReturnUpdatedSpeakers(id);
+    expect(result).toEqual(speakers);
+    expect(mockSpeakersService.deleteSpeaker).toHaveBeenCalled();
+    expect(mockSpeakersService.deleteSpeaker).toHaveBeenCalledWith(id);
+    expect(mockSpeakersService.getSpeakers).toHaveBeenCalled();
+  });
+
+  it('should call updateSpeaker and getSpeakers from speakers service', async () => {
+    const id = 1;
+    const speaker = {} as SpeakerDTO;
+    const file = {} as Express.Multer.File;
+    const speakers = [{}] as Speaker[];
+
+    mockSpeakersService.getSpeakers.mockResolvedValue(speakers);
+
+    const result = await service.updateSpeakerAndReturnUpdatedSpeakers(
+      id,
+      speaker,
+      file,
+    );
+    expect(result).toEqual(speakers);
+    expect(mockSpeakersService.updateSpeaker).toHaveBeenCalled();
+    expect(mockSpeakersService.updateSpeaker).toHaveBeenCalledWith(
+      id,
+      speaker,
+      file,
+    );
+    expect(mockSpeakersService.getSpeakers).toHaveBeenCalled();
   });
 });
