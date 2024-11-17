@@ -21,20 +21,35 @@ export class AdminService {
     return await this.resourceService.getResources();
   }
 
-  async deleteResource(id: number) {
-    return await this.resourceService.deleteResource(id);
+  async deleteResourceAndReturnUpdatedResources(id: number) {
+    // Delete the resource
+    await this.resourceService.deleteResource(id);
+
+    // Return the updated resources
+    return await this.resourceService.getResources();
   }
 
-  async updateResource(
+  async updateResourceAndReturnUpdatedResources(
     id: number,
     resource: ResourceDTO,
     file: Express.Multer.File,
   ) {
-    return await this.resourceService.updateResource(id, resource, file);
+    // Update the resource
+    await this.resourceService.updateResource(id, resource, file);
+
+    // Return the updated resources
+    return await this.resourceService.getResources();
   }
 
-  async updateResourceOrder(id: number, direction: string) {
-    return await this.resourceService.updateOrder(id, direction);
+  async updateResourceOrderAndReturnUpdatedResources(
+    id: number,
+    direction: string,
+  ) {
+    // Update the order of the resource
+    await this.resourceService.updateOrder(id, direction);
+
+    // Return the updated resources
+    return await this.resourceService.getResources();
   }
 
   async createSpeaker(speaker: SpeakerDTO, file: Express.Multer.File) {

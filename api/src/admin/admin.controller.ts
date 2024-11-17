@@ -91,26 +91,33 @@ export class AdminController {
   }
 
   @Delete('resource/:id')
-  async deleteResource(@Param('id') id: number) {
-    return await this.adminService.deleteResource(id);
+  async deleteResourceAndReturnUpdatedResources(@Param('id') id: number) {
+    return await this.adminService.deleteResourceAndReturnUpdatedResources(id);
   }
 
   @UseInterceptors(FileInterceptor('file'))
   @Put('resource/:id')
-  async updateResource(
+  async updateResourceAndReturnUpdatedResources(
     @Param('id') id: number,
     @Body() resource: ResourceDTO,
     @UploadedFile() @Optional() file?: Express.Multer.File,
   ) {
-    return await this.adminService.updateResource(id, resource, file);
+    return await this.adminService.updateResourceAndReturnUpdatedResources(
+      id,
+      resource,
+      file,
+    );
   }
 
   @Post('resource/:id/order')
-  async updateResourceOrder(
+  async updateResourceOrderAndReturnUpdatedResources(
     @Param('id') id,
     @Body('direction') direction: string,
   ) {
-    return await this.adminService.updateResourceOrder(id, direction);
+    return await this.adminService.updateResourceOrderAndReturnUpdatedResources(
+      id,
+      direction,
+    );
   }
 
   @UseInterceptors(FileInterceptor('file'))
