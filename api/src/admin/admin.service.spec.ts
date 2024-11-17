@@ -3,7 +3,7 @@ import { AdminService } from './admin.service';
 import { ResourceService } from '../resource/resource.service';
 import { SpeakersService } from '../speakers/speakers.service';
 import { ResourceDTO } from './admin.controller';
-import e from 'express';
+import { Resource } from '../resource/entities/resource.entity';
 
 describe('AdminService', () => {
   let service: AdminService;
@@ -67,6 +67,59 @@ describe('AdminService', () => {
       resource,
       file,
     );
+    expect(mockResourceService.getResources).toHaveBeenCalled();
+  });
+
+  it('should call deleteResource and getResources from resource service', async () => {
+    const id = 1;
+    const resources = [{}] as Resource[];
+
+    mockResourceService.getResources.mockResolvedValue(resources);
+
+    const result = await service.deleteResourceAndReturnUpdatedResources(id);
+    expect(result).toEqual(resources);
+    expect(mockResourceService.deleteResource).toHaveBeenCalled();
+    expect(mockResourceService.deleteResource).toHaveBeenCalledWith(id);
+    expect(mockResourceService.getResources).toHaveBeenCalled();
+  });
+
+  it('should call updateResource and getResources from resource service', async () => {
+    const id = 1;
+    const resource = {} as ResourceDTO;
+    const file = {} as Express.Multer.File;
+    const resources = [{}] as Resource[];
+
+    mockResourceService.getResources.mockResolvedValue(resources);
+
+    const result = await service.updateResourceAndReturnUpdatedResources(
+      id,
+      resource,
+      file,
+    );
+    expect(result).toEqual(resources);
+    expect(mockResourceService.updateResource).toHaveBeenCalled();
+    expect(mockResourceService.updateResource).toHaveBeenCalledWith(
+      id,
+      resource,
+      file,
+    );
+    expect(mockResourceService.getResources).toHaveBeenCalled();
+  });
+
+  it('should call updateOrder and getResources from resource service', async () => {
+    const id = 1;
+    const direction = 'up';
+    const resources = [{}] as Resource[];
+
+    mockResourceService.getResources.mockResolvedValue(resources);
+
+    const result = await service.updateResourceOrderAndReturnUpdatedResources(
+      id,
+      direction,
+    );
+    expect(result).toEqual(resources);
+    expect(mockResourceService.updateOrder).toHaveBeenCalled();
+    expect(mockResourceService.updateOrder).toHaveBeenCalledWith(id, direction);
     expect(mockResourceService.getResources).toHaveBeenCalled();
   });
 });
