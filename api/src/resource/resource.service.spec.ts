@@ -92,11 +92,11 @@ describe('ResourceService', () => {
       bodyText: 'Body text 2',
       buttonText: 'button 2 text',
       linkUrl: 'linkurl2.com',
-      target: true,
+      target: 'true',
       order: 1,
     };
 
-    const updatedHighestOrderResource: Resource = {
+    const highestOrderResource: Resource = {
       id: 1,
       heading: 'Heading 1',
       bodyText: 'Body text 1',
@@ -107,10 +107,10 @@ describe('ResourceService', () => {
       order: 1,
     };
 
-    const newResource: Resource = {
-      id: 2,
+    const newResource = {
+      id: undefined,
       heading: 'Heading 2',
-      bodyText: 'Body text 2',
+      bodyText: ['Body text 2'],
       imageUrl: 'newimageurl.com',
       buttonText: 'button 2 text',
       linkUrl: 'linkurl2.com',
@@ -120,13 +120,22 @@ describe('ResourceService', () => {
 
     const file = {} as Express.Multer.File;
 
-    mockResourceRepository.find.mockReturnValue([
-      updatedHighestOrderResource,
-      newResource,
-    ]);
+    mockQueryBuilder.getOne.mockResolvedValue(highestOrderResource);
 
     const result = await service.createResource(resourceToCreate, file);
-    expect(result).toEqual([updatedHighestOrderResource, newResource]);
+    expect(result).toEqual({ message: 'Resource created successfully' });
+    expect(mockResourceRepository.createQueryBuilder).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.createQueryBuilder).toHaveBeenCalledWith(
+      'resource',
+    );
+    expect(mockQueryBuilder.orderBy).toHaveBeenCalledTimes(1);
+    expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
+      'resource.order',
+      'DESC',
+    );
+    expect(mockQueryBuilder.getOne).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockResourceRepository.save).toHaveBeenCalledWith(newResource);
   });
 
   it('should update the order of a resource so it moves up', async () => {
@@ -184,16 +193,12 @@ describe('ResourceService', () => {
     mockResourceRepository.find.mockResolvedValue(resources);
 
     const result = await service.updateOrder(id, direction);
-    expect(result).toEqual(resources);
+    expect(result).toEqual({ message: 'Resource order updated successfully' });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(2);
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ order: 2 });
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(resources);
-    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
-    expect(mockResourceRepository.find).toHaveBeenCalledWith({
-      order: { order: 'ASC' },
-    });
     expect(resource.order).toBe(2);
     expect(resourceToSwap.order).toBe(1);
   });
@@ -253,12 +258,14 @@ describe('ResourceService', () => {
     mockResourceRepository.find.mockResolvedValue(resources);
 
     const result = await service.updateOrder(id, direction);
-    expect(result).toEqual(resources);
+    expect(result).toEqual({ message: 'Resource order updated successfully' });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(2);
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id: 2 });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ order: 1 });
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(resources);
+    expect(resource.order).toBe(1);
+    expect(resourceToSwap.order).toBe(2);
   });
 
   it('should update all resource fields and an uploaded file', async () => {
@@ -294,24 +301,16 @@ describe('ResourceService', () => {
       order: 1,
     };
 
-    const resources = [updatedResource];
-
     mockFileUploadService.uploadFile.mockResolvedValue('newimageurl.com');
     mockResourceRepository.findOneBy.mockResolvedValue(resourceToUpdate);
-    mockResourceRepository.save.mockResolvedValue(updatedResource);
-    mockResourceRepository.find.mockResolvedValue(resources);
 
     const result = await service.updateResource(id, resource, file);
-    expect(result).toEqual(resources);
+    expect(result).toEqual({ message: 'Resource updated successfully' });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
     expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResource);
-    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
-    expect(mockResourceRepository.find).toHaveBeenCalledWith({
-      order: { order: 'ASC' },
-    });
   });
 
   it('should update all resource fields without an uploaded file', async () => {
@@ -348,19 +347,14 @@ describe('ResourceService', () => {
     };
 
     mockResourceRepository.findOneBy.mockResolvedValue(resourceToUpdate);
-    mockResourceRepository.find.mockResolvedValue([updatedResource]);
 
     const result = await service.updateResource(id, resource, file);
-    expect(result).toEqual([updatedResource]);
+    expect(result).toEqual({ message: 'Resource updated successfully' });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
     expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(0);
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResource);
-    expect(mockResourceRepository.find).toHaveBeenCalledTimes(1);
-    expect(mockResourceRepository.find).toHaveBeenCalledWith({
-      order: { order: 'ASC' },
-    });
   });
 
   it('should delete a resource', async () => {
@@ -407,16 +401,11 @@ describe('ResourceService', () => {
     mockResourceRepository.find.mockResolvedValueOnce(resources);
     mockResourceRepository.save.mockResolvedValue(updatedResources);
     mockResourceRepository.delete.mockResolvedValue({ affected: 1 });
-    mockResourceRepository.find.mockResolvedValue(updatedResources);
 
     const result = await service.deleteResource(id);
-    expect(result).toEqual(updatedResources);
+    expect(result).toEqual({ message: 'Resource deleted successfully' });
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.findOneBy).toHaveBeenCalledWith({ id });
-    expect(mockResourceRepository.find).toHaveBeenCalledTimes(2);
-    expect(mockResourceRepository.find).toHaveBeenCalledWith({
-      order: { order: 'ASC' },
-    });
     expect(mockResourceRepository.save).toHaveBeenCalledTimes(1);
     expect(mockResourceRepository.save).toHaveBeenCalledWith(updatedResources);
     expect(mockResourceRepository.delete).toHaveBeenCalledTimes(1);

@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AdminService } from './admin.service';
 import { ResourceService } from '../resource/resource.service';
 import { SpeakersService } from '../speakers/speakers.service';
+import { ResourceDTO } from './admin.controller';
 
 describe('AdminService', () => {
   let service: AdminService;
@@ -45,4 +46,22 @@ describe('AdminService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  // it('should call createResource from resource service and return an updated list', async () => {
+  //   const resource = {} as ResourceDTO;
+  //   const file = {} as Express.Multer.File;
+  //   const resourceResponse = { ...resource, id: 1 };
+
+  //   mockResourceService.createResource.mockResolvedValue(resourceResponse);
+
+  //   const result = await service.createResourceAndReturnUpdatedResources(
+  //     resource,
+  //     file,
+  //   );
+  //   expect(result).toEqual(resourceResponse);
+  //   expect(mockResourceService.createResource).toHaveBeenCalledWith(
+  //     resource,
+  //     file,
+  //   );
+  // });
 });

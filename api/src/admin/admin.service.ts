@@ -10,8 +10,15 @@ export class AdminService {
     private resourceService: ResourceService,
     private speakersService: SpeakersService,
   ) {}
-  async createResource(resource: ResourceDTO, file: Express.Multer.File) {
-    return await this.resourceService.createResource(resource, file);
+  async createResourceAndReturnUpdatedResources(
+    resource: ResourceDTO,
+    file: Express.Multer.File,
+  ) {
+    // Create the resource
+    await this.resourceService.createResource(resource, file);
+
+    // Return the updated resources
+    return await this.resourceService.getResources();
   }
 
   async deleteResource(id: number) {

@@ -80,11 +80,14 @@ export class AdminController {
 
   @UseInterceptors(FileInterceptor('file'))
   @Post('resource')
-  async createResource(
+  async createResourceAndReturnUpdatedResources(
     @Body() resource: ResourceDTO,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.adminService.createResource(resource, file);
+    return await this.adminService.createResourceAndReturnUpdatedResources(
+      resource,
+      file,
+    );
   }
 
   @Delete('resource/:id')
