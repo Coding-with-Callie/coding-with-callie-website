@@ -9,6 +9,7 @@ describe('SpeakersService', () => {
 
   const mockSpeakersRepository = {
     find: jest.fn(),
+    save: jest.fn(),
   };
 
   const mockFileUploadService = {
@@ -38,31 +39,61 @@ describe('SpeakersService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return speakers', async () => {
+  it('should return an object with upcoming and past speakers sorted by date', async () => {
     const speakers = [
       {
-        name: 'Test Speaker',
-        date: '2022-01-01',
-        bioText: ['Test bio'],
-        sessionText: ['Test session'],
-        websiteUrl: 'https://example.com',
-        photoUrl: 'https://example.com/photo.jpg',
+        name: 'Past Speaker 1',
+        date: '2021-01-01',
       },
       {
-        name: 'Test Speaker 2',
-        date: '3037-01-02',
-        bioText: ['Test bio 2'],
-        sessionText: ['Test session 2'],
-        websiteUrl: 'https://example.com/2',
-        photoUrl: 'https://example.com/photo2.jpg',
+        name: 'Past Speaker 2',
+        date: '2021-02-01',
+      },
+      {
+        name: 'Upcoming Speaker 1',
+        date: '3037-01-01',
+      },
+      {
+        name: 'Upcoming Speaker 2',
+        date: '3037-02-01',
       },
     ];
     mockSpeakersRepository.find.mockReturnValue(speakers);
 
     expect(await service.getSpeakers()).toEqual({
-      upcomingSpeakers: [speakers[1]],
-      pastSpeakers: [speakers[0]],
+      upcomingSpeakers: [speakers[2], speakers[3]],
+      pastSpeakers: [speakers[1], speakers[0]],
     });
     expect(mockSpeakersRepository.find).toHaveBeenCalledTimes(1);
+  });
+
+  it('should create a speaker and return a success message', async () => {
+    const speaker = {
+      name: 'Test Speaker',
+      date: '2022-01-01',
+      bioText: 'This is the bio test.\nIt has multiple lines.',
+      sessionText: 'This is the session test.\nIt has multiple lines.',
+      websiteUrl: 'https://example.com',
+    };
+
+    const file = {} as Express.Multer.File;
+
+    const speakerToSave = {
+      name: 'Test Speaker',
+      date: '2022-01-01',
+      bioText: ['This is the bio test.', 'It has multiple lines.'],
+      sessionText: ['This is the session test.', 'It has multiple lines.'],
+      websiteUrl: 'https://example.com',
+      photoUrl: 'https://example.com/photo.jpg',
+    };
+
+    mockFileUploadService.uploadFile.mockResolvedValue(speakerToSave.photoUrl);
+
+    const result = await service.createSpeaker(speaker, file);
+    expect(result).toEqual({ message: 'Speaker created successfully' });
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledTimes(1);
+    expect(mockFileUploadService.uploadFile).toHaveBeenCalledWith(file);
+    expect(mockSpeakersRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockSpeakersRepository.save).toHaveBeenCalledWith(speakerToSave);
   });
 });

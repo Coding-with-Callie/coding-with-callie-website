@@ -52,11 +52,11 @@ export class SpeakerDTO {
 
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
-  bioText: string[] | string;
+  bioText: string;
 
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
-  sessionText: string[] | string;
+  sessionText: string;
 
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
@@ -64,8 +64,9 @@ export class SpeakerDTO {
 
   @IsOptional()
   @Transform((params) => sanitizeHTML(params.value))
-  sessionRecordingUrl: string;
+  sessionRecordingUrl?: string;
 
+  @IsOptional()
   photoUrl?: string;
 }
 
