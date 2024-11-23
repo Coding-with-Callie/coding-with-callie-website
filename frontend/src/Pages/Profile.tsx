@@ -76,6 +76,8 @@ const Profile = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    const newUser = {};
+    context.updateUser(newUser);
     navigate("/log-in");
     showNotification("You have been logged out of your account!", "success");
   };

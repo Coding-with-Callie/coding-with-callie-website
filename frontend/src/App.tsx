@@ -17,8 +17,6 @@ function App() {
   const data = useLoaderData();
   const [user, setUser] = useState<any>(data);
 
-  console.log("DATA:", data);
-
   const updateUser = (newUser: any) => {
     setUser(newUser);
   };

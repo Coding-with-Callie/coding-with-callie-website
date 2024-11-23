@@ -34,13 +34,13 @@ export const Load = async (endpoint: string) => {
 export const RedirectLoggedInUser = async () => {
   // Check if the user is already logged in
   // If they are, redirect them to the home page
-  try {
-    await axiosPrivate.get("/profile");
-    console.log("User is already logged in.");
-    return redirect("/");
-  } catch (error) {
+  const response = await axiosPrivate.get("/user-details");
+
+  if (response.data.message === "no error") {
     return {};
   }
+
+  return redirect("/");
 };
 
 // TODO: Change when we refactor authentication
