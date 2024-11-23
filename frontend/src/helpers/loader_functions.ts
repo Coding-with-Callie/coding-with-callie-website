@@ -17,6 +17,12 @@ export const Load = async (endpoint: string) => {
 
     return response.data;
   } catch (error: any) {
+    // User has a token, but it is invalid.
+    // They are not trying to access a private endpoint.
+    if (endpoint === "user-details") {
+      return {};
+    }
+
     showNotification(
       error.message || `An error occurred loading ${endpoint}.`,
       "error"

@@ -89,7 +89,7 @@ axiosPrivate.interceptors.response.use(
       }
 
       message = "It looks like your session has expired. Please log in again!";
-      return Promise.reject("/log-in");
+      return Promise.reject({ path: "/log-in", message });
     }
 
     // Some other error occurred
