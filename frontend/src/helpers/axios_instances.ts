@@ -40,13 +40,8 @@ axiosPrivate.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
 
-    console.log("IS THERE A TOKEN?", token);
-
     if (!token) {
-      console.log("NO TOKEN");
-      console.log("CONFIG URL", config.url);
       if (config.url === "/user-details") {
-        console.log("USER DETAILS");
         return Promise.reject("no error");
       }
       const source = axios.CancelToken.source();

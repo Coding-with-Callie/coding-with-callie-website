@@ -67,8 +67,6 @@ const UserStoryDetailsAccordion = ({
   const [taskList, setTaskList] = useState(tasks);
   const [startDelete, setStartDelete] = useState(false);
 
-  console.log("tasks", taskList);
-
   useEffect(() => {
     setStoryStatus(status);
     setTaskList(tasks);

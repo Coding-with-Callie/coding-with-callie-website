@@ -126,7 +126,6 @@ const TaskBox = ({
         `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task/${task.id}`
       )
       .then((response) => {
-        console.log(response.data);
         setStoryStatus(response.data.storyStatus);
         setTaskList(response.data.taskList);
 
