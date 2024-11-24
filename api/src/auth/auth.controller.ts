@@ -135,6 +135,7 @@ export class AuthController {
 
   @Post('change-account-detail')
   changeAccountDetail(@Body() accountDetails: AccountDetailDTO) {
+    console.log('Change account detail', accountDetails);
     return this.authService.changeAccountDetail(
       accountDetails.id,
       accountDetails.field,
@@ -220,12 +221,14 @@ export class AuthController {
   @UseGuards(ProjectAccessGuard)
   @Patch('project/:id/feature/:featureId')
   updateFeatureAndReturnUpdatedProject(
+    @Param('id') projectId: number,
     @Param('featureId') featureId: number,
     @Body() updateFeatureDto: UpdateFeatureDto,
   ) {
     return this.authService.updateFeatureAndReturnUpdatedProject(
       updateFeatureDto.field,
       updateFeatureDto.value,
+      projectId,
       featureId,
     );
   }

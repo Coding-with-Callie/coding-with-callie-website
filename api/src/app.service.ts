@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { WorkshopsService } from './workshops/workshops.service';
 import { ResourceService } from './resource/resource.service';
 import { SpeakersService } from './speakers/speakers.service';
@@ -32,15 +36,21 @@ export class AppService {
     return await this.speakersService.getSpeakers();
   }
 
-  async signUp(user: NewUserDto, photoUrl: string) {
-    // Check if username exists in database
-    if (await this.usersService.checkIfUsernameExists(user.username)) {
-      return 'user already exists';
-    }
+  async registerUserAndLogIn(user: NewUserDto, photoUrl: string) {
+    // Register user
+    await this.signUp(user, photoUrl);
 
-    // Check if email exists in database
-    if (await this.usersService.checkIfEmailExists(user.email)) {
-      return 'email already exists';
+    // Log in user
+    return await this.logIn(user.username, user.password);
+  }
+
+  async signUp(user: NewUserDto, photoUrl: string) {
+    // Check if username or email exists in database
+    if (
+      (await this.usersService.checkIfUsernameExists(user.username)) ||
+      (await this.usersService.checkIfEmailExists(user.email))
+    ) {
+      throw new BadRequestException('user already exists');
     }
 
     // Otherwise, create user

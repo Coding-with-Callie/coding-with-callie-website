@@ -65,7 +65,7 @@ export class AppController {
     if (file) {
       photoUrl = await this.fileUploadService.uploadFile(file);
     }
-    return await this.appService.signUp(newUser, photoUrl);
+    return await this.appService.registerUserAndLogIn(newUser, photoUrl);
   }
 
   @Post('login')

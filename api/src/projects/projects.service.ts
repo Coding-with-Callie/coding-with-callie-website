@@ -125,6 +125,10 @@ export class ProjectsService {
       ],
     });
 
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
     return this.addStatusesToProject(project);
   }
 

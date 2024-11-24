@@ -105,7 +105,7 @@ describe('AppService', () => {
     expect(response).toEqual({ message: 'User created' });
   });
 
-  it('should call createUser and return user already exists', async () => {
+  it('should call createUser and throw error if user already exists', async () => {
     const user = {
       name: 'name',
       email: 'email',
@@ -115,13 +115,19 @@ describe('AppService', () => {
     const photoUrl = 'photoUrl';
     // Mocking that the user already exists
     mockUsersService.checkIfUsernameExists.mockResolvedValue(true);
-    const response = await service.signUp(user, photoUrl);
+
+    // Expecting an error to be thrown
+    try {
+      await service.signUp(user, photoUrl);
+    } catch (error) {
+      expect(error.message).toEqual('user already exists');
+    }
+
     expect(mockUsersService.checkIfUsernameExists).toHaveBeenCalled();
     expect(mockUsersService.checkIfEmailExists).not.toHaveBeenCalled();
     expect(mockUsersService.createUser).not.toHaveBeenCalled();
     expect(mockMailService.sendNewUserEmail).not.toHaveBeenCalled();
     expect(mockMailService.sendEmailToNewUser).not.toHaveBeenCalled();
-    expect(response).toEqual('user already exists');
   });
 
   it('should call createUser and return email already exists', async () => {
@@ -136,13 +142,19 @@ describe('AppService', () => {
     mockUsersService.checkIfUsernameExists.mockResolvedValue(false);
     // Mocking that the email already exists
     mockUsersService.checkIfEmailExists.mockResolvedValue(true);
-    const response = await service.signUp(user, photoUrl);
+
+    // Expecting an error to be thrown
+    try {
+      await service.signUp(user, photoUrl);
+    } catch (error) {
+      expect(error.message).toEqual('user already exists');
+    }
+
     expect(mockUsersService.checkIfUsernameExists).toHaveBeenCalled();
     expect(mockUsersService.checkIfEmailExists).toHaveBeenCalled();
     expect(mockUsersService.createUser).not.toHaveBeenCalled();
     expect(mockMailService.sendNewUserEmail).not.toHaveBeenCalled();
     expect(mockMailService.sendEmailToNewUser).not.toHaveBeenCalled();
-    expect(response).toEqual('email already exists');
   });
 
   it('should call createAccessToken', async () => {

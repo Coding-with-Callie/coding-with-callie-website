@@ -9,6 +9,22 @@ const axiosPublic = axios.create({
   baseURL: `${host}/api`,
 });
 
+axiosPublic.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    let message: string = error.response.data.message;
+
+    if (message === "user already exists") {
+      return Promise.reject({
+        path: "/log-in",
+        message: "User already exists. Please log in instead!",
+      });
+    }
+  }
+);
+
 const axiosAdmin = axios.create({
   baseURL: `${host}/api/admin`,
 });

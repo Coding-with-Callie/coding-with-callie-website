@@ -7,14 +7,30 @@ import {
 } from "@chakra-ui/react";
 import MyButton from "../MyButton";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import { axiosPublic } from "../../helpers/axios_instances";
+import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
+import { isInvalidEmail } from "../../helpers/helpers";
+import { Context } from "../../App";
+
+type UserData = {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+};
 
 const SignUpForm = () => {
-  const [userData, setUserData] = useState<any>({});
+  const [userData, setUserData] = useState<UserData>({
+    name: "",
+    email: "",
+    username: "",
+    password: "",
+  });
   const [submitClicked, setSubmitClicked] = useState(false);
   const [photo, setPhoto] = useState();
+
+  const { updateUser } = useOutletContext() as Context;
 
   const navigate = useNavigate();
 
@@ -24,67 +40,54 @@ const SignUpForm = () => {
 
   const onSubmit = () => {
     if (
-      userData.name &&
-      userData.name !== "" &&
-      userData.email &&
-      userData.email !== "" &&
-      userData.email.indexOf("@") !== -1 &&
-      userData.username &&
-      userData.username !== "" &&
-      userData.password &&
-      userData.password !== ""
+      userData.name === "" ||
+      userData.username === "" ||
+      userData.password === "" ||
+      userData.email === "" ||
+      isInvalidEmail(userData.email)
     ) {
-      const formData = new FormData();
-
-      if (photo) {
-        formData.append("file", photo);
-      }
-
-      formData.append("name", userData.name);
-      formData.append("email", userData.email);
-      formData.append("username", userData.username);
-      formData.append("password", userData.password);
-
-      axiosPublic
-        .post("/signup", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          if (response.data === "user already exists") {
-            const emptyUser = {
-              name: "",
-              email: "",
-              username: "",
-              password: "",
-            };
-            setUserData(emptyUser);
-            showNotification("User already exists!", "error");
-          } else if (response.data === "email already exists") {
-            const emptyUser = {
-              name: "",
-              email: "",
-              username: "",
-              password: "",
-            };
-            setUserData(emptyUser);
-            showNotification("Email already exists!", "error");
-          } else {
-            showNotification(
-              `Welcome to Coding with Callie, ${userData.name}!`,
-              "success"
-            );
-            navigate("/log-in");
-          }
-        })
-        .catch((error) => {
-          let message: string = error.response.data.message[0];
-          showNotification(`${message}`, "error");
-        });
-    } else {
       setSubmitClicked(true);
+      return;
     }
+    const formData = new FormData();
+
+    if (photo) {
+      formData.append("file", photo);
+    }
+
+    formData.append("name", userData.name);
+    formData.append("email", userData.email);
+    formData.append("username", userData.username);
+    formData.append("password", userData.password);
+
+    axiosPublic
+      .post("/signup", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        const token = response.data.access_token;
+        localStorage.setItem("token", token);
+        axiosPrivate.get("/profile").then(async (response) => {
+          updateUser(response.data);
+
+          showNotification(
+            `Welcome to Coding with Callie, ${response.data.username}!`,
+            "success"
+          );
+          navigate("/");
+        });
+      })
+      .catch((error) => {
+        showNotification(
+          error.message || `An error occurred. Please try again!`,
+          "error"
+        );
+        if (error.path) {
+          navigate(error.path);
+        }
+      });
   };
 
   const onChangeName = (e: any) => {

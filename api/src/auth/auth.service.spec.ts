@@ -333,6 +333,7 @@ describe('AuthService', () => {
   it('should call updateFeature in feature service and getProjectById in project service', async () => {
     const field = 'name';
     const value = 'Feature 1 EDITED';
+    const projectId = 1;
     const featureId = 1;
 
     const updatedProject = {
@@ -348,6 +349,7 @@ describe('AuthService', () => {
     const result = await service.updateFeatureAndReturnUpdatedProject(
       field,
       value,
+      projectId,
       featureId,
     );
     expect(result).toEqual(updatedProject);

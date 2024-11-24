@@ -37,7 +37,7 @@ const EditModal = ({ field, onClose }: Props) => {
     }
     if (newValue !== "" && newValue) {
       axiosPrivate
-        .post("auth/change-account-detail", {
+        .post("/change-account-detail", {
           id: userId,
           value: newValue,
           field: field,

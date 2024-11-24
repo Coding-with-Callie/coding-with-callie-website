@@ -100,13 +100,14 @@ export class AuthService {
   async updateFeatureAndReturnUpdatedProject(
     field: string,
     value: string,
+    projectId: number,
     featureId: number,
   ) {
     // Update the feature
     await this.featuresService.updateFeature(field, value, featureId);
 
     // Return the updated project
-    return await this.getProject(featureId);
+    return await this.getProject(projectId);
   }
 
   async deleteFeatureAndReturnUpdatedProject(featureId: number) {

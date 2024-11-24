@@ -107,6 +107,8 @@ const UserStoryDetailsAccordion = ({
       return;
     }
 
+    console.log("Updating story", field, value);
+
     axiosPrivate
       .patch(
         `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`,
@@ -153,9 +155,9 @@ const UserStoryDetailsAccordion = ({
 
   const deleteStory = () => {
     axiosPrivate
-      .post("/delete-user-story", {
-        userStoryId,
-      })
+      .delete(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`
+      )
       .then((response) => {
         setProject(response.data);
 
