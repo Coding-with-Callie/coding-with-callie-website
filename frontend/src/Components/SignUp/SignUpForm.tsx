@@ -9,7 +9,7 @@ import MyButton from "../MyButton";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
+import { axiosPublic } from "../../helpers/axios_instances";
 import { isInvalidEmail } from "../../helpers/helpers";
 import { Context } from "../../App";
 
@@ -31,7 +31,6 @@ const SignUpForm = () => {
   const [photo, setPhoto] = useState();
 
   const { updateUser } = useOutletContext() as Context;
-
   const navigate = useNavigate();
 
   const showNotification = (message: string, type: "success" | "error") => {
@@ -67,17 +66,12 @@ const SignUpForm = () => {
         },
       })
       .then((response) => {
-        const token = response.data.access_token;
-        localStorage.setItem("token", token);
-        axiosPrivate.get("/profile").then(async (response) => {
-          updateUser(response.data);
-
-          showNotification(
-            `Welcome to Coding with Callie, ${response.data.username}!`,
-            "success"
-          );
-          navigate("/");
-        });
+        updateUser(response.data);
+        showNotification(
+          `Welcome to Coding with Callie, ${response.data.username}!`,
+          "success"
+        );
+        navigate("/");
       })
       .catch((error) => {
         showNotification(
@@ -90,24 +84,12 @@ const SignUpForm = () => {
       });
   };
 
-  const onChangeName = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, name: e.target.value });
-  };
+  const onChangeUserData = (e: any) => {
+    const field = e.target.id;
+    const value = e.target.value;
+    setUserData({ ...userData, [field]: value });
 
-  const onChangeEmail = (e: any) => {
     setSubmitClicked(false);
-    setUserData({ ...userData, email: e.target.value });
-  };
-
-  const onChangeUsername = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, username: e.target.value });
-  };
-
-  const onChangePassword = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, password: e.target.value });
   };
 
   const onChangePhoto = (e: any) => {
@@ -125,8 +107,8 @@ const SignUpForm = () => {
           variant="filled"
           id="name"
           value={userData.name}
-          onChange={onChangeName}
-          isInvalid={submitClicked && (!userData.name || userData.name === "")}
+          onChange={onChangeUserData}
+          isInvalid={submitClicked && userData.name === ""}
         />
       </Box>
       <Box>
@@ -135,21 +117,18 @@ const SignUpForm = () => {
           type="email"
           layerStyle="input"
           variant="filled"
+          id="email"
           value={userData.email}
-          onChange={onChangeEmail}
+          onChange={onChangeUserData}
           isInvalid={
             submitClicked &&
-            (!userData.email ||
-              userData.email === "" ||
-              userData.email.indexOf("@") === -1)
+            (userData.email === "" || isInvalidEmail(userData.email))
           }
         />
-        {submitClicked && userData.email.indexOf("@") === -1 ? (
+        {submitClicked && isInvalidEmail(userData.email) && (
           <FormHelperText color="red">
             Please enter a valid email.
           </FormHelperText>
-        ) : (
-          <FormHelperText>We'll never share your email.</FormHelperText>
         )}
       </Box>
       <Box>
@@ -158,11 +137,10 @@ const SignUpForm = () => {
           type="text"
           layerStyle="input"
           variant="filled"
+          id="username"
           value={userData.username}
-          onChange={onChangeUsername}
-          isInvalid={
-            submitClicked && (!userData.username || userData.username === "")
-          }
+          onChange={onChangeUserData}
+          isInvalid={submitClicked && userData.username === ""}
         />
       </Box>
       <Box>
@@ -171,11 +149,10 @@ const SignUpForm = () => {
           type="password"
           layerStyle="input"
           variant="filled"
+          id="password"
           value={userData.password}
-          onChange={onChangePassword}
-          isInvalid={
-            submitClicked && (!userData.password || userData.password === "")
-          }
+          onChange={onChangeUserData}
+          isInvalid={submitClicked && userData.password === ""}
         />
       </Box>
       <Box>

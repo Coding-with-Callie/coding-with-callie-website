@@ -11,17 +11,32 @@ const axiosPublic = axios.create({
 
 axiosPublic.interceptors.response.use(
   (response) => {
-    return response;
+    // If the response is an access token, store it in local storage
+    // and make a request to the profile endpoint to get the user's data
+    if (response.data.access_token) {
+      localStorage.setItem("token", response.data.access_token);
+
+      try {
+        return axiosPrivate.get("/profile");
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    } else {
+      return response;
+    }
   },
   (error) => {
     let message: string = error.response.data.message;
 
+    // User is trying to register with an email or username that already exists
     if (message === "user already exists") {
       return Promise.reject({
         path: "/log-in",
         message: "User already exists. Please log in instead!",
       });
     }
+
+    return Promise.reject(error);
   }
 );
 

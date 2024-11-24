@@ -198,11 +198,11 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
               submitClicked && websiteUrl === "" && !validURL(websiteUrl)
             }
           />
-          {submitClicked && (!websiteUrl || validURL(websiteUrl) === false) ? (
+          {submitClicked && (!websiteUrl || validURL(websiteUrl) === false) && (
             <FormHelperText color="red">
               Please enter a valid url.
             </FormHelperText>
-          ) : null}
+          )}
         </Box>
         <Box>
           <FormLabel layerStyle="input">Photo</FormLabel>
