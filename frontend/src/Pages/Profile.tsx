@@ -13,8 +13,8 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
@@ -47,28 +47,13 @@ const Profile = () => {
     onClose: onClosePhotoModal,
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const [data, setData] = useState(useLoaderData() as Data);
-  const context = useOutletContext() as Context;
+
+  const { user, updateUser } = useOutletContext() as Context;
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setData(context.user);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context]);
-
-  const currentName = context.user?.name as string;
-  const currentUsername = context.user?.username as string;
-  const currentEmail = context.user?.email as string;
-
   const [field, setField] = useState("");
   const [fieldValue, setFieldValue] = useState("");
-
-  const [name, setName] = useState(currentName);
-  const [username, setUsername] = useState(currentName);
-  const [email, setEmail] = useState(currentEmail);
-  const [password, setPassword] = useState(currentEmail);
 
   const showNotification = (message: string, type: "error" | "success") => {
     toast[type](message, { toastId: `${type}-${message}` });
@@ -77,16 +62,16 @@ const Profile = () => {
   const logout = () => {
     localStorage.removeItem("token");
     const newUser = {};
-    context.updateUser(newUser);
+    updateUser(newUser);
     navigate("/log-in");
     showNotification("You have been logged out of your account!", "success");
   };
 
   const deleteAccount = () => {
-    axiosPrivate.post("/delete-account", { id: context.user.id }).then(() => {
+    axiosPrivate.post("/delete-account", { id: user.id }).then(() => {
       localStorage.removeItem("token");
       const newUser = {};
-      context.updateUser(newUser);
+      updateUser(newUser);
       navigate("/sign-up");
       showNotification("Your account has been deleted!", "success");
     });
@@ -97,9 +82,9 @@ const Profile = () => {
       <Section screenSizeParameter={false} alignItemsCenter={true}>
         <BodyHeading textAlignCenter={true}>Account Details</BodyHeading>
 
-        {currentName ? (
+        {user.name ? (
           <Paragraph margin={false}>
-            {`Welcome, ${currentName}! You can manage your account details here!`}
+            {`Welcome, ${user.name}! You can manage your account details here!`}
           </Paragraph>
         ) : null}
       </Section>
@@ -110,11 +95,7 @@ const Profile = () => {
           gapSize={isLargerThan600 ? 75 : 0}
         >
           <Box w="25%">
-            <Avatar
-              size="2xl"
-              name={context.user.username}
-              src={context.user.photo}
-            />
+            <Avatar size="2xl" name={user.username} src={user.photo} />
 
             <Box position="relative" top="-130px" left="130px">
               <IconButton
@@ -135,14 +116,14 @@ const Profile = () => {
                 <Paragraph margin={false}>Name: </Paragraph>
                 <Box display="flex" w="70%" alignItems="center">
                   <Paragraph flexWeight={1} margin={false}>
-                    {currentName}
+                    {user.name}
                   </Paragraph>
                   <IconButton
                     aria-label="edit"
                     icon={<EditIcon />}
                     onClick={() => {
                       setField("name");
-                      setFieldValue(name);
+                      setFieldValue(user.name);
                       onOpen();
                     }}
                   />
@@ -157,14 +138,14 @@ const Profile = () => {
                 <Paragraph margin={false}>Username: </Paragraph>
                 <Box display="flex" w="70%" alignItems="center">
                   <Paragraph flexWeight={1} margin={false}>
-                    {currentUsername}
+                    {user.username}
                   </Paragraph>
                   <IconButton
                     aria-label="edit"
                     icon={<EditIcon />}
                     onClick={() => {
                       setField("username");
-                      setFieldValue(username);
+                      setFieldValue(user.username);
                       onOpen();
                     }}
                   />
@@ -186,7 +167,7 @@ const Profile = () => {
                     icon={<EditIcon />}
                     onClick={() => {
                       setField("password");
-                      setFieldValue(password);
+                      setFieldValue(user.password);
                       onOpen();
                     }}
                   />
@@ -201,14 +182,14 @@ const Profile = () => {
                 <Paragraph margin={false}>Email: </Paragraph>
                 <Box display="flex" w="70%" alignItems="center">
                   <Paragraph flexWeight={1} margin={false}>
-                    {currentEmail}
+                    {user.email}
                   </Paragraph>
                   <IconButton
                     aria-label="edit"
                     icon={<EditIcon />}
                     onClick={() => {
                       setField("email");
-                      setFieldValue(email);
+                      setFieldValue(user.email);
                       onOpen();
                     }}
                   />
@@ -230,7 +211,7 @@ const Profile = () => {
             <ModalHeader color="#45446A">Edit {field}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <EditModal field={field} onClose={onClose} />
+              <EditModal field={field} value={fieldValue} onClose={onClose} />
             </ModalBody>
           </ModalContent>
         </Modal>

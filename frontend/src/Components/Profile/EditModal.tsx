@@ -8,15 +8,15 @@ import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   field: string;
+  value: string;
   onClose: () => void;
 };
 
-const EditModal = ({ field, onClose }: Props) => {
-  const context: Context = useOutletContext();
-  const userId = context.user.id;
+const EditModal = ({ field, value, onClose }: Props) => {
+  const { user, updateUser } = useOutletContext() as Context;
   const navigate = useNavigate();
 
-  const [newValue, setNewValue] = useState("");
+  const [newValue, setNewValue] = useState(value);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [match, setMatch] = useState("");
 
@@ -35,27 +35,29 @@ const EditModal = ({ field, onClose }: Props) => {
         return;
       }
     }
-    if (newValue !== "" && newValue) {
-      axiosPrivate
-        .post("/change-account-detail", {
-          id: userId,
-          value: newValue,
-          field: field,
-        })
-        .then((response) => {
-          showNotification(`Your account ${field} has been changed`, "success");
-          context.updateUser(response.data);
-        })
-        .catch((error) => {
-          showNotification(error.message, "error");
-          if (error.path) {
-            navigate(error.path);
-          }
-        });
-      onClose();
-    } else {
+
+    if (newValue === "") {
       setSubmitClicked(true);
+      return;
     }
+
+    axiosPrivate
+      .post("/change-account-detail", {
+        id: user.id,
+        value: newValue,
+        field: field,
+      })
+      .then((response) => {
+        showNotification(`Your account ${field} has been changed`, "success");
+        updateUser(response.data);
+      })
+      .catch((error) => {
+        showNotification(error.message, "error");
+        if (error.path) {
+          navigate(error.path);
+        }
+      });
+    onClose();
   };
 
   return (
@@ -67,6 +69,7 @@ const EditModal = ({ field, onClose }: Props) => {
         placeholder={field === "password" ? "Enter new password" : ""}
         onChange={handleChange}
         isInvalid={submitClicked && newValue === ""}
+        value={newValue}
       />
       {field === "password" ? (
         <Input
