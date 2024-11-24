@@ -87,6 +87,10 @@ axiosPrivate.interceptors.request.use(
       source.cancel("No token provided"); // Cancel the request
     } else {
       config.headers.Authorization = `Bearer ${token}`;
+      if (config.url === "/user-details") {
+        // Add something that will show up in the response to indicate we were trying /user-details
+        config.headers["User-Details"] = "true";
+      }
     }
 
     return config;
@@ -101,8 +105,10 @@ axiosPrivate.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log("ERROR", error);
+
     // If the error isn't really an error...
-    if (error === "no error") {
+    if (error === "no error" || error.response.config.headers["User-Details"]) {
       return {
         data: {
           message: "no error",
@@ -131,6 +137,7 @@ axiosPrivate.interceptors.response.use(
     }
 
     // Some other error occurred
+    // I THINK THIS IS AN ISSUE
     return Promise.reject({ path: "/sign-up" });
   }
 );

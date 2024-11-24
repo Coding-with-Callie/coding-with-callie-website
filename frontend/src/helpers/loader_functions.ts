@@ -32,6 +32,8 @@ export const Load = async (endpoint: string) => {
 };
 
 export const RedirectLoggedInUser = async () => {
+  console.log("RedirectLoggedInUser");
+
   // Check if the user is already logged in
   // If they are, redirect them to the home page
   const response = await axiosPrivate.get("/user-details");
