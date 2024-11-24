@@ -28,6 +28,7 @@ const TextInput = ({
         type={type || "text"}
         layerStyle="input"
         variant="filled"
+        id={field.toLowerCase()}
         onChange={onChange}
         value={value}
         isInvalid={isInvalid}

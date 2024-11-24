@@ -2,97 +2,66 @@ import { FormControl } from "@chakra-ui/react";
 import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { showNotification } from "../..";
-import { useNavigate } from "react-router-dom";
-import { axiosPrivate, axiosPublic } from "../../helpers/axios_instances";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { axiosPublic } from "../../helpers/axios_instances";
+import { useState } from "react";
+import { Context } from "../../App";
 
-type Props = {
-  userData: any;
-  setUserData: React.Dispatch<any>;
-  submitClicked: boolean;
-  setSubmitClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  updateUser: (newUser: any) => void;
-  updateCheckoutStep?: (newStep: number) => void;
-  onClose?: () => void;
+type UserData = {
+  username: string;
+  password: string;
 };
 
-const LogInForm = ({
-  userData,
-  setUserData,
-  submitClicked,
-  setSubmitClicked,
-  updateUser,
-}: Props) => {
+const LogInForm = () => {
+  const [userData, setUserData] = useState<UserData>({
+    username: "",
+    password: "",
+  });
+  const [submitClicked, setSubmitClicked] = useState(false);
+
+  const { updateUser } = useOutletContext() as Context;
   const navigate = useNavigate();
 
-  const onChangeUsername = (e: any) => {
+  const onChangeUserData = (e: any) => {
     setSubmitClicked(false);
-    setUserData({ ...userData, username: e.target.value });
-  };
-
-  const onChangePassword = (e: any) => {
-    setSubmitClicked(false);
-    setUserData({ ...userData, password: e.target.value });
+    setUserData({ ...userData, [e.target.id]: e.target.value });
   };
 
   const onSubmit = () => {
-    if (
-      userData.username &&
-      userData.username !== "" &&
-      userData.password &&
-      userData.password !== ""
-    ) {
-      axiosPublic
-        .post("/login", userData)
-        .then((response) => {
-          const token = response?.data.access_token;
-          localStorage.setItem("token", token);
-          axiosPrivate.get("/profile").then(async (response) => {
-            updateUser(response.data);
-
-            showNotification(
-              `Welcome back, ${response.data.username}!`,
-              "success"
-            );
-            navigate("/");
-          });
-        })
-        .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            const emptyUser = {
-              name: "",
-              email: "",
-              username: "",
-              password: "",
-            };
-            setUserData(emptyUser);
-            showNotification("You entered incorrect credentials.", "error");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
-        });
-    } else {
+    if (userData.username === "" || userData.password === "") {
       setSubmitClicked(true);
+      return;
     }
+    axiosPublic
+      .post("/login", userData)
+      .then((response) => {
+        updateUser(response.data);
+
+        showNotification(`Welcome back, ${response.data.username}!`, "success");
+        navigate("/");
+      })
+      .catch((error) => {
+        setUserData({ ...userData, password: "" });
+        showNotification(
+          error.message || `An error occurred. Please try again!`,
+          "error"
+        );
+      });
   };
 
   return (
     <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
       <TextInput
         field="Username"
-        onChange={onChangeUsername}
+        onChange={onChangeUserData}
         value={userData?.username || ""}
-        isInvalid={
-          submitClicked && (!userData.username || userData.username === "")
-        }
+        isInvalid={submitClicked && userData.username === ""}
       />
       <TextInput
         field="Password"
-        onChange={onChangePassword}
+        onChange={onChangeUserData}
         value={userData?.password || ""}
-        isInvalid={
-          submitClicked && (!userData.password || userData.password === "")
-        }
+        isInvalid={submitClicked && userData.password === ""}
         type="password"
       />
       <MyButton onClick={onSubmit}>Submit</MyButton>

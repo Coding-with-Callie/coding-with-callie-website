@@ -36,6 +36,13 @@ axiosPublic.interceptors.response.use(
       });
     }
 
+    // User is trying to log in and entered incorrect credentials
+    if (message === "Unauthorized") {
+      return Promise.reject({
+        message: "You entered incorrect credentials.",
+      });
+    }
+
     return Promise.reject(error);
   }
 );
