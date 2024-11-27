@@ -79,109 +79,112 @@ const Profile = () => {
         ) : null}
       </Section>
       <Box maxW="900px" margin="0 auto">
-        <Section
-          alignItems={isLargerThan600 ? "center" : "left"}
-          gap={isLargerThan600 ? 75 : 0}
-        >
-          <Box w="25%">
-            <Avatar size="2xl" name={user.username} src={user.photo} />
+        <Section>
+          <Box
+            display="flex"
+            alignItems={isLargerThan600 ? "center" : "left"}
+            gap={isLargerThan600 ? 75 : 0}
+          >
+            <Box w="25%">
+              <Avatar size="2xl" name={user.username} src={user.photo} />
 
-            <Box position="relative" top="-130px" left="130px">
-              <IconButton
-                aria-label="edit"
-                icon={<EditIcon />}
-                onClick={onOpenPhotoModal}
-              />
+              <Box position="relative" top="-130px" left="130px">
+                <IconButton
+                  aria-label="edit"
+                  icon={<EditIcon />}
+                  onClick={onOpenPhotoModal}
+                />
+              </Box>
             </Box>
-          </Box>
-          <Box w={isLargerThan600 ? "75%" : "100%"}>
-            <Box px={2}>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                mb={2}
-                alignItems="center"
-              >
-                <Paragraph margin={false}>Name: </Paragraph>
-                <Box display="flex" w="70%" alignItems="center">
-                  <Paragraph flexWeight={1} margin={false}>
-                    {user.name}
-                  </Paragraph>
-                  <IconButton
-                    aria-label="edit"
-                    icon={<EditIcon />}
-                    onClick={() => {
-                      setField("name");
-                      setFieldValue(user.name);
-                      onOpen();
-                    }}
-                  />
+            <Box w={isLargerThan600 ? "75%" : "100%"}>
+              <Box px={2}>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={2}
+                  alignItems="center"
+                >
+                  <Paragraph margin={false}>Name: </Paragraph>
+                  <Box display="flex" w="70%" alignItems="center">
+                    <Paragraph flexWeight={1} margin={false}>
+                      {user.name}
+                    </Paragraph>
+                    <IconButton
+                      aria-label="edit"
+                      icon={<EditIcon />}
+                      onClick={() => {
+                        setField("name");
+                        setFieldValue(user.name);
+                        onOpen();
+                      }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                mb={2}
-                alignItems="center"
-              >
-                <Paragraph margin={false}>Username: </Paragraph>
-                <Box display="flex" w="70%" alignItems="center">
-                  <Paragraph flexWeight={1} margin={false}>
-                    {user.username}
-                  </Paragraph>
-                  <IconButton
-                    aria-label="edit"
-                    icon={<EditIcon />}
-                    onClick={() => {
-                      setField("username");
-                      setFieldValue(user.username);
-                      onOpen();
-                    }}
-                  />
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={2}
+                  alignItems="center"
+                >
+                  <Paragraph margin={false}>Username: </Paragraph>
+                  <Box display="flex" w="70%" alignItems="center">
+                    <Paragraph flexWeight={1} margin={false}>
+                      {user.username}
+                    </Paragraph>
+                    <IconButton
+                      aria-label="edit"
+                      icon={<EditIcon />}
+                      onClick={() => {
+                        setField("username");
+                        setFieldValue(user.username);
+                        onOpen();
+                      }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                mb={2}
-                alignItems="center"
-              >
-                <Paragraph margin={false}>Password: </Paragraph>
-                <Box display="flex" w="70%" alignItems="center">
-                  <Paragraph flexWeight={1} margin={false}>
-                    ******
-                  </Paragraph>
-                  <IconButton
-                    aria-label="edit"
-                    icon={<EditIcon />}
-                    onClick={() => {
-                      setField("password");
-                      setFieldValue(user.password);
-                      onOpen();
-                    }}
-                  />
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={2}
+                  alignItems="center"
+                >
+                  <Paragraph margin={false}>Password: </Paragraph>
+                  <Box display="flex" w="70%" alignItems="center">
+                    <Paragraph flexWeight={1} margin={false}>
+                      ******
+                    </Paragraph>
+                    <IconButton
+                      aria-label="edit"
+                      icon={<EditIcon />}
+                      onClick={() => {
+                        setField("password");
+                        setFieldValue(user.password);
+                        onOpen();
+                      }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                mb={2}
-                alignItems="center"
-              >
-                <Paragraph margin={false}>Email: </Paragraph>
-                <Box display="flex" w="70%" alignItems="center">
-                  <Paragraph flexWeight={1} margin={false}>
-                    {user.email}
-                  </Paragraph>
-                  <IconButton
-                    aria-label="edit"
-                    icon={<EditIcon />}
-                    onClick={() => {
-                      setField("email");
-                      setFieldValue(user.email);
-                      onOpen();
-                    }}
-                  />
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  mb={2}
+                  alignItems="center"
+                >
+                  <Paragraph margin={false}>Email: </Paragraph>
+                  <Box display="flex" w="70%" alignItems="center">
+                    <Paragraph flexWeight={1} margin={false}>
+                      {user.email}
+                    </Paragraph>
+                    <IconButton
+                      aria-label="edit"
+                      icon={<EditIcon />}
+                      onClick={() => {
+                        setField("email");
+                        setFieldValue(user.email);
+                        onOpen();
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Box>
             </Box>

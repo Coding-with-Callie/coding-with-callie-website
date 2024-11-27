@@ -25,7 +25,7 @@ const UpcomingCarousel = ({ speakers }: Props) => {
   );
 
   return (
-    <Section alignItems={isLargerThan1200 ? "center" : "left"}>
+    <Section>
       {speakers.length > 0 && (
         <Flex
           w={isLargerThan480 ? "80%" : "100%"}

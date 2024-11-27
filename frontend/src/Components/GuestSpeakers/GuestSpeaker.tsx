@@ -180,236 +180,243 @@ const GuestSpeaker = ({
   };
 
   return (
-    <Section
-      alignItems={isLargerThan900 ? "center" : "left"}
-      gap={10}
-      flexDirection={isLargerThan900 ? "row" : "column"}
-    >
-      <AspectRatio h={"250px"} w={"250px"} ratio={1}>
-        {edit ? (
-          <Input
-            p={0}
-            border="none"
-            borderRadius="0px"
-            type="file"
-            accept="image/*"
-            onChange={onChangeImage}
-            key={fileInputKey}
-            backgroundColor="white"
-          />
-        ) : (
-          <Image
-            src={speaker.photoUrl}
-            borderRadius="50%"
-            h={"250px"}
-            boxShadow="lg"
-          />
-        )}
-      </AspectRatio>
+    <Section>
       <Box
-        w={isLargerThan900 ? "60%" : "100%"}
         display="flex"
-        flexDirection="column"
-        gap={6}
+        alignItems={isLargerThan900 ? "top" : "center"}
+        gap={10}
+        flexDirection={isLargerThan900 ? "row" : "column"}
       >
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <AspectRatio h={"250px"} w={"250px"} ratio={1}>
           {edit ? (
             <Input
-              type="text"
-              layerStyle="inputResource"
-              variant="filled"
-              id="name"
-              value={name}
-              mr={2}
-              onChange={onChangeName}
-              isInvalid={name === ""}
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
+              p={0}
+              border="none"
+              borderRadius="0px"
+              type="file"
+              accept="image/*"
+              onChange={onChangeImage}
+              key={fileInputKey}
+              backgroundColor="white"
             />
           ) : (
-            <BodyHeading mb={0}>{speaker.name}</BodyHeading>
+            <Image
+              src={speaker.photoUrl}
+              borderRadius="50%"
+              h={"250px"}
+              boxShadow="lg"
+            />
           )}
-          {editable && (
-            <Box display="flex" gap={2}>
-              <IconButton
-                aria-label={"edit guest speaker"}
-                icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
-                onClick={edit ? submitEdit : editGuestSpeaker}
-                colorScheme="green"
-              />
-              <IconButton
-                aria-label={"delete guest speaker"}
-                icon={<FaRegTrashAlt />}
-                onClick={onOpenAlert}
-                colorScheme="red"
-              />
-            </Box>
-          )}
-        </Box>
-        <Accordion
-          defaultIndex={[0]}
-          index={edit ? [0, 1, 2] : undefined}
-          allowToggle
-          borderColor="black"
-          allowMultiple={true}
-        >
-          <AccordionItem borderColor={"#45446A"}>
-            <h2>
-              <AccordionButton>
-                <Box
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                  color={"#45446A"}
-                  fontWeight="900"
-                >
-                  Meet-up Date
-                </Box>
-                <AccordionIcon color={"#45446A"} />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              {edit ? (
-                <Input
-                  type="date"
-                  layerStyle="inputResource"
-                  variant="filled"
-                  value={date}
-                  onChange={onChangeDate}
-                  isInvalid={date === ""}
-                  _hover={{ backgroundColor: "gray.50" }}
-                  _focus={{ backgroundColor: "white" }}
-                />
-              ) : (
-                <Paragraph>{`${speaker.date} ${speaker.time}`}</Paragraph>
-              )}
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem borderColor={"#45446A"}>
-            <h2>
-              <AccordionButton>
-                <Box
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                  color={"#45446A"}
-                  fontWeight="900"
-                >
-                  Session Description
-                </Box>
-                <AccordionIcon color={"#45446A"} />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              {edit ? (
-                <Textarea
-                  layerStyle="inputResource"
-                  variant="filled"
-                  value={sessionText}
-                  onChange={onChangeSessionText}
-                  isInvalid={sessionText === ""}
-                  _hover={{ backgroundColor: "gray.50" }}
-                  _focus={{ backgroundColor: "white" }}
-                />
-              ) : (
-                <BodyText textBlocks={speaker.sessionText} />
-              )}
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem borderColor={"#45446A"}>
-            <h2>
-              <AccordionButton>
-                <Box
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                  color={"#45446A"}
-                  fontWeight="900"
-                >
-                  About {speaker.name.split(" ")[0]}
-                </Box>
-                <AccordionIcon color={"#45446A"} />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
-              {edit ? (
-                <Textarea
-                  layerStyle="inputResource"
-                  variant="filled"
-                  value={bioText}
-                  onChange={onChangeBioText}
-                  isInvalid={bioText === ""}
-                  _hover={{ backgroundColor: "gray.50" }}
-                  _focus={{ backgroundColor: "white" }}
-                />
-              ) : (
-                <BodyText textBlocks={speaker.bioText} />
-              )}
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
+        </AspectRatio>
         <Box
+          w={isLargerThan900 ? "60%" : "100%"}
           display="flex"
-          gap={4}
-          w="100%"
-          justifyContent="center"
-          flexDirection={isLargerThan500 ? "row" : "column"}
+          flexDirection="column"
+          gap={6}
         >
-          {edit ? (
-            <Input
-              type="text"
-              layerStyle="inputResource"
-              variant="filled"
-              value={websiteUrl}
-              onChange={onChangeWebsiteUrl}
-              isInvalid={websiteUrl === "" && !validURL(websiteUrl)}
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
-            />
-          ) : (
-            <Link to={speaker.websiteUrl} target="_blank">
-              <MyButton widthSize="100%">{`Contact ${
-                speaker.name.split(" ")[0]
-              }`}</MyButton>
-            </Link>
-          )}
-          {edit ? (
-            <Input
-              type="text"
-              layerStyle="inputResource"
-              variant="filled"
-              value={sessionRecordingUrl}
-              onChange={onChangeSessionRecordingUrl}
-              isInvalid={
-                sessionRecordingUrl !== ""
-                  ? !validURL(sessionRecordingUrl)
-                  : false
-              }
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
-            />
-          ) : (
-            <Box>
-              {speaker.sessionRecordingUrl ? (
-                <MyButton onClick={onOpen}>Watch Recording</MyButton>
-              ) : (
-                <MyButton onClick={onOpenZoom}>Zoom Link</MyButton>
-              )}
-            </Box>
-          )}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            {edit ? (
+              <Input
+                type="text"
+                layerStyle="inputResource"
+                variant="filled"
+                id="name"
+                value={name}
+                mr={2}
+                onChange={onChangeName}
+                isInvalid={name === ""}
+                _hover={{ backgroundColor: "gray.50" }}
+                _focus={{ backgroundColor: "white" }}
+              />
+            ) : (
+              <BodyHeading mb={0}>{speaker.name}</BodyHeading>
+            )}
+            {editable && (
+              <Box display="flex" gap={2}>
+                <IconButton
+                  aria-label={"edit guest speaker"}
+                  icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
+                  onClick={edit ? submitEdit : editGuestSpeaker}
+                  colorScheme="green"
+                />
+                <IconButton
+                  aria-label={"delete guest speaker"}
+                  icon={<FaRegTrashAlt />}
+                  onClick={onOpenAlert}
+                  colorScheme="red"
+                />
+              </Box>
+            )}
+          </Box>
+          <Accordion
+            defaultIndex={[0]}
+            index={edit ? [0, 1, 2] : undefined}
+            allowToggle
+            borderColor="black"
+            allowMultiple={true}
+          >
+            <AccordionItem borderColor={"#45446A"}>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    color={"#45446A"}
+                    fontWeight="900"
+                  >
+                    Meet-up Date
+                  </Box>
+                  <AccordionIcon color={"#45446A"} />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                {edit ? (
+                  <Input
+                    type="date"
+                    layerStyle="inputResource"
+                    variant="filled"
+                    value={date}
+                    onChange={onChangeDate}
+                    isInvalid={date === ""}
+                    _hover={{ backgroundColor: "gray.50" }}
+                    _focus={{ backgroundColor: "white" }}
+                  />
+                ) : (
+                  <Paragraph>{`${speaker.date} ${speaker.time}`}</Paragraph>
+                )}
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem borderColor={"#45446A"}>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    color={"#45446A"}
+                    fontWeight="900"
+                  >
+                    Session Description
+                  </Box>
+                  <AccordionIcon color={"#45446A"} />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                {edit ? (
+                  <Textarea
+                    layerStyle="inputResource"
+                    variant="filled"
+                    value={sessionText}
+                    onChange={onChangeSessionText}
+                    isInvalid={sessionText === ""}
+                    _hover={{ backgroundColor: "gray.50" }}
+                    _focus={{ backgroundColor: "white" }}
+                  />
+                ) : (
+                  <BodyText textBlocks={speaker.sessionText} />
+                )}
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem borderColor={"#45446A"}>
+              <h2>
+                <AccordionButton>
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    color={"#45446A"}
+                    fontWeight="900"
+                  >
+                    About {speaker.name.split(" ")[0]}
+                  </Box>
+                  <AccordionIcon color={"#45446A"} />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                {edit ? (
+                  <Textarea
+                    layerStyle="inputResource"
+                    variant="filled"
+                    value={bioText}
+                    onChange={onChangeBioText}
+                    isInvalid={bioText === ""}
+                    _hover={{ backgroundColor: "gray.50" }}
+                    _focus={{ backgroundColor: "white" }}
+                  />
+                ) : (
+                  <BodyText textBlocks={speaker.bioText} />
+                )}
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+          <Box
+            display="flex"
+            gap={4}
+            w="100%"
+            justifyContent="center"
+            flexDirection={isLargerThan500 ? "row" : "column"}
+          >
+            {edit ? (
+              <Input
+                type="text"
+                layerStyle="inputResource"
+                variant="filled"
+                value={websiteUrl}
+                onChange={onChangeWebsiteUrl}
+                isInvalid={websiteUrl === "" && !validURL(websiteUrl)}
+                _hover={{ backgroundColor: "gray.50" }}
+                _focus={{ backgroundColor: "white" }}
+              />
+            ) : (
+              <Link to={speaker.websiteUrl} target="_blank">
+                <MyButton widthSize="100%">{`Contact ${
+                  speaker.name.split(" ")[0]
+                }`}</MyButton>
+              </Link>
+            )}
+            {edit ? (
+              <Input
+                type="text"
+                layerStyle="inputResource"
+                variant="filled"
+                value={sessionRecordingUrl}
+                onChange={onChangeSessionRecordingUrl}
+                isInvalid={
+                  sessionRecordingUrl !== ""
+                    ? !validURL(sessionRecordingUrl)
+                    : false
+                }
+                _hover={{ backgroundColor: "gray.50" }}
+                _focus={{ backgroundColor: "white" }}
+              />
+            ) : (
+              <Box>
+                {speaker.sessionRecordingUrl ? (
+                  <MyButton onClick={onOpen}>Watch Recording</MyButton>
+                ) : (
+                  <MyButton onClick={onOpenZoom}>Zoom Link</MyButton>
+                )}
+              </Box>
+            )}
+          </Box>
         </Box>
+        <VideoModal isOpen={isOpen} onClose={onClose} speaker={speaker} />
+        <ZoomModal isOpen={isOpenZoom} onClose={onCloseZoom} />
+        <Alert
+          isOpenAlert={isOpenAlert}
+          onCloseAlert={onCloseAlert}
+          cancelRef={cancelRef}
+          item="guest speaker"
+          handleDelete={deleteGuestSpeaker}
+        />
       </Box>
-      <VideoModal isOpen={isOpen} onClose={onClose} speaker={speaker} />
-      <ZoomModal isOpen={isOpenZoom} onClose={onCloseZoom} />
-      <Alert
-        isOpenAlert={isOpenAlert}
-        onCloseAlert={onCloseAlert}
-        cancelRef={cancelRef}
-        item="guest speaker"
-        handleDelete={deleteGuestSpeaker}
-      />
     </Section>
   );
 };

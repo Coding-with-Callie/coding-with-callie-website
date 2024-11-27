@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import Resources from "../Components/Home/Resources";
@@ -25,14 +24,13 @@ export type ResourceType = {
 
 const Home = () => {
   const resources = useLoaderData() as ResourceType[];
-
   const { user } = useOutletContext() as Context;
 
   return (
-    <Box>
+    <>
       <PhotoAndText heading="Hi, I'm Callie 👋🏻" text={text} image={callie} />
       <Resources data={resources} role={user.role} />
-    </Box>
+    </>
   );
 };
 
