@@ -61,19 +61,19 @@ const Workshops = () => {
         <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
           My Workshop Origin Story
         </Heading>
-        <BodyText textBlocks={why} textAlignCenter={false} />
+        <BodyText textBlocks={why} />
       </Section>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
           Make it work first, and then make it better
         </Heading>
-        <BodyText textBlocks={mantra} textAlignCenter={false} />
+        <BodyText textBlocks={mantra} />
       </Section>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
           What sets Coding with Callie workshops apart?
         </Heading>
-        <BodyText textBlocks={difference} textAlignCenter={false} />
+        <BodyText textBlocks={difference} />
       </Section>
       <Section screenSizeParameter={false} alignItemsCenter={false}>
         <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">

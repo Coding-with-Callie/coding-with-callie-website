@@ -75,7 +75,7 @@ const Resource = ({
               _focus={{ backgroundColor: "white" }}
             />
           ) : (
-            <BodyText textBlocks={textBlocks} textAlignCenter={false} />
+            <BodyText textBlocks={textBlocks} />
           )}
         </TextWithImageAndButton>
       </Section>

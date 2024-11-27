@@ -40,7 +40,7 @@ const GuestSpeakers = () => {
     <Box>
       <Box m={"0 auto"}>
         <UpcomingCarousel speakers={upcomingSpeakers} />
-        <BodyHeading textAlignCenter={true}>Past Speakers</BodyHeading>
+        <BodyHeading textAlign="center">Past Speakers</BodyHeading>
         <Center>
           <Divider
             w="80%"

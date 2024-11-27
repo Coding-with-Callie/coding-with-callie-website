@@ -28,10 +28,10 @@ const Jobs = () => {
       boxShadow="lg"
     >
       <Box mt={5}>
-        <BodyHeading textAlignCenter={true}>Developer Jobs Policy</BodyHeading>
+        <BodyHeading textAlign="center">Developer Jobs Policy</BodyHeading>
       </Box>
       <Section alignItemsCenter={false} screenSizeParameter={true}>
-        <BodyHeading textAlignCenter={false}>Eligibility</BodyHeading>
+        <BodyHeading>Eligibility</BodyHeading>
         <Text color="#45446A" mb={4}>
           To be eligible for a Coding with Callie development ticket, you must
           have completed either the{" "}
@@ -60,7 +60,7 @@ const Jobs = () => {
         </Text>
       </Section>
       <Section alignItemsCenter={false} screenSizeParameter={true}>
-        <BodyHeading textAlignCenter={false}>Selection Process</BodyHeading>
+        <BodyHeading>Selection Process</BodyHeading>
         <Text color="#45446A" mb={4}>
           Development ticket opportunities will be posted in the #jobs channel
           with a link to their application. To apply, you must fill out the
@@ -79,9 +79,7 @@ const Jobs = () => {
         </Text>
       </Section>
       <Section alignItemsCenter={false} screenSizeParameter={true}>
-        <BodyHeading textAlignCenter={false}>
-          Ticket Completion and Validation
-        </BodyHeading>
+        <BodyHeading>Ticket Completion and Validation</BodyHeading>
         <Text color="#45446A" mb={4}>
           The ticket will include a general summary of the work, the acceptance
           criteria for the task, a date on which the task must be completed, and

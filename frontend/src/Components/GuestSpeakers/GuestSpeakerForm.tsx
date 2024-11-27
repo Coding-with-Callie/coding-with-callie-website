@@ -138,7 +138,7 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
       margin="0 auto"
     >
       <FormControl display="flex" flexDirection="column" gap={6}>
-        <BodyHeading textAlignCenter={true} removeMargin>
+        <BodyHeading textAlign="center" mb={0}>
           Create Guest Speaker
         </BodyHeading>
         <Box>

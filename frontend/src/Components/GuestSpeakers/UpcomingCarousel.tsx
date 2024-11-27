@@ -33,7 +33,7 @@ const UpcomingCarousel = ({ speakers }: Props) => {
           justifyContent="center"
           mb={4}
         >
-          <BodyHeading textAlignCenter={true}>Upcoming Speakers</BodyHeading>
+          <BodyHeading textAlign="center">Upcoming Speakers</BodyHeading>
           <Center>
             <Divider
               w="100%"

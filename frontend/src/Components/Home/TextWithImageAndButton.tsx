@@ -205,7 +205,7 @@ const TextWithImageAndButton = ({
               _focus={{ backgroundColor: "white" }}
             />
           ) : (
-            <BodyHeading textAlignCenter={false}>{heading}</BodyHeading>
+            <BodyHeading>{heading}</BodyHeading>
           )}
           {editable && (
             <Box mb={6} display="flex" gap={2}>

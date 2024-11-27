@@ -6,7 +6,7 @@ import Paragraph from "./Paragraph";
 const AccessRequired = () => {
   return (
     <Box margin="0 auto">
-      <Paragraph textAlignCenter={true}>
+      <Paragraph textAlign="center">
         You do not have access to this page.
       </Paragraph>
       <Box display="flex" gap={4} justifyContent="center" mt={10}>

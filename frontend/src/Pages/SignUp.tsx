@@ -16,7 +16,7 @@ const SignUp = () => {
 
   return (
     <Section screenSizeParameter={false} alignItemsCenter={false}>
-      <BodyHeading textAlignCenter={true}>
+      <BodyHeading textAlign="center">
         Join the Coding with Callie community!
       </BodyHeading>
       <SignUpForm />

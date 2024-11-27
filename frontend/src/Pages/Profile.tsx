@@ -70,7 +70,7 @@ const Profile = () => {
   return (
     <>
       <Section screenSizeParameter={false} alignItemsCenter={true}>
-        <BodyHeading textAlignCenter={true}>Account Details</BodyHeading>
+        <BodyHeading textAlign="center">Account Details</BodyHeading>
 
         {user.name ? (
           <Paragraph margin={false}>

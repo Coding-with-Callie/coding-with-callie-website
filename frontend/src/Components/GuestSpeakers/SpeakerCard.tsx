@@ -70,7 +70,7 @@ const SpeakerCard = ({ speaker }: Props) => {
       minWidth="280px"
     >
       <CardHeader>
-        <BodyHeading textAlignCenter={true}>{speaker.name}</BodyHeading>
+        <BodyHeading textAlign="center">{speaker.name}</BodyHeading>
         <Flex justifyContent="center">
           <Image
             src={speaker.photoUrl}
@@ -118,10 +118,7 @@ const SpeakerCard = ({ speaker }: Props) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <BodyText
-                  textBlocks={speaker.sessionText}
-                  textAlignCenter={false}
-                />
+                <BodyText textBlocks={speaker.sessionText} />
               </AccordionPanel>
             </AccordionItem>
             <AccordionItem borderColor={"#45446A"}>
@@ -140,10 +137,7 @@ const SpeakerCard = ({ speaker }: Props) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <BodyText
-                  textBlocks={speaker.bioText}
-                  textAlignCenter={false}
-                />
+                <BodyText textBlocks={speaker.bioText} />
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

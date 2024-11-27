@@ -228,9 +228,7 @@ const GuestSpeaker = ({
               _focus={{ backgroundColor: "white" }}
             />
           ) : (
-            <BodyHeading textAlignCenter={false} removeMargin>
-              {speaker.name}
-            </BodyHeading>
+            <BodyHeading mb={0}>{speaker.name}</BodyHeading>
           )}
           {editable && (
             <Box display="flex" gap={2}>
@@ -316,10 +314,7 @@ const GuestSpeaker = ({
                   _focus={{ backgroundColor: "white" }}
                 />
               ) : (
-                <BodyText
-                  textBlocks={speaker.sessionText}
-                  textAlignCenter={false}
-                />
+                <BodyText textBlocks={speaker.sessionText} />
               )}
             </AccordionPanel>
           </AccordionItem>
@@ -351,10 +346,7 @@ const GuestSpeaker = ({
                   _focus={{ backgroundColor: "white" }}
                 />
               ) : (
-                <BodyText
-                  textBlocks={speaker.bioText}
-                  textAlignCenter={false}
-                />
+                <BodyText textBlocks={speaker.bioText} />
               )}
             </AccordionPanel>
           </AccordionItem>

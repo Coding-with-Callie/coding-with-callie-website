@@ -41,7 +41,7 @@ const Reviews = () => {
         />
       )}
       <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <BodyHeading textAlignCenter={true}>Reviews</BodyHeading>
+        <BodyHeading textAlign="center">Reviews</BodyHeading>
         {reviews.length > 0 ? (
           reviews.map((review: any, index: number) => {
             return (
