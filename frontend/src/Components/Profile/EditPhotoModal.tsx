@@ -36,15 +36,10 @@ const EditPhotoModal = ({ onClose }: Props) => {
           context.updateUser(response.data);
         })
         .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            showNotification(
-              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-              "error"
-            );
-            navigate("/log-in");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
+          showNotification(error.message, "error");
+
+          if (error.path) {
+            navigate(error.path);
           }
         });
     }

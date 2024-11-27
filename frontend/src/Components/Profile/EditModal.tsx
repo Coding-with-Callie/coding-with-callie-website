@@ -1,6 +1,6 @@
 import { Box, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
@@ -14,6 +14,7 @@ type Props = {
 
 const EditModal = ({ field, value, onClose }: Props) => {
   const { user, updateUser } = useOutletContext() as Context;
+  const navigate = useNavigate();
 
   const [newValue, setNewValue] = useState(value);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -50,6 +51,10 @@ const EditModal = ({ field, value, onClose }: Props) => {
       })
       .catch((error) => {
         showNotification(error.message, "error");
+
+        if (error.path) {
+          navigate(error.path);
+        }
       });
     onClose();
   };
