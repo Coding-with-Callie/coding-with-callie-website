@@ -135,7 +135,6 @@ export class AuthController {
 
   @Post('change-account-detail')
   changeAccountDetail(@Body() accountDetails: AccountDetailDTO) {
-    console.log('Change account detail', accountDetails);
     return this.authService.changeAccountDetail(
       accountDetails.id,
       accountDetails.field,

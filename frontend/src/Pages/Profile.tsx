@@ -61,8 +61,7 @@ const Profile = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    const newUser = {};
-    updateUser(newUser);
+    updateUser({});
     navigate("/log-in");
     showNotification("You have been logged out of your account!", "success");
   };
@@ -70,8 +69,7 @@ const Profile = () => {
   const deleteAccount = () => {
     axiosPrivate.post("/delete-account", { id: user.id }).then(() => {
       localStorage.removeItem("token");
-      const newUser = {};
-      updateUser(newUser);
+      updateUser({});
       navigate("/sign-up");
       showNotification("Your account has been deleted!", "success");
     });

@@ -82,6 +82,7 @@ axiosPrivate.interceptors.request.use(
       if (config.url === "/user-details") {
         return Promise.reject("no error");
       }
+      console.log("No token provided");
       const source = axios.CancelToken.source();
       config.cancelToken = source.token;
       source.cancel("No token provided"); // Cancel the request
@@ -105,7 +106,15 @@ axiosPrivate.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("ERROR", error);
+    console.log("Error:", error);
+
+    let message: string = "";
+
+    if (error.code === "ERR_CANCELED") {
+      // There is no token in local storage. User likely does not have an account.
+      message = "You must have an account to view that page.";
+      return Promise.reject({ path: "/sign-up", message });
+    }
 
     // If the error isn't really an error...
     if (error === "no error" || error.response.config.headers["User-Details"]) {
@@ -114,14 +123,6 @@ axiosPrivate.interceptors.response.use(
           message: "no error",
         },
       };
-    }
-
-    let message: string = "";
-
-    if (error.code === "ERR_CANCELED") {
-      // There is no token in local storage. User likely does not have an account.
-      message = "You must have an account to view that page.";
-      return Promise.reject({ path: "/sign-up", message });
     }
 
     // User has a token, but it is invalid. User's session has expired.
@@ -138,7 +139,7 @@ axiosPrivate.interceptors.response.use(
 
     // Some other error occurred
     // I THINK THIS IS AN ISSUE
-    return Promise.reject({ path: "/sign-up" });
+    return Promise.reject({ message: error.response.data.message });
   }
 );
 

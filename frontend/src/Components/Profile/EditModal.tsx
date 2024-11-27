@@ -1,6 +1,6 @@
 import { Box, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
@@ -14,7 +14,6 @@ type Props = {
 
 const EditModal = ({ field, value, onClose }: Props) => {
   const { user, updateUser } = useOutletContext() as Context;
-  const navigate = useNavigate();
 
   const [newValue, setNewValue] = useState(value);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -29,15 +28,13 @@ const EditModal = ({ field, value, onClose }: Props) => {
   };
 
   const handleSubmit = (field: string) => {
-    if (field === "password") {
-      if (newValue !== match) {
-        setSubmitClicked(true);
-        return;
-      }
+    if ((field === "password" && newValue !== match) || newValue === "") {
+      setSubmitClicked(true);
+      return;
     }
 
-    if (newValue === "") {
-      setSubmitClicked(true);
+    if (newValue === value) {
+      onClose();
       return;
     }
 
@@ -53,9 +50,6 @@ const EditModal = ({ field, value, onClose }: Props) => {
       })
       .catch((error) => {
         showNotification(error.message, "error");
-        if (error.path) {
-          navigate(error.path);
-        }
       });
     onClose();
   };
