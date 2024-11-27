@@ -3,7 +3,7 @@ import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import Resources from "../Components/Home/Resources";
 import callie from "../images/callie.png";
-import PhotoLeftTextRight from "../Components/Home/PhotoLeftTextRight";
+import PhotoAndText from "../Components/Home/PhotoAndText";
 
 const text = [
   "I started my career as a Spanish and Math teacher, but I quickly realized that telling kids to get off their phones all day wasn't very fun.",
@@ -30,11 +30,7 @@ const Home = () => {
 
   return (
     <Box>
-      <PhotoLeftTextRight
-        heading="Hi, I'm Callie 👋🏻"
-        text={text}
-        image={callie}
-      />
+      <PhotoAndText heading="Hi, I'm Callie 👋🏻" text={text} image={callie} />
       <Resources data={resources} role={user.role} />
     </Box>
   );

@@ -9,18 +9,12 @@ type Props = {
   image: string;
 };
 
-const PhotoLeftTextRight = ({ heading, text, image }: Props) => {
+const PhotoAndText = ({ heading, text, image }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
   return (
-    <Section
-      screenSizeParameter={isLargerThan700}
-      alignItemsCenter={true}
-      gapSize={10}
-      direction={isLargerThan900 ? "row" : "column"}
-    >
+    <Section gap={10} flexDirection={isLargerThan900 ? "row" : "column"}>
       <Image
         src={image}
         borderRadius="50%"
@@ -35,4 +29,4 @@ const PhotoLeftTextRight = ({ heading, text, image }: Props) => {
   );
 };
 
-export default PhotoLeftTextRight;
+export default PhotoAndText;

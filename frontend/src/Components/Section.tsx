@@ -2,34 +2,30 @@ import { Box } from "@chakra-ui/react";
 
 type Props = {
   children: any;
-  screenSizeParameter: boolean;
-  alignItemsCenter: boolean;
-  gapSize?: number;
-  maxWidthSize?: string;
-  direction?: "row" | "column";
+  alignItems?: "center" | "left";
+  gap?: number;
+  maxW?: string;
+  flexDirection?: "row" | "column";
 };
 
 const Section = ({
   children,
-  screenSizeParameter,
-  alignItemsCenter,
-  gapSize,
-  maxWidthSize,
-  direction,
+  alignItems = "center",
+  gap,
+  maxW = "100%",
+  flexDirection = "column",
 }: Props) => {
   return (
     <Box
       px={8}
       mt={20}
       mb={4}
-      gap={gapSize}
+      gap={gap}
       display="flex"
-      alignItems={
-        alignItemsCenter ? "center" : screenSizeParameter ? "left" : "center"
-      }
+      alignItems={alignItems}
       justifyContent="center"
-      flexDirection={direction || "column"}
-      maxW={maxWidthSize || "100%"}
+      flexDirection={flexDirection}
+      maxW={maxW}
     >
       {children}
     </Box>

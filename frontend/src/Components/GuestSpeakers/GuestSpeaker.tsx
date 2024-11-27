@@ -181,10 +181,9 @@ const GuestSpeaker = ({
 
   return (
     <Section
-      screenSizeParameter={isLargerThan900}
-      alignItemsCenter={false}
-      gapSize={10}
-      direction={isLargerThan900 ? "row" : "column"}
+      alignItems={isLargerThan900 ? "center" : "left"}
+      gap={10}
+      flexDirection={isLargerThan900 ? "row" : "column"}
     >
       <AspectRatio h={"250px"} w={"250px"} ratio={1}>
         {edit ? (

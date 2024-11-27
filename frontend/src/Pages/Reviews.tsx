@@ -40,7 +40,7 @@ const Reviews = () => {
           isLargerThan900={isLargerThan900}
         />
       )}
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
+      <Section>
         <BodyHeading textAlign="center">Reviews</BodyHeading>
         {reviews.length > 0 ? (
           reviews.map((review: any, index: number) => {

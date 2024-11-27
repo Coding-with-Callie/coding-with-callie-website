@@ -69,7 +69,7 @@ const Profile = () => {
 
   return (
     <>
-      <Section screenSizeParameter={false} alignItemsCenter={true}>
+      <Section>
         <BodyHeading textAlign="center">Account Details</BodyHeading>
 
         {user.name ? (
@@ -80,9 +80,8 @@ const Profile = () => {
       </Section>
       <Box maxW="900px" margin="0 auto">
         <Section
-          screenSizeParameter={isLargerThan600}
-          alignItemsCenter={true}
-          gapSize={isLargerThan600 ? 75 : 0}
+          alignItems={isLargerThan600 ? "center" : "left"}
+          gap={isLargerThan600 ? 75 : 0}
         >
           <Box w="25%">
             <Avatar size="2xl" name={user.username} src={user.photo} />
@@ -188,7 +187,7 @@ const Profile = () => {
             </Box>
           </Box>
         </Section>
-        <Section screenSizeParameter={false} alignItemsCenter={false}>
+        <Section>
           <Box display="flex" gap={4}>
             <MyButton onClick={logout}>Log out</MyButton>
             <MyButton onClick={onOpenAlert}>Delete Account</MyButton>

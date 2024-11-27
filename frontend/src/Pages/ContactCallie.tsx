@@ -69,7 +69,7 @@ const ContactCallie = () => {
   };
 
   return (
-    <Section screenSizeParameter={false} alignItemsCenter={false}>
+    <Section>
       <BodyHeading textAlign="center">Contact Callie</BodyHeading>
       {formSent ? (
         <BodyText textBlocks={thankYouMessage} textAlign="center" />

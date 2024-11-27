@@ -44,7 +44,7 @@ const Resource = ({
 
   return (
     <Box id={order.toString()}>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+      <Section alignItems={isLargerThan900 ? "center" : "left"}>
         <TextWithImageAndButton
           heading={heading}
           imageUrl={imageUrl}

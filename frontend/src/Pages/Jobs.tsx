@@ -30,7 +30,7 @@ const Jobs = () => {
       <Box mt={5}>
         <BodyHeading textAlign="center">Developer Jobs Policy</BodyHeading>
       </Box>
-      <Section alignItemsCenter={false} screenSizeParameter={true}>
+      <Section>
         <BodyHeading>Eligibility</BodyHeading>
         <Text color="#45446A" mb={4}>
           To be eligible for a Coding with Callie development ticket, you must
@@ -59,7 +59,7 @@ const Jobs = () => {
           development tickets.
         </Text>
       </Section>
-      <Section alignItemsCenter={false} screenSizeParameter={true}>
+      <Section>
         <BodyHeading>Selection Process</BodyHeading>
         <Text color="#45446A" mb={4}>
           Development ticket opportunities will be posted in the #jobs channel
@@ -78,7 +78,7 @@ const Jobs = () => {
           ticket.
         </Text>
       </Section>
-      <Section alignItemsCenter={false} screenSizeParameter={true}>
+      <Section>
         <BodyHeading>Ticket Completion and Validation</BodyHeading>
         <Text color="#45446A" mb={4}>
           The ticket will include a general summary of the work, the acceptance
@@ -126,14 +126,14 @@ const Jobs = () => {
           reputation of Coding with Callie.
         </Text>
       </Section>
-      <Section alignItemsCenter={false} screenSizeParameter={true}>
+      <Section>
         <Text color="#45446A" mb={4}>
           By joining the #jobs channel, you are agreeing to the terms of this
           policy:
         </Text>
         <MyButton onClick={openJobsChannel}>Join the #jobs channel!</MyButton>
       </Section>
-      <Section alignItemsCenter={false} screenSizeParameter={true}>
+      <Section>
         <Text color="#45446A" mb={4} textAlign="center">
           This policy is subject to change as Coding with Callie evolves.
         </Text>

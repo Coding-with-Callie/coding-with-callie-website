@@ -54,7 +54,7 @@ const LogIn = () => {
   };
 
   return (
-    <Section screenSizeParameter={false} alignItemsCenter={false}>
+    <Section>
       <BodyHeading>Log in!</BodyHeading>
       <LogInForm />
       <Box

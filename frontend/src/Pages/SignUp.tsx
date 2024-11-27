@@ -15,7 +15,7 @@ const SignUp = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   return (
-    <Section screenSizeParameter={false} alignItemsCenter={false}>
+    <Section>
       <BodyHeading textAlign="center">
         Join the Coding with Callie community!
       </BodyHeading>
