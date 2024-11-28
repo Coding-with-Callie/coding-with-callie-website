@@ -9,25 +9,27 @@ import { isInvalidName } from "../../helpers/helpers";
 import { showNotification } from "../..";
 import { useState } from "react";
 import { axiosPrivate } from "../../helpers/axios_instances";
-import { useNavigate } from "react-router-dom";
-
-type User = {
-  id: number;
-  name: string;
-};
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../../App";
 
 type Props = {
   setReviews: React.Dispatch<React.SetStateAction<any>>;
-  user: User;
 };
 
-const ReviewForm = ({ setReviews, user }: Props) => {
+const ReviewForm = ({ setReviews }: Props) => {
+  const { user, catchError } = useOutletContext() as Context;
+
   const [submitClicked, setSubmitClicked] = useState(false);
   const [rating, setRating] = useState<null | number>(null);
   const [comments, setComments] = useState("");
   const [displayName, setDisplayName] = useState(user.name);
 
-  const navigate = useNavigate();
+  const resetState = () => {
+    setSubmitClicked(false);
+    setRating(null);
+    setComments("");
+    setDisplayName(user.name);
+  };
 
   const onSubmit = () => {
     if (isInvalidName(displayName) || rating === null) {
@@ -42,20 +44,13 @@ const ReviewForm = ({ setReviews, user }: Props) => {
         displayName,
       })
       .then((response) => {
-        setSubmitClicked(false);
-        setRating(null);
-        setComments("");
-        setDisplayName(user.name);
+        resetState();
 
         showNotification("Thank you for your review!", "success");
         setReviews(response.data);
       })
       .catch((error) => {
-        showNotification(error.message, "error");
-
-        if (error.path) {
-          navigate(error.path);
-        }
+        catchError(error);
       });
   };
 

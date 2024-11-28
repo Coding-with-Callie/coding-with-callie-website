@@ -27,9 +27,7 @@ const Reviews = () => {
       <Section>
         <BodyHeading textAlign="center">Reviews</BodyHeading>
       </Section>
-      <Section>
-        {user.name && <ReviewForm setReviews={setReviews} user={user} />}
-      </Section>
+      <Section>{user.name && <ReviewForm setReviews={setReviews} />}</Section>
       <Section>
         <ReviewList reviews={reviews} />
       </Section>
