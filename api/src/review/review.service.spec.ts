@@ -69,15 +69,18 @@ describe('ReviewService', () => {
 
   it('should call save method of reviewRepository and return a success message', async () => {
     const review = {
-      userId: 1,
       rating: 5,
       comments: 'Great',
       displayName: 'John',
     };
+    const userId = 1;
 
-    const result = await service.submitReview(review);
+    const result = await service.submitReview(review, userId);
     expect(result).toEqual({ message: 'Review submitted successfully.' });
     expect(mockReviewRepository.save).toHaveBeenCalledTimes(1);
-    expect(mockReviewRepository.save).toHaveBeenCalledWith(review);
+    expect(mockReviewRepository.save).toHaveBeenCalledWith({
+      ...review,
+      user: { id: userId },
+    });
   });
 });

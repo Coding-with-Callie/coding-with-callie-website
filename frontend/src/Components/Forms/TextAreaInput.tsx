@@ -4,10 +4,15 @@ type Props = {
   field: string;
   onChange: any;
   value: string;
-  isInvalid: boolean | undefined;
+  isInvalid?: boolean;
 };
 
-const TextAreaInput = ({ field, onChange, value, isInvalid }: Props) => {
+const TextAreaInput = ({
+  field,
+  onChange,
+  value,
+  isInvalid = false,
+}: Props) => {
   return (
     <Box>
       <FormLabel layerStyle="input">{field}</FormLabel>

@@ -7,8 +7,9 @@ import TextInput from "../Forms/TextInput";
 import MyButton from "../MyButton";
 import { isInvalidName } from "../../helpers/helpers";
 import { showNotification } from "../..";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { axiosPrivate } from "../../helpers/axios_instances";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   id: number;
@@ -17,64 +18,59 @@ type User = {
 
 type Props = {
   setReviews: React.Dispatch<React.SetStateAction<any>>;
-  title?: string;
   user: User;
 };
 
-const ReviewForm = ({ setReviews, title, user }: Props) => {
+const ReviewForm = ({ setReviews, user }: Props) => {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [rating, setRating] = useState<null | number>(null);
-  const [reviewFormData, setReviewFormData] = useState<any>({
-    rating: rating,
-    comments: "",
-    displayName: user.name,
-    userId: user.id,
-  });
-  const [invalidDisplayName, setInvalidDisplayName] = useState(
-    isInvalidName(reviewFormData.displayName)
-  );
+  const [comments, setComments] = useState("");
+  const [displayName, setDisplayName] = useState(user.name);
+
+  const navigate = useNavigate();
 
   const onSubmit = () => {
-    setInvalidDisplayName(isInvalidName(reviewFormData.displayName));
-    if (isInvalidName(reviewFormData.displayName) || rating === null) {
+    if (isInvalidName(displayName) || rating === null) {
       setSubmitClicked(true);
-      showNotification("Please enter all the necessary information", "error");
-    } else {
-      axiosPrivate.post("/submit-review", reviewFormData).then((response) => {
+      return;
+    }
+
+    axiosPrivate
+      .post("/review", {
+        rating,
+        comments,
+        displayName,
+      })
+      .then((response) => {
+        setSubmitClicked(false);
         setRating(null);
-        setReviewFormData({
-          rating: rating,
-          comments: "",
-          displayName: user.name,
-          userId: user.id,
-        });
+        setComments("");
+        setDisplayName(user.name);
 
         showNotification("Thank you for your review!", "success");
         setReviews(response.data);
+      })
+      .catch((error) => {
+        showNotification(error.message, "error");
+
+        if (error.path) {
+          navigate(error.path);
+        }
       });
-    }
   };
 
-  useEffect(() => {
-    setReviewFormData({ ...reviewFormData, rating });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rating]);
-
   const onChangeName = (e: any) => {
-    setInvalidDisplayName(false);
-    setReviewFormData({ ...reviewFormData, displayName: e.target.value });
+    setDisplayName(e.target.value);
   };
 
   const onChangeComments = (e: any) => {
-    setReviewFormData({ ...reviewFormData, comments: e.target.value });
+    setComments(e.target.value);
   };
 
   return (
     <Box margin="0 auto" maxW={"600px"}>
       <Section>
-        <BodyHeading textAlign="center">
-          {title || "Post Your Own Review"}
-        </BodyHeading>
+        <BodyHeading textAlign="center">Post Your Own Review</BodyHeading>
         <FormControl display="flex" flexDirection="column" gap={6}>
           <RatingInput
             rating={rating}
@@ -84,14 +80,13 @@ const ReviewForm = ({ setReviews, title, user }: Props) => {
           <TextInput
             field="Display Name"
             onChange={onChangeName}
-            value={reviewFormData.displayName}
-            isInvalid={submitClicked && invalidDisplayName}
+            value={displayName}
+            isInvalid={submitClicked && isInvalidName(displayName)}
           />
           <TextAreaInput
             field="Comments"
             onChange={onChangeComments}
-            value={reviewFormData.comments}
-            isInvalid={false}
+            value={comments}
           />
           <MyButton onClick={onSubmit}>Submit</MyButton>
         </FormControl>

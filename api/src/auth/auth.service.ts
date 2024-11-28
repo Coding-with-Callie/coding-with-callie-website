@@ -40,9 +40,9 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, 'photo', photoUrl);
   }
 
-  async submitReviewAndReturnUpdatedReviews(review: ReviewDTO) {
+  async submitReviewAndReturnUpdatedReviews(review: ReviewDTO, userId: number) {
     // Submit the review
-    await this.reviewService.submitReview(review);
+    await this.reviewService.submitReview(review, userId);
 
     // Return the updated reviews
     return await this.reviewService.getAllReviews();

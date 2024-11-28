@@ -42,8 +42,6 @@ export class ReviewDTO {
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   displayName: string;
-
-  userId: number;
 }
 
 export class ProjectDto {
@@ -157,9 +155,15 @@ export class AuthController {
     return this.authService.getFrontendFriendlyUser(id);
   }
 
-  @Post('submit-review')
-  async submitReviewAndReturnUpdatedReviews(@Body() review: ReviewDTO) {
-    return await this.authService.submitReviewAndReturnUpdatedReviews(review);
+  @Post('review')
+  async submitReviewAndReturnUpdatedReviews(
+    @Body() review: ReviewDTO,
+    @Request() req,
+  ) {
+    return await this.authService.submitReviewAndReturnUpdatedReviews(
+      review,
+      req.user.sub,
+    );
   }
 
   @Get('project')

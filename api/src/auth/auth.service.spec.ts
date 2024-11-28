@@ -183,18 +183,21 @@ describe('AuthService', () => {
       rating: 5,
       comments: 'Great project!',
       displayName: 'Callie Stoscup',
-      userId: 1,
     };
+    const userId = 1;
 
     mockReviewService.submitReview.mockResolvedValue({
       message: 'Review submitted successfully',
     });
     mockReviewService.getAllReviews.mockResolvedValue([review]);
 
-    const result = await service.submitReviewAndReturnUpdatedReviews(review);
+    const result = await service.submitReviewAndReturnUpdatedReviews(
+      review,
+      userId,
+    );
     expect(result).toEqual([review]);
     expect(mockReviewService.submitReview).toHaveBeenCalledTimes(1);
-    expect(mockReviewService.submitReview).toHaveBeenCalledWith(review);
+    expect(mockReviewService.submitReview).toHaveBeenCalledWith(review, userId);
     expect(mockReviewService.getAllReviews).toHaveBeenCalledTimes(1);
   });
 

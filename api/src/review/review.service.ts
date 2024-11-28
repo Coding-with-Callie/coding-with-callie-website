@@ -30,8 +30,8 @@ export class ReviewService {
     });
   }
 
-  async submitReview(review: ReviewDTO) {
-    await this.reviewRepository.save(review);
+  async submitReview(review: ReviewDTO, userId: number) {
+    await this.reviewRepository.save({ ...review, user: { id: userId } });
     return { message: 'Review submitted successfully.' };
   }
 }
