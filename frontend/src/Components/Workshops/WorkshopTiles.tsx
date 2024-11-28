@@ -1,7 +1,7 @@
-import { Box } from "@chakra-ui/react";
 import { Workshop } from "../../Pages/Workshops";
 import WorkshopTile from "./WorkshopTile";
 import Paragraph from "../Paragraph";
+import WorkshopTilesContainer from "./WorkshopTilesContainer";
 
 type Props = {
   workshops: Workshop[];
@@ -11,17 +11,11 @@ const WorkshopTiles = ({ workshops }: Props) => {
   return (
     <>
       {workshops.length > 0 ? (
-        <Box
-          display="flex"
-          gap={20}
-          flexWrap="wrap"
-          justifyContent="center"
-          w="100%"
-        >
+        <WorkshopTilesContainer>
           {workshops.map((workshop, index) => {
             return <WorkshopTile workshop={workshop} index={index} />;
           })}
-        </Box>
+        </WorkshopTilesContainer>
       ) : (
         <Paragraph>There are no workshops yet...</Paragraph>
       )}

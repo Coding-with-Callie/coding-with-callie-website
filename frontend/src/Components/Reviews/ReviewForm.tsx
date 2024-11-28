@@ -17,12 +17,11 @@ type User = {
 
 type Props = {
   setReviews: React.Dispatch<React.SetStateAction<any>>;
-  isLargerThan900: boolean;
   title?: string;
   user: User;
 };
 
-const ReviewForm = ({ setReviews, isLargerThan900, title, user }: Props) => {
+const ReviewForm = ({ setReviews, title, user }: Props) => {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [rating, setRating] = useState<null | number>(null);
   const [reviewFormData, setReviewFormData] = useState<any>({
