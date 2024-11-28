@@ -15,7 +15,7 @@ const UserReview = ({ review, index }: Props) => {
 
   return (
     <ReviewContainer index={index}>
-      <Box display="flex" gap={3} border="1px">
+      <Box display="flex" gap={3}>
         {isLargerThan550 && (
           <Avatar src={review.user.photo} name={review.displayName} size="lg" />
         )}

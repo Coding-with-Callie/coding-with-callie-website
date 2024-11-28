@@ -24,9 +24,13 @@ const Reviews = () => {
 
   return (
     <Box>
-      {user.name && <ReviewForm setReviews={setReviews} user={user} />}
       <Section>
         <BodyHeading textAlign="center">Reviews</BodyHeading>
+      </Section>
+      <Section>
+        {user.name && <ReviewForm setReviews={setReviews} user={user} />}
+      </Section>
+      <Section>
         <ReviewList reviews={reviews} />
       </Section>
     </Box>
