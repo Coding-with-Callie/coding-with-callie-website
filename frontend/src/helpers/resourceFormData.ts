@@ -44,3 +44,19 @@ export const resourceFormData: CustomFormData = {
     },
   ],
 };
+
+export const loginFormData: CustomFormData = {
+  formHeading: "Log In",
+  input: [
+    {
+      type: "text",
+      label: "Username",
+      field: "username",
+    },
+    {
+      type: "password",
+      label: "Password",
+      field: "password",
+    },
+  ],
+};

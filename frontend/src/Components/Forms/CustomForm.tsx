@@ -43,6 +43,20 @@ const CustomForm = ({
           );
         }
 
+        if (item.type === "password") {
+          return (
+            <TextInput
+              key={index}
+              label={item.label}
+              field={item.field}
+              value={data[item.field]}
+              onChange={onChange}
+              isInvalid={submitClicked && data[item.field] === ""}
+              type="password"
+            />
+          );
+        }
+
         if (item.type === "textarea") {
           return (
             <TextAreaInput

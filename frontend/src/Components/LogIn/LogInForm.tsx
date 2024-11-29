@@ -1,11 +1,10 @@
-import { FormControl } from "@chakra-ui/react";
-import TextInput from "../Forms/TextInput";
-import MyButton from "../MyButton";
 import { showNotification } from "../..";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { axiosPublic } from "../../helpers/axios_instances";
 import { useState } from "react";
 import { Context } from "../../App";
+import { loginFormData } from "../../helpers/resourceFormData";
+import CustomForm from "../Forms/CustomForm";
 
 type UserData = {
   username: string;
@@ -18,13 +17,25 @@ const LogInForm = () => {
     password: "",
   });
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { updateUser } = useOutletContext() as Context;
+  const { updateUser, catchError } = useOutletContext() as Context;
+
   const navigate = useNavigate();
 
-  const onChangeUserData = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+
+    setUserData({
+      ...userData,
+      [id]: value,
+    });
+  };
+
+  const resetState = () => {
+    setUserData({ username: "", password: "" });
     setSubmitClicked(false);
-    setUserData({ ...userData, [e.target.id]: e.target.value });
+    setLoading(false);
   };
 
   const onSubmit = () => {
@@ -32,6 +43,9 @@ const LogInForm = () => {
       setSubmitClicked(true);
       return;
     }
+
+    setLoading(true);
+
     axiosPublic
       .post("/login", userData)
       .then((response) => {
@@ -41,39 +55,20 @@ const LogInForm = () => {
         navigate("/");
       })
       .catch((error) => {
-        setUserData({ ...userData, password: "" });
-        showNotification(
-          error.message || `An error occurred. Please try again!`,
-          "error"
-        );
+        resetState();
+        catchError(error);
       });
   };
 
   return (
-    <FormControl
-      display="flex"
-      flexDirection="column"
-      gap={6}
-      maxW={"600px"}
-      margin="0 auto"
-    >
-      <TextInput
-        label="Username"
-        field="username"
-        onChange={onChangeUserData}
-        value={userData?.username || ""}
-        isInvalid={submitClicked && userData.username === ""}
-      />
-      <TextInput
-        label="Password"
-        field="password"
-        onChange={onChangeUserData}
-        value={userData?.password || ""}
-        isInvalid={submitClicked && userData.password === ""}
-        type="password"
-      />
-      <MyButton onClick={onSubmit}>Submit</MyButton>
-    </FormControl>
+    <CustomForm
+      form={loginFormData}
+      data={userData}
+      onChange={onChange}
+      submitClicked={submitClicked}
+      onSubmit={onSubmit}
+      loading={loading}
+    />
   );
 };
 
