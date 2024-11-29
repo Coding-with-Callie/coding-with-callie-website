@@ -73,13 +73,14 @@ const ReviewForm = ({ setReviews }: Props) => {
             isInvalid={submitClicked && rating === null}
           />
           <TextInput
-            field="Display Name"
+            label="Display Name"
+            field="displayName"
             onChange={onChangeName}
             value={displayName}
             isInvalid={submitClicked && isInvalidName(displayName)}
           />
           <TextAreaInput
-            field="Comments"
+            label="Comments"
             onChange={onChangeComments}
             value={comments}
           />

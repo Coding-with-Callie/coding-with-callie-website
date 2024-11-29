@@ -1,13 +1,15 @@
 import { Box, FormLabel, Textarea } from "@chakra-ui/react";
 
 type Props = {
-  field: string;
+  label: string;
+  field?: string;
   onChange: any;
   value: string;
   isInvalid?: boolean;
 };
 
 const TextAreaInput = ({
+  label,
   field,
   onChange,
   value,
@@ -15,13 +17,14 @@ const TextAreaInput = ({
 }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="input">{field}</FormLabel>
+      <FormLabel layerStyle="input">{label}</FormLabel>
       <Textarea
         layerStyle="input"
         variant="filled"
         onChange={onChange}
         value={value}
         isInvalid={isInvalid}
+        id={field}
       />
     </Box>
   );

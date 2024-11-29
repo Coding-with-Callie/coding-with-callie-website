@@ -1,0 +1,25 @@
+import { Box, Checkbox } from "@chakra-ui/react";
+
+type Props = {
+  label: string;
+  field: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isChecked: boolean;
+};
+
+const CheckboxInput = ({ label, field, onChange, isChecked }: Props) => {
+  return (
+    <Box>
+      <Checkbox
+        layerStyle="input"
+        onChange={onChange}
+        isChecked={isChecked}
+        id={field}
+      >
+        {label}
+      </Checkbox>
+    </Box>
+  );
+};
+
+export default CheckboxInput;

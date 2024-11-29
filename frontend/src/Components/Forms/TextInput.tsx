@@ -1,21 +1,21 @@
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 
 type Props = {
+  label: string;
   field: string;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   value: string;
   isInvalid: boolean | undefined;
-  helperText?: string;
   type?: string;
 };
 
 const TextInput = ({
+  label,
   field,
   onChange,
   value,
   isInvalid,
-  helperText,
-  type,
+  type = "text",
 }: Props) => {
   const makeLowerCase = (field: string) => {
     return field.split("").map((character) => character.toLowerCase());
@@ -23,25 +23,21 @@ const TextInput = ({
 
   return (
     <Box>
-      <FormLabel layerStyle="input">{field}</FormLabel>
+      <FormLabel layerStyle="input">{label}</FormLabel>
       <Input
-        type={type || "text"}
+        type={type}
         layerStyle="input"
         variant="filled"
-        id={field.toLowerCase()}
+        id={field}
         onChange={onChange}
         value={value}
         isInvalid={isInvalid}
       />
-      {!helperText ? (
-        isInvalid ? (
-          <FormHelperText color="red.500">
-            Please enter a valid {makeLowerCase(field)}!
-          </FormHelperText>
-        ) : (
-          <FormHelperText>{helperText}</FormHelperText>
-        )
-      ) : null}
+      {isInvalid && (
+        <FormHelperText color="red.500">
+          Please enter a valid {makeLowerCase(label)}!
+        </FormHelperText>
+      )}
     </Box>
   );
 };

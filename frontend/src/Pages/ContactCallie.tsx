@@ -76,20 +76,21 @@ const ContactCallie = () => {
       ) : (
         <FormControl display="flex" flexDirection="column" gap={6}>
           <TextInput
-            field="Name"
+            label="Name"
+            field="name"
             onChange={onChangeName}
             value={contactFormData.name}
             isInvalid={submitClicked && invalidName}
           />
           <TextInput
-            field="Email"
+            label="Email"
+            field="email"
             onChange={onChangeEmail}
             value={contactFormData.email}
             isInvalid={submitClicked && invalidEmail}
-            helperText="We'll never share your email."
           />
           <TextAreaInput
-            field="Message"
+            label="Message"
             onChange={onChangeMessage}
             value={contactFormData.message}
             isInvalid={submitClicked && invalidMessage}

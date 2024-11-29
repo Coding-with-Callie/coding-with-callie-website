@@ -1,3 +1,5 @@
+import { ResourceData } from "../Components/Home/ResourceForm";
+
 export const isInvalidName = (name: string) => {
   if (name === "") return true;
   return false;
@@ -29,4 +31,18 @@ export const validURL = (str: string) => {
     "i"
   ); // fragment locator
   return !!pattern.test(str);
+};
+
+export const createFormData = (resourceData: ResourceData) => {
+  const formData = new FormData();
+
+  Object.entries(resourceData).forEach(([key, value]) => {
+    if (key === "image" && value) {
+      formData.append("image", value.toString());
+    } else {
+      formData.append(key, value?.toString() || "");
+    }
+  });
+
+  return formData;
 };

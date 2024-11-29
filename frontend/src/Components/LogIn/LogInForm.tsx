@@ -50,15 +50,23 @@ const LogInForm = () => {
   };
 
   return (
-    <FormControl display="flex" flexDirection="column" gap={6} maxW={"600px"}>
+    <FormControl
+      display="flex"
+      flexDirection="column"
+      gap={6}
+      maxW={"600px"}
+      margin="0 auto"
+    >
       <TextInput
-        field="Username"
+        label="Username"
+        field="username"
         onChange={onChangeUserData}
         value={userData?.username || ""}
         isInvalid={submitClicked && userData.username === ""}
       />
       <TextInput
-        field="Password"
+        label="Password"
+        field="password"
         onChange={onChangeUserData}
         value={userData?.password || ""}
         isInvalid={submitClicked && userData.password === ""}

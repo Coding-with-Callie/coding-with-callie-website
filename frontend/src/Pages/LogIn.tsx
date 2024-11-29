@@ -11,25 +11,18 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
 import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import LogInForm from "../Components/LogIn/LogInForm";
 import { axiosPublic } from "../helpers/axios_instances";
+import { showNotification } from "..";
 
 const LogIn = () => {
   const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [email, setEmail] = useState<string>("");
-
-  const showNotification = (
-    message: string,
-    type: "success" | "error" | "info"
-  ) => {
-    toast[type](message, { toastId: `${type}-${message}` });
-  };
 
   const resetPassword = async () => {
     axiosPublic
@@ -55,7 +48,7 @@ const LogIn = () => {
 
   return (
     <Section>
-      <BodyHeading>Log in!</BodyHeading>
+      <BodyHeading textAlign="center">Log in!</BodyHeading>
       <LogInForm />
       <Box
         display="flex"
