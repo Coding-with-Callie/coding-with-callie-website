@@ -10,6 +10,8 @@ import FileInput from "../Forms/FileInput";
 import CheckboxInput from "../Forms/CheckboxInput";
 import { showNotification } from "../..";
 import { createFormData } from "../../helpers/helpers";
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../../App";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -25,6 +27,8 @@ export type ResourceData = {
 };
 
 const ResourceForm = ({ setResources }: Props) => {
+  const { catchError } = useOutletContext() as Context;
+
   const [resourceData, setResourceData] = useState<ResourceData>({
     heading: "",
     bodyText: "",
@@ -48,6 +52,21 @@ const ResourceForm = ({ setResources }: Props) => {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const resetState = () => {
+    setResourceData({
+      heading: "",
+      bodyText: "",
+      buttonText: "",
+      linkUrl: "",
+      target: true,
+      image: null,
+    });
+
+    setFileInputKey(new Date().getTime().toString());
+    setSubmitClicked(false);
+    setLoading(false);
+  };
+
   const onSubmit = () => {
     setSubmitClicked(true);
 
@@ -66,24 +85,15 @@ const ResourceForm = ({ setResources }: Props) => {
       .post("/resource", createFormData(resourceData))
       .then((response) => {
         setResources(response.data);
-        setLoading(false);
+
         showNotification("Resource created successfully", "success");
         window.scrollTo(0, 0);
-
-        setResourceData({
-          heading: "",
-          bodyText: "",
-          buttonText: "",
-          linkUrl: "",
-          target: true,
-          image: null,
-        });
-
-        setFileInputKey(new Date().getTime().toString());
-        setSubmitClicked(false);
       })
-      .catch(() => {
-        showNotification("Error creating resource", "error");
+      .catch((error) => {
+        catchError(error);
+      })
+      .finally(() => {
+        resetState();
       });
   };
 

@@ -74,6 +74,17 @@ const axiosPrivate = axios.create({
   baseURL: `${host}/api/auth`,
 });
 
+axiosAdmin.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log("Error:", error);
+    // Some other error occurred
+    return Promise.reject({ message: "There was an error!" });
+  }
+);
+
 axiosPrivate.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -82,7 +93,6 @@ axiosPrivate.interceptors.request.use(
       if (config.url === "/user-details") {
         return Promise.reject("no error");
       }
-      console.log("No token provided");
       const source = axios.CancelToken.source();
       config.cancelToken = source.token;
       source.cancel("No token provided"); // Cancel the request
@@ -106,8 +116,6 @@ axiosPrivate.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("Error:", error);
-
     let message: string = "";
 
     if (error.code === "ERR_CANCELED") {
@@ -138,8 +146,7 @@ axiosPrivate.interceptors.response.use(
     }
 
     // Some other error occurred
-    // I THINK THIS IS AN ISSUE
-    return Promise.reject({ message: error.response.data.message });
+    return Promise.reject({ message: "There was an error!" });
   }
 );
 

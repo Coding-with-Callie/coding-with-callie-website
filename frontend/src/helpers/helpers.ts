@@ -34,15 +34,23 @@ export const validURL = (str: string) => {
 };
 
 export const createFormData = (resourceData: ResourceData) => {
-  const formData = new FormData();
+  const keys = Object.keys(resourceData);
 
-  Object.entries(resourceData).forEach(([key, value]) => {
-    if (key === "image" && value) {
-      formData.append("image", value.toString());
-    } else {
-      formData.append(key, value?.toString() || "");
+  return keys.reduce((formData, key) => {
+    const value = resourceData[key as keyof ResourceData];
+
+    if (!value) return formData;
+
+    if (key === "image") {
+      formData.append("file", value as File);
     }
-  });
 
-  return formData;
+    if (typeof value === "boolean") {
+      formData.append(key, value ? "true" : "false");
+    }
+
+    formData.append(key, value.toString());
+
+    return formData;
+  }, new FormData());
 };
