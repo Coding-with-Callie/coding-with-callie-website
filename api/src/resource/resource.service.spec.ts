@@ -274,7 +274,7 @@ describe('ResourceService', () => {
       heading: 'Heading 1 EDITED',
       bodyText: 'Body text 1 EDITED',
       buttonText: 'button 1 text EDITED',
-      linkUrl: 'newimageurl.com',
+      linkUrl: 'editedlinkurl.com',
       target: 'false',
     };
     const file = {} as Express.Multer.File;
@@ -285,7 +285,7 @@ describe('ResourceService', () => {
       bodyText: 'Body text 1',
       imageUrl: 'image1url.com',
       buttonText: 'button 1 text',
-      linkUrl: 'linkurl1.com',
+      linkUrl: 'linkurl.com',
       target: true,
       order: 1,
     };
@@ -293,10 +293,10 @@ describe('ResourceService', () => {
     const updatedResource = {
       id: 1,
       heading: 'Heading 1 EDITED',
-      bodyText: 'Body text 1 EDITED',
-      imageUrl: 'image1url.com',
+      bodyText: ['Body text 1 EDITED'],
+      imageUrl: 'newimageurl.com',
       buttonText: 'button 1 text EDITED',
-      linkUrl: 'newimageurl.com',
+      linkUrl: 'editedlinkurl.com',
       target: false,
       order: 1,
     };
@@ -338,7 +338,7 @@ describe('ResourceService', () => {
     const updatedResource = {
       id: 1,
       heading: 'Heading 1 EDITED',
-      bodyText: 'Body text 1 EDITED',
+      bodyText: ['Body text 1 EDITED'],
       imageUrl: 'image1url.com',
       buttonText: 'button 1 text EDITED',
       linkUrl: 'linkurl1edited.com',

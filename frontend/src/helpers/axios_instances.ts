@@ -9,6 +9,40 @@ const axiosPublic = axios.create({
   baseURL: `${host}/api`,
 });
 
+const handleAuthAndAdminErrors = (error: any) => {
+  let message: string = "";
+
+  if (error.code === "ERR_CANCELED") {
+    // There is no token in local storage. User likely does not have an account.
+    message = "You must have an account to view that page.";
+    return Promise.reject({ path: "/sign-up", message });
+  }
+
+  // If the error isn't really an error...
+  if (error === "no error" || error.response.config.headers["User-Details"]) {
+    return {
+      data: {
+        message: "no error",
+      },
+    };
+  }
+
+  // User has a token, but it is invalid. User's session has expired.
+  if (error.response.status === 401) {
+    message = error.response.data.message;
+    // User requested a project they do not have access to
+    if (message === "You do not have access to that project.") {
+      return Promise.reject({ path: "/projects", message });
+    }
+
+    message = "It looks like your session has expired. Please log in again!";
+    return Promise.reject({ path: "/log-in", message });
+  }
+
+  // Some other error occurred
+  return Promise.reject({ message: "There was an error!" });
+};
+
 axiosPublic.interceptors.response.use(
   (response) => {
     // If the response is an access token, store it in local storage
@@ -79,9 +113,7 @@ axiosAdmin.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("Error:", error);
-    // Some other error occurred
-    return Promise.reject({ message: "There was an error!" });
+    return handleAuthAndAdminErrors(error);
   }
 );
 
@@ -116,37 +148,7 @@ axiosPrivate.interceptors.response.use(
     return response;
   },
   (error) => {
-    let message: string = "";
-
-    if (error.code === "ERR_CANCELED") {
-      // There is no token in local storage. User likely does not have an account.
-      message = "You must have an account to view that page.";
-      return Promise.reject({ path: "/sign-up", message });
-    }
-
-    // If the error isn't really an error...
-    if (error === "no error" || error.response.config.headers["User-Details"]) {
-      return {
-        data: {
-          message: "no error",
-        },
-      };
-    }
-
-    // User has a token, but it is invalid. User's session has expired.
-    if (error.response.status === 401) {
-      message = error.response.data.message;
-      // User requested a project they do not have access to
-      if (message === "You do not have access to that project.") {
-        return Promise.reject({ path: "/projects", message });
-      }
-
-      message = "It looks like your session has expired. Please log in again!";
-      return Promise.reject({ path: "/log-in", message });
-    }
-
-    // Some other error occurred
-    return Promise.reject({ message: "There was an error!" });
+    return handleAuthAndAdminErrors(error);
   }
 );
 

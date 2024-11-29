@@ -92,39 +92,24 @@ export class ResourceService {
     resource: ResourceDTO,
     file: Express.Multer.File,
   ) {
-    // Create a new Resource entity
-    const resourceToSave = new Resource();
+    // Get the resource to update
+    const resourceToUpdate = await this.resourceRepository.findOneBy({ id });
 
     // Upload the file to S3 and set the imageUrl property, if a file was uploaded
     if (file) {
-      resourceToSave.imageUrl = await this.fileUploadService.uploadFile(file);
+      resourceToUpdate.imageUrl = await this.fileUploadService.uploadFile(file);
     }
 
     // Set the properties of the new Resource entity
-    resourceToSave.heading = resource.heading;
-    resourceToSave.buttonText = resource.buttonText;
-    resourceToSave.linkUrl = resource.linkUrl;
-    resourceToSave.target = resource.target === 'true';
-    resourceToSave.bodyText = resource.bodyText
+    resourceToUpdate.heading = resource.heading;
+    resourceToUpdate.buttonText = resource.buttonText;
+    resourceToUpdate.linkUrl = resource.linkUrl;
+    resourceToUpdate.target = resource.target === 'true';
+    resourceToUpdate.bodyText = resource.bodyText
       .replace(/\r\n/g, '\n') // Replace \r\n with \n
       .split(/\n+/) // Split at one or more newlines
       .map((item: string) => item.trim()) // Trim whitespace from each item
       .filter((item: string) => item.length > 0); // Remove empty items
-
-    // Get the resource to update
-    const resourceToUpdate = await this.resourceRepository.findOneBy({ id });
-
-    // Update the resource to update's imageUrl, if a new imageUrl was provided
-    if (resource.imageUrl) {
-      resourceToUpdate.imageUrl = resource.imageUrl;
-    }
-
-    // Update the rest of the resource to update's properties
-    resourceToUpdate.heading = resource.heading;
-    resourceToUpdate.bodyText = resource.bodyText;
-    resourceToUpdate.buttonText = resource.buttonText;
-    resourceToUpdate.linkUrl = resource.linkUrl;
-    resourceToUpdate.target = resource.target === 'true' ? true : false;
 
     // Save the updated resource
     await this.resourceRepository.save(resourceToUpdate);

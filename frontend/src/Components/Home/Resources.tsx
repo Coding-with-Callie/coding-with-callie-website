@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { ResourceType } from "../../Pages/Home";
 import Resource from "./Resource";
-import ResourceForm from "./ResourceForm";
 import { useState } from "react";
+import ResourceForm from "./CreateResourceForm";
 
 type Props = {
   data: ResourceType[];

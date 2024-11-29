@@ -1,4 +1,4 @@
-import { ResourceData } from "../Components/Home/ResourceForm";
+import { ResourceData } from "../Components/Home/CreateResourceForm";
 
 export const isInvalidName = (name: string) => {
   if (name === "") return true;
@@ -39,14 +39,10 @@ export const createFormData = (resourceData: ResourceData) => {
   return keys.reduce((formData, key) => {
     const value = resourceData[key as keyof ResourceData];
 
-    if (!value) return formData;
+    if (value === null) return formData;
 
     if (key === "image") {
       formData.append("file", value as File);
-    }
-
-    if (typeof value === "boolean") {
-      formData.append(key, value ? "true" : "false");
     }
 
     formData.append(key, value.toString());

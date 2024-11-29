@@ -1,17 +1,12 @@
-import MyButton from "../MyButton";
 import { useState } from "react";
 import { ResourceType } from "../../Pages/Home";
 import { axiosAdmin } from "../../helpers/axios_instances";
-import FormContainer from "../Forms/FormContainer";
-import FormHeading from "../Forms/FormHeading";
-import TextInput from "../Forms/TextInput";
-import TextAreaInput from "../Forms/TextAreaInput";
-import FileInput from "../Forms/FileInput";
-import CheckboxInput from "../Forms/CheckboxInput";
 import { showNotification } from "../..";
 import { createFormData } from "../../helpers/helpers";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
+import CustomForm from "../Forms/CustomForm";
+import { resourceFormData } from "../../helpers/resourceFormData";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -98,47 +93,15 @@ const ResourceForm = ({ setResources }: Props) => {
   };
 
   return (
-    <FormContainer>
-      <FormHeading>Create Resource</FormHeading>
-      <TextInput
-        label="Title"
-        field="heading"
-        value={resourceData.heading}
-        onChange={onChange}
-        isInvalid={submitClicked && resourceData.heading === ""}
-      />
-      <TextAreaInput
-        label="Description"
-        field="bodyText"
-        onChange={onChange}
-        value={resourceData.bodyText}
-        isInvalid={submitClicked && resourceData.bodyText === ""}
-      />
-      <FileInput onChange={onChange} key={fileInputKey} />
-      <TextInput
-        label="Button Text"
-        field="buttonText"
-        value={resourceData.buttonText}
-        onChange={onChange}
-        isInvalid={submitClicked && resourceData.buttonText === ""}
-      />
-      <TextInput
-        label="Resource Link"
-        field="linkUrl"
-        value={resourceData.linkUrl}
-        onChange={onChange}
-        isInvalid={submitClicked && resourceData.linkUrl === ""}
-      />
-      <CheckboxInput
-        label="Open Link in New Tab"
-        field="target"
-        onChange={onChange}
-        isChecked={resourceData.target}
-      />
-      <MyButton onClick={onSubmit} loading={loading}>
-        Submit
-      </MyButton>
-    </FormContainer>
+    <CustomForm
+      form={resourceFormData}
+      data={resourceData}
+      onChange={onChange}
+      submitClicked={submitClicked}
+      fileInputKey={fileInputKey}
+      onSubmit={onSubmit}
+      loading={loading}
+    />
   );
 };
 
