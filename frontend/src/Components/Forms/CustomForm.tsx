@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CustomFormData } from "../../helpers/forms";
 import MyButton from "../MyButton";
 import CheckboxInput from "./CheckboxInput";
@@ -6,26 +7,102 @@ import FormContainer from "./FormContainer";
 import FormHeading from "./FormHeading";
 import TextAreaInput from "./TextAreaInput";
 import TextInput from "./TextInput";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { Context } from "../../App";
+import {
+  axiosAdmin,
+  axiosPrivate,
+  axiosPublic,
+} from "../../helpers/axios_instances";
+import { showNotification } from "../..";
+import { createFormData } from "../../helpers/helpers";
+import { ResourceData } from "../Home/CreateResourceForm";
 
 type Props = {
   form: CustomFormData;
+  initialState: { [key: string]: any };
   data: { [key: string]: any };
   setData: React.Dispatch<React.SetStateAction<any>>;
-  submitClicked: boolean;
   fileInputKey?: string;
-  onSubmit: () => void;
-  loading: boolean;
+  setFileInputKey?: React.Dispatch<React.SetStateAction<string>>;
+  axiosType: "public" | "private" | "admin";
+  route: string;
+  updateData: React.Dispatch<React.SetStateAction<any>>;
+  message: string;
 };
 
 const CustomForm = ({
   form,
+  initialState,
   data,
   setData,
-  submitClicked,
   fileInputKey,
-  onSubmit,
-  loading,
+  setFileInputKey,
+  axiosType,
+  route,
+  updateData,
+  message,
 }: Props) => {
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { catchError } = useOutletContext() as Context;
+
+  const navigate = useNavigate();
+
+  const resetState = () => {
+    setData(initialState);
+
+    if (setFileInputKey) setFileInputKey(new Date().getTime().toString());
+
+    setSubmitClicked(false);
+    setLoading(false);
+  };
+
+  const onSubmit = () => {
+    for (const key in data) {
+      if (data[key] === "") {
+        setSubmitClicked(true);
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    const axiosToUse =
+      axiosType === "public"
+        ? axiosPublic
+        : axiosType === "private"
+          ? axiosPrivate
+          : axiosAdmin;
+
+    let dataToSend = data;
+
+    if (route === "/resource") {
+      dataToSend = createFormData(data as ResourceData);
+    }
+
+    axiosToUse
+      .post(route, dataToSend)
+      .then((response) => {
+        updateData(response.data);
+
+        showNotification(message, "success");
+        if (route === "/login") {
+          navigate("/");
+        }
+        if (route === "/resource") {
+          window.scrollTo(0, 0);
+        }
+      })
+      .catch((error) => {
+        catchError(error);
+      })
+      .finally(() => {
+        resetState();
+      });
+  };
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, checked, files } = e.target;
 

@@ -1,6 +1,4 @@
-import { showNotification } from "../..";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { axiosPublic } from "../../helpers/axios_instances";
+import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import { Context } from "../../App";
 import { loginFormData } from "../../helpers/forms";
@@ -13,53 +11,24 @@ type UserData = {
 };
 
 const LogInForm = () => {
-  const [userData, setUserData] = useState<UserData>({
+  const initialState = {
     username: "",
     password: "",
-  });
-  const [submitClicked, setSubmitClicked] = useState(false);
-  const [loading, setLoading] = useState(false);
+  } as UserData;
+  const [userData, setUserData] = useState<UserData>(initialState);
 
-  const { updateUser, catchError } = useOutletContext() as Context;
-
-  const navigate = useNavigate();
-
-  const resetState = () => {
-    setUserData({ username: "", password: "" });
-    setSubmitClicked(false);
-    setLoading(false);
-  };
-
-  const onSubmit = () => {
-    if (userData.username === "" || userData.password === "") {
-      setSubmitClicked(true);
-      return;
-    }
-
-    setLoading(true);
-
-    axiosPublic
-      .post("/login", userData)
-      .then((response) => {
-        updateUser(response.data);
-
-        showNotification(`Welcome back, ${response.data.username}!`, "success");
-        navigate("/");
-      })
-      .catch((error) => {
-        resetState();
-        catchError(error);
-      });
-  };
+  const { updateUser } = useOutletContext() as Context;
 
   return (
     <CustomForm
       form={loginFormData}
+      initialState={initialState}
       data={userData}
       setData={setUserData}
-      submitClicked={submitClicked}
-      onSubmit={onSubmit}
-      loading={loading}
+      axiosType="public"
+      route="/login"
+      updateData={updateUser}
+      message={`Welcome back, ${userData.username}!`}
     />
   );
 };
