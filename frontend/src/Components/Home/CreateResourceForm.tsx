@@ -6,7 +6,7 @@ import { createFormData } from "../../helpers/helpers";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
 import CustomForm from "../Forms/CustomForm";
-import { resourceFormData } from "../../helpers/resourceFormData";
+import { resourceFormData } from "../../helpers/forms";
 
 type Props = {
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
@@ -33,14 +33,14 @@ const ResourceForm = ({ setResources }: Props) => {
     image: null,
   });
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, checked, files } = e.target;
+  // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { id, value, checked, files } = e.target;
 
-    setResourceData({
-      ...resourceData,
-      [id]: files ? files[0] : value || checked,
-    });
-  };
+  //   setResourceData({
+  //     ...resourceData,
+  //     [id]: files ? files[0] : value || checked,
+  //   });
+  // };
 
   const [fileInputKey, setFileInputKey] = useState<string>("");
 
@@ -96,7 +96,7 @@ const ResourceForm = ({ setResources }: Props) => {
     <CustomForm
       form={resourceFormData}
       data={resourceData}
-      onChange={onChange}
+      setData={setResourceData}
       submitClicked={submitClicked}
       fileInputKey={fileInputKey}
       onSubmit={onSubmit}

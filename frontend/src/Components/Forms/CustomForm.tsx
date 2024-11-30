@@ -1,4 +1,4 @@
-import { CustomFormData } from "../../helpers/resourceFormData";
+import { CustomFormData } from "../../helpers/forms";
 import MyButton from "../MyButton";
 import CheckboxInput from "./CheckboxInput";
 import FileInput from "./FileInput";
@@ -10,7 +10,7 @@ import TextInput from "./TextInput";
 type Props = {
   form: CustomFormData;
   data: { [key: string]: any };
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setData: React.Dispatch<React.SetStateAction<any>>;
   submitClicked: boolean;
   fileInputKey?: string;
   onSubmit: () => void;
@@ -20,12 +20,21 @@ type Props = {
 const CustomForm = ({
   form,
   data,
-  onChange,
+  setData,
   submitClicked,
   fileInputKey,
   onSubmit,
   loading,
 }: Props) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value, checked, files } = e.target;
+
+    setData({
+      ...data,
+      [id]: files ? files[0] : value || checked,
+    });
+  };
+
   return (
     <FormContainer>
       <FormHeading>{form.formHeading}</FormHeading>

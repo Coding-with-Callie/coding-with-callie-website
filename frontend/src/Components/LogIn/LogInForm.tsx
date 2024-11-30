@@ -3,12 +3,13 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { axiosPublic } from "../../helpers/axios_instances";
 import { useState } from "react";
 import { Context } from "../../App";
-import { loginFormData } from "../../helpers/resourceFormData";
+import { loginFormData } from "../../helpers/forms";
 import CustomForm from "../Forms/CustomForm";
 
 type UserData = {
   username: string;
   password: string;
+  [key: string]: string;
 };
 
 const LogInForm = () => {
@@ -22,15 +23,6 @@ const LogInForm = () => {
   const { updateUser, catchError } = useOutletContext() as Context;
 
   const navigate = useNavigate();
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-
-    setUserData({
-      ...userData,
-      [id]: value,
-    });
-  };
 
   const resetState = () => {
     setUserData({ username: "", password: "" });
@@ -64,7 +56,7 @@ const LogInForm = () => {
     <CustomForm
       form={loginFormData}
       data={userData}
-      onChange={onChange}
+      setData={setUserData}
       submitClicked={submitClicked}
       onSubmit={onSubmit}
       loading={loading}
