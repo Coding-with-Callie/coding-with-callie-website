@@ -37,6 +37,17 @@ export const validURL = (str: string) => {
   return !!pattern.test(str);
 };
 
+export const editDate = (date: string) => {
+  const [year, month, day] = date.split("-").map(Number);
+  const dateValue = new Date(year, month - 1, day);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return dateValue.toLocaleDateString("en-US", options);
+};
+
 export const createFormData = (data: { [key: string]: any }) => {
   const keys = Object.keys(data);
 
@@ -47,10 +58,20 @@ export const createFormData = (data: { [key: string]: any }) => {
 
     if (key === "image") {
       formData.append("file", value as File);
+      return formData;
+    }
+
+    if (key === "date") {
+      formData.append(key, editDate(value));
+      return formData;
     }
 
     formData.append(key, value.toString());
 
     return formData;
   }, new FormData());
+};
+
+export const makeLowerCase = (field: string) => {
+  return field.split("").map((character) => character.toLowerCase());
 };

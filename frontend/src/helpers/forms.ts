@@ -129,3 +129,51 @@ export const contactCallieFormData: CustomFormData = {
     },
   ],
 };
+
+export const guestSpeakerFormData: CustomFormData = {
+  formHeading: "Create Guest Speaker",
+  input: [
+    {
+      type: "text",
+      label: "Name",
+      field: "name",
+      required: true,
+    },
+    {
+      type: "date",
+      label: "Date",
+      field: "date",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "Session Description",
+      field: "sessionText",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "About",
+      field: "bioText",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "Website",
+      field: "websiteUrl",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "Session Recording URL",
+      field: "sessionRecordingUrl",
+      required: false,
+    },
+    {
+      type: "file",
+      label: "Speaker Photo",
+      field: "file",
+      required: true,
+    },
+  ],
+};

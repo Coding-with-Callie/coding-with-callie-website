@@ -1,4 +1,5 @@
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
+import { makeLowerCase } from "../../helpers/helpers";
 
 type Props = {
   label: string;
@@ -17,10 +18,6 @@ const TextInput = ({
   isInvalid,
   type = "text",
 }: Props) => {
-  const makeLowerCase = (field: string) => {
-    return field.split("").map((character) => character.toLowerCase());
-  };
-
   return (
     <Box>
       <FormLabel layerStyle="input">{label}</FormLabel>

@@ -1,31 +1,26 @@
-import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
+import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
 import { makeLowerCase } from "../../helpers/helpers";
 
 type Props = {
   label: string;
-  field?: string;
-  onChange: any;
+  field: string;
   value: string;
-  isInvalid?: boolean;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  isInvalid: boolean;
 };
 
-const TextAreaInput = ({
-  label,
-  field,
-  onChange,
-  value,
-  isInvalid = false,
-}: Props) => {
+const DateInput = ({ label, field, value, onChange, isInvalid }: Props) => {
   return (
     <Box>
       <FormLabel layerStyle="input">{label}</FormLabel>
-      <Textarea
+      <Input
+        type="date"
         layerStyle="input"
         variant="filled"
-        onChange={onChange}
         value={value}
-        isInvalid={isInvalid}
         id={field}
+        onChange={onChange}
+        isInvalid={isInvalid}
       />
       {isInvalid && (
         <FormHelperText color="red.500">
@@ -36,4 +31,4 @@ const TextAreaInput = ({
   );
 };
 
-export default TextAreaInput;
+export default DateInput;

@@ -16,6 +16,7 @@ import {
 } from "../../helpers/axios_instances";
 import { showNotification } from "../..";
 import { createFormData, isInvalidEmail } from "../../helpers/helpers";
+import DateInput from "./DateInput";
 
 type Props = {
   form: CustomFormData;
@@ -89,7 +90,7 @@ const CustomForm = ({
 
     let dataToSend = data;
 
-    if (route === "/resource" || route === "/signup") {
+    if (route === "/resource" || route === "/signup" || route === "/speaker") {
       dataToSend = createFormData(data);
     }
 
@@ -102,7 +103,7 @@ const CustomForm = ({
         if (route === "/login" || route === "/signup" || route === "/contact") {
           navigate("/");
         }
-        if (route === "/resource") {
+        if (route === "/resource" || route === "/speaker") {
           window.scrollTo(0, 0);
         }
       })
@@ -202,6 +203,21 @@ const CustomForm = ({
               field={item.field}
               isChecked={data[item.field]}
               onChange={onChange}
+            />
+          );
+        }
+
+        if (item.type === "date") {
+          return (
+            <DateInput
+              label={item.label}
+              field={item.field}
+              value={data[item.field]}
+              onChange={onChange}
+              isInvalid={
+                submitClicked &&
+                isInvalid(item.field, data[item.field], item.required)
+              }
             />
           );
         }
