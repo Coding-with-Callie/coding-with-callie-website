@@ -52,7 +52,7 @@ const UserReview = ({ review, index }: Props) => {
         </Box>
       </Box>
       {review.comments.length > 0 && (
-        <Text layerStyle="text">{`"${review.comments}"`}</Text>
+        <Text layerStyle="text" mt={6}>{`"${review.comments}"`}</Text>
       )}
     </ReviewContainer>
   );

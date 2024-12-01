@@ -106,7 +106,7 @@ const Profile = () => {
                 >
                   <Paragraph margin={false}>Name: </Paragraph>
                   <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flexWeight={1} margin={false}>
+                    <Paragraph flex={1} margin={false}>
                       {user.name}
                     </Paragraph>
                     <IconButton
@@ -128,7 +128,7 @@ const Profile = () => {
                 >
                   <Paragraph margin={false}>Username: </Paragraph>
                   <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flexWeight={1} margin={false}>
+                    <Paragraph flex={1} margin={false}>
                       {user.username}
                     </Paragraph>
                     <IconButton
@@ -150,7 +150,7 @@ const Profile = () => {
                 >
                   <Paragraph margin={false}>Password: </Paragraph>
                   <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flexWeight={1} margin={false}>
+                    <Paragraph flex={1} margin={false}>
                       ******
                     </Paragraph>
                     <IconButton
@@ -172,7 +172,7 @@ const Profile = () => {
                 >
                   <Paragraph margin={false}>Email: </Paragraph>
                   <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flexWeight={1} margin={false}>
+                    <Paragraph flex={1} margin={false}>
                       {user.email}
                     </Paragraph>
                     <IconButton

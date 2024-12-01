@@ -3,7 +3,7 @@ import { Button, Spinner } from "@chakra-ui/react";
 type Props = {
   children: any;
   onClick?: any;
-  widthSize?: any;
+  width?: any;
   disabled?: boolean;
   loading?: boolean;
 };
@@ -11,17 +11,12 @@ type Props = {
 const MyButton = ({
   children,
   onClick,
-  widthSize,
+  width = "100%",
   disabled,
   loading = false,
 }: Props) => {
   return (
-    <Button
-      colorScheme="green"
-      w={widthSize}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <Button colorScheme="green" w={width} onClick={onClick} disabled={disabled}>
       {loading ? <Spinner /> : children}
     </Button>
   );

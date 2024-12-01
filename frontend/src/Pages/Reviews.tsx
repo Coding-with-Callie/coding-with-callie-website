@@ -2,8 +2,6 @@ import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
-import BodyHeading from "../Components/BodyHeading";
-import Section from "../Components/Section";
 import ReviewForm from "../Components/Reviews/ReviewForm";
 import ReviewList from "../Components/Reviews/ReviewList";
 
@@ -24,13 +22,8 @@ const Reviews = () => {
 
   return (
     <Box>
-      <Section>
-        <BodyHeading textAlign="center">Reviews</BodyHeading>
-      </Section>
-      <Section>{user.name && <ReviewForm setReviews={setReviews} />}</Section>
-      <Section>
-        <ReviewList reviews={reviews} />
-      </Section>
+      {user.name && <ReviewForm setReviews={setReviews} />}
+      <ReviewList reviews={reviews} />
     </Box>
   );
 };

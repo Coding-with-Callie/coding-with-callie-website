@@ -36,7 +36,6 @@ const WorkshopTile = ({ workshop, index }: Props) => {
       display="flex"
       flexDirection="column"
       gap={10}
-      maxW="600px"
       minW="350px"
       key={index}
     >
@@ -52,9 +51,7 @@ const WorkshopTile = ({ workshop, index }: Props) => {
           objectFit="cover"
         />
       </AspectRatio>
-      <Box m="0 auto" display="flex" gap={4}>
-        <MyButton onClick={openWorkshopInNewTab}>Learn More</MyButton>
-      </Box>
+      <MyButton onClick={openWorkshopInNewTab}>Learn More</MyButton>
     </Box>
   );
 };

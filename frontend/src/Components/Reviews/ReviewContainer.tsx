@@ -1,4 +1,5 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import Section from "../Section";
 
 type Props = {
   children: React.ReactNode;
@@ -6,23 +7,9 @@ type Props = {
 };
 
 const ReviewContainer = ({ children, index }: Props) => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
-
   return (
-    <Box
-      w={isLargerThan900 ? "65%" : "100%"}
-      display="flex"
-      flexDirection="column"
-      mb={20}
-      gap={3}
-      border="1px solid #45446A"
-      borderRadius={4}
-      backgroundColor="white"
-      p={4}
-      boxShadow="lg"
-      key={index}
-    >
-      {children}
+    <Box w="100%">
+      <Section>{children}</Section>
     </Box>
   );
 };

@@ -1,11 +1,10 @@
-import { Box, Center, Divider } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
-import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
 import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 import UpcomingCarousel from "../Components/GuestSpeakers/UpcomingCarousel";
-import BodyHeading from "../Components/BodyHeading";
 import { useState } from "react";
 import { Context } from "../App";
+import NewSpeaker from "../Components/GuestSpeakers/Speaker";
 
 export type Speaker = {
   id: number;
@@ -37,30 +36,11 @@ const GuestSpeakers = () => {
   );
 
   return (
-    <Box>
-      <Box m={"0 auto"}>
-        <UpcomingCarousel speakers={upcomingSpeakers} />
-        <BodyHeading textAlign="center">Past Speakers</BodyHeading>
-        <Center>
-          <Divider
-            w="80%"
-            orientation="horizontal"
-            borderColor="black"
-            mb={4}
-          />
-        </Center>
-        {pastSpeakers.map((speaker, index) => {
-          return (
-            <GuestSpeaker
-              speaker={speaker}
-              key={index}
-              editable={role === "admin"}
-              setPastSpeakers={setPastSpeakers}
-              setUpcomingSpeakers={setUpcomingSpeakers}
-            />
-          );
-        })}
-      </Box>
+    <>
+      <UpcomingCarousel speakers={upcomingSpeakers} />
+      {pastSpeakers.map((speaker, index) => {
+        return <NewSpeaker key={index} speaker={speaker} />;
+      })}
       {role === "admin" && (
         <Box my={20}>
           <GuestSpeakerForm
@@ -69,7 +49,7 @@ const GuestSpeakers = () => {
           />
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 

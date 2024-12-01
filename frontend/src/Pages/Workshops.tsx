@@ -3,6 +3,7 @@ import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
 import BodyHeading from "../Components/BodyHeading";
 import WorkshopTiles from "../Components/Workshops/WorkshopTiles";
+import WorkshopTilesContainer from "../Components/Workshops/WorkshopTilesContainer";
 
 export const why = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc.",
@@ -37,9 +38,6 @@ const Workshops = () => {
   return (
     <>
       <Section>
-        <BodyHeading textAlign="center">Workshops</BodyHeading>
-      </Section>
-      <Section>
         <BodyHeading>My Workshop Origin Story</BodyHeading>
         <BodyText textBlocks={why} />
       </Section>
@@ -51,10 +49,9 @@ const Workshops = () => {
         <BodyHeading>What sets Coding with Callie workshops apart?</BodyHeading>
         <BodyText textBlocks={difference} />
       </Section>
-      <Section>
-        <BodyHeading>Let's get to work 💪🏻</BodyHeading>
+      <WorkshopTilesContainer>
         <WorkshopTiles workshops={workshops} />
-      </Section>
+      </WorkshopTilesContainer>
     </>
   );
 };

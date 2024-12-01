@@ -1,35 +1,15 @@
-import {
-  Box,
-  ListItem,
-  Text,
-  UnorderedList,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import Section from "../Components/Section";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
 import { Link } from "react-router-dom";
 
 const Jobs = () => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
-  const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
-
   const openJobsChannel = () => {
     window.open("https://forms.gle/aJkuGadQMpoJZFqb8", "_blank");
   };
   return (
-    <Box
-      maxW={isLargerThan900 ? "80%" : isLargerThan450 ? "90%" : "100%"}
-      backgroundColor="white"
-      p={isLargerThan450 ? 5 : 1}
-      borderRadius={4}
-      my={isLargerThan450 ? 10 : 0}
-      mx={"auto"}
-      boxShadow="lg"
-    >
-      <Box mt={5}>
-        <BodyHeading textAlign="center">Developer Jobs Policy</BodyHeading>
-      </Box>
+    <>
       <Section>
         <BodyHeading textAlign="left">Eligibility</BodyHeading>
         <Text color="#45446A" mb={4}>
@@ -37,7 +17,7 @@ const Jobs = () => {
           have completed either the{" "}
           <span style={{ textDecoration: "underline" }}>
             <Link
-              to="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge-8-8"
+              to="https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge"
               target="_blank"
             >
               Deploy in Public
@@ -46,7 +26,7 @@ const Jobs = () => {
           or{" "}
           <span style={{ textDecoration: "underline" }}>
             <Link
-              to="https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge-8-8"
+              to="https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge"
               target="_blank"
             >
               Build in Public
@@ -131,16 +111,11 @@ const Jobs = () => {
       <Section>
         <Text color="#45446A" mb={4}>
           By joining the #jobs channel, you are agreeing to the terms of this
-          policy:
+          policy, which is subject to change as Coding with Callie evolves.
         </Text>
         <MyButton onClick={openJobsChannel}>Join the #jobs channel!</MyButton>
       </Section>
-      <Section>
-        <Text color="#45446A" mb={4} textAlign="center">
-          This policy is subject to change as Coding with Callie evolves.
-        </Text>
-      </Section>
-    </Box>
+    </>
   );
 };
 

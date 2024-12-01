@@ -60,7 +60,7 @@ const TextWithImageAndButton = ({
   bodyText,
   setTextBlocksValue,
 }: Props) => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
@@ -240,7 +240,7 @@ const TextWithImageAndButton = ({
         </Box>
         <Box
           display="flex"
-          flexDirection={isLargerThan900 ? "row" : "column"}
+          flexDirection={isLargerThan1300 ? "row" : "column"}
           gap={10}
           mb={6}
           alignItems="center"
@@ -299,7 +299,7 @@ const TextWithImageAndButton = ({
           </Box>
         ) : (
           <Link to={linkUrl} target={target === "_blank" ? "_blank" : "_self"}>
-            <MyButton widthSize="100%">{buttonText}</MyButton>
+            <MyButton>{buttonText}</MyButton>
           </Link>
         )}
       </Box>

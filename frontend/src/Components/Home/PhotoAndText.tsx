@@ -11,18 +11,19 @@ type Props = {
 
 const PhotoAndText = ({ heading, text, image }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   return (
     <Section>
       <Box
         display="flex"
         gap={10}
-        flexDirection={isLargerThan900 ? "row" : "column"}
+        flexDirection={isLargerThan1300 ? "row" : "column"}
         alignItems="center"
       >
         <Image
           src={image}
+          border="1px solid #A9A9A9"
           borderRadius="50%"
           h={isLargerThan500 ? "350px" : "280px"}
           boxShadow="lg"

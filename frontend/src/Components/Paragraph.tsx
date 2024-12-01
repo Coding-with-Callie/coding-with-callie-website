@@ -4,7 +4,7 @@ type Props = {
   children: string;
   textAlign?: "left" | "center";
   maxWidthSize?: string;
-  flexWeight?: number;
+  flex?: number;
   margin?: boolean;
   bold?: boolean;
   italic?: boolean;
@@ -14,7 +14,7 @@ const Paragraph = ({
   children,
   textAlign = "left",
   maxWidthSize,
-  flexWeight,
+  flex,
   margin = true,
   bold,
   italic,
@@ -25,7 +25,7 @@ const Paragraph = ({
       mb={margin ? 4 : 0}
       textAlign={textAlign}
       maxW={maxWidthSize}
-      flex={flexWeight}
+      flex={flex}
       fontWeight={bold ? "600" : "500"}
       fontStyle={italic ? "italic" : "normal"}
     >

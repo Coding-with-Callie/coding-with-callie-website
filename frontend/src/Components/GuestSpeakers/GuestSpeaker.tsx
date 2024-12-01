@@ -376,9 +376,7 @@ const GuestSpeaker = ({
               />
             ) : (
               <Link to={speaker.websiteUrl} target="_blank">
-                <MyButton widthSize="100%">{`Contact ${
-                  speaker.name.split(" ")[0]
-                }`}</MyButton>
+                <MyButton>{`Contact ${speaker.name.split(" ")[0]}`}</MyButton>
               </Link>
             )}
             {edit ? (

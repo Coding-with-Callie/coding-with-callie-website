@@ -30,7 +30,6 @@ const SignUp = () => {
           onClick={() => {
             navigate("/log-in");
           }}
-          widthSize={!isLargerThan500 && "100%"}
         >
           Sign in instead!
         </MyButton>
