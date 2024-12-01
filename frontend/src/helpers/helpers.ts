@@ -1,5 +1,3 @@
-import { ResourceData } from "../Components/Home/CreateResourceForm";
-
 export const isInvalidName = (name: string) => {
   if (name === "") return true;
   return false;
@@ -11,7 +9,13 @@ export const isInvalidMessage = (message: string) => {
 };
 
 export const isInvalidEmail = (email: string) => {
-  if (email === "" || email.indexOf("@") === -1) return true;
+  if (email === "") return true;
+
+  const pattern = new RegExp("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+  const isEmail = pattern.test(email);
+
+  if (!isEmail) return true;
+
   return false;
 };
 
@@ -33,11 +37,11 @@ export const validURL = (str: string) => {
   return !!pattern.test(str);
 };
 
-export const createFormData = (resourceData: ResourceData) => {
-  const keys = Object.keys(resourceData);
+export const createFormData = (data: { [key: string]: any }) => {
+  const keys = Object.keys(data);
 
   return keys.reduce((formData, key) => {
-    const value = resourceData[key as keyof ResourceData];
+    const value = data[key];
 
     if (value === null) return formData;
 

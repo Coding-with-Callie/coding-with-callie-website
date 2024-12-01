@@ -15,8 +15,7 @@ import {
   axiosPublic,
 } from "../../helpers/axios_instances";
 import { showNotification } from "../..";
-import { createFormData } from "../../helpers/helpers";
-import { ResourceData } from "../Home/CreateResourceForm";
+import { createFormData, isInvalidEmail } from "../../helpers/helpers";
 
 type Props = {
   form: CustomFormData;
@@ -59,13 +58,25 @@ const CustomForm = ({
     setLoading(false);
   };
 
-  const onSubmit = () => {
+  const doNotSubmitForm = () => {
+    let invalidInput = false;
+
     for (const key in data) {
-      if (data[key] === "") {
-        setSubmitClicked(true);
-        return;
-      }
+      const item = form.input.find((item) => item.field === key);
+      if (!item) continue;
+
+      invalidInput = isInvalid(key, data[key], item.required);
+
+      if (invalidInput) break;
     }
+
+    return invalidInput;
+  };
+
+  const onSubmit = () => {
+    setSubmitClicked(true);
+
+    if (doNotSubmitForm()) return;
 
     setLoading(true);
 
@@ -78,8 +89,8 @@ const CustomForm = ({
 
     let dataToSend = data;
 
-    if (route === "/resource") {
-      dataToSend = createFormData(data as ResourceData);
+    if (route === "/resource" || route === "/signup") {
+      dataToSend = createFormData(data);
     }
 
     axiosToUse
@@ -88,7 +99,7 @@ const CustomForm = ({
         updateData(response.data);
 
         showNotification(message, "success");
-        if (route === "/login") {
+        if (route === "/login" || route === "/signup") {
           navigate("/");
         }
         if (route === "/resource") {
@@ -112,6 +123,16 @@ const CustomForm = ({
     });
   };
 
+  const isInvalid = (field: string, value: string, required: boolean) => {
+    // If the field is required and the value is empty, show an error
+    if (value === "" && required) return true;
+
+    // If the field is an email and the value is not a valid email, show an error
+    if (field === "email" && isInvalidEmail(value)) return true;
+
+    return false;
+  };
+
   return (
     <FormContainer>
       <FormHeading>{form.formHeading}</FormHeading>
@@ -124,7 +145,10 @@ const CustomForm = ({
               field={item.field}
               value={data[item.field]}
               onChange={onChange}
-              isInvalid={submitClicked && data[item.field] === ""}
+              isInvalid={
+                submitClicked &&
+                isInvalid(item.field, data[item.field], item.required)
+              }
             />
           );
         }
@@ -137,7 +161,10 @@ const CustomForm = ({
               field={item.field}
               value={data[item.field]}
               onChange={onChange}
-              isInvalid={submitClicked && data[item.field] === ""}
+              isInvalid={
+                submitClicked &&
+                isInvalid(item.field, data[item.field], item.required)
+              }
               type="password"
             />
           );
@@ -150,13 +177,22 @@ const CustomForm = ({
               field={item.field}
               onChange={onChange}
               value={data[item.field]}
-              isInvalid={submitClicked && data[item.field] === ""}
+              isInvalid={
+                submitClicked &&
+                isInvalid(item.field, data[item.field], item.required)
+              }
             />
           );
         }
 
         if (item.type === "file") {
-          return <FileInput key={fileInputKey || ""} onChange={onChange} />;
+          return (
+            <FileInput
+              key={fileInputKey || ""}
+              onChange={onChange}
+              label={item.label}
+            />
+          );
         }
 
         if (item.type === "checkbox") {

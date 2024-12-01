@@ -1,5 +1,4 @@
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import BodyHeading from "../Components/BodyHeading";
 import Section from "../Components/Section";
 import SignUpForm from "../Components/SignUp/SignUpForm";
 import Paragraph from "../Components/Paragraph";
@@ -16,9 +15,6 @@ const SignUp = () => {
 
   return (
     <Section>
-      <BodyHeading textAlign="center">
-        Join the Coding with Callie community!
-      </BodyHeading>
       <SignUpForm />
       <Box
         display="flex"

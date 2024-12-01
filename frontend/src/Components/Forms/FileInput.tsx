@@ -3,12 +3,13 @@ import { Box, FormLabel, Input } from "@chakra-ui/react";
 type Props = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   key: string;
+  label: string;
 };
 
-const FileInput = ({ onChange, key }: Props) => {
+const FileInput = ({ onChange, key, label }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="input">Resource Image</FormLabel>
+      <FormLabel layerStyle="input">{label}</FormLabel>
       <Input
         p={0}
         border="none"
