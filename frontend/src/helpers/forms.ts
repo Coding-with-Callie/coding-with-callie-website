@@ -177,3 +177,27 @@ export const guestSpeakerFormData: CustomFormData = {
     },
   ],
 };
+
+export const reviewFormData: CustomFormData = {
+  formHeading: "Leave a Review!",
+  input: [
+    {
+      type: "rating",
+      label: "Rating",
+      field: "rating",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "Display Name",
+      field: "displayName",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "Comments",
+      field: "comments",
+      required: false,
+    },
+  ],
+};

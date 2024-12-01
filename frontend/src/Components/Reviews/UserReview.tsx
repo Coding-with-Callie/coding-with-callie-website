@@ -34,8 +34,7 @@ const UserReview = ({ review, index }: Props) => {
               </Text>
               <Box display="flex" gap={3}>
                 <StarRating
-                  rating={review.rating}
-                  setRating={undefined}
+                  data={{ rating: review.rating }}
                   count={5}
                   isInvalid={false}
                 />

@@ -17,6 +17,7 @@ import {
 import { showNotification } from "../..";
 import { createFormData, isInvalidEmail } from "../../helpers/helpers";
 import DateInput from "./DateInput";
+import RatingInput from "./RatingInput";
 
 type Props = {
   form: CustomFormData;
@@ -67,7 +68,6 @@ const CustomForm = ({
       if (!item) continue;
 
       invalidInput = isInvalid(key, data[key], item.required);
-
       if (invalidInput) break;
     }
 
@@ -118,6 +118,9 @@ const CustomForm = ({
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, checked, files } = e.target;
 
+    console.log("id", id);
+    console.log("value", value);
+
     setData({
       ...data,
       [id]: files ? files[0] : id === "target" ? checked : value,
@@ -130,6 +133,9 @@ const CustomForm = ({
 
     // If the field is an email and the value is not a valid email, show an error
     if (field === "email" && isInvalidEmail(value)) return true;
+
+    // If the field is rating and the value is null, show an error
+    if (field === "rating" && value === null) return true;
 
     return false;
   };
@@ -214,6 +220,19 @@ const CustomForm = ({
               field={item.field}
               value={data[item.field]}
               onChange={onChange}
+              isInvalid={
+                submitClicked &&
+                isInvalid(item.field, data[item.field], item.required)
+              }
+            />
+          );
+        }
+
+        if (item.type === "rating") {
+          return (
+            <RatingInput
+              data={data}
+              setData={setData}
               isInvalid={
                 submitClicked &&
                 isInvalid(item.field, data[item.field], item.required)
