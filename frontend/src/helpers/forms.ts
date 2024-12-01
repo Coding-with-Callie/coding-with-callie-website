@@ -105,3 +105,27 @@ export const signUpFormData: CustomFormData = {
     },
   ],
 };
+
+export const contactCallieFormData: CustomFormData = {
+  formHeading: "Contact Callie",
+  input: [
+    {
+      type: "text",
+      label: "Name",
+      field: "name",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "Email",
+      field: "email",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "Message",
+      field: "message",
+      required: true,
+    },
+  ],
+};

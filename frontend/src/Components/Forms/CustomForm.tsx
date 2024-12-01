@@ -26,7 +26,7 @@ type Props = {
   setFileInputKey?: React.Dispatch<React.SetStateAction<string>>;
   axiosType: "public" | "private" | "admin";
   route: string;
-  updateData: React.Dispatch<React.SetStateAction<any>>;
+  updateData?: React.Dispatch<React.SetStateAction<any>>;
   message: string;
 };
 
@@ -96,10 +96,10 @@ const CustomForm = ({
     axiosToUse
       .post(route, dataToSend)
       .then((response) => {
-        updateData(response.data);
+        if (updateData) updateData(response.data);
 
         showNotification(message, "success");
-        if (route === "/login" || route === "/signup") {
+        if (route === "/login" || route === "/signup" || route === "/contact") {
           navigate("/");
         }
         if (route === "/resource") {
