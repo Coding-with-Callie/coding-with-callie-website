@@ -117,9 +117,6 @@ const CustomForm = ({
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, checked, files } = e.target;
 
-    console.log("ID", id, ": VALUE", value);
-    console.log("CHECKED", checked, ": FILES", files);
-
     setData({
       ...data,
       [id]: files ? files[0] : id === "target" ? checked : value,

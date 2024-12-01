@@ -107,8 +107,6 @@ const UserStoryDetailsAccordion = ({
       return;
     }
 
-    console.log("Updating story", field, value);
-
     axiosPrivate
       .patch(
         `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`,

@@ -21,8 +21,6 @@ const TextInput = ({
     return field.split("").map((character) => character.toLowerCase());
   };
 
-  // console.log("FIELD", field, ": VALUE", value);
-
   return (
     <Box>
       <FormLabel layerStyle="input">{label}</FormLabel>
