@@ -25,9 +25,9 @@ const PhotoAndText = ({ heading, text, image }: Props) => {
           src={image}
           border="1px solid #A9A9A9"
           borderRadius="50%"
-          h={isLargerThan500 ? "350px" : "280px"}
+          h={isLargerThan500 ? "350px" : "250px"}
           boxShadow="lg"
-          w={isLargerThan500 ? "350px" : "280px"}
+          w={isLargerThan500 ? "350px" : "250px"}
         />
         <Box>
           <BodyHeading>{heading}</BodyHeading>

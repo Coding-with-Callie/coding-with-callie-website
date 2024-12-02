@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Image } from "@chakra-ui/react";
+import { AspectRatio, Box, Image, useMediaQuery } from "@chakra-ui/react";
 import { Speaker } from "../../Pages/GuestSpeakers";
 import BodyHeading from "../BodyHeading";
 import Section from "../Section";
@@ -9,11 +9,24 @@ type Props = {
 };
 
 const NewSpeaker = ({ speaker }: Props) => {
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
+
   return (
     <Section>
-      <Box display="flex" gap={6}>
-        <Box>
-          <AspectRatio h={"350px"} w={"350px"} ratio={1} mb={6}>
+      <Box
+        display="flex"
+        gap={6}
+        flexDirection={isLargerThan1300 ? "row" : "column"}
+        alignItems="center"
+      >
+        <Box mx="auto">
+          <AspectRatio
+            h={isLargerThan500 ? "350px" : "250px"}
+            w={isLargerThan500 ? "350px" : "250px"}
+            ratio={1}
+            mb={6}
+          >
             <Image
               src={speaker.photoUrl}
               borderRadius="50%"
@@ -25,14 +38,7 @@ const NewSpeaker = ({ speaker }: Props) => {
             {speaker.name}
           </BodyHeading>
         </Box>
-        <Box w={"100%"}>
-          <ReactPlayer
-            url={speaker.sessionRecordingUrl}
-            controls
-            width="100%"
-            height="100%"
-          />
-        </Box>
+        <ReactPlayer url={speaker.sessionRecordingUrl} controls width="100%" />
       </Box>
     </Section>
   );
