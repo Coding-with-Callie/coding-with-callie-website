@@ -5,6 +5,7 @@ import {
   Avatar,
   IconButton,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -71,148 +72,136 @@ const Profile = () => {
     <>
       <Section>
         <BodyHeading textAlign="center">Account Details</BodyHeading>
+        <Box
+          display="flex"
+          alignItems={isLargerThan600 ? "center" : "left"}
+          gap={isLargerThan600 ? 75 : 0}
+        >
+          <Box w="25%">
+            <Avatar size="2xl" name={user.username} src={user.photo} />
 
-        {user.name ? (
-          <Paragraph margin={false}>
-            {`Welcome, ${user.name}! You can manage your account details here!`}
-          </Paragraph>
-        ) : null}
+            <Box position="relative" top="-130px" left="130px">
+              <IconButton
+                aria-label="edit"
+                icon={<EditIcon />}
+                onClick={onOpenPhotoModal}
+              />
+            </Box>
+          </Box>
+          <Box w={isLargerThan600 ? "75%" : "100%"}>
+            <Box px={2}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                mb={2}
+                alignItems="center"
+              >
+                <Paragraph margin={false}>Name: </Paragraph>
+                <Box display="flex" w="70%" alignItems="center">
+                  <Paragraph flex={1} margin={false}>
+                    {user.name}
+                  </Paragraph>
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("name");
+                      setFieldValue(user.name);
+                      onOpen();
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                mb={2}
+                alignItems="center"
+              >
+                <Paragraph margin={false}>Username: </Paragraph>
+                <Box display="flex" w="70%" alignItems="center">
+                  <Paragraph flex={1} margin={false}>
+                    {user.username}
+                  </Paragraph>
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("username");
+                      setFieldValue(user.username);
+                      onOpen();
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                mb={2}
+                alignItems="center"
+              >
+                <Paragraph margin={false}>Password: </Paragraph>
+                <Box display="flex" w="70%" alignItems="center">
+                  <Paragraph flex={1} margin={false}>
+                    ******
+                  </Paragraph>
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("password");
+                      setFieldValue(user.password);
+                      onOpen();
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                mb={2}
+                alignItems="center"
+              >
+                <Paragraph margin={false}>Email: </Paragraph>
+                <Box display="flex" w="70%" alignItems="center">
+                  <Paragraph flex={1} margin={false}>
+                    {user.email}
+                  </Paragraph>
+                  <IconButton
+                    aria-label="edit"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                      setField("email");
+                      setFieldValue(user.email);
+                      onOpen();
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+        <Box display="flex" gap={4}>
+          <MyButton onClick={logout}>Log out</MyButton>
+          <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
+        </Box>
       </Section>
-      <Box maxW="900px" margin="0 auto">
-        <Section>
-          <Box
-            display="flex"
-            alignItems={isLargerThan600 ? "center" : "left"}
-            gap={isLargerThan600 ? 75 : 0}
-          >
-            <Box w="25%">
-              <Avatar size="2xl" name={user.username} src={user.photo} />
 
-              <Box position="relative" top="-130px" left="130px">
-                <IconButton
-                  aria-label="edit"
-                  icon={<EditIcon />}
-                  onClick={onOpenPhotoModal}
-                />
-              </Box>
-            </Box>
-            <Box w={isLargerThan600 ? "75%" : "100%"}>
-              <Box px={2}>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  mb={2}
-                  alignItems="center"
-                >
-                  <Paragraph margin={false}>Name: </Paragraph>
-                  <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flex={1} margin={false}>
-                      {user.name}
-                    </Paragraph>
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("name");
-                        setFieldValue(user.name);
-                        onOpen();
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  mb={2}
-                  alignItems="center"
-                >
-                  <Paragraph margin={false}>Username: </Paragraph>
-                  <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flex={1} margin={false}>
-                      {user.username}
-                    </Paragraph>
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("username");
-                        setFieldValue(user.username);
-                        onOpen();
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  mb={2}
-                  alignItems="center"
-                >
-                  <Paragraph margin={false}>Password: </Paragraph>
-                  <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flex={1} margin={false}>
-                      ******
-                    </Paragraph>
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("password");
-                        setFieldValue(user.password);
-                        onOpen();
-                      }}
-                    />
-                  </Box>
-                </Box>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  mb={2}
-                  alignItems="center"
-                >
-                  <Paragraph margin={false}>Email: </Paragraph>
-                  <Box display="flex" w="70%" alignItems="center">
-                    <Paragraph flex={1} margin={false}>
-                      {user.email}
-                    </Paragraph>
-                    <IconButton
-                      aria-label="edit"
-                      icon={<EditIcon />}
-                      onClick={() => {
-                        setField("email");
-                        setFieldValue(user.email);
-                        onOpen();
-                      }}
-                    />
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Section>
-        <Section>
-          <Box display="flex" gap={4}>
-            <MyButton onClick={logout}>Log out</MyButton>
-            <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
-          </Box>
-        </Section>
+      <ModalWrapper isOpen={isOpen} onClose={onClose}>
+        <EditModal field={field} value={fieldValue} onClose={onClose} />
+      </ModalWrapper>
 
-        <ModalWrapper isOpen={isOpen} onClose={onClose}>
-          <EditModal field={field} value={fieldValue} onClose={onClose} />
-        </ModalWrapper>
+      <ModalWrapper isOpen={isOpenPhotoModal} onClose={onClosePhotoModal}>
+        <EditPhotoModal onClose={onClosePhotoModal} />
+      </ModalWrapper>
 
-        <ModalWrapper isOpen={isOpenPhotoModal} onClose={onClosePhotoModal}>
-          <EditPhotoModal onClose={onClosePhotoModal} />
-        </ModalWrapper>
-
-        <Alert
-          isOpenAlert={isOpenAlert}
-          onCloseAlert={onCloseAlert}
-          cancelRef={cancelRef}
-          handleDelete={deleteAccount}
-          item="Account"
-        />
-      </Box>
+      <Alert
+        isOpenAlert={isOpenAlert}
+        onCloseAlert={onCloseAlert}
+        cancelRef={cancelRef}
+        handleDelete={deleteAccount}
+        item="Account"
+      />
     </>
   );
 };
