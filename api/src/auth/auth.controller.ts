@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -149,10 +148,10 @@ export class AuthController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadProfileImage(
     @UploadedFile() file: Express.Multer.File,
-    @Query('id') id: number,
+    @Request() req,
   ) {
-    await this.authService.uploadProfileImage(id, file);
-    return this.authService.getFrontendFriendlyUser(id);
+    await this.authService.uploadProfileImage(req.user.sub, file);
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
   }
 
   @Post('review')

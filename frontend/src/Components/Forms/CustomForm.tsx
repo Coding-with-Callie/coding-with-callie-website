@@ -68,6 +68,7 @@ const CustomForm = ({
       if (!item) continue;
 
       invalidInput = isInvalid(key, data[key], item.required);
+
       if (invalidInput) break;
     }
 
