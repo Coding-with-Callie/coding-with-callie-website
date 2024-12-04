@@ -19,17 +19,17 @@ import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProjectAccessGuard } from './project-access.guard';
 
-export class AccountDetailDTO {
-  @IsNotEmpty()
-  id: number;
+// export class AccountDetailDTO {
+//   @IsNotEmpty()
+//   id: number;
 
-  @IsNotEmpty({ message: 'You must provide a new value.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
+//   @IsNotEmpty({ message: 'You must provide a new value.' })
+//   @Transform((params) => sanitizeHTML(params.value))
+//   value: string;
 
-  @IsNotEmpty()
-  field: string;
-}
+//   @IsNotEmpty()
+//   field: string;
+// }
 
 export class ReviewDTO {
   @IsNotEmpty()
@@ -131,11 +131,14 @@ export class AuthController {
   }
 
   @Post('change-account-detail')
-  changeAccountDetail(@Body() accountDetails: AccountDetailDTO) {
+  changeAccountDetail(
+    @Body() detail: { [key: string]: string },
+    @Request() req,
+  ) {
     return this.authService.changeAccountDetail(
-      accountDetails.id,
-      accountDetails.field,
-      accountDetails.value,
+      req.user.sub,
+      Object.keys(detail)[0],
+      detail[Object.keys(detail)[0]],
     );
   }
 

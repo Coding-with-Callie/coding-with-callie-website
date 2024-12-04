@@ -52,7 +52,7 @@ const Profile = () => {
     <>
       <Section>
         <BodyHeading textAlign="center">Account Details</BodyHeading>
-        <AccountDetails user={user} />
+        <AccountDetails />
 
         <Box display="flex" gap={4}>
           <MyButton onClick={logout}>Log out</MyButton>

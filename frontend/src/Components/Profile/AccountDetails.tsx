@@ -1,92 +1,20 @@
-import { EditIcon } from "@chakra-ui/icons";
-import { Box, IconButton, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import EditableImage from "./EditableImage";
+import EditableText from "./EditableText";
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../../App";
 
-type Props = {
-  user: {
-    name: string;
-    username: string;
-    password: string;
-    email: string;
-    photo: string;
-  };
-};
+const AccountDetails = () => {
+  const { user } = useOutletContext() as Context;
 
-const AccountDetails = ({ user }: Props) => {
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" gap={6} mb={6}>
       <EditableImage photo={user.photo} />
-      <Box px={2}>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          mb={2}
-          alignItems="center"
-        >
-          <Text layerStyle="text">Name: </Text>
-          <Box display="flex" w="70%" alignItems="center">
-            <Text layerStyle="text" flex={1}>
-              {user.name}
-            </Text>
-            <IconButton
-              aria-label="edit"
-              icon={<EditIcon />}
-              onClick={() => {}}
-            />
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          mb={2}
-          alignItems="center"
-        >
-          <Text layerStyle="text">Username: </Text>
-          <Box display="flex" w="70%" alignItems="center">
-            <Text layerStyle="text" flex={1}>
-              {user.username}
-            </Text>
-            <IconButton
-              aria-label="edit"
-              icon={<EditIcon />}
-              onClick={() => {}}
-            />
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          mb={2}
-          alignItems="center"
-        >
-          <Text layerStyle="text">Password: </Text>
-          <Box display="flex" w="70%" alignItems="center">
-            <Text layerStyle="text" flex={1}>
-              ******
-            </Text>
-            <IconButton
-              aria-label="edit"
-              icon={<EditIcon />}
-              onClick={() => {}}
-            />
-          </Box>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          mb={2}
-          alignItems="center"
-        >
-          <Text layerStyle="text">Email: </Text>
-          <Box display="flex" w="70%" alignItems="center">
-            <Text flex={1}>{user.email}</Text>
-            <IconButton
-              aria-label="edit"
-              icon={<EditIcon />}
-              onClick={() => {}}
-            />
-          </Box>
-        </Box>
+      <Box>
+        <EditableText field="Name" value={user.name} />
+        <EditableText field="Username" value={user.username} />
+        <EditableText field="Password" value="******" />
+        <EditableText field="Email" value={user.email} />
       </Box>
     </Box>
   );

@@ -31,7 +31,7 @@ const EditableImage = ({ photo }: Props) => {
   };
 
   return (
-    <Box display="flex">
+    <Box display="flex" justifyContent="center">
       <Image
         src={photo}
         border="1px solid #A9A9A9"
@@ -42,6 +42,7 @@ const EditableImage = ({ photo }: Props) => {
       />
       <IconButton
         aria-label="edit"
+        colorScheme="green"
         icon={<EditIcon />}
         onClick={handleIconClick}
       />

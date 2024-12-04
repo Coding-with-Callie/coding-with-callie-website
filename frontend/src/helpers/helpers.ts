@@ -75,3 +75,16 @@ export const createFormData = (data: { [key: string]: any }) => {
 export const makeLowerCase = (field: string) => {
   return field.split("").map((character) => character.toLowerCase());
 };
+
+export const isInvalid = (field: string, value: string, required: boolean) => {
+  // If the field is required and the value is empty, show an error
+  if (value === "" && required) return true;
+
+  // If the field is an email and the value is not a valid email, show an error
+  if (field === "email" && isInvalidEmail(value)) return true;
+
+  // If the field is rating and the value is null, show an error
+  if (field === "rating" && value === null) return true;
+
+  return false;
+};
