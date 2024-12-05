@@ -13,7 +13,6 @@ const AccountDetails = () => {
       <Box>
         <EditableText field="Name" value={user.name} />
         <EditableText field="Username" value={user.username} />
-        <EditableText field="Password" value="******" />
         <EditableText field="Email" value={user.email} />
       </Box>
     </Box>
