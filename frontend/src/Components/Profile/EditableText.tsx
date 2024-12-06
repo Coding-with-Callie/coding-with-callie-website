@@ -1,5 +1,11 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, FormControl, IconButton, Text } from "@chakra-ui/react";
+import {
+  Box,
+  FormControl,
+  IconButton,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
@@ -18,6 +24,8 @@ const EditableText = ({ field, value }: Props) => {
   const [data, setData] = useState({ [field.toLowerCase()]: value });
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
+
   const input = [
     {
       type: "text",
@@ -34,8 +42,12 @@ const EditableText = ({ field, value }: Props) => {
       mb={2}
       alignItems="center"
     >
-      <Text layerStyle="text">{field}: </Text>
-      <Box display="flex" w="70%" alignItems="center">
+      {isLargerThan750 && <Text layerStyle="text">{field}: </Text>}
+      <Box
+        display="flex"
+        w={isLargerThan750 ? "70%" : "100%"}
+        alignItems="center"
+      >
         {edit ? (
           <FormControl flex={1} mr={2}>
             <FormInputs

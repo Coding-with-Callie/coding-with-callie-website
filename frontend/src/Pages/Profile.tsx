@@ -1,4 +1,4 @@
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { useRef } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Context } from "../App";
@@ -20,6 +20,8 @@ const Profile = () => {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
   const { user, updateUser } = useOutletContext() as Context;
+
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   const navigate = useNavigate();
 
@@ -57,8 +59,12 @@ const Profile = () => {
         <MyButton onClick={() => navigate("/change-password")}>
           Change Password
         </MyButton>
-
-        <Box display="flex" gap={2} mt={6}>
+        <Box
+          display="flex"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+          gap={2}
+          mt={6}
+        >
           <MyButton onClick={logout}>Log out</MyButton>
           <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
         </Box>
