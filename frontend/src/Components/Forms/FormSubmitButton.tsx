@@ -61,6 +61,11 @@ const FormSubmitButton = ({
       const item = input.find((item) => item.field === key);
       if (!item) continue;
 
+      if (key === "newPassword" && data[key] !== data["confirmPassword"]) {
+        invalidInput = true;
+        break;
+      }
+
       invalidInput = isInvalid(key, data[key], item.required);
 
       if (invalidInput) break;

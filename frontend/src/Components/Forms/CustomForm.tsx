@@ -51,6 +51,8 @@ const CustomForm = ({
         axiosType={axiosType}
         route={route}
         message={message}
+        setFileInputKey={setFileInputKey}
+        updateData={updateData}
       />
     </FormContainer>
   );

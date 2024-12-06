@@ -27,6 +27,10 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, field, value);
   }
 
+  async changePassword(id: number, password: string, newPassword: string) {
+    return await this.usersService.changePassword(id, password, newPassword);
+  }
+
   async softDeleteUser(id: number) {
     return await this.usersService.softDeleteUser(id);
   }

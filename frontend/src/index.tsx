@@ -19,6 +19,7 @@ import {
   ProfileResetLoader,
   RedirectLoggedInUser,
 } from "./helpers/loader_functions";
+import EditPassword from "./Components/Profile/EditPassword";
 
 export const showNotification = (
   message: string,
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+        loader: () => Load("profile"),
+      },
+      {
+        path: "/change-password",
+        element: <EditPassword />,
         loader: () => Load("profile"),
       },
       {

@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from './entities/users.entity';
 import { NewUserDto } from 'src/app.controller';
-import { hashPassword } from '../helpers/helpers';
+import { hashPassword, verifyPasswordMatches } from '../helpers/helpers';
 
 @Injectable()
 export class UsersService {
@@ -90,6 +90,22 @@ export class UsersService {
       role: user.role,
       photo: user.photo,
     };
+  }
+
+  async changePassword(id: number, password: string, newPassword: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const isCorrectPassword = await verifyPasswordMatches(password, user);
+
+    if (!isCorrectPassword) {
+      throw new BadRequestException('Incorrect password');
+    }
+
+    return await this.changeAccountDetail(id, 'password', newPassword);
   }
 
   async findAllUsers() {

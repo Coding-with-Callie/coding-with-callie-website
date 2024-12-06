@@ -142,6 +142,18 @@ export class AuthController {
     );
   }
 
+  @Post('change-password')
+  changePassword(
+    @Body() password: { password: string; newPassword: string },
+    @Request() req,
+  ) {
+    return this.authService.changePassword(
+      req.user.sub,
+      password.password,
+      password.newPassword,
+    );
+  }
+
   @Post('delete-account')
   softDeleteUser(@Body('id') id: number) {
     return this.authService.softDeleteUser(id);

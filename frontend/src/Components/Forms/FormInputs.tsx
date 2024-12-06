@@ -34,6 +34,10 @@ const FormInputs = ({
   return (
     <>
       {input.map((item, index) => {
+        const isPasswordMismatch =
+          item.field === "confirmPassword" &&
+          data.newPassword !== data.confirmPassword;
+
         if (item.type === "text") {
           return (
             <TextInput
@@ -59,8 +63,9 @@ const FormInputs = ({
               value={data[item.field]}
               onChange={onChange}
               isInvalid={
-                submitClicked &&
-                isInvalid(item.field, data[item.field], item.required)
+                (submitClicked &&
+                  isInvalid(item.field, data[item.field], item.required)) ||
+                isPasswordMismatch
               }
               type="password"
             />

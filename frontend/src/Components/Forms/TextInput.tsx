@@ -32,7 +32,9 @@ const TextInput = ({
       />
       {isInvalid && (
         <FormHelperText color="red.500">
-          Please enter a valid {makeLowerCase(label)}!
+          {field === "confirmPassword"
+            ? "New passwords must match!"
+            : `Please enter a valid ${makeLowerCase(label)}!`}
         </FormHelperText>
       )}
     </Box>

@@ -54,7 +54,11 @@ const Profile = () => {
         <BodyHeading textAlign="center">Account Details</BodyHeading>
         <AccountDetails />
 
-        <Box display="flex" gap={4}>
+        <MyButton onClick={() => navigate("/change-password")}>
+          Change Password
+        </MyButton>
+
+        <Box display="flex" gap={2} mt={6}>
           <MyButton onClick={logout}>Log out</MyButton>
           <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
         </Box>

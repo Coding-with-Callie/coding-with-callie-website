@@ -201,3 +201,27 @@ export const reviewFormData: CustomFormData = {
     },
   ],
 };
+
+export const changePasswordFormData: CustomFormData = {
+  formHeading: "Change Password",
+  input: [
+    {
+      type: "password",
+      label: "Current Password",
+      field: "password",
+      required: true,
+    },
+    {
+      type: "password",
+      label: "New Password",
+      field: "newPassword",
+      required: true,
+    },
+    {
+      type: "password",
+      label: "Confirm New Password",
+      field: "confirmPassword",
+      required: true,
+    },
+  ],
+};
