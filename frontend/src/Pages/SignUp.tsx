@@ -1,7 +1,6 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Box, useMediaQuery, Text } from "@chakra-ui/react";
 import Section from "../Components/Section";
 import SignUpForm from "../Components/SignUp/SignUpForm";
-import Paragraph from "../Components/Paragraph";
 import MyButton from "../Components/MyButton";
 import { useNavigate } from "react-router-dom";
 
@@ -11,30 +10,32 @@ export type SignUpData = {
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
 
   return (
-    <Section>
+    <>
       <SignUpForm />
-      <Box
-        display="flex"
-        gap={isLargerThan500 ? 10 : 2}
-        alignItems="center"
-        justifyContent="center"
-        mt={6}
-        w="100%"
-        flexDirection={isLargerThan500 ? "row" : "column"}
-      >
-        <Paragraph margin={false}>Already have an account?</Paragraph>
-        <MyButton
-          onClick={() => {
-            navigate("/log-in");
-          }}
+      <Section>
+        <Box
+          display="flex"
+          gap={6}
+          alignItems="center"
+          justifyContent="center"
+          flexDirection={isLargerThan450 ? "row" : "column"}
         >
-          Sign in instead!
-        </MyButton>
-      </Box>
-    </Section>
+          <Text layerStyle="text" w="fit-content" whiteSpace="nowrap">
+            Already have an account?
+          </Text>
+          <MyButton
+            onClick={() => {
+              navigate("/log-in");
+            }}
+          >
+            Sign in instead!
+          </MyButton>
+        </Box>
+      </Section>
+    </>
   );
 };
 
