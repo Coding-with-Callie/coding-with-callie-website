@@ -45,7 +45,7 @@ const FormSubmitButton = ({
   const navigate = useNavigate();
 
   const resetState = () => {
-    if (initialState) setData(initialState);
+    if (!setEdit) setData(initialState);
     if (setEdit) setEdit(false);
 
     if (setFileInputKey) setFileInputKey(new Date().getTime().toString());
@@ -56,6 +56,19 @@ const FormSubmitButton = ({
 
   const doNotSubmitForm = () => {
     let invalidInput = false;
+
+    console.log("data", data);
+    console.log("initialState", initialState);
+
+    console.log(
+      "data === initialState",
+      JSON.stringify(data) === JSON.stringify(initialState)
+    );
+
+    if (JSON.stringify(data) === JSON.stringify(initialState)) {
+      if (setEdit) setEdit(false);
+      return true;
+    }
 
     for (const key in data) {
       const item = input.find((item) => item.field === key);

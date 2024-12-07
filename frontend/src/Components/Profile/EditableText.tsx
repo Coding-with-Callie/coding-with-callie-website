@@ -19,9 +19,10 @@ type Props = {
 
 const EditableText = ({ field, value }: Props) => {
   const { updateUser } = useOutletContext() as Context;
+  const initialState = { [field.toLowerCase()]: value };
 
   const [edit, setEdit] = useState(false);
-  const [data, setData] = useState({ [field.toLowerCase()]: value });
+  const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
@@ -73,6 +74,7 @@ const EditableText = ({ field, value }: Props) => {
             message={"Account details updated!"}
             setEdit={setEdit}
             updateData={updateUser}
+            initialState={initialState}
           />
         ) : (
           <IconButton
