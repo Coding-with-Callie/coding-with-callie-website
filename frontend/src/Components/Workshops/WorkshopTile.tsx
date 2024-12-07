@@ -11,15 +11,15 @@ type Props = {
 
 const WorkshopTile = ({ workshop, index }: Props) => {
   const openWorkshopInNewTab = () => {
-    if (workshop.name === "Build in Public Challenge") {
+    if (workshop.name === "Deploy in Public Challenge") {
       window.open(
-        "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",
+        "https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge",
         "_blank",
         "noreferrer"
       );
     } else {
       window.open(
-        "https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge",
+        "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",
         "_blank",
         "noreferrer"
       );

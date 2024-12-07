@@ -61,6 +61,8 @@ const TextWithImageAndButton = ({
   setTextBlocksValue,
 }: Props) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
@@ -189,7 +191,12 @@ const TextWithImageAndButton = ({
   return (
     <>
       <Box w="100%">
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+        >
           {edit ? (
             <Input
               type="text"
