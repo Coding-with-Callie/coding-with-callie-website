@@ -102,7 +102,9 @@ export class UsersService {
     const isCorrectPassword = await verifyPasswordMatches(password, user);
 
     if (!isCorrectPassword) {
-      throw new BadRequestException('Incorrect password');
+      throw new BadRequestException(
+        'There was an issue with your credentials. Please try again!',
+      );
     }
 
     return await this.changeAccountDetail(id, 'password', newPassword);

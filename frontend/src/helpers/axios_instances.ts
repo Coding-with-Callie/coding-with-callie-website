@@ -39,6 +39,12 @@ const handleAuthAndAdminErrors = (error: any) => {
     return Promise.reject({ path: "/log-in", message });
   }
 
+  // User entered incorrect data
+  if (error.response.status === 400) {
+    message = error.response.data.message;
+    return Promise.reject({ message });
+  }
+
   // Some other error occurred
   return Promise.reject({ message: "There was an error!" });
 };
