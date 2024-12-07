@@ -57,14 +57,6 @@ const FormSubmitButton = ({
   const doNotSubmitForm = () => {
     let invalidInput = false;
 
-    console.log("data", data);
-    console.log("initialState", initialState);
-
-    console.log(
-      "data === initialState",
-      JSON.stringify(data) === JSON.stringify(initialState)
-    );
-
     if (JSON.stringify(data) === JSON.stringify(initialState)) {
       if (setEdit) setEdit(false);
       return true;
