@@ -30,7 +30,7 @@ const TextInput = ({
         value={value}
         isInvalid={isInvalid}
       />
-      {isInvalid && (
+      {isInvalid && label !== "" && (
         <FormHelperText color="red.500">
           {field === "confirmPassword"
             ? "New passwords must match!"
