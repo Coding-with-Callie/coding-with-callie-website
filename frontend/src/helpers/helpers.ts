@@ -72,8 +72,11 @@ export const createFormData = (data: { [key: string]: any }) => {
   }, new FormData());
 };
 
-export const makeLowerCase = (field: string) => {
-  return field.split("").map((character) => character.toLowerCase());
+export const makeLowerCase = (text: string) => {
+  return text
+    .split("")
+    .map((character) => character.toLowerCase())
+    .join("");
 };
 
 export const isInvalid = (field: string, value: string, required: boolean) => {
