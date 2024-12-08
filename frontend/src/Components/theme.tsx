@@ -1,23 +1,15 @@
 import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { getColors } from "../helpers/helpers";
 
 const inputBlue = "#eaf2f7";
 const blue = "#3e7aa6";
 const darkBlue = "#2b5574";
+const pink = "#a0627f";
 
 const theme = extendTheme(
   {
     colors: {
-      button: {
-        100: "#c6a1b2",
-        200: "#bc91a5",
-        300: "#b38199",
-        400: "#a9728c",
-        500: "#a0627f",
-        600: "#915872",
-        700: "#814e66",
-        800: "#714459",
-        900: "#603a4c",
-      },
+      button: getColors(pink),
     },
   },
   withDefaultColorScheme({
