@@ -13,10 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   featureId: number;
@@ -50,18 +49,11 @@ const CreateTaskAccordion = ({
 
     if (name !== "") {
       setIsOpen(false);
-      const token = localStorage.getItem("token");
 
-      axios
+      axiosPrivate
         .post(
-          `${host}/api/auth/create-task`,
-          {
-            name,
-            projectId,
-            featureId,
-            userStoryId,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
+          `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task`,
+          { name }
         )
         .then((response) => {
           setProject(response.data);
@@ -141,20 +133,15 @@ const CreateTaskAccordion = ({
               borderBottom="1px solid #45446A"
             >
               <FormControl isInvalid={isErrorName} isRequired mb={4}>
-                <FormLabel layerStyle="text">Task Name:</FormLabel>
-                <Input
-                  layerStyle="text"
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                />
+                <FormLabel>Task Name:</FormLabel>
+                <Input type="text" value={name} onChange={onChangeName} />
                 {!isErrorName ? null : (
                   <FormErrorMessage>
                     Developer task name is required.
                   </FormErrorMessage>
                 )}
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Task
               </Button>
             </AccordionPanel>

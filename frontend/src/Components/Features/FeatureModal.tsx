@@ -20,10 +20,9 @@ import UserStoryDetailsAccordion, {
 import CreateUserStoryAccordion from "../UserStories/CreateUserStoryAccordion";
 import { Project } from "../../Pages/Projects";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   isOpen: boolean;
@@ -108,18 +107,11 @@ const FeatureModal = ({
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-feature`,
-        {
-          field,
-          value,
-          featureId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .patch(`/project/${projectId}/feature/${featureId}`, {
+        field,
+        value,
+      })
       .then((response) => {
         setProject(response.data);
         setUpdateFeatureName(false);
@@ -157,16 +149,8 @@ const FeatureModal = ({
   };
 
   const deleteFeature = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-feature`,
-        {
-          featureId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .delete(`/project/${projectId}/feature/${featureId}`)
       .then((response) => {
         setProject(response.data);
         onCloseDelete();
@@ -217,7 +201,6 @@ const FeatureModal = ({
                     value={name}
                     onChange={onChangeName}
                     type="text"
-                    layerStyle="text"
                   />
                 </Box>
               ) : (
@@ -235,7 +218,6 @@ const FeatureModal = ({
                 aria-label="Edit Name"
                 icon={updateFeatureName ? <CheckIcon /> : <EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={
                   updateFeatureName
                     ? () => {
@@ -251,11 +233,10 @@ const FeatureModal = ({
                   <Textarea
                     value={description}
                     onChange={onChangeDescription}
-                    layerStyle="text"
                   />
                 </Box>
               ) : (
-                <Text layerStyle="text" mr={4} lineHeight="32px">
+                <Text mr={4} lineHeight="32px">
                   {featureDescription || "There is no feature description..."}
                 </Text>
               )}{" "}
@@ -264,7 +245,6 @@ const FeatureModal = ({
                 aria-label="Edit Description"
                 icon={updateFeatureDescription ? <CheckIcon /> : <EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={
                   updateFeatureDescription
                     ? () => {
@@ -299,7 +279,7 @@ const FeatureModal = ({
             />
           </Box>
         </Box>
-        <Button m={10} onClick={onOpenDelete} colorScheme="green">
+        <Button m={10} onClick={onOpenDelete}>
           Delete Feature
         </Button>
       </ModalContent>

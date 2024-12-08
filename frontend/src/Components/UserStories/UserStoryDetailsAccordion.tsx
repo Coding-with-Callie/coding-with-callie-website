@@ -23,10 +23,9 @@ import CreateTaskAccordion from "../Tasks/CreateTaskAccordion";
 import { Project } from "../../Pages/Projects";
 import TaskBox from "../Tasks/TaskBox";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../DeleteModal";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   name: string;
@@ -108,17 +107,13 @@ const UserStoryDetailsAccordion = ({
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-user-story`,
+    axiosPrivate
+      .patch(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`,
         {
           field,
           value,
-          userStoryId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+        }
       )
       .then((response) => {
         setProject(response.data);
@@ -157,15 +152,9 @@ const UserStoryDetailsAccordion = ({
   };
 
   const deleteStory = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-user-story`,
-        {
-          userStoryId,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+    axiosPrivate
+      .delete(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}`
       )
       .then((response) => {
         setProject(response.data);
@@ -219,7 +208,6 @@ const UserStoryDetailsAccordion = ({
                   value={storyName}
                   onChange={onChangeName}
                   type="text"
-                  layerStyle="text"
                 />
               </Box>
               <IconButton
@@ -227,7 +215,6 @@ const UserStoryDetailsAccordion = ({
                 aria-label="Edit Name"
                 icon={<CheckIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={() => {
                   updateStory("name", storyName);
                 }}
@@ -235,7 +222,7 @@ const UserStoryDetailsAccordion = ({
             </>
           ) : (
             <>
-              <Text flex={1} textAlign="left" layerStyle="text">
+              <Text flex={1} textAlign="left">
                 {name}
               </Text>
               <IconButton
@@ -243,20 +230,16 @@ const UserStoryDetailsAccordion = ({
                 aria-label="Edit Name"
                 icon={<EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={onClickEditName}
               />
             </>
           )}
-          <Text mr={4} layerStyle="text">
-            {storyStatus}
-          </Text>
+          <Text mr={4}>{storyStatus}</Text>
           <IconButton
             icon={<DeleteIcon />}
             aria-label="Delete User Story"
             mr={4}
             size="sm"
-            colorScheme="green"
             onClick={onOpen}
           />
           <ChevronDownIcon boxSize={5} />
@@ -279,23 +262,21 @@ const UserStoryDetailsAccordion = ({
                     flexDirection={isLargerThan920 ? "row" : "column-reverse"}
                     gap={4}
                   >
-                    <Text flex={1} textAlign="left" layerStyle="text">
+                    <Text flex={1} textAlign="left">
                       {name}
                     </Text>
                     <Box display="flex" alignItems="center" gap={4}>
-                      <Text layerStyle="text">{storyStatus}</Text>
+                      <Text>{storyStatus}</Text>
                       <IconButton
                         aria-label="Edit Name"
                         icon={<EditIcon />}
                         size="sm"
-                        colorScheme="green"
                         onClick={onClickEditName}
                       />
                       <IconButton
                         icon={<DeleteIcon />}
                         aria-label="Delete User Story"
                         size="sm"
-                        colorScheme="green"
                         onClick={() => {
                           setStartDelete(true);
                           onOpen();
@@ -323,11 +304,10 @@ const UserStoryDetailsAccordion = ({
                         <Textarea
                           value={storyDescription}
                           onChange={onChangeDescription}
-                          layerStyle="text"
                         />
                       </Box>
                     ) : (
-                      <Text layerStyle="text" mr={4} lineHeight="32px">
+                      <Text mr={4} lineHeight="32px">
                         {description || "There is no user story description..."}
                       </Text>
                     )}
@@ -338,7 +318,6 @@ const UserStoryDetailsAccordion = ({
                         updateStoryDescription ? <CheckIcon /> : <EditIcon />
                       }
                       size="sm"
-                      colorScheme="green"
                       onClick={
                         updateStoryDescription
                           ? () => {
@@ -355,6 +334,9 @@ const UserStoryDetailsAccordion = ({
                           task={task}
                           setStoryStatus={setStoryStatus}
                           setTaskList={setTaskList}
+                          projectId={projectId}
+                          featureId={featureId}
+                          userStoryId={userStoryId}
                         />
                       );
                     })}

@@ -1,57 +1,101 @@
-import { extendTheme } from "@chakra-ui/react";
+import { border, extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { getColors, lightenByPercentage } from "../helpers/helpers";
+import { color } from "framer-motion";
+import { Form } from "react-router-dom";
 
-const purple = "#45446A";
-const green = "#E1E7CD";
+const blue = "#3e7aa6";
+const darkBlue = "#2b5574";
+const pink = "#a0627f";
 
-const theme = extendTheme({
-  fonts: {
-    heading: `'Pacifico', cursive`,
-    body: `'Sometype Mono', monospace`,
-  },
-  layerStyles: {
-    button: {
-      color: green,
-      borderColor: purple,
-      backgroundColor: purple,
-      _hover: { color: purple, backgroundColor: green },
-      _active: {
-        color: purple,
-        transform: "scale(0.98)",
-        backgroundColor: green,
+const theme = extendTheme(
+  {
+    colors: {
+      button: getColors(pink),
+      heading: blue,
+      text: darkBlue,
+    },
+    components: {
+      Heading: {
+        baseStyle: {
+          color: blue,
+        },
+      },
+      Text: {
+        baseStyle: {
+          color: darkBlue,
+        },
+      },
+      FormLabel: {
+        baseStyle: {
+          color: darkBlue,
+        },
+      },
+      Input: {
+        variants: {
+          filled: {
+            field: {
+              color: darkBlue,
+              backgroundColor: lightenByPercentage(darkBlue, 90),
+              _hover: {
+                backgroundColor: lightenByPercentage(darkBlue, 95),
+                color: darkBlue,
+              },
+              _focus: {
+                backgroundColor: lightenByPercentage(darkBlue, 95),
+                borderColor: darkBlue,
+                color: darkBlue,
+              },
+            },
+          },
+        },
+      },
+      Textarea: {
+        variants: {
+          filled: {
+            backgroundColor: lightenByPercentage(darkBlue, 90),
+            color: darkBlue,
+            _hover: {
+              backgroundColor: lightenByPercentage(darkBlue, 95),
+              color: darkBlue,
+            },
+            _focus: {
+              backgroundColor: lightenByPercentage(darkBlue, 95),
+              borderColor: darkBlue,
+              color: darkBlue,
+            },
+          },
+        },
       },
     },
-    input: {
-      color: purple,
-    },
-    inputResource: {
-      color: purple,
-      backgroundColor: "white",
-      _hover: { backgroundColor: "gray.50" },
-      _focus: { backgroundColor: "white" },
-    },
-    heading: {
-      color: "#79A9CD",
-    },
-    text: {
-      color: "#45446A",
-    },
-    boxButton: {
-      border: "1px solid #45446A",
-      borderRadius: "md",
-      backgroundColor: "white",
-      boxShadow: "md",
-      _hover: { cursor: "pointer", transform: "scale(1.005)" },
-      _active: { transform: "scale(1)" },
-    },
-    accordionButton: {
-      backgroundColor: "rgb(69, 68, 106, 0.75)",
-      borderTopRadius: "md",
-    },
-    accordionPanel: {
-      backgroundColor: "white",
-      borderBottomRadius: "md",
-    },
   },
-});
+  withDefaultColorScheme({
+    colorScheme: "button",
+    components: ["Button"],
+  }),
+  {
+    fonts: {
+      heading: `'Pacifico', cursive`,
+      body: `'Sometype Mono', monospace`,
+    },
+    layerStyles: {
+      boxButton: {
+        border: "1px solid #3e7aa6",
+        borderRadius: "md",
+        backgroundColor: "white",
+        boxShadow: "md",
+        _hover: { cursor: "pointer", transform: "scale(1.005)" },
+        _active: { transform: "scale(1)" },
+      },
+      accordionButton: {
+        backgroundColor: "rgb(69, 68, 106, 0.75)",
+        borderTopRadius: "md",
+      },
+      accordionPanel: {
+        backgroundColor: "white",
+        borderBottomRadius: "md",
+      },
+    },
+  }
+);
 
 export default theme;

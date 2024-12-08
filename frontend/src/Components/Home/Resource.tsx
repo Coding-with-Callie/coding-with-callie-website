@@ -1,4 +1,4 @@
-import { Box, Textarea, useMediaQuery } from "@chakra-ui/react";
+import { Box, Textarea } from "@chakra-ui/react";
 import Section from "../Section";
 import TextWithImageAndButton from "./TextWithImageAndButton";
 import BodyText from "../BodyText";
@@ -32,7 +32,6 @@ const Resource = ({
   order,
   numResources,
 }: Props) => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [edit, setEdit] = useState(false);
   const [textBlocksValue, setTextBlocksValue] = useState(
     textBlocks.join("\n\n")
@@ -44,7 +43,7 @@ const Resource = ({
 
   return (
     <Box id={order.toString()}>
-      <Section screenSizeParameter={isLargerThan900} alignItemsCenter={false}>
+      <Section>
         <TextWithImageAndButton
           heading={heading}
           imageUrl={imageUrl}
@@ -64,18 +63,13 @@ const Resource = ({
         >
           {edit ? (
             <Textarea
-              layerStyle="inputResource"
-              variant="filled"
               id="bodyText"
               value={textBlocksValue}
               onChange={onChangeBodyText}
               isInvalid={textBlocksValue === ""}
-              height={293}
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
             />
           ) : (
-            <BodyText textBlocks={textBlocks} textAlignCenter={false} />
+            <BodyText textBlocks={textBlocks} />
           )}
         </TextWithImageAndButton>
       </Section>

@@ -12,8 +12,6 @@ import { Link } from "react-router-dom";
 import MyButton from "../MyButton";
 import Alert from "../Profile/Alert";
 import { useRef, useState } from "react";
-import axios from "axios";
-import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
 import { toast } from "react-toastify";
 import {
@@ -23,6 +21,7 @@ import {
   FaRegHandPointUp,
   FaRegTrashAlt,
 } from "react-icons/fa";
+import { axiosAdmin } from "../../helpers/axios_instances";
 
 type Props = {
   children: React.ReactNode;
@@ -61,7 +60,9 @@ const TextWithImageAndButton = ({
   bodyText,
   setTextBlocksValue,
 }: Props) => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
@@ -77,12 +78,8 @@ const TextWithImageAndButton = ({
   const [fileInputKey, setFileInputKey] = useState<string>("");
 
   const deleteResource = () => {
-    axios
-      .delete(`${host}/api/auth/resource/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+    axiosAdmin
+      .delete(`/resource/${id}`)
       .then((response) => {
         setResources(response.data);
         onCloseAlert();
@@ -101,8 +98,6 @@ const TextWithImageAndButton = ({
     setTextBlocksValue(bodyText);
 
     setEdit(!edit);
-    console.log("Order:", order);
-    console.log("HEADING", heading);
   };
 
   const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,18 +130,10 @@ const TextWithImageAndButton = ({
     order = direction === "up" ? order - 1 : order + 1;
     await scrollToElement(order);
 
-    axios
-      .post(
-        `${host}/api/auth/resource/${id}/order`,
-        {
-          direction,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+    axiosAdmin
+      .post(`/resource/${id}/order`, {
+        direction,
+      })
       .then((response) => {
         setResources(response.data);
       })
@@ -188,12 +175,8 @@ const TextWithImageAndButton = ({
     formData.append("linkUrl", linkUrlValue);
     formData.append("target", (targetValue === "_blank").toString());
 
-    axios
-      .put(`${host}/api/auth/resource/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+    axiosAdmin
+      .put(`/resource/${id}`, formData)
       .then((response) => {
         setResources(response.data);
         setEdit(false);
@@ -208,7 +191,12 @@ const TextWithImageAndButton = ({
   return (
     <>
       <Box w="100%">
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection={isLargerThan500 ? "row" : "column"}
+        >
           {edit ? (
             <Input
               type="text"
@@ -224,7 +212,7 @@ const TextWithImageAndButton = ({
               _focus={{ backgroundColor: "white" }}
             />
           ) : (
-            <BodyHeading textAlignCenter={false}>{heading}</BodyHeading>
+            <BodyHeading>{heading}</BodyHeading>
           )}
           {editable && (
             <Box mb={6} display="flex" gap={2}>
@@ -232,7 +220,6 @@ const TextWithImageAndButton = ({
                 aria-label={"edit resource"}
                 icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
                 onClick={edit ? submitEdit : editResource}
-                colorScheme="green"
               />
               <IconButton
                 aria-label={"move resource up"}
@@ -259,7 +246,7 @@ const TextWithImageAndButton = ({
         </Box>
         <Box
           display="flex"
-          flexDirection={isLargerThan900 ? "row" : "column"}
+          flexDirection={isLargerThan1300 ? "row" : "column"}
           gap={10}
           mb={6}
           alignItems="center"
@@ -318,7 +305,7 @@ const TextWithImageAndButton = ({
           </Box>
         ) : (
           <Link to={linkUrl} target={target === "_blank" ? "_blank" : "_self"}>
-            <MyButton widthSize="100%">{buttonText}</MyButton>
+            <MyButton>{buttonText}</MyButton>
           </Link>
         )}
       </Box>

@@ -15,10 +15,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { Project as ProjectType } from "./Projects";
 import { useState } from "react";
 import { UserStory } from "../Components/Features/FeatureModal";
-import axios from "axios";
 import DeleteModal from "../Components/DeleteModal";
 import StatusColumn, { Column } from "../Components/Project/StatusColumn";
-import { host } from "..";
+import { axiosPrivate } from "../helpers/axios_instances";
 
 export type Feature = {
   name: string;
@@ -99,18 +98,11 @@ const Project = () => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-project`,
-        {
-          field,
-          value,
-          projectId: project.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
+    axiosPrivate
+      .patch(`/project/${project.id}`, {
+        field,
+        value,
+      })
       .then((response) => {
         setProject(response.data);
         setUpdateProjectName(false);
@@ -148,17 +140,9 @@ const Project = () => {
   };
 
   const deleteProject = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-project`,
-        {
-          projectId: project.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((response) => {
+    axiosPrivate
+      .delete(`/project/${project.id}`)
+      .then(() => {
         onClose();
         navigate("/projects");
         toast({
@@ -222,7 +206,6 @@ const Project = () => {
               aria-label="Edit Name"
               icon={updateProjectName ? <CheckIcon /> : <EditIcon />}
               size="sm"
-              colorScheme="green"
               onClick={
                 updateProjectName
                   ? () => {
@@ -236,14 +219,13 @@ const Project = () => {
             {updateProjectDescription ? (
               <Box flex={1} mr={4}>
                 <Textarea
-                  layerStyle="text"
                   value={projectDescription}
                   onChange={onChangeDescription}
                   variant="filled"
                 />
               </Box>
             ) : (
-              <Text layerStyle="text" mr={4} lineHeight="32px">
+              <Text mr={4} lineHeight="32px">
                 {project.description || "There is no product description..."}
               </Text>
             )}
@@ -252,7 +234,6 @@ const Project = () => {
               aria-label="Edit Description"
               icon={updateProjectDescription ? <CheckIcon /> : <EditIcon />}
               size="sm"
-              colorScheme="green"
               onClick={
                 updateProjectDescription
                   ? () => {
@@ -275,7 +256,7 @@ const Project = () => {
           );
         })}
       </Box>
-      <Button onClick={onOpen} colorScheme="green" w="100%" mb={10}>
+      <Button onClick={onOpen} w="100%" mb={10}>
         Delete Project
       </Button>
       <DeleteModal
