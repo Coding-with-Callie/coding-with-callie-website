@@ -29,9 +29,7 @@ const UserReview = ({ review, index }: Props) => {
             justifyContent="center"
           >
             <Box display="flex" justifyContent="space-between">
-              <Text layerStyle="text" fontWeight="bold">
-                {review.displayName}
-              </Text>
+              <Text fontWeight="bold">{review.displayName}</Text>
               <Box display="flex" gap={3}>
                 <StarRating
                   data={{ rating: review.rating }}
@@ -43,7 +41,7 @@ const UserReview = ({ review, index }: Props) => {
                 )}
               </Box>
             </Box>
-            <Text layerStyle="text" fontStyle="italic">
+            <Text fontStyle="italic">
               {isLargerThan550
                 ? format(review.createdAt, "MMMM do, yyyy")
                 : format(review.createdAt, "MM-dd-yy")}
@@ -52,7 +50,7 @@ const UserReview = ({ review, index }: Props) => {
         </Box>
       </Box>
       {review.comments.length > 0 && (
-        <Text layerStyle="text" mt={6}>{`"${review.comments}"`}</Text>
+        <Text mt={6}>{`"${review.comments}"`}</Text>
       )}
     </ReviewContainer>
   );

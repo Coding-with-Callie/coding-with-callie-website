@@ -138,13 +138,8 @@ const CreateUserStoryAccordion = ({
               borderBottom="1px solid #45446A"
             >
               <FormControl isInvalid={isErrorName} isRequired mb={4}>
-                <FormLabel layerStyle="text">User Story Name:</FormLabel>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                  layerStyle="text"
-                />
+                <FormLabel>User Story Name:</FormLabel>
+                <Input type="text" value={name} onChange={onChangeName} />
                 {!isErrorName ? null : (
                   <FormErrorMessage>
                     User story name is required.
@@ -152,12 +147,8 @@ const CreateUserStoryAccordion = ({
                 )}
               </FormControl>
               <FormControl mb={4}>
-                <FormLabel layerStyle="text">User Story Description:</FormLabel>
-                <Textarea
-                  value={description}
-                  onChange={onChangeDescription}
-                  layerStyle="text"
-                />
+                <FormLabel>User Story Description:</FormLabel>
+                <Textarea value={description} onChange={onChangeDescription} />
               </FormControl>
               <Button w="100%" onClick={onSubmit}>
                 Create User Story

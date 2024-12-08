@@ -133,13 +133,8 @@ const CreateTaskAccordion = ({
               borderBottom="1px solid #45446A"
             >
               <FormControl isInvalid={isErrorName} isRequired mb={4}>
-                <FormLabel layerStyle="text">Task Name:</FormLabel>
-                <Input
-                  layerStyle="text"
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                />
+                <FormLabel>Task Name:</FormLabel>
+                <Input type="text" value={name} onChange={onChangeName} />
                 {!isErrorName ? null : (
                   <FormErrorMessage>
                     Developer task name is required.

@@ -174,17 +174,9 @@ const TaskBox = ({
     >
       <Box flex={1} order={isLargerThan920 ? 1 : 2}>
         {updateName ? (
-          <Input
-            layerStyle="text"
-            h="32px"
-            value={taskName}
-            onChange={onChange}
-            type="text"
-          />
+          <Input h="32px" value={taskName} onChange={onChange} type="text" />
         ) : (
-          <Text layerStyle="text" lineHeight="32px">
-            {taskName}
-          </Text>
+          <Text lineHeight="32px">{taskName}</Text>
         )}
       </Box>
       <Box

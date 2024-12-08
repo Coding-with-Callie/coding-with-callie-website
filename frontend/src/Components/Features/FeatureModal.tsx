@@ -201,7 +201,6 @@ const FeatureModal = ({
                     value={name}
                     onChange={onChangeName}
                     type="text"
-                    layerStyle="text"
                   />
                 </Box>
               ) : (
@@ -234,11 +233,10 @@ const FeatureModal = ({
                   <Textarea
                     value={description}
                     onChange={onChangeDescription}
-                    layerStyle="text"
                   />
                 </Box>
               ) : (
-                <Text layerStyle="text" mr={4} lineHeight="32px">
+                <Text mr={4} lineHeight="32px">
                   {featureDescription || "There is no feature description..."}
                 </Text>
               )}{" "}

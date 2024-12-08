@@ -23,7 +23,7 @@ const SignUp = () => {
           justifyContent="center"
           flexDirection={isLargerThan450 ? "row" : "column"}
         >
-          <Text layerStyle="text" w="fit-content" whiteSpace="nowrap">
+          <Text w="fit-content" whiteSpace="nowrap">
             Already have an account?
           </Text>
           <MyButton

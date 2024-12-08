@@ -58,8 +58,8 @@ const FeatureBox = ({ feature, projectId, setProject }: Props) => {
         key={feature.id}
         layerStyle="boxButton"
       >
-        <Text layerStyle="text">{feature.name}</Text>
-        <Text layerStyle="text">
+        <Text>{feature.name}</Text>
+        <Text>
           {feature.completedUserStories}/{feature.userStoryCount}
         </Text>
       </Box>

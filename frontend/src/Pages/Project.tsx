@@ -219,14 +219,13 @@ const Project = () => {
             {updateProjectDescription ? (
               <Box flex={1} mr={4}>
                 <Textarea
-                  layerStyle="text"
                   value={projectDescription}
                   onChange={onChangeDescription}
                   variant="filled"
                 />
               </Box>
             ) : (
-              <Text layerStyle="text" mr={4} lineHeight="32px">
+              <Text mr={4} lineHeight="32px">
                 {project.description || "There is no product description..."}
               </Text>
             )}

@@ -12,10 +12,9 @@ type Props = {
 const DateInput = ({ label, field, value, onChange, isInvalid }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="text">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <Input
         type="date"
-        layerStyle="input"
         variant="filled"
         value={value}
         id={field}

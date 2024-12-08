@@ -1,7 +1,8 @@
-import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
-import { getColors } from "../helpers/helpers";
+import { border, extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { getColors, lightenByPercentage } from "../helpers/helpers";
+import { color } from "framer-motion";
+import { Form } from "react-router-dom";
 
-const inputBlue = "#eaf2f7";
 const blue = "#3e7aa6";
 const darkBlue = "#2b5574";
 const pink = "#a0627f";
@@ -10,6 +11,61 @@ const theme = extendTheme(
   {
     colors: {
       button: getColors(pink),
+      heading: blue,
+      text: darkBlue,
+    },
+    components: {
+      Heading: {
+        baseStyle: {
+          color: blue,
+        },
+      },
+      Text: {
+        baseStyle: {
+          color: darkBlue,
+        },
+      },
+      FormLabel: {
+        baseStyle: {
+          color: darkBlue,
+        },
+      },
+      Input: {
+        variants: {
+          filled: {
+            field: {
+              color: darkBlue,
+              backgroundColor: lightenByPercentage(darkBlue, 90),
+              _hover: {
+                backgroundColor: lightenByPercentage(darkBlue, 95),
+                color: darkBlue,
+              },
+              _focus: {
+                backgroundColor: lightenByPercentage(darkBlue, 95),
+                borderColor: darkBlue,
+                color: darkBlue,
+              },
+            },
+          },
+        },
+      },
+      Textarea: {
+        variants: {
+          filled: {
+            backgroundColor: lightenByPercentage(darkBlue, 90),
+            color: darkBlue,
+            _hover: {
+              backgroundColor: lightenByPercentage(darkBlue, 95),
+              color: darkBlue,
+            },
+            _focus: {
+              backgroundColor: lightenByPercentage(darkBlue, 95),
+              borderColor: darkBlue,
+              color: darkBlue,
+            },
+          },
+        },
+      },
     },
   },
   withDefaultColorScheme({
@@ -22,22 +78,6 @@ const theme = extendTheme(
       body: `'Sometype Mono', monospace`,
     },
     layerStyles: {
-      input: {
-        color: darkBlue,
-        backgroundColor: inputBlue,
-      },
-      inputResource: {
-        color: darkBlue,
-        backgroundColor: "white",
-        _hover: { backgroundColor: "gray.50" },
-        _focus: { backgroundColor: "white" },
-      },
-      heading: {
-        color: blue,
-      },
-      text: {
-        color: darkBlue,
-      },
       boxButton: {
         border: "1px solid #3e7aa6",
         borderRadius: "md",

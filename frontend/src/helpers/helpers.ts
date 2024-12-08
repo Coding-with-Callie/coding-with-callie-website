@@ -92,7 +92,7 @@ export const isInvalid = (field: string, value: string, required: boolean) => {
   return false;
 };
 
-export const changeHexColorByPercentage = (hex: string, percent: number) => {
+export const lightenByPercentage = (hex: string, percent: number) => {
   // Remove the hash at the start if it's there
   hex = hex.replace(/^#/, "");
 
@@ -102,14 +102,9 @@ export const changeHexColorByPercentage = (hex: string, percent: number) => {
   let b = parseInt(hex.substring(4, 6), 16);
 
   // Calculate the new r, g, b values
-  r = Math.round(r * (1 + percent / 100));
-  g = Math.round(g * (1 + percent / 100));
-  b = Math.round(b * (1 + percent / 100));
-
-  // Ensure the values are within the valid range
-  r = Math.max(0, Math.min(255, r));
-  g = Math.max(0, Math.min(255, g));
-  b = Math.max(0, Math.min(255, b));
+  r = Math.min(255, Math.floor(r + (255 - r) * (percent / 100)));
+  g = Math.min(255, Math.floor(g + (255 - g) * (percent / 100)));
+  b = Math.min(255, Math.floor(b + (255 - b) * (percent / 100)));
 
   // Convert the r, g, b values back to hex
   const newHex = `#${r.toString(16).padStart(2, "0")}${g
@@ -121,14 +116,14 @@ export const changeHexColorByPercentage = (hex: string, percent: number) => {
 
 export const getColors = (color: string) => {
   return {
-    100: changeHexColorByPercentage(color, 40),
-    200: changeHexColorByPercentage(color, 30),
-    300: changeHexColorByPercentage(color, 20),
-    400: changeHexColorByPercentage(color, 10),
-    500: changeHexColorByPercentage(color, 0),
-    600: changeHexColorByPercentage(color, -10),
-    700: changeHexColorByPercentage(color, -20),
-    800: changeHexColorByPercentage(color, -30),
-    900: changeHexColorByPercentage(color, -40),
+    100: lightenByPercentage(color, 40),
+    200: lightenByPercentage(color, 30),
+    300: lightenByPercentage(color, 20),
+    400: lightenByPercentage(color, 10),
+    500: lightenByPercentage(color, 0),
+    600: lightenByPercentage(color, -10),
+    700: lightenByPercentage(color, -20),
+    800: lightenByPercentage(color, -30),
+    900: lightenByPercentage(color, -40),
   };
 };

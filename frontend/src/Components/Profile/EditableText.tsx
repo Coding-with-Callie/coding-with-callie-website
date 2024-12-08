@@ -43,7 +43,7 @@ const EditableText = ({ field, value }: Props) => {
       mb={2}
       alignItems="center"
     >
-      {isLargerThan750 && <Text layerStyle="text">{field}: </Text>}
+      {isLargerThan750 && <Text>{field}: </Text>}
       <Box
         display="flex"
         w={isLargerThan750 ? "70%" : "100%"}
@@ -59,9 +59,7 @@ const EditableText = ({ field, value }: Props) => {
             />
           </FormControl>
         ) : (
-          <Text layerStyle="text" flex={1}>
-            {value}
-          </Text>
+          <Text flex={1}>{value}</Text>
         )}
         {edit ? (
           <FormSubmitButton

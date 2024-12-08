@@ -31,7 +31,7 @@ const Header = ({ user, updateUser }: Props) => {
               h={isLargerThan600 ? "80px" : "50px"}
               boxShadow="lg"
             />
-            <Heading fontSize={isLargerThan600 ? 36 : 24} color="#3e7aa6">
+            <Heading fontSize={isLargerThan600 ? 36 : 24}>
               Coding with Callie
             </Heading>
           </Box>

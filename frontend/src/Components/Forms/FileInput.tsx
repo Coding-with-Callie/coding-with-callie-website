@@ -9,7 +9,7 @@ type Props = {
 const FileInput = ({ onChange, key, label }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="text">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <Input
         p={0}
         border="none"

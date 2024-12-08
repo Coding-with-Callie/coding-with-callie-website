@@ -8,7 +8,7 @@ type Props = {
 
 const BodyHeading = ({ children, textAlign = "left", mb = 6 }: Props) => {
   return (
-    <Heading layerStyle="heading" fontSize={28} mb={mb} textAlign={textAlign}>
+    <Heading fontSize={28} mb={mb} textAlign={textAlign}>
       {children}
     </Heading>
   );

@@ -64,7 +64,6 @@ const EditModal = ({ field, value, onClose }: Props) => {
       <Input
         type={field === "password" ? "password" : "text"}
         variant="filled"
-        layerStyle="input"
         placeholder={field === "password" ? "Enter new password" : ""}
         onChange={handleChange}
         isInvalid={submitClicked && newValue === ""}
@@ -74,7 +73,6 @@ const EditModal = ({ field, value, onClose }: Props) => {
         <Input
           type="password"
           variant="filled"
-          layerStyle="input"
           placeholder="Retype new password"
           onChange={handleChangeMatch}
           isInvalid={submitClicked && match === ""}

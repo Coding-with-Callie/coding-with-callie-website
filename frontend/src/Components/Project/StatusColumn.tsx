@@ -23,7 +23,7 @@ const StatusColumn = ({ column, project, setProject }: Props) => {
       key={column.name}
       minW="275px"
     >
-      <Text layerStyle="text" textAlign="center" fontSize={20} mt={2}>
+      <Text textAlign="center" fontSize={20} mt={2}>
         {column.name}
       </Text>
       {project.features.map((feature) => {

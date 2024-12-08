@@ -29,14 +29,12 @@ const ProjectBox = ({ project }: Props) => {
     >
       <Text
         w={isLargerThan825 ? "15%" : "100%"}
-        layerStyle="text"
         fontWeight={isLargerThan825 ? "normal" : "bold"}
         order={1}
       >
         {project.name}
       </Text>
       <Text
-        layerStyle="text"
         noOfLines={isLargerThan825 ? 1 : 100}
         flex={1}
         order={isLargerThan825 ? 2 : 3}
@@ -44,7 +42,6 @@ const ProjectBox = ({ project }: Props) => {
         {project.description}
       </Text>
       <Text
-        layerStyle="text"
         w={isLargerThan825 ? "15%" : "100%"}
         ml={isLargerThan825 ? 10 : 0}
         order={isLargerThan825 ? 3 : 2}

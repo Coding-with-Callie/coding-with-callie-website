@@ -57,7 +57,7 @@ const LogIn = () => {
           justifyContent="center"
           flexDirection={isLargerThan450 ? "row" : "column"}
         >
-          <Text layerStyle="text" w="fit-content" whiteSpace="nowrap">
+          <Text w="fit-content" whiteSpace="nowrap">
             Forgot your password?
           </Text>
           <MyButton onClick={onOpen}>Reset Password</MyButton>

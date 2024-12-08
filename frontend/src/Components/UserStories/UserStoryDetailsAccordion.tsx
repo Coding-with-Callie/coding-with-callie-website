@@ -208,7 +208,6 @@ const UserStoryDetailsAccordion = ({
                   value={storyName}
                   onChange={onChangeName}
                   type="text"
-                  layerStyle="text"
                 />
               </Box>
               <IconButton
@@ -223,7 +222,7 @@ const UserStoryDetailsAccordion = ({
             </>
           ) : (
             <>
-              <Text flex={1} textAlign="left" layerStyle="text">
+              <Text flex={1} textAlign="left">
                 {name}
               </Text>
               <IconButton
@@ -235,9 +234,7 @@ const UserStoryDetailsAccordion = ({
               />
             </>
           )}
-          <Text mr={4} layerStyle="text">
-            {storyStatus}
-          </Text>
+          <Text mr={4}>{storyStatus}</Text>
           <IconButton
             icon={<DeleteIcon />}
             aria-label="Delete User Story"
@@ -265,11 +262,11 @@ const UserStoryDetailsAccordion = ({
                     flexDirection={isLargerThan920 ? "row" : "column-reverse"}
                     gap={4}
                   >
-                    <Text flex={1} textAlign="left" layerStyle="text">
+                    <Text flex={1} textAlign="left">
                       {name}
                     </Text>
                     <Box display="flex" alignItems="center" gap={4}>
-                      <Text layerStyle="text">{storyStatus}</Text>
+                      <Text>{storyStatus}</Text>
                       <IconButton
                         aria-label="Edit Name"
                         icon={<EditIcon />}
@@ -307,11 +304,10 @@ const UserStoryDetailsAccordion = ({
                         <Textarea
                           value={storyDescription}
                           onChange={onChangeDescription}
-                          layerStyle="text"
                         />
                       </Box>
                     ) : (
-                      <Text layerStyle="text" mr={4} lineHeight="32px">
+                      <Text mr={4} lineHeight="32px">
                         {description || "There is no user story description..."}
                       </Text>
                     )}

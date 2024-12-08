@@ -11,7 +11,7 @@ const BodyText = ({ textBlocks, textAlign = "left", mb = 4 }: Props) => {
     <Box flex={1}>
       {textBlocks.map((text: string, index: number) => {
         return (
-          <Text layerStyle="text" textAlign={textAlign} key={index} mb={mb}>
+          <Text textAlign={textAlign} key={index} mb={mb}>
             {text}
           </Text>
         );

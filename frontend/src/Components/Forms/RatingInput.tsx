@@ -10,7 +10,7 @@ type Props = {
 const RatingInput = ({ data, setData, isInvalid }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="text">Rating</FormLabel>
+      <FormLabel>Rating</FormLabel>
       <StarRating
         data={data}
         setData={setData}

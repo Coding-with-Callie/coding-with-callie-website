@@ -309,7 +309,6 @@ const GuestSpeaker = ({
               <AccordionPanel pb={4}>
                 {edit ? (
                   <Textarea
-                    layerStyle="inputResource"
                     variant="filled"
                     value={sessionText}
                     onChange={onChangeSessionText}
@@ -341,7 +340,6 @@ const GuestSpeaker = ({
               <AccordionPanel pb={4}>
                 {edit ? (
                   <Textarea
-                    layerStyle="inputResource"
                     variant="filled"
                     value={bioText}
                     onChange={onChangeBioText}

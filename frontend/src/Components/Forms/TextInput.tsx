@@ -20,10 +20,9 @@ const TextInput = ({
 }: Props) => {
   return (
     <Box>
-      {label !== "" && <FormLabel layerStyle="text">{label}</FormLabel>}
+      {label !== "" && <FormLabel>{label}</FormLabel>}
       <Input
         type={type}
-        layerStyle="input"
         variant="filled"
         id={field}
         onChange={onChange}
