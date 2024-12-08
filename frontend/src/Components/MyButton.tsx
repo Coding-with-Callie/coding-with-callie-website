@@ -16,7 +16,7 @@ const MyButton = ({
   loading = false,
 }: Props) => {
   return (
-    <Button colorScheme="green" w={width} onClick={onClick} disabled={disabled}>
+    <Button w={width} onClick={onClick} disabled={disabled}>
       {loading ? <Spinner /> : children}
     </Button>
   );

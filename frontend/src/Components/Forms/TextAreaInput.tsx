@@ -18,7 +18,7 @@ const TextAreaInput = ({
 }: Props) => {
   return (
     <Box>
-      <FormLabel layerStyle="input">{label}</FormLabel>
+      <FormLabel layerStyle="text">{label}</FormLabel>
       <Textarea
         layerStyle="input"
         variant="filled"

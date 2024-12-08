@@ -78,7 +78,6 @@ const EditableText = ({ field, value }: Props) => {
           />
         ) : (
           <IconButton
-            colorScheme="green"
             aria-label="edit"
             icon={<EditIcon />}
             onClick={() => {

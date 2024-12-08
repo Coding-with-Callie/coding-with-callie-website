@@ -220,7 +220,6 @@ const TextWithImageAndButton = ({
                 aria-label={"edit resource"}
                 icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
                 onClick={edit ? submitEdit : editResource}
-                colorScheme="green"
               />
               <IconButton
                 aria-label={"move resource up"}

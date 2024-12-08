@@ -241,7 +241,6 @@ const GuestSpeaker = ({
                   aria-label={"edit guest speaker"}
                   icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
                   onClick={edit ? submitEdit : editGuestSpeaker}
-                  colorScheme="green"
                 />
                 <IconButton
                   aria-label={"delete guest speaker"}

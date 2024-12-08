@@ -159,7 +159,7 @@ const CreateUserStoryAccordion = ({
                   layerStyle="text"
                 />
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create User Story
               </Button>
             </AccordionPanel>

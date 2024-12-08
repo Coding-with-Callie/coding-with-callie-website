@@ -11,10 +11,10 @@ const CheckboxInput = ({ label, field, onChange, isChecked }: Props) => {
   return (
     <Box>
       <Checkbox
-        layerStyle="input"
         onChange={onChange}
         isChecked={isChecked}
         id={field}
+        layerStyle="text"
       >
         {label}
       </Checkbox>

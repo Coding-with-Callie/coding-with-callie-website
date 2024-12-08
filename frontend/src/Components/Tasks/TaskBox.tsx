@@ -197,7 +197,6 @@ const TaskBox = ({
           aria-label="Edit Name"
           icon={updateName ? <CheckIcon /> : <EditIcon />}
           size="sm"
-          colorScheme="green"
           onClick={
             updateName
               ? () => {
@@ -206,19 +205,13 @@ const TaskBox = ({
               : onClickEdit
           }
         />
-        <Button
-          w="118px"
-          onClick={toggleTaskStatus}
-          colorScheme="green"
-          size="sm"
-        >
+        <Button w="118px" onClick={toggleTaskStatus} size="sm">
           {taskStatus}
         </Button>
         <IconButton
           aria-label="Delete Task"
           icon={<DeleteIcon />}
           onClick={deleteTask}
-          colorScheme="green"
           size="sm"
         />
       </Box>

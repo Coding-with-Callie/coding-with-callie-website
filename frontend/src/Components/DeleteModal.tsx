@@ -61,7 +61,6 @@ const DeleteModal = ({ isOpen, onClose, itemType, deleteItem }: Props) => {
           </Box>
           <Button
             onClick={deleteItem}
-            colorScheme="green"
           >{`Delete ${capitlizeItemType()}`}</Button>
         </ModalContent>
       </Modal>

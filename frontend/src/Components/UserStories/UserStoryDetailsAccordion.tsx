@@ -216,7 +216,6 @@ const UserStoryDetailsAccordion = ({
                 aria-label="Edit Name"
                 icon={<CheckIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={() => {
                   updateStory("name", storyName);
                 }}
@@ -232,7 +231,6 @@ const UserStoryDetailsAccordion = ({
                 aria-label="Edit Name"
                 icon={<EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={onClickEditName}
               />
             </>
@@ -245,7 +243,6 @@ const UserStoryDetailsAccordion = ({
             aria-label="Delete User Story"
             mr={4}
             size="sm"
-            colorScheme="green"
             onClick={onOpen}
           />
           <ChevronDownIcon boxSize={5} />
@@ -277,14 +274,12 @@ const UserStoryDetailsAccordion = ({
                         aria-label="Edit Name"
                         icon={<EditIcon />}
                         size="sm"
-                        colorScheme="green"
                         onClick={onClickEditName}
                       />
                       <IconButton
                         icon={<DeleteIcon />}
                         aria-label="Delete User Story"
                         size="sm"
-                        colorScheme="green"
                         onClick={() => {
                           setStartDelete(true);
                           onOpen();
@@ -327,7 +322,6 @@ const UserStoryDetailsAccordion = ({
                         updateStoryDescription ? <CheckIcon /> : <EditIcon />
                       }
                       size="sm"
-                      colorScheme="green"
                       onClick={
                         updateStoryDescription
                           ? () => {

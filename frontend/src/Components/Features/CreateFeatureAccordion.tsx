@@ -161,7 +161,7 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
                   onChange={onChangeDescription}
                 />
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Feature
               </Button>
             </AccordionPanel>

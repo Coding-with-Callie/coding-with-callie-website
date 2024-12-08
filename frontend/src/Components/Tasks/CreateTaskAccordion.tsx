@@ -146,7 +146,7 @@ const CreateTaskAccordion = ({
                   </FormErrorMessage>
                 )}
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Task
               </Button>
             </AccordionPanel>

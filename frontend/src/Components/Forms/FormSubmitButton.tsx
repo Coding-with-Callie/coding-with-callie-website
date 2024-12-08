@@ -123,7 +123,6 @@ const FormSubmitButton = ({
   if (setEdit) {
     return (
       <IconButton
-        colorScheme="green"
         aria-label="submit"
         icon={loading ? <Spinner /> : <CheckIcon />}
         onClick={onSubmit}

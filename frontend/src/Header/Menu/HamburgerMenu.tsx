@@ -9,13 +9,7 @@ type Props = {
 const HamburgerMenu = ({ menuItems }: Props) => {
   return (
     <Menu>
-      <MenuButton
-        colorScheme="green"
-        as={Button}
-        aria-label="Options"
-        px={2}
-        py={1}
-      >
+      <MenuButton as={Button} aria-label="Options" px={2} py={1}>
         <HamburgerIcon boxSize={5} />
       </MenuButton>
       <MenuList>

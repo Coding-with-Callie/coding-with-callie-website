@@ -153,7 +153,7 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
                   onChange={onChangeDescription}
                 />
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Project
               </Button>
             </AccordionPanel>

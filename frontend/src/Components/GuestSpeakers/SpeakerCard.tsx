@@ -142,10 +142,7 @@ const SpeakerCard = ({ speaker }: Props) => {
             </AccordionItem>
           </Accordion>
           <Center mt={4}>
-            <Button
-              colorScheme="green"
-              onClick={() => window.open(calendarLink, "_blank")}
-            >
+            <Button onClick={() => window.open(calendarLink, "_blank")}>
               Add to Calendar
             </Button>
           </Center>

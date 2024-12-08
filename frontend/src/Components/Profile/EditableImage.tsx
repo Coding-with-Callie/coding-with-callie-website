@@ -42,7 +42,6 @@ const EditableImage = ({ photo }: Props) => {
       />
       <IconButton
         aria-label="edit"
-        colorScheme="green"
         icon={<EditIcon />}
         onClick={handleIconClick}
       />

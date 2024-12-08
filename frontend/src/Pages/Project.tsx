@@ -206,7 +206,6 @@ const Project = () => {
               aria-label="Edit Name"
               icon={updateProjectName ? <CheckIcon /> : <EditIcon />}
               size="sm"
-              colorScheme="green"
               onClick={
                 updateProjectName
                   ? () => {
@@ -236,7 +235,6 @@ const Project = () => {
               aria-label="Edit Description"
               icon={updateProjectDescription ? <CheckIcon /> : <EditIcon />}
               size="sm"
-              colorScheme="green"
               onClick={
                 updateProjectDescription
                   ? () => {
@@ -259,7 +257,7 @@ const Project = () => {
           );
         })}
       </Box>
-      <Button onClick={onOpen} colorScheme="green" w="100%" mb={10}>
+      <Button onClick={onOpen} w="100%" mb={10}>
         Delete Project
       </Button>
       <DeleteModal

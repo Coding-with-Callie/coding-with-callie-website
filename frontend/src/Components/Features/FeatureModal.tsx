@@ -219,7 +219,6 @@ const FeatureModal = ({
                 aria-label="Edit Name"
                 icon={updateFeatureName ? <CheckIcon /> : <EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={
                   updateFeatureName
                     ? () => {
@@ -248,7 +247,6 @@ const FeatureModal = ({
                 aria-label="Edit Description"
                 icon={updateFeatureDescription ? <CheckIcon /> : <EditIcon />}
                 size="sm"
-                colorScheme="green"
                 onClick={
                   updateFeatureDescription
                     ? () => {
@@ -283,7 +281,7 @@ const FeatureModal = ({
             />
           </Box>
         </Box>
-        <Button m={10} onClick={onOpenDelete} colorScheme="green">
+        <Button m={10} onClick={onOpenDelete}>
           Delete Feature
         </Button>
       </ModalContent>
