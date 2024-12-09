@@ -16,11 +16,16 @@ const Header = ({ user, updateUser }: Props) => {
 
   return (
     <Box
-      py={4}
+      py={2}
       px={isLargerThan600 ? 8 : 4}
       display="flex"
       alignItems="center"
       gap={4}
+      backgroundColor="white"
+      boxShadow="lg"
+      position="sticky"
+      top={0}
+      zIndex={1000}
     >
       <Box flex={1}>
         <Link to="/">

@@ -47,7 +47,7 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <Helmet>
-        <style>{"body { background-color: #f7eaf0; }"}</style>
+        <style>{"body { background-color: #f9eff4; }"}</style>
       </Helmet>
       <Header user={user} updateUser={updateUser} />
       <Outlet context={context} />

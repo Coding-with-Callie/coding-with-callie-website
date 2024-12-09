@@ -1,9 +1,7 @@
-import { border, extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import { getColors, lightenByPercentage } from "../helpers/helpers";
-import { color } from "framer-motion";
-import { Form } from "react-router-dom";
 
-const blue = "#3e7aa6";
+export const blue = "#3e7aa6";
 const darkBlue = "#2b5574";
 const pink = "#a0627f";
 
@@ -75,7 +73,6 @@ const theme = extendTheme(
   {
     fonts: {
       heading: `'Pacifico', cursive`,
-      body: `'Sometype Mono', monospace`,
     },
     layerStyles: {
       boxButton: {
