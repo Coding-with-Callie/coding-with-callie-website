@@ -1,7 +1,6 @@
 import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
-import { lightenByPercentage } from "../helpers/helpers";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {

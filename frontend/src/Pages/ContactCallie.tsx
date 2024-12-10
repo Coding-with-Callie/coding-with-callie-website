@@ -3,7 +3,6 @@ import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import CustomForm from "../Components/Forms/CustomForm";
 import { contactCallieFormData } from "../helpers/forms";
-import { Box } from "@chakra-ui/react";
 
 type ContactFormData = {
   name: string;
