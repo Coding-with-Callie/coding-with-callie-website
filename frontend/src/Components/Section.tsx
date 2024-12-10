@@ -1,35 +1,23 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 type Props = {
   children: any;
-  screenSizeParameter: boolean;
-  alignItemsCenter: boolean;
-  gapSize?: number;
-  maxWidthSize?: string;
-  direction?: "row" | "column";
+  backgroundColor?: string;
 };
 
-const Section = ({
-  children,
-  screenSizeParameter,
-  alignItemsCenter,
-  gapSize,
-  maxWidthSize,
-  direction,
-}: Props) => {
+const Section = ({ children, backgroundColor = "white" }: Props) => {
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
+
   return (
     <Box
-      px={8}
       mt={20}
       mb={4}
-      gap={gapSize}
-      display="flex"
-      alignItems={
-        alignItemsCenter ? "center" : screenSizeParameter ? "left" : "center"
-      }
-      justifyContent="center"
-      flexDirection={direction || "column"}
-      maxW={maxWidthSize || "100%"}
+      p={8}
+      maxW={isLargerThan900 ? "85%" : "100%"}
+      backgroundColor={backgroundColor}
+      borderRadius={5}
+      mx={isLargerThan900 ? "auto" : 8}
+      boxShadow="lg"
     >
       {children}
     </Box>

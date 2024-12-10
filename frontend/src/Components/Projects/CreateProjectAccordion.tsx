@@ -15,9 +15,8 @@ import {
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { Project } from "../../Pages/Projects";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   projects: Project[];
@@ -50,17 +49,11 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
     if (name !== "") {
       setIsOpen(false);
 
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(
-          `${host}/api/auth/create-project`,
-          {
-            name,
-            description,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post("/project", {
+          name,
+          description,
+        })
         .then((response) => {
           setProjects(response.data);
           setName("");
@@ -127,40 +120,24 @@ const CreateProjectAccordion = ({ projects, setProjects }: Props) => {
                 ) : (
                   <AddIcon fontSize="12px" color="white" />
                 )}
-                <Box
-                  layerStyle="text"
-                  color="white"
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                  ml={3}
-                >
+                <Box color="white" as="span" flex="1" textAlign="left" ml={3}>
                   Add a project
                 </Box>
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} layerStyle="accordionPanel">
               <FormControl isInvalid={isErrorName} isRequired mb={4}>
-                <FormLabel layerStyle="text">Project Name:</FormLabel>
-                <Input
-                  layerStyle="text"
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                />
+                <FormLabel>Project Name:</FormLabel>
+                <Input type="text" value={name} onChange={onChangeName} />
                 {!isErrorName ? null : (
                   <FormErrorMessage>Project name is required.</FormErrorMessage>
                 )}
               </FormControl>
               <FormControl mb={4}>
-                <FormLabel layerStyle="text">Project Description:</FormLabel>
-                <Textarea
-                  layerStyle="text"
-                  value={description}
-                  onChange={onChangeDescription}
-                />
+                <FormLabel>Project Description:</FormLabel>
+                <Textarea value={description} onChange={onChangeDescription} />
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Project
               </Button>
             </AccordionPanel>

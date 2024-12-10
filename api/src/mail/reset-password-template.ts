@@ -64,7 +64,11 @@ export const HTML_TEMPLATE = (token, id) => {
             </div>
             <div class="email-body">
               <p>We have sent you this email in response to your request to reset your password on Coding with Callie. Please ignore this email if you did not request a password change.</p>
-              <p>To reset your password, please click <a href="https://coding-with-callie.com/profile/${token}/${id}" target="_blank">here</a></p>
+              <p>To reset your password, please click <a href="${
+                process.env.ENVIRONMENT === 'local'
+                  ? 'http://localhost:3000'
+                  : 'https://coding-with-callie.com'
+              }/profile/${token}/${id}" target="_blank">here</a></p>
               <p>This link can only be used once and will be valid for 10 minutes.</p>
             </div>
             <div class="email-footer">

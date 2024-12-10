@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ProjectsService {
@@ -92,6 +92,18 @@ export class ProjectsService {
     });
   }
 
+  async checkProjectAccess(projectId: number, userId: number) {
+    const project = await this.projectsRepository.findOne({
+      where: { id: projectId, user: { id: userId } },
+    });
+
+    if (!project) {
+      return false;
+    }
+
+    return true;
+  }
+
   async getProjectById(id: number): Promise<any> {
     const project = await this.projectsRepository.findOne({
       where: { id },
@@ -113,6 +125,10 @@ export class ProjectsService {
       ],
     });
 
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
     return this.addStatusesToProject(project);
   }
 
@@ -124,45 +140,29 @@ export class ProjectsService {
         id: userId,
       },
     });
-    return await this.getUserProjects(userId);
+    return { message: 'Project created' };
   }
 
-  async updateProject(
-    field: string,
-    value: string,
-    userId: number,
-    projectId: number,
-  ): Promise<any> {
-    const projectToUpdate = await this.projectsRepository.findOne({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
-    });
+  async updateProject(field: string, value: string, id: number): Promise<any> {
+    const projectToUpdate = await this.projectsRepository.findOneBy({ id });
 
-    if (projectToUpdate) {
-      projectToUpdate[field] = value;
-      const updatedProject =
-        await this.projectsRepository.save(projectToUpdate);
-
-      return await this.getProjectById(updatedProject.id);
-    } else {
-      throw new BadRequestException('You cannot edit that project');
+    if (!projectToUpdate) {
+      throw new NotFoundException('Project not found');
     }
+
+    projectToUpdate[field] = value;
+    await this.projectsRepository.save(projectToUpdate);
+    return { message: 'Project updated' };
   }
 
-  async deleteProject(projectId: number, userId: number) {
-    const projectToDelete = await this.projectsRepository.findOne({
-      where: {
-        id: projectId,
-        user: { id: userId },
-      },
-    });
+  async deleteProject(id: number) {
+    const project = await this.projectsRepository.findOneBy({ id });
 
-    if (projectToDelete) {
-      return await this.projectsRepository.delete(projectToDelete);
-    } else {
-      throw new BadRequestException('You cannot delete that project');
+    if (!project) {
+      throw new NotFoundException('Project not found');
     }
+
+    await this.projectsRepository.delete({ id });
+    return { message: 'Project deleted' };
   }
 }

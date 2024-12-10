@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TasksService } from './tasks.service';
@@ -12,6 +13,7 @@ describe('TasksService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    findOneBy: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -26,6 +28,10 @@ describe('TasksService', () => {
     }).compile();
 
     service = module.get<TasksService>(TasksService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -58,50 +64,16 @@ describe('TasksService', () => {
     });
   });
 
-  it('createTask => should return the tasks associated with the user story id that is passed in in addition to an extra task with name that was passed in', async () => {
+  it('createTask => create a task and return a success message', async () => {
     const name = 'Task 3';
     const userStoryId = 1;
-    const savedTask = {
-      id: 3,
-      name: 'Task 3',
-      status: 'To Do',
-      userStory: {
-        id: 1,
-      },
-    } as Task;
-    const tasks = [
-      {
-        id: 1,
-        name: 'Task 1',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-      {
-        id: 2,
-        name: 'Task 2',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-      {
-        id: 3,
-        name: 'Task 3',
-        status: 'To Do',
-        userStory: {
-          id: 1,
-        },
-      },
-    ] as Task[];
+    const savedTask = {} as Task;
 
-    jest.spyOn(mockTaskRepository, 'save').mockReturnValue(savedTask);
-    jest.spyOn(mockTaskRepository, 'find').mockReturnValue(tasks);
+    mockTaskRepository.save.mockReturnValue(savedTask);
 
     const result = await service.createTask(name, userStoryId);
 
-    expect(result).toEqual(tasks);
+    expect(result).toEqual({ message: 'Task created' });
     expect(mockTaskRepository.save).toHaveBeenCalled();
     expect(mockTaskRepository.save).toHaveBeenCalledWith({
       name,
@@ -109,89 +81,61 @@ describe('TasksService', () => {
         id: userStoryId,
       },
     });
-    expect(mockTaskRepository.find).toHaveBeenCalled();
-    expect(mockTaskRepository.find).toHaveBeenCalledWith({
-      where: { userStory: { id: userStoryId } },
-    });
   });
 
-  it('updateTask => should update a task name and return the corresponding user story id', async () => {
+  it('updateTask => should update a task name and return a success message', async () => {
     const field = 'name';
     const value = 'Task 1 - Edited';
-    const userId = 15;
     const taskId = 1;
 
     const taskToUpdate = {
       name: 'Task 1',
       status: 'To Do',
-      userStory: {
-        id: 1,
-      },
     } as Task;
 
     const updatedTask = {
       name: 'Task 1 - Edited',
       status: 'To Do',
-      userStory: {
-        id: 1,
-      },
     } as Task;
 
-    const userStoryId = 1;
+    mockTaskRepository.findOne.mockReturnValue(taskToUpdate);
 
-    jest.spyOn(mockTaskRepository, 'findOne').mockReturnValue(taskToUpdate);
-    jest.spyOn(mockTaskRepository, 'save').mockReturnValue(updatedTask);
+    const result = await service.updateTask(field, value, taskId);
 
-    const result = await service.updateTask(field, value, userId, taskId);
-
-    expect(result).toEqual(userStoryId);
+    expect(result).toEqual({ message: 'Task updated' });
     expect(mockTaskRepository.findOne).toHaveBeenCalled();
     expect(mockTaskRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
-      },
+      where: { id: taskId },
       relations: ['userStory'],
     });
     expect(mockTaskRepository.save).toHaveBeenCalled();
     expect(mockTaskRepository.save).toHaveBeenCalledWith(updatedTask);
   });
 
-  it('updateTask => should update a task status and return the corresponding user story id', async () => {
+  it('updateTask => should update a task status and return a success message', async () => {
     const field = 'status';
     const value = 'In Progress';
-    const userId = 15;
     const taskId = 1;
 
     const taskToUpdate = {
       name: 'Task 1',
       status: 'To Do',
-      userStory: {
-        id: 1,
-      },
     } as Task;
 
     const updatedTask = {
       name: 'Task 1',
       status: 'In Progress',
-      userStory: {
-        id: 1,
-      },
     } as Task;
 
-    const userStoryId = 1;
+    mockTaskRepository.findOne.mockReturnValue(taskToUpdate);
 
-    jest.spyOn(mockTaskRepository, 'findOne').mockReturnValue(taskToUpdate);
-    jest.spyOn(mockTaskRepository, 'save').mockReturnValue(updatedTask);
+    const result = await service.updateTask(field, value, taskId);
 
-    const result = await service.updateTask(field, value, userId, taskId);
-
-    expect(result).toEqual(userStoryId);
+    expect(result).toEqual({ message: 'Task updated' });
     expect(mockTaskRepository.findOne).toHaveBeenCalled();
     expect(mockTaskRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
       },
       relations: ['userStory'],
     });
@@ -202,76 +146,48 @@ describe('TasksService', () => {
   it('updateTask => should throw error if task is not found', async () => {
     const field = 'name';
     const value = 'Task 1 - Edited';
-    const userId = 5;
     const taskId = 1;
 
-    jest.spyOn(mockTaskRepository, 'findOne').mockReturnValue(undefined);
+    mockTaskRepository.findOne.mockReturnValue(undefined);
 
     expect(async () => {
-      await service.updateTask(field, value, userId, taskId);
+      await service.updateTask(field, value, taskId);
     }).rejects.toThrow(BadRequestException);
     expect(mockTaskRepository.findOne).toHaveBeenCalled();
     expect(mockTaskRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
       },
       relations: ['userStory'],
     });
+    expect(mockTaskRepository.save).not.toHaveBeenCalled();
   });
 
-  it('deleteTask => should find a task based on a task and user id, delete it, and return the associated user story id', async () => {
+  it('deleteTask => should find a task based on a task id, delete it, and return a success message', async () => {
     const taskId = 1;
-    const userId = 15;
+    const taskToDelete = {} as Task;
 
-    const taskToDelete = {
-      id: 1,
-      name: 'Task 1',
-      status: 'To Do',
-      userStory: {
-        id: 5,
-      },
-    } as Task;
+    mockTaskRepository.findOneBy.mockReturnValue(taskToDelete);
 
-    const deleteResult = {
-      raw: [],
-      affected: 1,
-    };
+    const result = await service.deleteTask(taskId);
 
-    jest.spyOn(mockTaskRepository, 'findOne').mockReturnValue(taskToDelete);
-    jest.spyOn(mockTaskRepository, 'delete').mockReturnValue(deleteResult);
-
-    const result = await service.deleteTask(taskId, userId);
-
-    expect(result).toEqual(taskToDelete.userStory.id);
-    expect(mockTaskRepository.findOne).toHaveBeenCalled();
-    expect(mockTaskRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
-      },
-      relations: ['userStory'],
-    });
+    expect(result).toEqual({ message: 'Task deleted' });
+    expect(mockTaskRepository.findOneBy).toHaveBeenCalled();
+    expect(mockTaskRepository.findOneBy).toHaveBeenCalledWith({ id: taskId });
     expect(mockTaskRepository.delete).toHaveBeenCalled();
     expect(mockTaskRepository.delete).toHaveBeenCalledWith(taskToDelete);
   });
 
   it('deleteTask => should throw error if task is not found', async () => {
-    const taskId = 1;
-    const userId = 100;
+    const taskId = 10000;
 
-    jest.spyOn(mockTaskRepository, 'findOne').mockReturnValue(undefined);
+    mockTaskRepository.findOneBy.mockReturnValue(undefined);
 
     expect(async () => {
-      await service.deleteTask(taskId, userId);
+      await service.deleteTask(taskId);
     }).rejects.toThrow(BadRequestException);
-    expect(mockTaskRepository.findOne).toHaveBeenCalled();
-    expect(mockTaskRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: taskId,
-        userStory: { feature: { project: { user: { id: userId } } } },
-      },
-      relations: ['userStory'],
-    });
+    expect(mockTaskRepository.findOneBy).toHaveBeenCalled();
+    expect(mockTaskRepository.findOneBy).toHaveBeenCalledWith({ id: taskId });
+    expect(mockTaskRepository.delete).not.toHaveBeenCalled();
   });
 });

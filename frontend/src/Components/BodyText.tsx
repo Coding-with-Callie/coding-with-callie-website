@@ -1,24 +1,19 @@
-import { Box } from "@chakra-ui/react";
-import Paragraph from "./Paragraph";
+import { Box, Text } from "@chakra-ui/react";
 
 type Props = {
   textBlocks: string[];
-  textAlignCenter: boolean;
-  widthSize?: string;
+  textAlign?: "center" | "left";
+  mb?: number;
 };
 
-const BodyText = ({ textBlocks, textAlignCenter, widthSize }: Props) => {
+const BodyText = ({ textBlocks, textAlign = "left", mb = 4 }: Props) => {
   return (
     <Box flex={1}>
       {textBlocks.map((text: string, index: number) => {
         return (
-          <Paragraph
-            textAlignCenter={textAlignCenter}
-            maxWidthSize={widthSize}
-            key={index}
-          >
+          <Text textAlign={textAlign} key={index} mb={mb}>
             {text}
-          </Paragraph>
+          </Text>
         );
       })}
     </Box>

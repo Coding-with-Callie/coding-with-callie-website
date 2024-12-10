@@ -1,12 +1,10 @@
-import { Box, Center, Divider } from "@chakra-ui/react";
-import { useLoaderData } from "react-router-dom";
-import GuestSpeaker from "../Components/GuestSpeakers/GuestSpeaker";
+import { Box } from "@chakra-ui/react";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import GuestSpeakerForm from "../Components/GuestSpeakers/GuestSpeakerForm";
 import UpcomingCarousel from "../Components/GuestSpeakers/UpcomingCarousel";
-import BodyHeading from "../Components/BodyHeading";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { host } from "..";
+import { useState } from "react";
+import { Context } from "../App";
+import NewSpeaker from "../Components/GuestSpeakers/Speaker";
 
 export type Speaker = {
   id: number;
@@ -27,8 +25,9 @@ export type GuestSpeakerData = {
 
 const GuestSpeakers = () => {
   const data = useLoaderData() as GuestSpeakerData;
+  const context = useOutletContext() as Context;
+  const role = context.user.role;
 
-  const [role, setRole] = useState<string | null>(null);
   const [upcomingSpeakers, setUpcomingSpeakers] = useState<Speaker[]>(
     data.upcomingSpeakers
   );
@@ -36,67 +35,21 @@ const GuestSpeakers = () => {
     data.pastSpeakers
   );
 
-  useEffect(() => {
-    const profileLoader = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await axios.get(`${host}/api/auth/profile`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          return response.data.role;
-        } catch (error) {
-          console.error("Failed to fetch profile:", error);
-          return null;
-        }
-      } else {
-        return null;
-      }
-    };
-
-    const loadProfile = async () => {
-      const userRole = await profileLoader();
-      setRole(userRole);
-    };
-
-    loadProfile();
-  }, []);
-
   return (
-    <Box>
-      <Box m={"0 auto"}>
-        <UpcomingCarousel speakers={upcomingSpeakers} />
-        <BodyHeading textAlignCenter={true}>Past Speakers</BodyHeading>
-        <Center>
-          <Divider
-            w="80%"
-            orientation="horizontal"
-            borderColor="black"
-            mb={4}
-          />
-        </Center>
-        {pastSpeakers.map((speaker, index) => {
-          return (
-            <GuestSpeaker
-              speaker={speaker}
-              key={index}
-              role={role}
-              setPastSpeakers={setPastSpeakers}
-              setUpcomingSpeakers={setUpcomingSpeakers}
-            />
-          );
-        })}
-      </Box>
+    <>
+      <UpcomingCarousel speakers={upcomingSpeakers} />
+      {pastSpeakers.map((speaker, index) => {
+        return <NewSpeaker key={index} speaker={speaker} />;
+      })}
       {role === "admin" && (
-        <Box my={20}>
+        <Box mt={20}>
           <GuestSpeakerForm
             setPastSpeakers={setPastSpeakers}
             setUpcomingSpeakers={setUpcomingSpeakers}
           />
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 

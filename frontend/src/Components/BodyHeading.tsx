@@ -1,21 +1,23 @@
-import { Heading } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
+import { heading } from "./theme";
 
 type Props = {
   children: string;
-  textAlignCenter: boolean;
-  removeMargin?: boolean;
+  textAlign?: "center" | "left";
+  mb?: number;
 };
 
-const BodyHeading = ({ children, textAlignCenter, removeMargin }: Props) => {
+const BodyHeading = ({ children, textAlign = "left", mb = 6 }: Props) => {
   return (
-    <Heading
+    <Text
       fontSize={28}
-      mb={!removeMargin ? 6 : 0}
-      color="#79A9CD"
-      textAlign={textAlignCenter ? "center" : "left"}
+      mb={mb}
+      textAlign={textAlign}
+      fontWeight={700}
+      color={heading}
     >
       {children}
-    </Heading>
+    </Text>
   );
 };
 

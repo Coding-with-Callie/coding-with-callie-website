@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from './entities/users.entity';
+import { NewUserDto } from 'src/app.controller';
+import { hashPassword, verifyPasswordMatches } from '../helpers/helpers';
 
 @Injectable()
 export class UsersService {
@@ -9,13 +11,34 @@ export class UsersService {
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
   ) {}
-  async createUser(user) {
+  async createUser(user: NewUserDto) {
     return await this.usersRepository.save({ ...user, role: 'user' });
   }
 
-  async deleteUser(id) {
-    const userToDelete = await this.findOneById(id);
-    return await this.usersRepository.remove(userToDelete);
+  async softDeleteUser(id: number) {
+    const userToDelete = await this.usersRepository.findOneBy({ id });
+
+    if (!userToDelete) {
+      return null;
+    }
+
+    userToDelete.name = 'deleted';
+    userToDelete.username = `deleted-${Date.now()}`;
+    userToDelete.email = 'deleted';
+    userToDelete.password = 'deleted';
+
+    await this.usersRepository.save(userToDelete);
+    return 'user deleted';
+  }
+
+  async checkIfUsernameExists(username: string) {
+    const user = await this.findOneByUsername(username);
+    return user ? true : false;
+  }
+
+  async checkIfEmailExists(email: string) {
+    const user = await this.findOneByEmail(email);
+    return user ? true : false;
   }
 
   async findOneByUsername(username: string) {
@@ -27,10 +50,15 @@ export class UsersService {
       .getOne();
   }
 
-  async findOneById(id: number) {
+  async getFrontendFriendlyUser(id: number) {
     return await this.usersRepository.findOne({
       where: { id },
+      select: ['id', 'name', 'email', 'username', 'role', 'photo'],
     });
+  }
+
+  async getUser(id: number) {
+    return await this.usersRepository.findOneBy({ id });
   }
 
   async findOneByEmail(email: string) {
@@ -42,10 +70,44 @@ export class UsersService {
       .getOne();
   }
 
-  async changeAccountDetail(userToUpdate, field, value) {
-    userToUpdate[field] = value;
+  async changeAccountDetail(id: number, field: string, value: string) {
+    const userToUpdate = await this.usersRepository.findOneBy({ id });
 
-    return await this.usersRepository.save(userToUpdate);
+    if (field === 'password') {
+      value = await hashPassword(value);
+    }
+
+    const user = await this.usersRepository.save({
+      ...userToUpdate,
+      [field]: value,
+    });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      photo: user.photo,
+    };
+  }
+
+  async changePassword(id: number, password: string, newPassword: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const isCorrectPassword = await verifyPasswordMatches(password, user);
+
+    if (!isCorrectPassword) {
+      throw new BadRequestException(
+        'There was an issue with your credentials. Please try again!',
+      );
+    }
+
+    return await this.changeAccountDetail(id, 'password', newPassword);
   }
 
   async findAllUsers() {

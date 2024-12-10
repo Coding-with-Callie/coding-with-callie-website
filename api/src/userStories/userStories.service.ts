@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserStory } from './entities/userStory.entity';
@@ -9,11 +13,23 @@ export class UserStoriesService {
     @InjectRepository(UserStory)
     private userStoriesRepository: Repository<UserStory>,
   ) {}
-
-  async getFeatureUserStories(id: number) {
-    return await this.userStoriesRepository.find({
-      where: { feature: { id } },
+  async checkIfUserStoryExistsInFeatureInProject(
+    userStoryId: number,
+    featureId: number,
+    projectId: number,
+  ) {
+    const userStory = await this.userStoriesRepository.findOne({
+      where: {
+        id: userStoryId,
+        feature: { id: featureId, project: { id: projectId } },
+      },
     });
+
+    if (!userStory) {
+      return false;
+    }
+
+    return true;
   }
 
   async createUserStory(name: string, description: string, featureId: number) {
@@ -24,7 +40,8 @@ export class UserStoriesService {
         id: featureId,
       },
     });
-    return await this.getFeatureUserStories(featureId);
+
+    return { message: 'User story created' };
   }
 
   async getUserStoryById(id: number) {
@@ -37,53 +54,45 @@ export class UserStoriesService {
   async getUserStoryStatusById(id: number) {
     const userStory = await this.getUserStoryById(id);
 
-    const tasks = userStory.tasks;
-    const taskCount = tasks.length;
-    const completedTasks = tasks.filter((task) => task.status === 'Done!');
-    const completedTasksLength = completedTasks.length;
+    if (!userStory) {
+      throw new NotFoundException('User story not found');
+    }
 
-    return `${completedTasksLength}/${taskCount}`;
+    const completedTasks = userStory.tasks.filter(
+      (task) => task.status === 'Done!',
+    );
+
+    return `${completedTasks.length}/${userStory.tasks.length}`;
   }
 
-  async updateUserStory(
-    field: string,
-    value: string,
-    userId: number,
-    userStoryId: number,
-  ) {
+  async updateUserStory(field: string, value: string, userStoryId: number) {
     const storyToUpdate = await this.userStoriesRepository.findOne({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
       relations: ['feature', 'feature.project'],
     });
 
-    if (storyToUpdate) {
-      storyToUpdate[field] = value;
-      const updatedStory = await this.userStoriesRepository.save(storyToUpdate);
-
-      return updatedStory.feature.project.id;
-    } else {
-      throw new BadRequestException('You cannot edit that user story');
+    if (!storyToUpdate) {
+      throw new NotFoundException('User story not found');
     }
+
+    storyToUpdate[field] = value;
+    await this.userStoriesRepository.save(storyToUpdate);
+    return { message: 'User story updated' };
   }
 
-  async deleteUserStory(userStoryId: number, userId: number) {
+  async deleteUserStory(id: number) {
     const storyToDelete = await this.userStoriesRepository.findOne({
-      where: {
-        id: userStoryId,
-        feature: { project: { user: { id: userId } } },
-      },
-      relations: ['feature', 'feature.project'],
+      where: { id },
     });
 
-    if (storyToDelete) {
-      await this.userStoriesRepository.delete(storyToDelete);
-
-      return storyToDelete.feature.project.id;
-    } else {
+    if (!storyToDelete) {
       throw new BadRequestException('You cannot delete that user story');
     }
+
+    await this.userStoriesRepository.delete(storyToDelete);
+
+    return { message: 'User story deleted' };
   }
 }

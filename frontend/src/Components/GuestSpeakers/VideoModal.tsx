@@ -43,7 +43,7 @@ const VideoModal = ({ isOpen, onClose, speaker }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="green" mr={3} onClick={onClose}>
+            <Button mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
