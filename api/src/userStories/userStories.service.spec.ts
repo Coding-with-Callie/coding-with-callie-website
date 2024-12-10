@@ -1,8 +1,9 @@
+import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserStoriesService } from './userStories.service';
 import { UserStory } from './entities/userStory.entity';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('UserStoriesService', () => {
   let service: UserStoriesService;
@@ -28,40 +29,13 @@ describe('UserStoriesService', () => {
     service = module.get<UserStoriesService>(UserStoriesService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  // Clear all mocks after each test
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('getFeatureUserStories => should find user stories corresponding to a feature id', async () => {
-    const id = 3;
-    const userStories = [
-      {
-        id: 11,
-        name: 'User Story 11',
-        description: 'us description 11',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 12,
-        name: 'User Story 12',
-        description: 'us description 12',
-        feature: {
-          id: 3,
-        },
-      },
-    ] as UserStory[];
-
-    jest.spyOn(mockUserStoriesRepository, 'find').mockReturnValue(userStories);
-
-    const result = await service.getFeatureUserStories(id);
-
-    expect(result).toEqual(userStories);
-    expect(mockUserStoriesRepository.find).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.find).toHaveBeenCalledWith({
-      where: { feature: { id } },
-    });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 
   it('createUserStory => save the user story that is passed in and return the list of user stories for the feature id that was passed in', async () => {
@@ -69,50 +43,13 @@ describe('UserStoriesService', () => {
     const description = 'us description 13';
     const featureId = 3;
 
-    const savedUserStory = {
-      id: 13,
-      name: 'User Story 13',
-      description: 'us description 13',
-      feature: {
-        id: 3,
-      },
-    } as UserStory;
+    const savedUserStory = {} as UserStory;
 
-    const userStories = [
-      {
-        id: 11,
-        name: 'User Story 11',
-        description: 'us description 11',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 12,
-        name: 'User Story 12',
-        description: 'us description 12',
-        feature: {
-          id: 3,
-        },
-      },
-      {
-        id: 13,
-        name: 'User Story 13',
-        description: 'us description 13',
-        feature: {
-          id: 3,
-        },
-      },
-    ] as UserStory[];
-
-    jest
-      .spyOn(mockUserStoriesRepository, 'save')
-      .mockReturnValue(savedUserStory);
-    jest.spyOn(mockUserStoriesRepository, 'find').mockReturnValue(userStories);
+    mockUserStoriesRepository.save.mockReturnValue(savedUserStory);
 
     const result = await service.createUserStory(name, description, featureId);
 
-    expect(result).toEqual(userStories);
+    expect(result).toEqual({ message: 'User story created' });
     expect(mockUserStoriesRepository.save).toHaveBeenCalled();
     expect(mockUserStoriesRepository.save).toHaveBeenCalledWith({
       name,
@@ -120,10 +57,6 @@ describe('UserStoriesService', () => {
       feature: {
         id: featureId,
       },
-    });
-    expect(mockUserStoriesRepository.find).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.find).toHaveBeenCalledWith({
-      where: { feature: { id: featureId } },
     });
   });
 
@@ -204,7 +137,6 @@ describe('UserStoriesService', () => {
   it('updateUserStory => updates a user story name and returns the associated project id', async () => {
     const field = 'name';
     const value = 'User Story 11 - Edited';
-    const userId = 15;
     const userStoryId = 11;
 
     const storyToUpdate = {
@@ -236,19 +168,13 @@ describe('UserStoriesService', () => {
       .mockReturnValue(storyToUpdate);
     jest.spyOn(mockUserStoriesRepository, 'save').mockReturnValue(updatedStory);
 
-    const result = await service.updateUserStory(
-      field,
-      value,
-      userId,
-      userStoryId,
-    );
+    const result = await service.updateUserStory(field, value, userStoryId);
 
-    expect(result).toEqual(2);
+    expect(result).toEqual({ message: 'User story updated' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
       relations: ['feature', 'feature.project'],
     });
@@ -259,7 +185,6 @@ describe('UserStoriesService', () => {
   it('updateUserStory => updates a user story description and returns the associated project id', async () => {
     const field = 'description';
     const value = 'us 11 description - Edited';
-    const userId = 15;
     const userStoryId = 11;
 
     const storyToUpdate = {
@@ -291,19 +216,13 @@ describe('UserStoriesService', () => {
       .mockReturnValue(storyToUpdate);
     jest.spyOn(mockUserStoriesRepository, 'save').mockReturnValue(updatedStory);
 
-    const result = await service.updateUserStory(
-      field,
-      value,
-      userId,
-      userStoryId,
-    );
+    const result = await service.updateUserStory(field, value, userStoryId);
 
-    expect(result).toEqual(2);
+    expect(result).toEqual({ message: 'User story updated' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
       relations: ['feature', 'feature.project'],
     });
@@ -314,81 +233,58 @@ describe('UserStoriesService', () => {
   it('updateUserStory => throws an error when a user story is not found', async () => {
     const field = 'description';
     const value = 'us 11 description - Edited';
-    const userId = 100;
     const userStoryId = 11;
 
     jest.spyOn(mockUserStoriesRepository, 'findOne').mockReturnValue(undefined);
 
     expect(async () => {
-      await service.updateUserStory(field, value, userId, userStoryId);
-    }).rejects.toThrow(BadRequestException);
+      await service.updateUserStory(field, value, userStoryId);
+    }).rejects.toThrow(NotFoundException);
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
       relations: ['feature', 'feature.project'],
     });
   });
 
-  it('deleteUserStory => deletes the user story found by the passed in id and returns the associated project id', async () => {
+  it('deleteUserStory => deletes the user story found by the passed in id', async () => {
     const userStoryId = 11;
-    const userId = 15;
 
-    const story = {
-      id: 11,
-      name: 'User Story 11',
-      description: 'us 11 description',
-      feature: {
-        id: 4,
-        project: {
-          id: 2,
-        },
-      },
-    } as UserStory;
+    const userStoryToDelete = {} as UserStory;
 
-    const deleteResult = {
-      raw: [],
-      affected: 1,
-    };
+    mockUserStoriesRepository.findOne.mockReturnValue(userStoryToDelete);
+    mockUserStoriesRepository.delete.mockReturnValue({});
 
-    jest.spyOn(mockUserStoriesRepository, 'findOne').mockReturnValue(story);
-    jest
-      .spyOn(mockUserStoriesRepository, 'delete')
-      .mockReturnValue(deleteResult);
+    const result = await service.deleteUserStory(userStoryId);
 
-    const result = await service.deleteUserStory(userStoryId, userId);
-
-    expect(result).toEqual(2);
+    expect(result).toEqual({ message: 'User story deleted' });
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
-      relations: ['feature', 'feature.project'],
     });
     expect(mockUserStoriesRepository.delete).toHaveBeenCalled();
-    expect(mockUserStoriesRepository.delete).toHaveBeenCalledWith(story);
+    expect(mockUserStoriesRepository.delete).toHaveBeenCalledWith(
+      userStoryToDelete,
+    );
   });
 
   it('deleteUserStory => throws an error when a user story is not found', async () => {
     const userStoryId = 11;
-    const userId = 100;
 
-    jest.spyOn(mockUserStoriesRepository, 'findOne').mockReturnValue(undefined);
+    mockUserStoriesRepository.findOne.mockReturnValue(undefined);
 
     expect(async () => {
-      await service.deleteUserStory(userStoryId, userId);
+      await service.deleteUserStory(userStoryId);
     }).rejects.toThrow(BadRequestException);
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalled();
     expect(mockUserStoriesRepository.findOne).toHaveBeenCalledWith({
       where: {
         id: userStoryId,
-        feature: { project: { user: { id: userId } } },
       },
-      relations: ['feature', 'feature.project'],
     });
   });
 });

@@ -1,38 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import * as AWS from 'aws-sdk';
+import { ObjectCannedACL, S3 } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FileUploadService {
   private readonly AWS_S3_BUCKET: string;
-  private readonly s3: AWS.S3;
+  private readonly s3: S3;
 
   constructor() {
     this.AWS_S3_BUCKET = 'coding-with-callie';
-    this.s3 = new AWS.S3({
-      accessKeyId: process.env.ACCESS_KEY,
-      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    this.s3 = new S3({
+      credentials: {
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      },
     });
   }
 
   async uploadFile(file: Express.Multer.File) {
     const { originalname } = file;
 
-    const response = await this.s3_upload(
+    await this.s3_upload(
       file.buffer,
       this.AWS_S3_BUCKET,
       originalname,
       file.mimetype,
     );
 
-    return response.Location;
+    return `https://${this.AWS_S3_BUCKET}.s3.amazonaws.com/${originalname}`;
   }
 
-  async s3_upload(file, bucket, name, mimetype) {
+  async s3_upload(
+    buffer: Buffer,
+    bucket: string,
+    name: string,
+    mimetype: string,
+  ) {
     const params = {
       Bucket: bucket,
       Key: String(name),
-      Body: file,
-      ACL: 'public-read',
+      Body: buffer,
+      ACL: ObjectCannedACL.public_read_write,
       ContentType: mimetype,
       ContentDisposition: 'inline',
       CreateBucketConfiguration: {
@@ -41,10 +48,9 @@ export class FileUploadService {
     };
 
     try {
-      const s3Response = await this.s3.upload(params).promise();
-      return s3Response;
-    } catch (e) {
-      console.log(e);
+      await this.s3.putObject(params);
+    } catch (error) {
+      console.error('S3 Error:', error.message);
     }
   }
 }

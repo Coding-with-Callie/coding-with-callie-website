@@ -13,8 +13,8 @@ export class MessageService {
     private mailService: MailService,
   ) {}
 
-  submitMessage(message: MessageDto) {
+  async submitMessage(message: MessageDto) {
     this.mailService.sendNewMessageEmail(message);
-    return this.messageRepository.save(message);
+    return await this.messageRepository.save(message);
   }
 }

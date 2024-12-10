@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Feature } from './entities/feature.entity';
@@ -10,64 +10,56 @@ export class FeaturesService {
     private featuresRepository: Repository<Feature>,
   ) {}
 
-  async getProjectFeatures(id: number) {
-    return await this.featuresRepository.find({
-      where: { project: { id } },
-      relations: ['userStories'],
+  async checkIfFeatureExistsInProject(id: number, projectId: number) {
+    const feature = await this.featuresRepository.findOne({
+      where: { id, project: { id: projectId } },
     });
+
+    if (!feature) {
+      return false;
+    }
+
+    return true;
   }
 
   async createFeature(name: string, description: string, projectId: number) {
-    await this.featuresRepository.save({
+    return await this.featuresRepository.save({
       name,
       description,
       project: {
         id: projectId,
       },
     });
-    return await this.getProjectFeatures(projectId);
   }
 
-  async updateFeature(
-    field: string,
-    value: string,
-    userId: number,
-    featureId: number,
-  ) {
+  async updateFeature(field: string, value: string, id: number) {
     const featureToUpdate = await this.featuresRepository.findOne({
       where: {
-        id: featureId,
-        project: { user: { id: userId } },
+        id,
       },
       relations: ['project'],
     });
 
-    if (featureToUpdate) {
-      featureToUpdate[field] = value;
-      const updatedFeature =
-        await this.featuresRepository.save(featureToUpdate);
-
-      return updatedFeature.project.id;
-    } else {
-      throw new BadRequestException('You cannot edit that feature');
+    if (!featureToUpdate) {
+      throw new NotFoundException('Feature not found');
     }
+
+    featureToUpdate[field] = value;
+    return await this.featuresRepository.save(featureToUpdate);
   }
 
-  async deleteFeature(featureId: number, userId: number) {
+  async deleteFeature(id: number) {
     const featureToDelete = await this.featuresRepository.findOne({
       where: {
-        id: featureId,
-        project: { user: { id: userId } },
+        id,
       },
       relations: ['project'],
     });
 
-    if (featureToDelete) {
-      await this.featuresRepository.delete(featureToDelete);
-
-      return featureToDelete.project.id;
-    } else {
-      throw new BadRequestException('You cannot delete that feature');
+    if (!featureToDelete) {
+      throw new NotFoundException('Feature not found');
     }
+
+    return await this.featuresRepository.delete(featureToDelete);
   }
 }
