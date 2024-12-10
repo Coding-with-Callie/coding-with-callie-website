@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         loader: () => Load("reviews"),
       },
       {
-        path: "/contact-callie",
+        path: "/contact",
         element: <ContactCallie />,
       },
       {

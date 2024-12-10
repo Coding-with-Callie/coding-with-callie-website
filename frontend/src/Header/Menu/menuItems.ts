@@ -38,7 +38,7 @@ export const menuItems = [
   },
   {
     name: "Contact",
-    path: "contact-callie",
+    path: "contact",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
   },
