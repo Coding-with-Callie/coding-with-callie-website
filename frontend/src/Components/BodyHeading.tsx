@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { blue } from "./theme";
+import { heading } from "./theme";
 
 type Props = {
   children: string;
@@ -14,7 +14,7 @@ const BodyHeading = ({ children, textAlign = "left", mb = 6 }: Props) => {
       mb={mb}
       textAlign={textAlign}
       fontWeight={700}
-      color={blue}
+      color={heading}
     >
       {children}
     </Text>

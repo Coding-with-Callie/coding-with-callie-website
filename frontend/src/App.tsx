@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
-import theme from "./Components/theme";
+import theme, { mainBackground } from "./Components/theme";
 import Header from "./Header";
 import "@fontsource/pacifico/400.css";
 import "@fontsource/sometype-mono/500.css";
@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { showNotification } from ".";
+import Footer from "./Components/Footer/Footer";
 
 export type Context = {
   user: any;
@@ -47,10 +48,11 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <Helmet>
-        <style>{"body { background-color: #f9eff4; }"}</style>
+        <style>{`body { background-color: ${mainBackground}; }`}</style>
       </Helmet>
       <Header user={user} updateUser={updateUser} />
       <Outlet context={context} />
+      <Footer />
     </ChakraProvider>
   );
 }

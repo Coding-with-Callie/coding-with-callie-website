@@ -13,7 +13,7 @@ const WorkshopTilesContainer = ({ children }: Props) => {
       gap={20}
       flexWrap="wrap"
       justifyContent="center"
-      maxW={isLargerThan900 ? "75%" : "100%"}
+      maxW={isLargerThan900 ? "85%" : "100%"}
       mx={isLargerThan900 ? "auto" : 8}
       mt={20}
       mb={4}

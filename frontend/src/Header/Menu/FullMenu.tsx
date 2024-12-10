@@ -7,11 +7,11 @@ type Props = {
 
 const FullMenu = ({ menuItems }: Props) => {
   return (
-    <Box display="flex" gap={4}>
+    <Box display="flex" gap={4} justifyContent="center">
       {menuItems.map((item: any, index: number) => {
         return (
           <Link to={`/${item.path}`} key={index}>
-            <Button>{item.name}</Button>
+            <Button fontSize={14}>{item.name}</Button>
           </Link>
         );
       })}

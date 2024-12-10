@@ -47,7 +47,7 @@ const LogIn = () => {
   };
 
   return (
-    <>
+    <Box height="100%">
       <LogInForm />
       <Section>
         <Box
@@ -86,7 +86,7 @@ const LogIn = () => {
           </ModalContent>
         </Modal>
       </Section>
-    </>
+    </Box>
   );
 };
 

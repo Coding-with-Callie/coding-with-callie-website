@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
 import CustomForm from "../Components/Forms/CustomForm";
 import { contactCallieFormData } from "../helpers/forms";
+import { Box } from "@chakra-ui/react";
 
 type ContactFormData = {
   name: string;
@@ -22,15 +23,17 @@ const ContactCallie = () => {
   const [contactData, setContactData] = useState<ContactFormData>(initialState);
 
   return (
-    <CustomForm
-      form={contactCallieFormData}
-      initialState={initialState}
-      data={contactData}
-      setData={setContactData}
-      axiosType={"public"}
-      route={"/contact"}
-      message={"Thank you! Callie will get back to you soon!"}
-    />
+    <Box height="100%">
+      <CustomForm
+        form={contactCallieFormData}
+        initialState={initialState}
+        data={contactData}
+        setData={setContactData}
+        axiosType={"public"}
+        route={"/contact"}
+        message={"Thank you! Callie will get back to you soon!"}
+      />
+    </Box>
   );
 };
 

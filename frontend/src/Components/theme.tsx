@@ -1,47 +1,48 @@
 import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import { getColors, lightenByPercentage } from "../helpers/helpers";
 
-export const blue = "#3e7aa6";
-const darkBlue = "#2b5574";
-const pink = "#a0627f";
+export const heading = "#3e7aa6";
+const text = "#2b5574";
+export const button = "#a0627f";
+export const mainBackground = "#9eadbd";
 
 const theme = extendTheme(
   {
     colors: {
-      button: getColors(pink),
-      heading: blue,
-      text: darkBlue,
+      button: getColors(button),
+      heading: heading,
+      text: text,
     },
     components: {
       Heading: {
         baseStyle: {
-          color: blue,
+          color: heading,
         },
       },
       Text: {
         baseStyle: {
-          color: darkBlue,
+          color: text,
         },
       },
       FormLabel: {
         baseStyle: {
-          color: darkBlue,
+          color: text,
         },
       },
       Input: {
         variants: {
           filled: {
             field: {
-              color: darkBlue,
-              backgroundColor: lightenByPercentage(darkBlue, 90),
+              color: text,
+              backgroundColor: lightenByPercentage(text, 90),
               _hover: {
-                backgroundColor: lightenByPercentage(darkBlue, 95),
-                color: darkBlue,
+                backgroundColor: lightenByPercentage(text, 95),
+                color: text,
               },
               _focus: {
-                backgroundColor: lightenByPercentage(darkBlue, 95),
-                borderColor: darkBlue,
-                color: darkBlue,
+                backgroundColor: lightenByPercentage(text, 95),
+                borderColor: text,
+                color: text,
               },
             },
           },
@@ -50,16 +51,16 @@ const theme = extendTheme(
       Textarea: {
         variants: {
           filled: {
-            backgroundColor: lightenByPercentage(darkBlue, 90),
-            color: darkBlue,
+            backgroundColor: lightenByPercentage(text, 90),
+            color: text,
             _hover: {
-              backgroundColor: lightenByPercentage(darkBlue, 95),
-              color: darkBlue,
+              backgroundColor: lightenByPercentage(text, 95),
+              color: text,
             },
             _focus: {
-              backgroundColor: lightenByPercentage(darkBlue, 95),
-              borderColor: darkBlue,
-              color: darkBlue,
+              backgroundColor: lightenByPercentage(text, 95),
+              borderColor: text,
+              color: text,
             },
           },
         },
