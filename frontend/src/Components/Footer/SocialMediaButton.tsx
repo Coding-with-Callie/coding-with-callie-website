@@ -5,7 +5,7 @@ import { lightenByPercentage } from "../../helpers/helpers";
 import { GrGithub, GrLinkedin, GrMail, GrYoutube } from "react-icons/gr";
 
 type Props = {
-  type: "linkedin" | "youtube" | "github" | "mail";
+  type: string;
 };
 
 const links = {
@@ -18,15 +18,30 @@ const links = {
 const SocialMediaButton = ({ type }: Props) => {
   const [color, setColor] = useState(button);
 
+  const handleClick = () => {
+    switch (type) {
+      case "linkedin":
+        window.open(links.linkedin, "_blank");
+        break;
+      case "youtube":
+        window.open(links.youtube, "_blank");
+        break;
+      case "github":
+        window.open(links.github, "_blank");
+        break;
+      case "mail":
+        window.open(links.mail, "_self");
+        break;
+    }
+  };
+
   return (
     <Box
       border="2px"
       borderColor={button}
       borderRadius="50%"
       p={4}
-      onClick={() => {
-        window.open(links[type], type === "mail" ? "_self" : "_blank");
-      }}
+      onClick={handleClick}
       onMouseEnter={() => setColor(lightenByPercentage(button, -20))}
       onMouseLeave={() => setColor(button)}
       onMouseDown={() => setColor(lightenByPercentage(button, -40))}

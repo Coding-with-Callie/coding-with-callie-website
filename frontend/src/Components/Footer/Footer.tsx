@@ -1,8 +1,4 @@
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
-import { GrGithub, GrLinkedin, GrMail, GrYoutube } from "react-icons/gr";
-import { button } from "../theme";
-import { useState } from "react";
-import { lightenByPercentage } from "../../helpers/helpers";
 import SocialMediaButton from "./SocialMediaButton";
 
 const Footer = () => {
@@ -10,7 +6,6 @@ const Footer = () => {
 
   return (
     <Box
-      mt={20}
       py={4}
       px={isLargerThan600 ? 8 : 4}
       display="flex"
@@ -23,10 +18,9 @@ const Footer = () => {
       <Heading size="lg" mr={8}>
         Connect with Callie:
       </Heading>
-      <SocialMediaButton type="linkedin" />
-      <SocialMediaButton type="youtube" />
-      <SocialMediaButton type="github" />
-      <SocialMediaButton type="mail" />
+      {["linkedin", "youtube", "github", "mail"].map((type) => (
+        <SocialMediaButton key={type} type={type} />
+      ))}
     </Box>
   );
 };

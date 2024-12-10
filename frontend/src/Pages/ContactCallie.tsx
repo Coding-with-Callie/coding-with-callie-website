@@ -23,17 +23,15 @@ const ContactCallie = () => {
   const [contactData, setContactData] = useState<ContactFormData>(initialState);
 
   return (
-    <Box height="100%">
-      <CustomForm
-        form={contactCallieFormData}
-        initialState={initialState}
-        data={contactData}
-        setData={setContactData}
-        axiosType={"public"}
-        route={"/contact"}
-        message={"Thank you! Callie will get back to you soon!"}
-      />
-    </Box>
+    <CustomForm
+      form={contactCallieFormData}
+      initialState={initialState}
+      data={contactData}
+      setData={setContactData}
+      axiosType={"public"}
+      route={"/contact"}
+      message={"Thank you! Callie will get back to you soon!"}
+    />
   );
 };
 

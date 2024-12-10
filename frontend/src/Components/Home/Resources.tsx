@@ -30,7 +30,7 @@ const Resources = ({ data, role }: Props) => {
         />
       ))}
       {role === "admin" && (
-        <Box my={20}>
+        <Box mt={20}>
           <ResourceForm setResources={setResources} />
         </Box>
       )}

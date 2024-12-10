@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import theme, { mainBackground } from "./Components/theme";
 import Header from "./Header";
@@ -50,9 +50,13 @@ function App() {
       <Helmet>
         <style>{`body { background-color: ${mainBackground}; }`}</style>
       </Helmet>
-      <Header user={user} updateUser={updateUser} />
-      <Outlet context={context} />
-      <Footer />
+      <Box display="flex" flexDirection="column" minHeight="100vh">
+        <Header user={user} updateUser={updateUser} />
+        <Box flex={1} mb={20}>
+          <Outlet context={context} />
+        </Box>
+        <Footer />
+      </Box>
     </ChakraProvider>
   );
 }

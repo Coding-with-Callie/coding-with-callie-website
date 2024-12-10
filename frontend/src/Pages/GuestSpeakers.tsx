@@ -42,7 +42,7 @@ const GuestSpeakers = () => {
         return <NewSpeaker key={index} speaker={speaker} />;
       })}
       {role === "admin" && (
-        <Box my={20}>
+        <Box mt={20}>
           <GuestSpeakerForm
             setPastSpeakers={setPastSpeakers}
             setUpcomingSpeakers={setUpcomingSpeakers}
