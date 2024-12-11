@@ -1,6 +1,7 @@
 import { Box, Image, Heading, useMediaQuery, Avatar } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import Menus from "./Menu";
+import { contentBackground } from "../Components/theme";
 const sloth = require("../../src/images/sloth.png");
 
 type Props = {
@@ -21,7 +22,7 @@ const Header = ({ user, updateUser }: Props) => {
       display="flex"
       alignItems="center"
       gap={4}
-      backgroundColor="white"
+      backgroundColor={contentBackground}
       boxShadow="lg"
       position="sticky"
       top={0}

@@ -5,6 +5,7 @@ export const heading = "#3e7aa6";
 const text = "#2b5574";
 export const button = "#a0627f";
 export const mainBackground = "#9eadbd";
+export const contentBackground = "white";
 
 const theme = extendTheme(
   {

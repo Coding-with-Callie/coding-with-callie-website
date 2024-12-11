@@ -47,12 +47,9 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Helmet>
-        <style>{`body { background-color: ${mainBackground}; }`}</style>
-      </Helmet>
       <Box display="flex" flexDirection="column" minHeight="100vh">
         <Header user={user} updateUser={updateUser} />
-        <Box flex={1} mb={20}>
+        <Box flex={1} pb={20} backgroundColor={mainBackground}>
           <Outlet context={context} />
         </Box>
         <Footer />
