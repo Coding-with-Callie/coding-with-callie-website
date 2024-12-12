@@ -1,5 +1,6 @@
 import { Box, FormHelperText, FormLabel, Textarea } from "@chakra-ui/react";
 import { makeLowerCase } from "../../helpers/helpers";
+import { useEffect, useRef } from "react";
 
 type Props = {
   label: string;
@@ -16,6 +17,15 @@ const TextAreaInput = ({
   value,
   isInvalid = false,
 }: Props) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [value]);
+
   return (
     <Box>
       <FormLabel>{label}</FormLabel>
@@ -25,6 +35,8 @@ const TextAreaInput = ({
         value={value}
         isInvalid={isInvalid}
         id={field}
+        resize="none" // Disable manual resizing
+        ref={textareaRef}
       />
       {isInvalid && (
         <FormHelperText color="red.500">

@@ -225,3 +225,45 @@ export const changePasswordFormData: CustomFormData = {
     },
   ],
 };
+
+export const editableResourceFormData: CustomFormData = {
+  formHeading: "",
+  input: [
+    {
+      type: "text",
+      label: "",
+      field: "heading",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "",
+      field: "bodyText",
+      required: true,
+    },
+    {
+      type: "file",
+      label: "",
+      field: "image",
+      required: false,
+    },
+    {
+      type: "text",
+      label: "",
+      field: "linkUrl",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "",
+      field: "buttonText",
+      required: true,
+    },
+    {
+      type: "checkbox",
+      label: "Open link in new tab?",
+      field: "target",
+      required: true,
+    },
+  ],
+};

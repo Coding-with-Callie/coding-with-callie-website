@@ -66,6 +66,16 @@ const theme = extendTheme(
           },
         },
       },
+      Checkbox: {
+        baseStyle: {
+          control: {
+            borderColor: text,
+          },
+          label: {
+            color: text,
+          },
+        },
+      },
     },
   },
   withDefaultColorScheme({

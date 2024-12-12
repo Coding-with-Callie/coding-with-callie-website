@@ -16,7 +16,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 type Props = {
   data: { [key: string]: any };
   setData: React.Dispatch<React.SetStateAction<any>>;
-  initialState?: { [key: string]: any };
+  initialState: { [key: string]: any };
   setFileInputKey?: React.Dispatch<React.SetStateAction<string>>;
   setSubmitClicked: React.Dispatch<React.SetStateAction<boolean>>;
   input: FieldData[];
@@ -25,6 +25,7 @@ type Props = {
   updateData?: React.Dispatch<React.SetStateAction<any>>;
   message: string;
   setEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  method?: "post" | "put";
 };
 
 const FormSubmitButton = ({
@@ -39,6 +40,7 @@ const FormSubmitButton = ({
   updateData,
   message,
   setEdit,
+  method = "post",
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { catchError } = useOutletContext() as Context;
@@ -55,13 +57,15 @@ const FormSubmitButton = ({
   };
 
   const doNotSubmitForm = () => {
-    let invalidInput = false;
-
+    // Check if form is unchanged
     if (JSON.stringify(data) === JSON.stringify(initialState)) {
       if (setEdit) setEdit(false);
       return true;
     }
 
+    let invalidInput = false;
+
+    // Check if any required fields are invalid
     for (const key in data) {
       const item = input.find((item) => item.field === key);
       if (!item) continue;
@@ -95,12 +99,17 @@ const FormSubmitButton = ({
 
     let dataToSend = data;
 
-    if (route === "/resource" || route === "/signup" || route === "/speaker") {
+    if (
+      route.includes("/resource") ||
+      route === "/signup" ||
+      route === "/speaker"
+    ) {
       dataToSend = createFormData(data);
     }
 
-    axiosToUse
-      .post(route, dataToSend)
+    const methodToUse = method === "post" ? "post" : "put";
+
+    axiosToUse[methodToUse](route, dataToSend)
       .then((response) => {
         if (updateData) updateData(response.data);
 

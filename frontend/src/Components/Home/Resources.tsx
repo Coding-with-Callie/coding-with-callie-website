@@ -16,16 +16,8 @@ const Resources = ({ data, role }: Props) => {
     <>
       {resources.map((resource) => (
         <Resource
-          id={resource.id}
-          heading={resource.heading}
-          imageUrl={resource.imageUrl}
-          linkUrl={resource.linkUrl}
-          buttonText={resource.buttonText}
-          textBlocks={resource.bodyText}
-          target={resource.target ? "_blank" : "_self"}
-          editable={role === "admin"}
+          resource={resource}
           setResources={setResources}
-          order={resource.order}
           numResources={resources.length}
         />
       ))}
