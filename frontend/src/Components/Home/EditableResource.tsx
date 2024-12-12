@@ -25,7 +25,7 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
   const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
 
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   const findInput = (field: string) => {
     const input = editableResourceFormData.input.find(
@@ -43,7 +43,6 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        flexDirection={isLargerThan500 ? "row" : "column"}
       >
         <Box w="100%">
           <FormInputs
@@ -67,8 +66,13 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
           initialState={initialState}
         />
       </Box>
-      <Box display="flex" gap={6} mb={6}>
-        <Box w="50%">
+      <Box
+        display="flex"
+        gap={6}
+        mb={6}
+        flexDirection={isLargerThan1300 ? "row" : "column"}
+      >
+        <Box w={isLargerThan1300 ? "75%" : "100%"}>
           <FormInputs
             input={findInput("bodyText")}
             data={data}

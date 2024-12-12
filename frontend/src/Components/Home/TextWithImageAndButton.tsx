@@ -25,7 +25,7 @@ const TextWithImageAndButton = ({
   const { user } = useOutletContext() as Context;
 
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   return (
     <Section>
@@ -34,7 +34,7 @@ const TextWithImageAndButton = ({
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          flexDirection={isLargerThan500 ? "row" : "column"}
+          flexDirection={isLargerThan800 ? "row" : "column"}
         >
           <BodyHeading>{resource.heading}</BodyHeading>
           {user.role === "admin" && (
