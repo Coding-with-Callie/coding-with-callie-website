@@ -14,11 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import axios from "axios";
 import { Feature } from "../../Pages/Project";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   features: Feature[];
@@ -52,18 +51,11 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
     if (name !== "") {
       setIsOpen(false);
 
-      const token = localStorage.getItem("token");
-
-      axios
-        .post(
-          `${host}/api/auth/create-feature`,
-          {
-            name,
-            description,
-            projectId,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
+      axiosPrivate
+        .post(`/project/${projectId}/feature`, {
+          name,
+          description,
+        })
         .then((response) => {
           setProject(response.data);
           setName("");
@@ -130,14 +122,7 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
                 ) : (
                   <AddIcon fontSize="12px" color="white" />
                 )}
-                <Box
-                  layerStyle="text"
-                  color="white"
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                  ml={3}
-                >
+                <Box color="white" as="span" flex="1" textAlign="left" ml={3}>
                   Add a feature
                 </Box>
               </AccordionButton>
@@ -150,26 +135,17 @@ const CreateFeatureAccordion = ({ features, setProject, projectId }: Props) => {
               borderBottom="1px solid #45446A"
             >
               <FormControl isInvalid={isErrorName} isRequired mb={4}>
-                <FormLabel layerStyle="text">Feature Name:</FormLabel>
-                <Input
-                  layerStyle="text"
-                  type="text"
-                  value={name}
-                  onChange={onChangeName}
-                />
+                <FormLabel>Feature Name:</FormLabel>
+                <Input type="text" value={name} onChange={onChangeName} />
                 {!isErrorName ? null : (
                   <FormErrorMessage>Feature name is required.</FormErrorMessage>
                 )}
               </FormControl>
               <FormControl mb={4}>
-                <FormLabel layerStyle="text">Feature Description:</FormLabel>
-                <Textarea
-                  layerStyle="text"
-                  value={description}
-                  onChange={onChangeDescription}
-                />
+                <FormLabel>Feature Description:</FormLabel>
+                <Textarea value={description} onChange={onChangeDescription} />
               </FormControl>
-              <Button w="100%" onClick={onSubmit} colorScheme="green">
+              <Button w="100%" onClick={onSubmit}>
                 Create Feature
               </Button>
             </AccordionPanel>

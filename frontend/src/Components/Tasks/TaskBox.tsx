@@ -10,17 +10,26 @@ import {
 import { EditIcon, CheckIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Task } from "../UserStories/UserStoryDetailsAccordion";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { host } from "../..";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   task: Task;
   setStoryStatus: React.Dispatch<React.SetStateAction<string>>;
   setTaskList: React.Dispatch<React.SetStateAction<Task[]>>;
+  projectId: number;
+  featureId: number;
+  userStoryId: number;
 };
 
-const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
+const TaskBox = ({
+  task,
+  setStoryStatus,
+  setTaskList,
+  projectId,
+  featureId,
+  userStoryId,
+}: Props) => {
   const toast = useToast();
   const navigate = useNavigate();
   const [isLargerThan920] = useMediaQuery("(min-width: 920px)");
@@ -55,17 +64,13 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/update-task`,
+    axiosPrivate
+      .patch(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task/${task.id}`,
         {
           field,
           value,
-          taskId: task.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+        }
       )
       .then((response) => {
         setStoryStatus(response.data);
@@ -116,15 +121,9 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
   };
 
   const deleteTask = () => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .post(
-        `${host}/api/auth/delete-task`,
-        {
-          taskId: task.id,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
+    axiosPrivate
+      .delete(
+        `/project/${projectId}/feature/${featureId}/user-story/${userStoryId}/task/${task.id}`
       )
       .then((response) => {
         setStoryStatus(response.data.storyStatus);
@@ -175,17 +174,9 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
     >
       <Box flex={1} order={isLargerThan920 ? 1 : 2}>
         {updateName ? (
-          <Input
-            layerStyle="text"
-            h="32px"
-            value={taskName}
-            onChange={onChange}
-            type="text"
-          />
+          <Input h="32px" value={taskName} onChange={onChange} type="text" />
         ) : (
-          <Text layerStyle="text" lineHeight="32px">
-            {taskName}
-          </Text>
+          <Text lineHeight="32px">{taskName}</Text>
         )}
       </Box>
       <Box
@@ -198,7 +189,6 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
           aria-label="Edit Name"
           icon={updateName ? <CheckIcon /> : <EditIcon />}
           size="sm"
-          colorScheme="green"
           onClick={
             updateName
               ? () => {
@@ -207,19 +197,13 @@ const TaskBox = ({ task, setStoryStatus, setTaskList }: Props) => {
               : onClickEdit
           }
         />
-        <Button
-          w="118px"
-          onClick={toggleTaskStatus}
-          colorScheme="green"
-          size="sm"
-        >
+        <Button w="118px" onClick={toggleTaskStatus} size="sm">
           {taskStatus}
         </Button>
         <IconButton
           aria-label="Delete Task"
           icon={<DeleteIcon />}
           onClick={deleteTask}
-          colorScheme="green"
           size="sm"
         />
       </Box>

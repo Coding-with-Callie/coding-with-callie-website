@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { SENDMAIL } from './mail';
 import { HTML_TEMPLATE as newMessageTemplate } from './new-message-mail-template';
 import { HTML_TEMPLATE as newUserTemplate } from './new-user-mail-template';
 import { HTML_TEMPLATE as messageToNewUserTemplate } from './message-to-new-user';
 import { HTML_TEMPLATE as resetPasswordTemplate } from './reset-password-template';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path');
+import { MailerService } from '@nestjs-modules/mailer';
+import { NewUserDto } from '../app.controller';
+import * as path from 'path';
+import { MessageDto } from '../message/dto/message.dto';
 
 @Injectable()
 export class MailService {
-  async sendNewUserEmail(data) {
-    SENDMAIL(
-      {
+  constructor(private readonly mailService: MailerService) {}
+
+  async sendNewUserEmail(data: NewUserDto) {
+    try {
+      await this.mailService.sendMail({
         from: 'calliestoscup@gmail.com>', // sender address
         to: 'calliestoscup@gmail.com', // receiver email
         subject: 'Coding with Callie has a new user 🥳', // Subject line
@@ -24,16 +27,17 @@ export class MailService {
           },
         ],
         html: newUserTemplate(data),
-      },
-      () => {
-        console.log('new user notfication email sent');
-      },
-    );
+      });
+
+      return 'message sent';
+    } catch (error) {
+      console.error('There was an error emailing a new user:', error.message);
+    }
   }
 
-  async sendNewMessageEmail(data) {
-    SENDMAIL(
-      {
+  async sendNewMessageEmail(data: MessageDto) {
+    try {
+      await this.mailService.sendMail({
         from: 'calliestoscup@gmail.com>', // sender address
         to: 'calliestoscup@gmail.com', // receiver email
         subject: 'Coding with Callie has a new message 🥳', // Subject line
@@ -46,16 +50,17 @@ export class MailService {
           },
         ],
         html: newMessageTemplate(data),
-      },
-      () => {
-        console.log('new user notification email sent');
-      },
-    );
+      });
+
+      return 'message sent';
+    } catch (error) {
+      console.error('There was an error emailing a message:', error.message);
+    }
   }
 
-  async sendEmailToNewUser(data) {
-    SENDMAIL(
-      {
+  async sendEmailToNewUser(data: NewUserDto) {
+    try {
+      await this.mailService.sendMail({
         from: 'calliestoscup@gmail.com>', // sender address
         to:
           process.env.ENVIRONMENT === 'local'
@@ -71,21 +76,26 @@ export class MailService {
           },
         ],
         html: messageToNewUserTemplate(data),
-      },
-      () => {
-        console.log('welcome email sent to new user');
-      },
-    );
+      });
+
+      return 'message sent';
+    } catch (error) {
+      console.error('There was an error emailing a new user:', error.message);
+    }
   }
 
-  async sendPasswordResetEmail(user, access_token, id) {
-    SENDMAIL(
-      {
+  async sendPasswordResetEmail(
+    email: string,
+    access_token: string,
+    id: number,
+  ) {
+    try {
+      await this.mailService.sendMail({
         from: 'calliestoscup@gmail.com>', // sender address
         to:
           process.env.ENVIRONMENT === 'local'
             ? 'calliestoscup@gmail.com'
-            : user.email, // receiver email
+            : email, // receiver email
         subject: 'Reset Your Password', // Subject line
         text: '',
         attachments: [
@@ -101,10 +111,14 @@ export class MailService {
           },
         ],
         html: resetPasswordTemplate(access_token, id),
-      },
-      () => {
-        console.log('reset email sent');
-      },
-    );
+      });
+
+      return 'message sent';
+    } catch (error) {
+      console.error(
+        'There was an error sending a password reset email:',
+        error.message,
+      );
+    }
   }
 }

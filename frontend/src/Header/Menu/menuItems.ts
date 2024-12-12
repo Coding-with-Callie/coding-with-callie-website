@@ -25,7 +25,7 @@ export const menuItems = [
     hiddenWhenLoggedOut: false,
   },
   {
-    name: "Guest Speakers",
+    name: "Speakers",
     path: "guest-speakers",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
@@ -37,8 +37,8 @@ export const menuItems = [
     hiddenWhenLoggedOut: false,
   },
   {
-    name: "Contact Callie",
-    path: "contact-callie",
+    name: "Contact",
+    path: "contact",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: false,
   },

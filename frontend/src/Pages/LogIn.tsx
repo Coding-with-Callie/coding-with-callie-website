@@ -9,46 +9,27 @@ import {
   ModalHeader,
   useDisclosure,
   useMediaQuery,
+  Text,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
-import { useLoaderData, useOutletContext } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Context } from "../App";
-import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
-import Paragraph from "../Components/Paragraph";
 import Section from "../Components/Section";
 import LogInForm from "../Components/LogIn/LogInForm";
-import { host } from "..";
+import { axiosPublic } from "../helpers/axios_instances";
+import { showNotification } from "..";
 
 const LogIn = () => {
-  const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const data = useLoaderData();
-  const [userData, setUserData] = useState<any>(data);
   const [email, setEmail] = useState<string>("");
-  const [submitClicked, setSubmitClicked] = useState(false);
 
-  const context: Context = useOutletContext();
-
-  if (data) {
-    context.updateUser(data);
-  }
-
-  const showNotification = (
-    message: string,
-    type: "success" | "error" | "info"
-  ) => {
-    toast[type](message, { toastId: `${type}-${message}` });
-  };
+  const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
 
   const resetPassword = async () => {
-    axios
-      .post(`${host}/api/auth/forgot-password`, {
+    axiosPublic
+      .post("/forgot-password", {
         email,
       })
-      .then((response) => {
+      .then(() => {
         showNotification("Please check your email for next steps.", "info");
         setEmail("");
         onClose();
@@ -66,53 +47,46 @@ const LogIn = () => {
   };
 
   return (
-    <Section screenSizeParameter={false} alignItemsCenter={false}>
-      <BodyHeading textAlignCenter={true}>Log in!</BodyHeading>
-      <LogInForm
-        userData={userData}
-        setUserData={setUserData}
-        submitClicked={submitClicked}
-        setSubmitClicked={setSubmitClicked}
-        updateUser={context.updateUser}
-      />
-      <Box
-        display="flex"
-        gap={2}
-        alignItems="center"
-        justifyContent="center"
-        mt={6}
-        w="100%"
-        flexDirection={isLargerThan450 ? "row" : "column"}
-      >
-        <Paragraph margin={false}>Forgot your password?</Paragraph>
-        <MyButton onClick={onOpen} widthSize={isLargerThan450 ? null : "100%"}>
-          Reset Password
-        </MyButton>
-      </Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader color="#45446A" mx={2}>
-            Enter the email address associated with your account:
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box display="flex" flexDirection="column" gap={4} mb={4}>
-              <Input
-                onChange={(e: any) => {
-                  setEmail(e.target.value);
-                }}
-                variant="filled"
-                value={email}
-              />
-              <MyButton onClick={resetPassword}>
-                Send verification email!
-              </MyButton>
-            </Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </Section>
+    <>
+      <LogInForm />
+      <Section>
+        <Box
+          display="flex"
+          gap={6}
+          alignItems="center"
+          justifyContent="center"
+          flexDirection={isLargerThan450 ? "row" : "column"}
+        >
+          <Text w="fit-content" whiteSpace="nowrap">
+            Forgot your password?
+          </Text>
+          <MyButton onClick={onOpen}>Reset Password</MyButton>
+        </Box>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader color="#45446A" mx={2}>
+              Enter the email address associated with your account:
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Box display="flex" flexDirection="column" gap={4} mb={4}>
+                <Input
+                  onChange={(e: any) => {
+                    setEmail(e.target.value);
+                  }}
+                  variant="filled"
+                  value={email}
+                />
+                <MyButton onClick={resetPassword}>
+                  Send verification email!
+                </MyButton>
+              </Box>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Section>
+    </>
   );
 };
 
