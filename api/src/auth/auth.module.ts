@@ -8,11 +8,8 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ReviewModule } from '../review/review.module';
 import { WorkshopsModule } from '../workshops/workshops.module';
-import { FeaturesModule } from '../features/features.module';
-import { ProjectsModule } from '../projects/projects.module';
-import { TasksModule } from '../tasks/tasks.module';
-import { UserStoriesModule } from '../userStories/userStories.module';
 import { FileUploadModule } from '../file_upload/file_upload.module';
+import { ChecklistModule } from '../checklists/checklists.module';
 
 @Module({
   imports: [
@@ -24,11 +21,8 @@ import { FileUploadModule } from '../file_upload/file_upload.module';
     ReviewModule,
     MailModule,
     WorkshopsModule,
-    ProjectsModule,
-    FeaturesModule,
-    UserStoriesModule,
-    TasksModule,
     FileUploadModule,
+    ChecklistModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {

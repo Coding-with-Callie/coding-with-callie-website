@@ -1,11 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
-  Patch,
   Post,
+  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -13,12 +11,10 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ProjectAccessGuard } from './project-access.guard';
-import { Roles, RolesGuard } from 'src/admin/roles.guard';
 
 // export class AccountDetailDTO {
 //   @IsNotEmpty()
@@ -42,78 +38,6 @@ export class ReviewDTO {
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   displayName: string;
-}
-
-export class ProjectDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-}
-
-export class FeatureDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-}
-
-export class UserStoryDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-}
-
-export class TaskDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-}
-
-export class UpdateTaskDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-}
-
-export class UpdateUserStoryDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-}
-
-export class UpdateFeatureDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-}
-
-export class UpdateProjectDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
 }
 
 @UseGuards(AuthGuard)
@@ -181,187 +105,9 @@ export class AuthController {
     );
   }
 
-  @Roles(['admin'])
-  @UseGuards(RolesGuard)
-  @Get('project')
-  getUserProjects(@Request() req) {
-    return this.authService.getUserProjects(req.user.sub);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Get('project/:id')
-  async getProject(@Param('id') id: number) {
-    return await this.authService.getProject(id);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(RolesGuard)
-  @Post('project')
-  createProjectAndReturnUpdatedProjects(
-    @Body() projectDto: ProjectDto,
-    @Request() req,
-  ) {
-    return this.authService.createProjectAndReturnUpdatedProjects(
-      projectDto.name,
-      projectDto.description,
-      req.user.sub,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Patch('project/:id')
-  updateProjectAndReturnUpdatedProject(
-    @Param('id') id: number,
-    @Body() updateProjectDto: UpdateProjectDto,
-  ) {
-    return this.authService.updateProjectAndReturnUpdatedProject(
-      updateProjectDto.field,
-      updateProjectDto.value,
-      id,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Delete('project/:id')
-  deleteProject(@Param('id') id: number) {
-    return this.authService.deleteProject(id);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Get('project/:id/feature/:featureId')
-  getFeature(@Param('id') id: number, @Param('featureId') featureId: number) {
-    return this.authService.getFeature(id, featureId);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Post('project/:id/feature')
-  createFeature(
-    @Param('id') projectId: number,
-    @Body() featureDto: FeatureDto,
-  ) {
-    return this.authService.createFeatureAndReturnUpdatedProject(
-      featureDto.name,
-      featureDto.description,
-      projectId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Patch('project/:id/feature/:featureId')
-  updateFeatureAndReturnUpdatedProject(
-    @Param('id') projectId: number,
-    @Param('featureId') featureId: number,
-    @Body() updateFeatureDto: UpdateFeatureDto,
-  ) {
-    return this.authService.updateFeatureAndReturnUpdatedProject(
-      updateFeatureDto.field,
-      updateFeatureDto.value,
-      projectId,
-      featureId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Delete('project/:id/feature/:featureId')
-  deleteFeatureAndReturnUpdatedProject(@Param('featureId') featureId: number) {
-    return this.authService.deleteFeatureAndReturnUpdatedProject(featureId);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Post('project/:id/feature/:featureId/user-story')
-  createUserStoryAndReturnUpdatedProject(
-    @Param('id') id: number,
-    @Param('featureId') featureId: number,
-    @Body() userStoryDto: UserStoryDto,
-  ) {
-    return this.authService.createUserStoryAndReturnUpdatedProject(
-      userStoryDto.name,
-      userStoryDto.description,
-      id,
-      featureId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Patch('project/:id/feature/:featureId/user-story/:userStoryId')
-  updateUserStoryAndReturnUpdatedProject(
-    @Param('userStoryId') userStoryId: number,
-    @Param('id') projectId: number,
-    @Body() updateUserStoryDto: UpdateUserStoryDto,
-  ) {
-    return this.authService.updateUserStoryAndReturnUpdatedProject(
-      updateUserStoryDto.field,
-      updateUserStoryDto.value,
-      userStoryId,
-      projectId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Delete('project/:id/feature/:featureId/user-story/:userStoryId')
-  deleteUserStoryAndReturnUpdatedProject(
-    @Param('userStoryId') userStoryId: number,
-    @Param('id') projectId: number,
-  ) {
-    return this.authService.deleteUserStoryAndReturnUpdatedProject(
-      userStoryId,
-      projectId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Post('project/:id/feature/:featureId/user-story/:userStoryId/task')
-  createTaskAndReturnUpdatedProject(
-    @Param('id') projectId: number,
-    @Param('featureId') featureId: number,
-    @Param('userStoryId') userStoryId: number,
-    @Body() taskDto: TaskDto,
-  ) {
-    return this.authService.createTaskAndReturnUpdatedProject(
-      taskDto.name,
-      projectId,
-      featureId,
-      userStoryId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Patch('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
-  updateTaskAndReturnTaskCompletionRatio(
-    @Param('taskId') taskId: number,
-    @Param('userStoryId') userStoryId: number,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ) {
-    return this.authService.updateTaskAndReturnTaskCompletionRatio(
-      updateTaskDto.field,
-      updateTaskDto.value,
-      taskId,
-      userStoryId,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(ProjectAccessGuard, RolesGuard)
-  @Delete('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
-  deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
-    @Param('taskId') taskId: number,
-    @Param('userStoryId') userStoryId: number,
-  ) {
-    return this.authService.deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
-      taskId,
-      userStoryId,
-    );
+  @Get('checklists')
+  async getChecklists(@Request() req, @Query('topLevel') topLevel: boolean) {
+    console.log('topLevel', topLevel);
+    return await this.authService.getChecklists(req.user.sub, topLevel);
   }
 }

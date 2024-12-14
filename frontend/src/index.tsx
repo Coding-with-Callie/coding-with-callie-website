@@ -11,7 +11,6 @@ import Profile from "./Pages/Profile";
 import Reviews from "./Pages/Reviews";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Paragraph from "./Components/Paragraph";
-import Projects from "./Pages/Projects";
 import Jobs from "./Pages/Jobs";
 import {
   Load,
@@ -19,7 +18,7 @@ import {
   RedirectLoggedInUser,
 } from "./helpers/loader_functions";
 import EditPassword from "./Components/Profile/EditPassword";
-import Feature from "./Pages/Feature";
+import Checklists from "./Pages/Checklists";
 
 export const showNotification = (
   message: string,
@@ -91,15 +90,9 @@ const router = createBrowserRouter([
         loader: ProfileResetLoader,
       },
       {
-        path: "/projects",
-        element: <Projects />,
-        loader: () => Load("project"),
-      },
-      {
-        path: "project/:projectId/feature/:featureId",
-        element: <Feature />,
-        loader: ({ params }) =>
-          Load(`project/${params.projectId}/feature/${params.featureId}`),
+        path: "/checklists",
+        element: <Checklists />,
+        loader: () => Load("checklists?topLevel=true"),
       },
     ],
   },

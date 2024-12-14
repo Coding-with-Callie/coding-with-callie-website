@@ -5,10 +5,6 @@ import { Users } from '../users/entities/users.entity';
 import { Review } from '../review/entities/review.entity';
 import { Message } from '../message/entities/message.entity';
 import { Speaker } from '../speakers/entities/speaker.entity';
-import { UserStory } from '../userStories/entities/userStory.entity';
-import { Project } from '../projects/entities/project.entity';
-import { Feature } from '../features/entities/feature.entity';
-import { Task } from '../tasks/entities/task.entity';
 import * as bcrypt from 'bcrypt';
 import { DataSource } from 'typeorm';
 
@@ -31,10 +27,6 @@ async function loadSampleData() {
   const speakerRepository = queryRunner.manager.getRepository(Speaker);
   const reviewRepository = queryRunner.manager.getRepository(Review);
   const messageRepository = queryRunner.manager.getRepository(Message);
-  const projectRepository = queryRunner.manager.getRepository(Project);
-  const featureRepository = queryRunner.manager.getRepository(Feature);
-  const userStoryRepository = queryRunner.manager.getRepository(UserStory);
-  const taskRepository = queryRunner.manager.getRepository(Task);
 
   const hashedPassword = await hashPassword('samplePassword');
 
@@ -89,51 +81,6 @@ async function loadSampleData() {
         email: sampleUser.email,
         message: `Sample message ${i}.`,
       });
-      //Add 2 projects to each user
-      for (let j = 0; j < 2; j++) {
-        const sampleProject = await projectRepository.save({
-          user: sampleUser,
-          name: `Sample Project ${j}`,
-          description: `Sample project ${j} description.`,
-          features: [],
-        });
-        //Add 2 features to each project
-        for (let k = 0; k < 2; k++) {
-          const sampleFeature = await featureRepository.save({
-            project: sampleProject,
-            name: `Sample Feature ${k}`,
-            description: `Sample feature ${k} description.`,
-            userStories: [],
-          });
-          //Add 2 user stories to each feature
-          for (let l = 0; l < 2; l++) {
-            const sampleUserStory = await userStoryRepository.save({
-              feature: sampleFeature,
-              name: `Sample User Story ${l}`,
-              description: `Sample user story ${l} description.`,
-              tasks: [],
-            });
-            //Add 2 tasks to each user story
-            for (let m = 0; m < 2; m++) {
-              const sampleTask = await taskRepository.save({
-                userStory: sampleUserStory,
-                name: `Sample Task ${m}`,
-                status: 'To Do',
-              });
-              sampleUserStory.tasks = [...sampleUserStory.tasks, sampleTask];
-            }
-            await userStoryRepository.save(sampleUserStory);
-            sampleFeature.userStories = [
-              ...sampleFeature.userStories,
-              sampleUserStory,
-            ];
-          }
-          await featureRepository.save(sampleFeature);
-          sampleProject.features = [...sampleProject.features, sampleFeature];
-        }
-        await projectRepository.save(sampleProject);
-        sampleUser.projects = [...sampleUser.projects, sampleProject];
-      }
       sampleUser.review = [...sampleUser.review, sampleReview];
       await usersRepository.save(sampleUser);
     }

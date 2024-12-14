@@ -1,4 +1,4 @@
-import { Project } from '../../projects/entities/project.entity';
+import { Checklist } from '../../checklists/entities/checklist.entity';
 import { Review } from '../../review/entities/review.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -31,6 +31,6 @@ export class Users {
   @OneToMany(() => Review, (review) => review.user)
   review: Review[];
 
-  @OneToMany(() => Project, (review) => review.user)
-  projects: Project[];
+  @OneToMany(() => Checklist, (checklist) => checklist.user)
+  checklists: Checklist[];
 }
