@@ -19,7 +19,7 @@ import DeleteModal from "../Components/DeleteModal";
 import StatusColumn, { Column } from "../Components/Project/StatusColumn";
 import { axiosPrivate } from "../helpers/axios_instances";
 
-export type Feature = {
+export type FeatureData = {
   name: string;
   status: "To Do" | "In Progress" | "Done!";
   userStoryCount: number;

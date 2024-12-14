@@ -1,12 +1,12 @@
 import { Box, Text, useDisclosure, useToast } from "@chakra-ui/react";
-import { Feature } from "../../Pages/Project";
+import { FeatureData } from "../../Pages/Project";
 import FeatureModal from "./FeatureModal";
 import { Project } from "../../Pages/Projects";
 import { useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
-  feature: Feature;
+  feature: FeatureData;
   projectId: number;
   setProject: React.Dispatch<React.SetStateAction<Project>>;
 };

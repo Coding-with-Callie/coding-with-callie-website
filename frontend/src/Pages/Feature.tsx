@@ -1,12 +1,18 @@
 import { Box, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
+import { FeatureData } from "./Project";
 
 const Feature = () => {
-  const { id } = useParams();
+  const { projectId, featureId } = useParams();
+  const data = useLoaderData() as FeatureData;
+
+  console.log("data", data);
 
   return (
     <Box>
-      <Text>This is feature {id}</Text>
+      <Text>
+        This is feature {featureId} from project {projectId}
+      </Text>
     </Box>
   );
 };

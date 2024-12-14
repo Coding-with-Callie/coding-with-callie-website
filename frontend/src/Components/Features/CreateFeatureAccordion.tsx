@@ -14,13 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { Feature } from "../../Pages/Project";
+import { FeatureData } from "../../Pages/Project";
 import { useNavigate } from "react-router-dom";
 import { Project } from "../../Pages/Projects";
 import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
-  features: Feature[];
+  features: FeatureData[];
   setProject: React.Dispatch<React.SetStateAction<Project>>;
   projectId: number;
 };

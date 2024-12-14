@@ -223,6 +223,12 @@ export class AuthController {
   }
 
   @UseGuards(ProjectAccessGuard)
+  @Get('project/:id/feature/:featureId')
+  getFeature(@Param('id') id: number, @Param('featureId') featureId: number) {
+    return this.authService.getFeature(id, featureId);
+  }
+
+  @UseGuards(ProjectAccessGuard)
   @Post('project/:id/feature')
   createFeature(
     @Param('id') projectId: number,

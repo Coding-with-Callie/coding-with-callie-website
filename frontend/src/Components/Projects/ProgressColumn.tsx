@@ -5,14 +5,21 @@ import FeatureBox from "./FeatureBox";
 type Props = {
   features: { name: string; id: number }[];
   columnName: string;
+  projectId: number;
 };
 
-const ProgressColumn = ({ features, columnName }: Props) => {
+const ProgressColumn = ({ features, columnName, projectId }: Props) => {
   return (
     <Box display="flex" flexDirection="column">
       <BodyHeading fontSize={20}>{columnName}</BodyHeading>
       {features.map((feature) => {
-        return <FeatureBox name={feature.name} id={feature.id} />;
+        return (
+          <FeatureBox
+            name={feature.name}
+            projectId={projectId}
+            featureId={feature.id}
+          />
+        );
       })}
     </Box>
   );

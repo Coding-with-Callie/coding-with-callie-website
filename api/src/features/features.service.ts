@@ -9,6 +9,22 @@ export class FeaturesService {
     @InjectRepository(Feature)
     private featuresRepository: Repository<Feature>,
   ) {}
+  async getFeatureById(id: number) {
+    return await this.featuresRepository.findOne({
+      where: { id },
+      order: {
+        userStories: {
+          id: 'ASC',
+          tasks: {
+            id: 'ASC',
+          },
+        },
+      },
+      relations: ['userStories', 'userStories.tasks'],
+    });
+
+    return await this.featuresRepository.findOneBy({ id });
+  }
 
   async checkIfFeatureExistsInProject(id: number, projectId: number) {
     const feature = await this.featuresRepository.findOne({

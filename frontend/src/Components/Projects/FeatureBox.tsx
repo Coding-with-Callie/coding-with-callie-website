@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   name: string;
-  id: number;
+  projectId: number;
+  featureId: number;
 };
 
-const FeatureBox = ({ name, id }: Props) => {
+const FeatureBox = ({ name, projectId, featureId }: Props) => {
   const navigate = useNavigate();
 
   const goToFeature = () => {
-    navigate(`/feature/${id}`);
+    navigate(`/project/${projectId}/feature/${featureId}`);
   };
 
   return (

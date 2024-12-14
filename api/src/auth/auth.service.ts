@@ -89,6 +89,19 @@ export class AuthService {
     return await this.projectsService.deleteProject(projectId);
   }
 
+  async getFeature(projectId: number, featureId: number) {
+    const exists = await this.featuresService.checkIfFeatureExistsInProject(
+      featureId,
+      projectId,
+    );
+
+    if (!exists) {
+      throw new NotFoundException('Feature does not exist in project');
+    }
+
+    return await this.featuresService.getFeatureById(featureId);
+  }
+
   async createFeatureAndReturnUpdatedProject(
     name: string,
     description: string,

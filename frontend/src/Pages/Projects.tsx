@@ -2,7 +2,7 @@ import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
 import CreateProjectAccordion from "../Components/Projects/CreateProjectAccordion";
 import { useState } from "react";
-import { Feature } from "./Project";
+import { FeatureData } from "./Project";
 import ProjectBox from "../Components/Projects/ProjectBox";
 import { Context } from "../App";
 
@@ -11,7 +11,7 @@ export type Project = {
   name: string;
   description?: string;
   status: string;
-  features: Feature[];
+  features: FeatureData[];
 };
 
 const Projects = () => {

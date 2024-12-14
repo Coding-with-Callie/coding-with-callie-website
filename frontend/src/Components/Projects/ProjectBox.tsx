@@ -29,12 +29,21 @@ const ProjectBox = ({ project }: Props) => {
         gridTemplateColumns="repeat(auto-fit, minmax(250px, 1fr))"
         gap={4}
       >
-        <ProgressColumn features={toDoFeatures} columnName="To Do" />
+        <ProgressColumn
+          features={toDoFeatures}
+          columnName="To Do"
+          projectId={project.id}
+        />
         <ProgressColumn
           features={inProgressFeatures}
           columnName="In Progress"
+          projectId={project.id}
         />
-        <ProgressColumn features={doneFeatures} columnName="Done" />
+        <ProgressColumn
+          features={doneFeatures}
+          columnName="Done"
+          projectId={project.id}
+        />
       </Box>
       <Box mt={8}>
         <MyButton variant="outline">Add a feature</MyButton>

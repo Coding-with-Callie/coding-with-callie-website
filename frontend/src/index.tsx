@@ -102,8 +102,10 @@ const router = createBrowserRouter([
         loader: () => Load("project"),
       },
       {
-        path: "/feature/:id",
+        path: "project/:projectId/feature/:featureId",
         element: <Feature />,
+        loader: ({ params }) =>
+          Load(`project/${params.projectId}/feature/${params.featureId}`),
       },
     ],
   },
