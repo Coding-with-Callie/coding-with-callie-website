@@ -13,8 +13,8 @@ export const menuItems = [
     hiddenWhenLoggedOut: false,
   },
   {
-    name: "Projects",
-    path: "projects",
+    name: "Checklists",
+    path: "checklists",
     hiddenWhenLoggedIn: false,
     hiddenWhenLoggedOut: true,
   },

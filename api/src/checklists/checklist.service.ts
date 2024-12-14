@@ -22,10 +22,10 @@ export class ChecklistService {
     });
 
     if (topLevel) {
-      return checklists.filter((checklist) => checklist.parentList === null)
+      return checklists.filter((checklist) => checklist.parentList === null);
     }
 
-    return checklists
+    return checklists;
   }
 
   // Add a new checklist to the database
