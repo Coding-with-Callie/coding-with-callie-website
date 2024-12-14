@@ -1,10 +1,9 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useLoaderData, useParams } from "react-router-dom";
-import { FeatureData } from "./Project";
 
 const Feature = () => {
   const { projectId, featureId } = useParams();
-  const data = useLoaderData() as FeatureData;
+  const data = useLoaderData() as any;
 
   console.log("data", data);
 

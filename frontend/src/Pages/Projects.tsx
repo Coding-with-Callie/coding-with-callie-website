@@ -1,21 +1,13 @@
 import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useLoaderData, useOutletContext } from "react-router-dom";
-import CreateProjectAccordion from "../Components/Projects/CreateProjectAccordion";
 import { useState } from "react";
-import { FeatureData } from "./Project";
-import ProjectBox from "../Components/Projects/ProjectBox";
 import { Context } from "../App";
-
-export type Project = {
-  id: number;
-  name: string;
-  description?: string;
-  status: string;
-  features: FeatureData[];
-};
+import TaskWithChildren, {
+  TaskWithChildrenType,
+} from "../Components/Projects/TaskWithChildren";
 
 const Projects = () => {
-  const data = useLoaderData() as Project[];
+  const data = useLoaderData() as TaskWithChildrenType[];
   const { user } = useOutletContext() as Context;
   const [isLargerThan825] = useMediaQuery("(min-width: 825px)");
 
@@ -28,9 +20,8 @@ const Projects = () => {
       </Heading>
       <Box my={10} mx={isLargerThan825 ? 10 : 4}>
         {projects.map((project) => {
-          return <ProjectBox project={project} />;
+          return <TaskWithChildren task={project} />;
         })}
-        <CreateProjectAccordion projects={projects} setProjects={setProjects} />
       </Box>
     </Box>
   );

@@ -12,7 +12,6 @@ import Reviews from "./Pages/Reviews";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Paragraph from "./Components/Paragraph";
 import Projects from "./Pages/Projects";
-import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
 import {
   Load,
@@ -90,11 +89,6 @@ const router = createBrowserRouter([
         path: "/profile/:token/:id",
         element: <Profile />,
         loader: ProfileResetLoader,
-      },
-      {
-        path: "/project/:id",
-        element: <Project />,
-        loader: ({ params }) => Load(`project/${params.id}`),
       },
       {
         path: "/projects",
