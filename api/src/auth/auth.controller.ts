@@ -18,6 +18,7 @@ import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProjectAccessGuard } from './project-access.guard';
+import { Roles, RolesGuard } from 'src/admin/roles.guard';
 
 // export class AccountDetailDTO {
 //   @IsNotEmpty()
@@ -180,17 +181,22 @@ export class AuthController {
     );
   }
 
+  @Roles(['admin'])
+  @UseGuards(RolesGuard)
   @Get('project')
   getUserProjects(@Request() req) {
     return this.authService.getUserProjects(req.user.sub);
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Get('project/:id')
   async getProject(@Param('id') id: number) {
     return await this.authService.getProject(id);
   }
 
+  @Roles(['admin'])
+  @UseGuards(RolesGuard)
   @Post('project')
   createProjectAndReturnUpdatedProjects(
     @Body() projectDto: ProjectDto,
@@ -203,7 +209,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Patch('project/:id')
   updateProjectAndReturnUpdatedProject(
     @Param('id') id: number,
@@ -216,19 +223,22 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Delete('project/:id')
   deleteProject(@Param('id') id: number) {
     return this.authService.deleteProject(id);
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Get('project/:id/feature/:featureId')
   getFeature(@Param('id') id: number, @Param('featureId') featureId: number) {
     return this.authService.getFeature(id, featureId);
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Post('project/:id/feature')
   createFeature(
     @Param('id') projectId: number,
@@ -241,7 +251,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Patch('project/:id/feature/:featureId')
   updateFeatureAndReturnUpdatedProject(
     @Param('id') projectId: number,
@@ -256,13 +267,15 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Delete('project/:id/feature/:featureId')
   deleteFeatureAndReturnUpdatedProject(@Param('featureId') featureId: number) {
     return this.authService.deleteFeatureAndReturnUpdatedProject(featureId);
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Post('project/:id/feature/:featureId/user-story')
   createUserStoryAndReturnUpdatedProject(
     @Param('id') id: number,
@@ -277,7 +290,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Patch('project/:id/feature/:featureId/user-story/:userStoryId')
   updateUserStoryAndReturnUpdatedProject(
     @Param('userStoryId') userStoryId: number,
@@ -292,7 +306,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Delete('project/:id/feature/:featureId/user-story/:userStoryId')
   deleteUserStoryAndReturnUpdatedProject(
     @Param('userStoryId') userStoryId: number,
@@ -304,7 +319,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Post('project/:id/feature/:featureId/user-story/:userStoryId/task')
   createTaskAndReturnUpdatedProject(
     @Param('id') projectId: number,
@@ -320,7 +336,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Patch('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
   updateTaskAndReturnTaskCompletionRatio(
     @Param('taskId') taskId: number,
@@ -335,7 +352,8 @@ export class AuthController {
     );
   }
 
-  @UseGuards(ProjectAccessGuard)
+  @Roles(['admin'])
+  @UseGuards(ProjectAccessGuard, RolesGuard)
   @Delete('project/:id/feature/:featureId/user-story/:userStoryId/task/:taskId')
   deleteTaskAndReturnUpdatedTasksWithTaskCompletionRatio(
     @Param('taskId') taskId: number,
