@@ -31,23 +31,25 @@ const FileInput = ({ onChange, key, label }: Props) => {
   return (
     <Box>
       <FormLabel>{label}</FormLabel>
-      <Text>{fileName}</Text>
-      <MyButton onClick={handleIconClick}>
-        Upload Image
-        <Input
-          p={0}
-          border="none"
-          borderRadius="0px"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          color="#45446A"
-          key={key}
-          id="image"
-          display="none"
-          ref={fileInputRef}
-        />
-      </MyButton>
+      <Box display="flex" alignItems="center" gap={6}>
+        <Text>{fileName}</Text>
+        <MyButton onClick={handleIconClick} width="fit-content">
+          Upload Image
+          <Input
+            p={0}
+            border="none"
+            borderRadius="0px"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            color="#45446A"
+            key={key}
+            id="image"
+            display="none"
+            ref={fileInputRef}
+          />
+        </MyButton>
+      </Box>
     </Box>
   );
 };

@@ -5,12 +5,18 @@ type Props = {
   children: string;
   textAlign?: "center" | "left";
   mb?: number;
+  fontSize?: number;
 };
 
-const BodyHeading = ({ children, textAlign = "left", mb = 6 }: Props) => {
+const BodyHeading = ({
+  children,
+  textAlign = "left",
+  mb = 2,
+  fontSize = 24,
+}: Props) => {
   return (
     <Text
-      fontSize={28}
+      fontSize={fontSize}
       mb={mb}
       textAlign={textAlign}
       fontWeight={700}

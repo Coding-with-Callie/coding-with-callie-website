@@ -20,6 +20,7 @@ import {
   RedirectLoggedInUser,
 } from "./helpers/loader_functions";
 import EditPassword from "./Components/Profile/EditPassword";
+import Feature from "./Pages/Feature";
 
 export const showNotification = (
   message: string,
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
         path: "/projects",
         element: <Projects />,
         loader: () => Load("project"),
+      },
+      {
+        path: "/feature/:id",
+        element: <Feature />,
       },
     ],
   },
