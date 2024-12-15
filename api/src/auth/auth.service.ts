@@ -54,6 +54,25 @@ export class AuthService {
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
 
+  async createChecklist(
+    userId: number,
+    checklistId: number,
+    name: string,
+    description?: string,
+    parentId?: number,
+  ) {
+    // Create the checklist
+    await this.checklistService.createChecklist(
+      userId,
+      name,
+      description,
+      parentId,
+    );
+
+    // Return the updated checklist
+    return await this.checklistService.getChecklistById(userId, checklistId);
+  }
+
   async updateChecklistField(
     userId: number,
     checklistId: number,

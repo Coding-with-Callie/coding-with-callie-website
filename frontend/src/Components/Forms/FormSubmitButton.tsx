@@ -26,6 +26,7 @@ type Props = {
   message: string;
   setEdit?: React.Dispatch<React.SetStateAction<boolean>>;
   method?: "post" | "put";
+  resetInitialState?: boolean;
 };
 
 const FormSubmitButton = ({
@@ -41,13 +42,14 @@ const FormSubmitButton = ({
   message,
   setEdit,
   method = "post",
+  resetInitialState = true,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { catchError } = useOutletContext() as Context;
   const navigate = useNavigate();
 
   const resetState = () => {
-    if (!setEdit) setData(initialState);
+    if (resetInitialState) setData(initialState);
     if (setEdit) setEdit(false);
 
     if (setFileInputKey) setFileInputKey(new Date().getTime().toString());
@@ -109,6 +111,8 @@ const FormSubmitButton = ({
 
     const methodToUse = method === "post" ? "post" : "put";
 
+    console.log("dataToSend", dataToSend);
+
     axiosToUse[methodToUse](route, dataToSend)
       .then((response) => {
         if (updateData) updateData(response.data);
@@ -129,7 +133,7 @@ const FormSubmitButton = ({
       });
   };
 
-  if (setEdit) {
+  if (!resetInitialState) {
     return (
       <IconButton
         aria-label="submit"

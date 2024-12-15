@@ -64,6 +64,7 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
           setEdit={setEdit}
           method="put"
           initialState={initialState}
+          resetInitialState={false}
         />
       </Box>
       <Box

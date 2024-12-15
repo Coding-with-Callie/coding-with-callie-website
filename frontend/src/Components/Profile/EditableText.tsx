@@ -73,6 +73,7 @@ const EditableText = ({ field, value }: Props) => {
             setEdit={setEdit}
             updateData={updateUser}
             initialState={initialState}
+            resetInitialState={false}
           />
         ) : (
           <IconButton

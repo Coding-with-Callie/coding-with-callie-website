@@ -43,12 +43,19 @@ export class ChecklistService {
   }
 
   // Add a new checklist to the database
-  async createChecklist(name: string, userId: number) {
+  async createChecklist(
+    userId: number,
+    name: string,
+    description?: string,
+    parentId?: number,
+  ) {
     await this.checklistRepository.save({
       name,
+      description,
       user: {
         id: userId,
       },
+      parentList: parentId ? { id: parentId } : null,
     });
     return { message: 'Checklist created' };
   }

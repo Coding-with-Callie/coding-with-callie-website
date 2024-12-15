@@ -267,3 +267,21 @@ export const editableResourceFormData: CustomFormData = {
     },
   ],
 };
+
+export const taskFormData: CustomFormData = {
+  formHeading: "",
+  input: [
+    {
+      field: "name",
+      label: "Task Name",
+      type: "text",
+      required: true,
+    },
+    {
+      field: "description",
+      label: "Task Description",
+      type: "textarea",
+      required: false,
+    },
+  ],
+};

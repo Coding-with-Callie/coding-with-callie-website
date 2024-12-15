@@ -6,6 +6,7 @@ import ProgressColumn from "./ProgressColumn";
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
+import { taskFormData } from "../../helpers/forms";
 
 export type ChecklistType = {
   id: number;
@@ -35,10 +36,14 @@ const ChecklistContainer = ({
   );
   const doneChildren = children.filter((child) => child.status === "Done");
 
+  console.log("checklist", checklistId);
+
   const [addTask, setAddTask] = useState(false);
   const initialState = {
+    checklistId: checklistId,
     name: "",
     description: "",
+    parentId: checklistId,
   };
   const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -79,49 +84,23 @@ const ChecklistContainer = ({
         {addTask ? (
           <>
             <FormInputs
-              input={[
-                {
-                  field: "name",
-                  label: "Task Name",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  field: "description",
-                  label: "Task Description",
-                  type: "textarea",
-                  required: false,
-                },
-              ]}
+              input={taskFormData.input}
               data={data}
               setData={setData}
               submitClicked={submitClicked}
             />
             <FormSubmitButton
-              data={{}}
-              setData={function (value: any): void {
-                throw new Error("Function not implemented.");
-              }}
+              data={data}
+              setData={setData}
               initialState={initialState}
               setSubmitClicked={setSubmitClicked}
-              input={[
-                {
-                  field: "name",
-                  label: "Task Name",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  field: "description",
-                  label: "Task Description",
-                  type: "text",
-                  required: false,
-                },
-              ]}
-              axiosType={"public"}
-              route={""}
+              input={taskFormData.input}
+              axiosType={"private"}
+              route={"/checklists"}
               message={"Task added!"}
-            />{" "}
+              setEdit={setAddTask}
+              updateData={setChecklist}
+            />
           </>
         ) : (
           <MyButton variant="outline" onClick={() => setAddTask(true)}>

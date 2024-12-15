@@ -116,6 +116,25 @@ export class AuthController {
     return await this.authService.getChecklists(req.user.sub);
   }
 
+  @Post('checklists')
+  async createChecklist(
+    @Request() req,
+    @Body('checklistId') checklistId: number,
+    @Body('name') name: string,
+    @Body('description') description?: string,
+    @Body('parentId') parentId?: number,
+  ) {
+    console.log('Creating checklist');
+    console.log(checklistId, name, description, parentId);
+    return await this.authService.createChecklist(
+      req.user.sub,
+      checklistId,
+      name,
+      description,
+      parentId,
+    );
+  }
+
   @Patch('checklists/:checklistId/:itemId')
   async updateChecklistField(
     @Request() req,
