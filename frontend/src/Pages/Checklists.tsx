@@ -19,7 +19,7 @@ const Checklists = () => {
         return (
           <Section>
             <BodyHeading>{checklist.name}</BodyHeading>
-            <Text>{checklist.description}</Text>
+            <Text mb={6}>{checklist.description}</Text>
             <MyButton onClick={openChecklist}>View Checklist!</MyButton>
           </Section>
         );

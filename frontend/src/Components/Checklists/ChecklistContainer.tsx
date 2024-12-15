@@ -3,6 +3,9 @@ import Section from "../Section";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
 import ProgressColumn from "./ProgressColumn";
+import { useState } from "react";
+import FormInputs from "../Forms/FormInputs";
+import FormSubmitButton from "../Forms/FormSubmitButton";
 
 export type ChecklistType = {
   id: number;
@@ -31,6 +34,14 @@ const ChecklistContainer = ({
     (child) => child.status === "In Progress"
   );
   const doneChildren = children.filter((child) => child.status === "Done");
+
+  const [addTask, setAddTask] = useState(false);
+  const initialState = {
+    name: "",
+    description: "",
+  };
+  const [data, setData] = useState(initialState);
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   return (
     <Section>
@@ -62,12 +73,62 @@ const ChecklistContainer = ({
               checklistId={checklistId}
             />
           </Box>
-          <Box mt={8} display="flex" gap={4}>
-            <MyButton variant="outline">Add a checklist</MyButton>
-            <MyButton variant="outline">Add a checklist</MyButton>
-          </Box>
         </>
       )}
+      <Box mt={8} display="flex" gap={4} flexDirection="column">
+        {addTask ? (
+          <>
+            <FormInputs
+              input={[
+                {
+                  field: "name",
+                  label: "Task Name",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  field: "description",
+                  label: "Task Description",
+                  type: "textarea",
+                  required: false,
+                },
+              ]}
+              data={data}
+              setData={setData}
+              submitClicked={submitClicked}
+            />
+            <FormSubmitButton
+              data={{}}
+              setData={function (value: any): void {
+                throw new Error("Function not implemented.");
+              }}
+              initialState={initialState}
+              setSubmitClicked={setSubmitClicked}
+              input={[
+                {
+                  field: "name",
+                  label: "Task Name",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  field: "description",
+                  label: "Task Description",
+                  type: "text",
+                  required: false,
+                },
+              ]}
+              axiosType={"public"}
+              route={""}
+              message={"Task added!"}
+            />{" "}
+          </>
+        ) : (
+          <MyButton variant="outline" onClick={() => setAddTask(true)}>
+            Add a task
+          </MyButton>
+        )}
+      </Box>
     </Section>
   );
 };
