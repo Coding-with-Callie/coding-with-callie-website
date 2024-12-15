@@ -6,7 +6,7 @@ type Props = {
   onClick: () => void;
 };
 
-const ChildTaskButton = ({ name, onClick }: Props) => {
+const ChecklistButton = ({ name, onClick }: Props) => {
   return (
     <Box mb={2}>
       <MyButton onClick={onClick}>{name}</MyButton>
@@ -14,4 +14,4 @@ const ChildTaskButton = ({ name, onClick }: Props) => {
   );
 };
 
-export default ChildTaskButton;
+export default ChecklistButton;

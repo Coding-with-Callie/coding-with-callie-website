@@ -106,8 +106,15 @@ export class AuthController {
   }
 
   @Get('checklists')
-  async getChecklists(@Request() req, @Query('topLevel') topLevel: boolean) {
-    console.log('topLevel', topLevel);
-    return await this.authService.getChecklists(req.user.sub, topLevel);
+  async getChecklists(
+    @Request() req,
+    @Query('topLevel') topLevel: boolean,
+    @Query('checklistId') checklistId?: number,
+  ) {
+    return await this.authService.getChecklists(
+      req.user.sub,
+      topLevel,
+      checklistId,
+    );
   }
 }

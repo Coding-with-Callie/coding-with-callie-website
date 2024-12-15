@@ -1,26 +1,25 @@
 import { useLoaderData } from "react-router-dom";
-import ChecklistWithChildren, {
-  ChecklistWithChildrenType,
-} from "../Components/Checklists/ChecklistWithChildren";
+import { ChecklistType } from "../Components/Checklists/ChecklistContainer";
+import ChecklistContainer from "../Components/Checklists/ChecklistContainer";
+import MyButton from "../Components/MyButton";
+import Section from "../Components/Section";
 
 const Checklists = () => {
-  const data = useLoaderData() as ChecklistWithChildrenType[];
-
-  console.log("top level data", data);
+  const data = useLoaderData() as ChecklistType[];
+  const isTopLevel = data.every((checklist) => checklist.parentList === null);
 
   return (
     <>
       {data.map((checklist) => {
-        if (checklist.children.length === 0) {
-          return null;
-        }
         return (
-          <ChecklistWithChildren
-            task={checklist}
-            children={checklist.children}
-          />
+          <ChecklistContainer task={checklist} children={checklist.children} />
         );
       })}
+      {isTopLevel && (
+        <Section>
+          <MyButton variant="outline">Add a checklist</MyButton>
+        </Section>
+      )}
     </>
   );
 };

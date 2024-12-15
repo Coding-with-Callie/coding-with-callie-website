@@ -46,7 +46,11 @@ export class AuthService {
     return await this.reviewService.getAllReviews();
   }
 
-  async getChecklists(userId: number, topLevel: boolean) {
-    return await this.checklistService.getChecklists(userId, topLevel);
+  async getChecklists(userId: number, topLevel: boolean, checklistId?: number) {
+    return await this.checklistService.getChecklists(
+      userId,
+      topLevel,
+      checklistId,
+    );
   }
 }

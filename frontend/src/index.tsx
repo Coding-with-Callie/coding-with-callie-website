@@ -94,6 +94,12 @@ const router = createBrowserRouter([
         element: <Checklists />,
         loader: () => Load("checklists?topLevel=true"),
       },
+      {
+        path: "/checklist/:id",
+        element: <Checklists />,
+        loader: ({ params }) =>
+          Load(`checklists?topLevel=false&checklistId=${params.id}`),
+      },
     ],
   },
 ]);

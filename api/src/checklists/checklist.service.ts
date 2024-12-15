@@ -11,14 +11,33 @@ export class ChecklistService {
   ) {}
 
   // Get all checklists from the database for a specific user
-  async getChecklists(userId: number, topLevel: boolean) {
+  async getChecklists(userId: number, topLevel: boolean, checklistId?: number) {
+    if (checklistId) {
+      const checklist = await this.checklistRepository.findOne({
+        where: {
+          id: checklistId,
+          user: {
+            id: userId,
+          },
+        },
+        relations: ['children', 'children.children', 'parentList'],
+      });
+
+      if (!checklist) {
+        return null;
+      }
+
+      return [checklist];
+    }
+
     const checklists = await this.checklistRepository.find({
       where: {
         user: {
           id: userId,
         },
+        ...(checklistId && { parentList: { id: checklistId } }),
       },
-      relations: ['children', 'parentList'],
+      relations: ['children', 'children.children', 'parentList'],
     });
 
     if (topLevel) {

@@ -1,10 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import BodyHeading from "../BodyHeading";
-import ChildTaskButton from "./ChildTaskButton";
 import { useNavigate } from "react-router-dom";
+import LinkToChecklistButton from "./LinkToChecklistButton";
+import { ChecklistType } from "./ChecklistContainer";
 
 type Props = {
-  children: { name: string; id: number }[];
+  children: ChecklistType[];
   columnName: string;
   projectId: number;
 };
@@ -17,11 +18,11 @@ const ProgressColumn = ({ children, columnName, projectId }: Props) => {
       <BodyHeading fontSize={20}>{columnName}</BodyHeading>
       {children.map((child) => {
         return (
-          <ChildTaskButton
+          <LinkToChecklistButton
             key={child.id}
             name={child.name}
             onClick={() => {
-              navigate(`/project/${projectId}/feature/${child.id}`);
+              navigate(`/checklist/${child.id}`);
             }}
           />
         );
