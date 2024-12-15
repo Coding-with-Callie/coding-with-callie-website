@@ -26,7 +26,6 @@ const ProgressColumn = ({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "CHECKLIST_ITEM",
     drop: (item: ChecklistItem) => {
-      console.log("checklistId", checklistId);
       axiosPrivate
         .patch(`/checklists/${checklistId}/${item.id}`, {
           field: "status",

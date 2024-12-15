@@ -5,7 +5,6 @@ import { axiosPrivate, axiosPublic } from "./axios_instances";
 const privateEndpoints = ["profile", "user-details", "checklists", "checklist"];
 
 export const Load = async (endpoint: string) => {
-  console.log("Loading", endpoint);
   // Check if the endpoint requires authentication
   // Disregard the query parameters
   const useAxiosPrivate = privateEndpoints.includes(endpoint.split("/")[0]);

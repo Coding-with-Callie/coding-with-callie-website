@@ -36,8 +36,6 @@ const ChecklistContainer = ({
   );
   const doneChildren = children.filter((child) => child.status === "Done");
 
-  console.log("checklist", checklistId);
-
   const [addTask, setAddTask] = useState(false);
   const initialState = {
     checklistId: checklistId,

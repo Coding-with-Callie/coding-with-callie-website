@@ -124,8 +124,6 @@ export class AuthController {
     @Body('description') description?: string,
     @Body('parentId') parentId?: number,
   ) {
-    console.log('Creating checklist');
-    console.log(checklistId, name, description, parentId);
     return await this.authService.createChecklist(
       req.user.sub,
       checklistId,

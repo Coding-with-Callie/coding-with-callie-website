@@ -111,8 +111,6 @@ const FormSubmitButton = ({
 
     const methodToUse = method === "post" ? "post" : "put";
 
-    console.log("dataToSend", dataToSend);
-
     axiosToUse[methodToUse](route, dataToSend)
       .then((response) => {
         if (updateData) updateData(response.data);
