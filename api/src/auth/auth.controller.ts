@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -107,17 +106,14 @@ export class AuthController {
     );
   }
 
+  @Get('checklist/:id')
+  async getChecklist(@Request() req, @Param('id') id: number) {
+    return await this.authService.getChecklistById(req.user.sub, id);
+  }
+
   @Get('checklists')
-  async getChecklists(
-    @Request() req,
-    @Query('topLevel') topLevel: boolean,
-    @Query('checklistId') checklistId?: number,
-  ) {
-    return await this.authService.getChecklists(
-      req.user.sub,
-      topLevel,
-      checklistId,
-    );
+  async getChecklists(@Request() req) {
+    return await this.authService.getChecklists(req.user.sub);
   }
 
   @Patch('checklists/:checklistId/:itemId')

@@ -2,16 +2,13 @@ import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { showNotification } from "..";
 import { axiosPrivate, axiosPublic } from "./axios_instances";
 
-const privateEndpoints = ["profile", "user-details", "checklists"];
+const privateEndpoints = ["profile", "user-details", "checklists", "checklist"];
 
 export const Load = async (endpoint: string) => {
+  console.log("Loading", endpoint);
   // Check if the endpoint requires authentication
   // Disregard the query parameters
-  const endpointWithoutQuery = endpoint.split("?")[0];
-
-  const useAxiosPrivate = privateEndpoints.includes(
-    endpointWithoutQuery.split("/")[0]
-  );
+  const useAxiosPrivate = privateEndpoints.includes(endpoint.split("/")[0]);
 
   // Use private axios instance if endpoint requires authentication
   try {

@@ -1,32 +1,33 @@
-import { useLoaderData } from "react-router-dom";
-import { ChecklistType } from "../Components/Checklists/ChecklistContainer";
-import ChecklistContainer from "../Components/Checklists/ChecklistContainer";
-import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
-import { useState } from "react";
+import MyButton from "../Components/MyButton";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { ChecklistType } from "../Components/Checklists/ChecklistContainer";
+import BodyHeading from "../Components/BodyHeading";
+import { Text } from "@chakra-ui/react";
 
 const Checklists = () => {
   const data = useLoaderData() as ChecklistType[];
-  const isTopLevel = data.every((checklist) => checklist.parentList === null);
-
-  const [checklists, setChecklists] = useState<ChecklistType[]>(data);
+  const navigate = useNavigate();
 
   return (
     <>
-      {checklists.map((checklist) => {
+      {data.map((checklist) => {
+        const openChecklist = () => {
+          navigate(`/checklist/${checklist.id}`);
+        };
+
         return (
-          <ChecklistContainer
-            task={checklist}
-            children={checklist.children}
-            setChecklists={setChecklists}
-          />
+          <Section>
+            <BodyHeading>{checklist.name}</BodyHeading>
+            <Text>{checklist.description}</Text>
+            <MyButton onClick={openChecklist}>View Checklist!</MyButton>
+          </Section>
         );
       })}
-      {isTopLevel && (
-        <Section>
-          <MyButton variant="outline">Add a checklist</MyButton>
-        </Section>
-      )}
+
+      <Section>
+        <MyButton variant="outline">Add a checklist</MyButton>
+      </Section>
     </>
   );
 };

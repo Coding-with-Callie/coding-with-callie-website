@@ -5,33 +5,35 @@ import LinkToChecklistButton, { ChecklistItem } from "./LinkToChecklistButton";
 import { ChecklistType } from "./ChecklistContainer";
 import { useDrop } from "react-dnd";
 import { axiosPrivate } from "../../helpers/axios_instances";
+import { button } from "../theme";
+import { lightenByPercentage } from "../../helpers/helpers";
 
 type Props = {
   children: ChecklistType[];
   columnName: string;
-  checklistId: number;
-  setChecklists: (checklists: ChecklistType[]) => void;
+  setChecklist: (checklist: ChecklistType) => void;
+  checklistId: number | null;
 };
 
 const ProgressColumn = ({
   children,
   columnName,
+  setChecklist,
   checklistId,
-  setChecklists,
 }: Props) => {
   const navigate = useNavigate();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "CHECKLIST_ITEM",
     drop: (item: ChecklistItem) => {
+      console.log("checklistId", checklistId);
       axiosPrivate
         .patch(`/checklists/${checklistId}/${item.id}`, {
           field: "status",
           value: columnName,
         })
         .then((response) => {
-          setChecklists(response.data);
-          console.log("Updated", response.data);
+          setChecklist(response.data);
         });
     },
     collect: (monitor) => ({
@@ -44,9 +46,11 @@ const ProgressColumn = ({
       ref={drop}
       display="flex"
       flexDirection="column"
+      gap={4}
       p={4}
-      border="1px solid #ccc"
-      backgroundColor={isOver ? "lightblue" : "white"}
+      border={`1px solid ${button}`}
+      borderRadius={4}
+      backgroundColor={isOver ? lightenByPercentage(button, 90) : "white"}
     >
       <BodyHeading fontSize={20}>{columnName}</BodyHeading>
       {children.map((child) => {

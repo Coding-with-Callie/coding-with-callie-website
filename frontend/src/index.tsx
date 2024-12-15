@@ -19,6 +19,7 @@ import {
 } from "./helpers/loader_functions";
 import EditPassword from "./Components/Profile/EditPassword";
 import Checklists from "./Pages/Checklists";
+import Checklist from "./Pages/Checklist";
 
 export const showNotification = (
   message: string,
@@ -92,13 +93,12 @@ const router = createBrowserRouter([
       {
         path: "/checklists",
         element: <Checklists />,
-        loader: () => Load("checklists?topLevel=true"),
+        loader: () => Load("checklists"),
       },
       {
         path: "/checklist/:id",
-        element: <Checklists />,
-        loader: ({ params }) =>
-          Load(`checklists?topLevel=false&checklistId=${params.id}`),
+        element: <Checklist />,
+        loader: ({ params }) => Load(`checklist/${params.id}`),
       },
     ],
   },

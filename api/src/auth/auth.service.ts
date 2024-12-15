@@ -46,12 +46,12 @@ export class AuthService {
     return await this.reviewService.getAllReviews();
   }
 
-  async getChecklists(userId: number, topLevel: boolean, checklistId?: number) {
-    return await this.checklistService.getChecklists(
-      userId,
-      topLevel,
-      checklistId,
-    );
+  async getChecklists(userId: number) {
+    return await this.checklistService.getChecklists(userId);
+  }
+
+  async getChecklistById(userId: number, checklistId: number) {
+    return await this.checklistService.getChecklistById(userId, checklistId);
   }
 
   async updateChecklistField(
@@ -70,10 +70,6 @@ export class AuthService {
     );
 
     // Return the updated checklist
-    return await this.checklistService.getChecklists(
-      userId,
-      false,
-      checklistId,
-    );
+    return await this.checklistService.getChecklistById(userId, checklistId);
   }
 }

@@ -14,12 +14,18 @@ export type ChecklistType = {
 };
 
 type Props = {
-  task: ChecklistType;
+  checklist: ChecklistType;
   children: ChecklistType[];
-  setChecklists: (checklists: ChecklistType[]) => void;
+  setChecklist: (checklist: ChecklistType) => void;
+  checklistId: number;
 };
 
-const ChecklistContainer = ({ task, children, setChecklists }: Props) => {
+const ChecklistContainer = ({
+  checklist,
+  children,
+  setChecklist,
+  checklistId,
+}: Props) => {
   const toDoChildren = children.filter((child) => child.status === "To Do");
   const inProgressChildren = children.filter(
     (child) => child.status === "In Progress"
@@ -28,8 +34,8 @@ const ChecklistContainer = ({ task, children, setChecklists }: Props) => {
 
   return (
     <Section>
-      <BodyHeading>{task.name}</BodyHeading>
-      <Text mb={6}>{task.description}</Text>
+      <BodyHeading>{checklist.name}</BodyHeading>
+      <Text mb={6}>{checklist.description}</Text>
       {children.length > 0 && (
         <>
           <Box
@@ -40,25 +46,25 @@ const ChecklistContainer = ({ task, children, setChecklists }: Props) => {
             <ProgressColumn
               children={toDoChildren}
               columnName="To Do"
-              checklistId={task.id}
-              setChecklists={setChecklists}
+              setChecklist={setChecklist}
+              checklistId={checklistId}
             />
             <ProgressColumn
               children={inProgressChildren}
               columnName="In Progress"
-              checklistId={task.id}
-              setChecklists={setChecklists}
+              setChecklist={setChecklist}
+              checklistId={checklistId}
             />
             <ProgressColumn
               children={doneChildren}
               columnName="Done"
-              checklistId={task.id}
-              setChecklists={setChecklists}
+              setChecklist={setChecklist}
+              checklistId={checklistId}
             />
           </Box>
           <Box mt={8} display="flex" gap={4}>
             <MyButton variant="outline">Add a checklist</MyButton>
-            <MyButton variant="outline">Add a task</MyButton>
+            <MyButton variant="outline">Add a checklist</MyButton>
           </Box>
         </>
       )}

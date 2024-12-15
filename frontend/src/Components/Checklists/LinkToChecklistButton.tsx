@@ -22,9 +22,15 @@ const ChecklistButton = ({ name, id, onClick }: Props) => {
     }),
   }));
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (!isDragging) {
+      onClick();
+    }
+  };
+
   return (
     <Box ref={drag} opacity={isDragging ? 0.5 : 1}>
-      <MyButton onClick={onClick}>{name}</MyButton>
+      <MyButton onClick={handleClick}>{name}</MyButton>
     </Box>
   );
 };

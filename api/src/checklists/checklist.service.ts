@@ -9,42 +9,37 @@ export class ChecklistService {
     @InjectRepository(Checklist)
     private checklistRepository: Repository<Checklist>,
   ) {}
-
-  // Get all checklists from the database for a specific user
-  async getChecklists(userId: number, topLevel: boolean, checklistId?: number) {
-    if (checklistId) {
-      const checklist = await this.checklistRepository.findOne({
-        where: {
-          id: checklistId,
-          user: {
-            id: userId,
-          },
+  // Get checklist by id from the database for a specific user
+  async getChecklistById(userId: number, checklistId: number) {
+    const checklist = await this.checklistRepository.findOne({
+      where: {
+        id: checklistId,
+        user: {
+          id: userId,
         },
-        relations: ['children', 'children.children', 'parentList'],
-      });
+      },
+      relations: ['children', 'children.children', 'parentList'],
+    });
 
-      if (!checklist) {
-        return null;
-      }
-
-      return [checklist];
+    if (!checklist) {
+      return null;
     }
 
+    return checklist;
+  }
+
+  // Get all checklists from the database for a specific user
+  async getChecklists(userId: number) {
     const checklists = await this.checklistRepository.find({
       where: {
         user: {
           id: userId,
         },
-        ...(checklistId && { parentList: { id: checklistId } }),
       },
       relations: ['children', 'children.children', 'parentList'],
     });
 
-    if (topLevel) {
-      return checklists.filter((checklist) => checklist.parentList === null);
-    }
-
-    return checklists;
+    return checklists.filter((checklist) => checklist.parentList === null);
   }
 
   // Add a new checklist to the database
