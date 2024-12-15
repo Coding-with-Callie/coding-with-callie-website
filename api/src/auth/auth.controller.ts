@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -115,6 +117,23 @@ export class AuthController {
       req.user.sub,
       topLevel,
       checklistId,
+    );
+  }
+
+  @Patch('checklists/:checklistId/:itemId')
+  async updateChecklistField(
+    @Request() req,
+    @Body('field') field: string,
+    @Body('value') value: string,
+    @Param('checklistId') checklistId: number,
+    @Param('itemId') itemId: number,
+  ) {
+    return await this.authService.updateChecklistField(
+      req.user.sub,
+      checklistId,
+      itemId,
+      field,
+      value,
     );
   }
 }

@@ -8,6 +8,8 @@ import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { showNotification } from ".";
 import Footer from "./Components/Footer/Footer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export type Context = {
   user: any;
@@ -46,13 +48,15 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Box display="flex" flexDirection="column" minHeight="100vh">
-        <Header user={user} updateUser={updateUser} />
-        <Box flex={1} pb={20} backgroundColor={mainBackground}>
-          <Outlet context={context} />
+      <DndProvider backend={HTML5Backend}>
+        <Box display="flex" flexDirection="column" minHeight="100vh">
+          <Header user={user} updateUser={updateUser} />
+          <Box flex={1} pb={20} backgroundColor={mainBackground}>
+            <Outlet context={context} />
+          </Box>
+          <Footer />
         </Box>
-        <Footer />
-      </Box>
+      </DndProvider>
     </ChakraProvider>
   );
 }

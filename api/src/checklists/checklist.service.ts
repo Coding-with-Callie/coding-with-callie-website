@@ -57,4 +57,29 @@ export class ChecklistService {
     });
     return { message: 'Checklist created' };
   }
+
+  // Update a field on a checklist
+  async updateChecklistField(
+    userId: number,
+    checklistId: number,
+    field: string,
+    value: string,
+  ) {
+    const checklist = await this.checklistRepository.findOne({
+      where: {
+        id: checklistId,
+        user: {
+          id: userId,
+        },
+      },
+    });
+
+    if (!checklist) {
+      return { message: 'Checklist not found' };
+    }
+
+    checklist[field] = value;
+    await this.checklistRepository.save(checklist);
+    return { message: 'Checklist updated' };
+  }
 }

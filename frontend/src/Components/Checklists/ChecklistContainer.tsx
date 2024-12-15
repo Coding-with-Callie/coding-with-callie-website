@@ -10,20 +10,21 @@ export type ChecklistType = {
   description?: string;
   children: ChecklistType[];
   parentList: null | number;
-  status: "To Do" | "In Progress" | "Done!";
+  status: "To Do" | "In Progress" | "Done";
 };
 
 type Props = {
   task: ChecklistType;
   children: ChecklistType[];
+  setChecklists: (checklists: ChecklistType[]) => void;
 };
 
-const ChecklistContainer = ({ task, children }: Props) => {
+const ChecklistContainer = ({ task, children, setChecklists }: Props) => {
   const toDoChildren = children.filter((child) => child.status === "To Do");
   const inProgressChildren = children.filter(
     (child) => child.status === "In Progress"
   );
-  const doneChildren = children.filter((child) => child.status === "Done!");
+  const doneChildren = children.filter((child) => child.status === "Done");
 
   return (
     <Section>
@@ -39,17 +40,20 @@ const ChecklistContainer = ({ task, children }: Props) => {
             <ProgressColumn
               children={toDoChildren}
               columnName="To Do"
-              projectId={task.id}
+              checklistId={task.id}
+              setChecklists={setChecklists}
             />
             <ProgressColumn
               children={inProgressChildren}
               columnName="In Progress"
-              projectId={task.id}
+              checklistId={task.id}
+              setChecklists={setChecklists}
             />
             <ProgressColumn
               children={doneChildren}
               columnName="Done"
-              projectId={task.id}
+              checklistId={task.id}
+              setChecklists={setChecklists}
             />
           </Box>
           <Box mt={8} display="flex" gap={4}>

@@ -53,4 +53,27 @@ export class AuthService {
       checklistId,
     );
   }
+
+  async updateChecklistField(
+    userId: number,
+    checklistId: number,
+    itemId: number,
+    field: string,
+    value: string,
+  ) {
+    // Update the field
+    await this.checklistService.updateChecklistField(
+      userId,
+      itemId,
+      field,
+      value,
+    );
+
+    // Return the updated checklist
+    return await this.checklistService.getChecklists(
+      userId,
+      false,
+      checklistId,
+    );
+  }
 }
