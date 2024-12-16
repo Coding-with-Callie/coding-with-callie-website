@@ -11,6 +11,34 @@ export class ChecklistService {
   ) {}
   // Get checklist by id from the database for a specific user
   async getChecklistById(userId: number, checklistId: number) {
+    // Find the checklist and all of its parent and grandparent checklists
+    // until the top-level checklist is reached
+    const query = `
+      WITH RECURSIVE checklist_path AS (
+        SELECT id, "parentListId", name, description, "userId"
+        FROM checklist
+        WHERE id = $1 AND "userId" = $2
+        UNION ALL
+        SELECT c.id, c."parentListId", c.name, c.description, c."userId"
+        FROM checklist c
+        JOIN checklist_path cp ON cp."parentListId" = c.id
+      )
+      SELECT * FROM checklist_path;
+    `;
+    let breadcrumbs = await this.checklistRepository.query(query, [
+      checklistId,
+      userId,
+    ]);
+
+    breadcrumbs.reverse(); // Reverse the array to get the top-level checklist first
+
+    breadcrumbs = breadcrumbs.map((checklist) => {
+      return {
+        id: checklist.id,
+        name: checklist.name,
+      };
+    });
+
     const checklist = await this.checklistRepository.findOne({
       where: {
         id: checklistId,
@@ -25,7 +53,7 @@ export class ChecklistService {
       return null;
     }
 
-    return checklist;
+    return { ...checklist, breadcrumbs };
   }
 
   // Get all checklists from the database for a specific user

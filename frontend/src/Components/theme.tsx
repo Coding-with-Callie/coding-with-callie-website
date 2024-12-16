@@ -86,24 +86,6 @@ const theme = extendTheme(
     fonts: {
       heading: `'Pacifico', cursive`,
     },
-    layerStyles: {
-      boxButton: {
-        border: "1px solid #3e7aa6",
-        borderRadius: "md",
-        backgroundColor: "white",
-        boxShadow: "md",
-        _hover: { cursor: "pointer", transform: "scale(1.005)" },
-        _active: { transform: "scale(1)" },
-      },
-      accordionButton: {
-        backgroundColor: "rgb(69, 68, 106, 0.75)",
-        borderTopRadius: "md",
-      },
-      accordionPanel: {
-        backgroundColor: "white",
-        borderBottomRadius: "md",
-      },
-    },
   }
 );
 

@@ -15,6 +15,7 @@ export type ChecklistType = {
   children: ChecklistType[];
   parentList: null | number;
   status: "To Do" | "In Progress" | "Done";
+  breadcrumbs: { id: number; name: string }[];
 };
 
 type Props = {
