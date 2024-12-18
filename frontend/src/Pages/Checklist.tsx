@@ -14,8 +14,6 @@ const Checklist = () => {
     setChecklist(data); // Update state when loader data changes
   }, [data]);
 
-  console.log("checklist", checklist);
-
   return (
     <>
       <Section>

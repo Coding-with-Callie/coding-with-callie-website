@@ -25,11 +25,12 @@ const ProgressColumn = ({
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "CHECKLIST_ITEM",
-    drop: (item: ChecklistItem) => {
+    drop: (checklist: ChecklistItem) => {
       axiosPrivate
-        .patch(`/checklists/${checklistId}/${item.id}`, {
+        .patch(`/checklists/${checklist.id}`, {
           field: "status",
           value: columnName,
+          parentListId: checklistId,
         })
         .then((response) => {
           setChecklist(response.data);

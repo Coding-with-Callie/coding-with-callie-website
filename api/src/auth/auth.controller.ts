@@ -57,11 +57,8 @@ export class AuthController {
   }
 
   @Post('change-account-detail')
-  changeAccountDetail(
-    @Body() detail: { [key: string]: string },
-    @Request() req,
-  ) {
-    return this.authService.changeAccountDetail(
+  changeUserDetail(@Body() detail: { [key: string]: string }, @Request() req) {
+    return this.authService.changeUserDetail(
       req.user.sub,
       Object.keys(detail)[0],
       detail[Object.keys(detail)[0]],
@@ -133,18 +130,27 @@ export class AuthController {
     );
   }
 
-  @Patch('checklists/:checklistId/:itemId')
+  @Patch('checklists/:checklistId')
   async updateChecklistField(
     @Request() req,
     @Body('field') field: string,
     @Body('value') value: string,
+    @Body('parentListId') parentListId: number,
     @Param('checklistId') checklistId: number,
-    @Param('itemId') itemId: number,
   ) {
+    console.log(
+      'updateChecklist',
+      req.user.sub,
+      parentListId,
+      checklistId,
+      field,
+      value,
+    );
+
     return await this.authService.updateChecklistField(
       req.user.sub,
+      parentListId,
       checklistId,
-      itemId,
       field,
       value,
     );

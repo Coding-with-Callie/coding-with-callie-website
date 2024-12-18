@@ -11,13 +11,30 @@ import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
+import BodyHeading from "../BodyHeading";
 
 type Props = {
   field: string;
   value: string;
+  route?: string;
+  method?: "post" | "patch";
+  updateData?: (newData: any) => void;
+  isHeading?: boolean;
+  showLabel?: boolean;
 };
 
-const EditableText = ({ field, value }: Props) => {
+const EditableText = ({
+  field,
+  value,
+  route = "/change-account-detail",
+  method = "post",
+  updateData,
+  isHeading = false,
+  showLabel = true,
+}: Props) => {
+  console.log("route", route);
+  console.log("method", method);
+
   const { updateUser } = useOutletContext() as Context;
   const initialState = { [field.toLowerCase()]: value };
 
@@ -43,10 +60,10 @@ const EditableText = ({ field, value }: Props) => {
       mb={2}
       alignItems="center"
     >
-      {isLargerThan750 && <Text>{field}: </Text>}
+      {isLargerThan750 && showLabel && <Text>{field}: </Text>}
       <Box
         display="flex"
-        w={isLargerThan750 ? "70%" : "100%"}
+        w={isLargerThan750 && showLabel ? "70%" : "100%"}
         alignItems="center"
       >
         {edit ? (
@@ -58,6 +75,10 @@ const EditableText = ({ field, value }: Props) => {
               submitClicked={submitClicked}
             />
           </FormControl>
+        ) : isHeading ? (
+          <Box flex={1}>
+            <BodyHeading>{value}</BodyHeading>
+          </Box>
         ) : (
           <Text flex={1}>{value}</Text>
         )}
@@ -68,10 +89,11 @@ const EditableText = ({ field, value }: Props) => {
             setSubmitClicked={setSubmitClicked}
             input={input}
             axiosType={"private"}
-            route={"/change-account-detail"}
+            method={method}
+            route={route}
             message={"Account details updated!"}
             setEdit={setEdit}
-            updateData={updateUser}
+            updateData={updateData || updateUser}
             initialState={initialState}
             resetInitialState={false}
           />

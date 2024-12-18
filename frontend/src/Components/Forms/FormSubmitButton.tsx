@@ -25,7 +25,7 @@ type Props = {
   updateData?: React.Dispatch<React.SetStateAction<any>>;
   message: string;
   setEdit?: React.Dispatch<React.SetStateAction<boolean>>;
-  method?: "post" | "put";
+  method?: "post" | "put" | "patch";
   resetInitialState?: boolean;
 };
 
@@ -109,7 +109,9 @@ const FormSubmitButton = ({
       dataToSend = createFormData(data);
     }
 
-    const methodToUse = method === "post" ? "post" : "put";
+    console.log("dataToSend", dataToSend);
+
+    const methodToUse = method || "put";
 
     axiosToUse[methodToUse](route, dataToSend)
       .then((response) => {

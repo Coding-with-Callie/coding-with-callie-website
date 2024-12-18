@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Editable, Text } from "@chakra-ui/react";
 import Section from "../Section";
 import BodyHeading from "../BodyHeading";
 import MyButton from "../MyButton";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
 import { taskFormData } from "../../helpers/forms";
+import EditableText from "../Profile/EditableText";
 
 export type ChecklistType = {
   id: number;
@@ -49,7 +50,15 @@ const ChecklistContainer = ({
 
   return (
     <Section>
-      <BodyHeading>{checklist.name}</BodyHeading>
+      <EditableText
+        field="name"
+        value={checklist.name}
+        route={`/checklists/${checklistId}`}
+        method="patch"
+        updateData={setChecklist}
+        isHeading={true}
+        showLabel={false}
+      />
       <Text mb={6}>{checklist.description}</Text>
       {children.length > 0 && (
         <>

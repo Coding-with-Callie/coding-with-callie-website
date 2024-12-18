@@ -17,7 +17,7 @@ export class AuthService {
     return await this.usersService.getFrontendFriendlyUser(id);
   }
 
-  async changeAccountDetail(id: number, field: string, value: string) {
+  async changeUserDetail(id: number, field: string, value: string) {
     return await this.usersService.changeAccountDetail(id, field, value);
   }
 
@@ -75,20 +75,20 @@ export class AuthService {
 
   async updateChecklistField(
     userId: number,
+    parentListId: number,
     checklistId: number,
-    itemId: number,
     field: string,
     value: string,
   ) {
     // Update the field
     await this.checklistService.updateChecklistField(
       userId,
-      itemId,
+      checklistId,
       field,
       value,
     );
 
     // Return the updated checklist
-    return await this.checklistService.getChecklistById(userId, checklistId);
+    return await this.checklistService.getChecklistById(userId, parentListId);
   }
 }
