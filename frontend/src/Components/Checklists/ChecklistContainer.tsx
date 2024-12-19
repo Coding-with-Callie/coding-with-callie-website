@@ -1,13 +1,6 @@
-import { Box, Editable, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import Section from "../Section";
-import BodyHeading from "../BodyHeading";
-import MyButton from "../MyButton";
 import ProgressColumn from "./ProgressColumn";
-import { useState } from "react";
-import FormInputs from "../Forms/FormInputs";
-import FormSubmitButton from "../Forms/FormSubmitButton";
-import { taskFormData } from "../../helpers/forms";
-import EditableText from "../Profile/EditableText";
 import CreateChecklistForm from "./CreateChecklistForm";
 
 export type ChecklistType = {
