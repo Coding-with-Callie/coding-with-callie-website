@@ -4,14 +4,18 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { ChecklistType } from "../Components/Checklists/ChecklistContainer";
 import BodyHeading from "../Components/BodyHeading";
 import { Text } from "@chakra-ui/react";
+import CreateChecklistForm from "../Components/Checklists/CreateChecklistForm";
+import { useState } from "react";
 
 const Checklists = () => {
   const data = useLoaderData() as ChecklistType[];
+  const [checklists, setChecklists] = useState(data);
+
   const navigate = useNavigate();
 
   return (
     <>
-      {data.map((checklist) => {
+      {checklists.map((checklist) => {
         const openChecklist = () => {
           navigate(`/checklist/${checklist.id}`);
         };
@@ -26,7 +30,7 @@ const Checklists = () => {
       })}
 
       <Section>
-        <MyButton variant="outline">Add a checklist</MyButton>
+        <CreateChecklistForm setChecklist={setChecklists} parentId={null} />
       </Section>
     </>
   );

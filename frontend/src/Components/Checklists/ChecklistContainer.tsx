@@ -8,13 +8,14 @@ import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
 import { taskFormData } from "../../helpers/forms";
 import EditableText from "../Profile/EditableText";
+import CreateChecklistForm from "./CreateChecklistForm";
 
 export type ChecklistType = {
   id: number;
   name: string;
   description?: string;
   children: ChecklistType[];
-  parentList: null | number;
+  parentList: null | ChecklistType;
   status: "To Do" | "In Progress" | "Done";
   breadcrumbs: { id: number; name: string }[];
 };
@@ -24,6 +25,7 @@ type Props = {
   children: ChecklistType[];
   setChecklist: (checklist: ChecklistType) => void;
   checklistId: number;
+  parentId: null | number;
 };
 
 const ChecklistContainer = ({
@@ -31,6 +33,7 @@ const ChecklistContainer = ({
   children,
   setChecklist,
   checklistId,
+  parentId,
 }: Props) => {
   const toDoChildren = children.filter((child) => child.status === "To Do");
   const inProgressChildren = children.filter(
@@ -38,19 +41,9 @@ const ChecklistContainer = ({
   );
   const doneChildren = children.filter((child) => child.status === "Done");
 
-  const [addTask, setAddTask] = useState(false);
-  const initialState = {
-    checklistId: checklistId,
-    name: "",
-    description: "",
-    parentId: checklistId,
-  };
-  const [data, setData] = useState(initialState);
-  const [submitClicked, setSubmitClicked] = useState(false);
-
   return (
     <Section>
-      <EditableText
+      {/* <EditableText
         field="name"
         value={checklist.name}
         route={`/checklists/${checklistId}`}
@@ -58,7 +51,12 @@ const ChecklistContainer = ({
         updateData={setChecklist}
         isHeading={true}
         showLabel={false}
-      />
+        initialState={{
+          ...initialState,
+          name: checklist.name,
+          description: checklist.description,
+        }}
+      /> */}
       <Text mb={6}>{checklist.description}</Text>
       {children.length > 0 && (
         <>
@@ -88,34 +86,7 @@ const ChecklistContainer = ({
           </Box>
         </>
       )}
-      <Box mt={8} display="flex" gap={4} flexDirection="column">
-        {addTask ? (
-          <>
-            <FormInputs
-              input={taskFormData.input}
-              data={data}
-              setData={setData}
-              submitClicked={submitClicked}
-            />
-            <FormSubmitButton
-              data={data}
-              setData={setData}
-              initialState={initialState}
-              setSubmitClicked={setSubmitClicked}
-              input={taskFormData.input}
-              axiosType={"private"}
-              route={"/checklists"}
-              message={"Task added!"}
-              setEdit={setAddTask}
-              updateData={setChecklist}
-            />
-          </>
-        ) : (
-          <MyButton variant="outline" onClick={() => setAddTask(true)}>
-            Add a task
-          </MyButton>
-        )}
-      </Box>
+      <CreateChecklistForm setChecklist={setChecklist} parentId={checklistId} />
     </Section>
   );
 };

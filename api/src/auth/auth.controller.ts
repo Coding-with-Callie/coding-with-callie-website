@@ -116,14 +116,12 @@ export class AuthController {
   @Post('checklists')
   async createChecklist(
     @Request() req,
-    @Body('checklistId') checklistId: number,
     @Body('name') name: string,
     @Body('description') description?: string,
     @Body('parentId') parentId?: number,
   ) {
     return await this.authService.createChecklist(
       req.user.sub,
-      checklistId,
       name,
       description,
       parentId,
@@ -138,15 +136,6 @@ export class AuthController {
     @Body('parentListId') parentListId: number,
     @Param('checklistId') checklistId: number,
   ) {
-    console.log(
-      'updateChecklist',
-      req.user.sub,
-      parentListId,
-      checklistId,
-      field,
-      value,
-    );
-
     return await this.authService.updateChecklistField(
       req.user.sub,
       parentListId,

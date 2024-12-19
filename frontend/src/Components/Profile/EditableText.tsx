@@ -21,6 +21,7 @@ type Props = {
   updateData?: (newData: any) => void;
   isHeading?: boolean;
   showLabel?: boolean;
+  initialState?: { [key: string]: any };
 };
 
 const EditableText = ({
@@ -31,12 +32,10 @@ const EditableText = ({
   updateData,
   isHeading = false,
   showLabel = true,
+  initialState,
 }: Props) => {
-  console.log("route", route);
-  console.log("method", method);
-
   const { updateUser } = useOutletContext() as Context;
-  const initialState = { [field.toLowerCase()]: value };
+  if (!initialState) initialState = { [field.toLowerCase()]: value };
 
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState(initialState);

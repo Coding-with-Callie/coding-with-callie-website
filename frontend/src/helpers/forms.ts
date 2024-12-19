@@ -285,3 +285,21 @@ export const taskFormData: CustomFormData = {
     },
   ],
 };
+
+export const checklistFormData: CustomFormData = {
+  formHeading: "",
+  input: [
+    {
+      field: "name",
+      label: "Checklist Name",
+      type: "text",
+      required: true,
+    },
+    {
+      field: "description",
+      label: "Checklist Description",
+      type: "textarea",
+      required: false,
+    },
+  ],
+};
