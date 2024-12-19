@@ -109,6 +109,8 @@ const FormSubmitButton = ({
       dataToSend = createFormData(data);
     }
 
+    console.log("dataToSend", dataToSend);
+
     const methodToUse = method || "put";
 
     axiosToUse[methodToUse](route, dataToSend)

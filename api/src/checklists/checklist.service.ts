@@ -104,9 +104,14 @@ export class ChecklistService {
       },
     });
 
+    console.log('checklist', checklist);
+
     if (!checklist) {
       return { message: 'Checklist not found' };
     }
+
+    console.log('field', field);
+    console.log('value', value);
 
     checklist[field] = value;
     await this.checklistRepository.save(checklist);

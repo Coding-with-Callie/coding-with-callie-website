@@ -35,7 +35,7 @@ const EditableText = ({
   initialState,
 }: Props) => {
   const { updateUser } = useOutletContext() as Context;
-  if (!initialState) initialState = { [field.toLowerCase()]: value };
+  initialState = { ...initialState, [field.toLowerCase()]: value };
 
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState(initialState);
@@ -62,7 +62,7 @@ const EditableText = ({
       {isLargerThan750 && showLabel && <Text>{field}: </Text>}
       <Box
         display="flex"
-        w={isLargerThan750 && showLabel ? "70%" : "100%"}
+        // w={isLargerThan750 && showLabel ? "70%" : "100%"}
         alignItems="center"
       >
         {edit ? (
@@ -75,13 +75,29 @@ const EditableText = ({
             />
           </FormControl>
         ) : isHeading ? (
-          <Box flex={1}>
+          <Box
+            flex={1}
+            onClick={() => {
+              setEdit(!edit);
+            }}
+            _hover={{ cursor: "pointer" }}
+            w="fit-content"
+            border="1px"
+          >
             <BodyHeading>{value}</BodyHeading>
           </Box>
         ) : (
-          <Text flex={1}>{value}</Text>
+          <Text
+            flex={1}
+            onClick={() => {
+              setEdit(!edit);
+            }}
+            _hover={{ cursor: "pointer" }}
+          >
+            {value}
+          </Text>
         )}
-        {edit ? (
+        {edit && (
           <FormSubmitButton
             data={data}
             setData={setData}
@@ -95,14 +111,6 @@ const EditableText = ({
             updateData={updateData || updateUser}
             initialState={initialState}
             resetInitialState={false}
-          />
-        ) : (
-          <IconButton
-            aria-label="edit"
-            icon={<EditIcon />}
-            onClick={() => {
-              setEdit(!edit);
-            }}
           />
         )}
       </Box>

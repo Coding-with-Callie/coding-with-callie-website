@@ -2,6 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import Section from "../Section";
 import ProgressColumn from "./ProgressColumn";
 import CreateChecklistForm from "./CreateChecklistForm";
+import EditableText from "../Profile/EditableText";
 
 export type ChecklistType = {
   id: number;
@@ -34,9 +35,16 @@ const ChecklistContainer = ({
   );
   const doneChildren = children.filter((child) => child.status === "Done");
 
+  const initialState = {
+    name: checklist.name,
+    description: checklist.description,
+    parentId: parentId,
+    checklistId: checklistId,
+  };
+
   return (
     <Section>
-      {/* <EditableText
+      <EditableText
         field="name"
         value={checklist.name}
         route={`/checklists/${checklistId}`}
@@ -44,12 +52,8 @@ const ChecklistContainer = ({
         updateData={setChecklist}
         isHeading={true}
         showLabel={false}
-        initialState={{
-          ...initialState,
-          name: checklist.name,
-          description: checklist.description,
-        }}
-      /> */}
+        initialState={initialState}
+      />
       <Text mb={6}>{checklist.description}</Text>
       {children.length > 0 && (
         <>

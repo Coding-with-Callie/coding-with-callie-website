@@ -91,7 +91,11 @@ export class AuthService {
       value,
     );
 
+    // Return the updated parent checklist
+    if (parentListId) {
+      return await this.checklistService.getChecklistById(userId, parentListId);
+    }
     // Return the updated checklist
-    return await this.checklistService.getChecklistById(userId, parentListId);
+    return await this.checklistService.getChecklistById(userId, checklistId);
   }
 }

@@ -28,9 +28,8 @@ const ProgressColumn = ({
     drop: (checklist: ChecklistItem) => {
       axiosPrivate
         .patch(`/checklists/${checklist.id}`, {
-          field: "status",
-          value: columnName,
-          parentListId: checklistId,
+          status: columnName,
+          parentId: checklistId,
         })
         .then((response) => {
           setChecklist(response.data);

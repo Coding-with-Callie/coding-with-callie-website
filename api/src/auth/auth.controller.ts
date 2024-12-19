@@ -131,17 +131,21 @@ export class AuthController {
   @Patch('checklists/:checklistId')
   async updateChecklistField(
     @Request() req,
-    @Body('field') field: string,
-    @Body('value') value: string,
-    @Body('parentListId') parentListId: number,
+    @Body() detail: { [key: string]: string },
+    @Body('parentId') parentId: number,
     @Param('checklistId') checklistId: number,
   ) {
+    console.log(detail);
+
+    console.log(Object.keys(detail)[0]);
+    console.log(detail[Object.keys(detail)[0]]);
+
     return await this.authService.updateChecklistField(
       req.user.sub,
-      parentListId,
+      parentId,
       checklistId,
-      field,
-      value,
+      Object.keys(detail)[0],
+      detail[Object.keys(detail)[0]],
     );
   }
 }
