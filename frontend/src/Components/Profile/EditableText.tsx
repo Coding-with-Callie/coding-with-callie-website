@@ -1,11 +1,4 @@
-import { EditIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  FormControl,
-  IconButton,
-  Text,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, FormControl, Text, useMediaQuery } from "@chakra-ui/react";
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import FormSubmitButton from "../Forms/FormSubmitButton";
@@ -14,6 +7,7 @@ import { Context } from "../../App";
 import BodyHeading from "../BodyHeading";
 
 type Props = {
+  inputType?: string;
   field: string;
   value: string;
   route?: string;
@@ -25,6 +19,7 @@ type Props = {
 };
 
 const EditableText = ({
+  inputType,
   field,
   value,
   route = "/change-account-detail",
@@ -45,10 +40,10 @@ const EditableText = ({
 
   const input = [
     {
-      type: "text",
+      type: inputType || "text",
       label: "",
       field: field.toLowerCase(),
-      required: true,
+      required: inputType === "textarea" ? false : true,
     },
   ];
 
@@ -62,8 +57,8 @@ const EditableText = ({
       {isLargerThan750 && showLabel && <Text>{field}: </Text>}
       <Box
         display="flex"
-        // w={isLargerThan750 && showLabel ? "70%" : "100%"}
-        alignItems="center"
+        w={isLargerThan750 && showLabel ? "70%" : "100%"}
+        alignItems={inputType === "textarea" ? "top" : "center"}
       >
         {edit ? (
           <FormControl flex={1} mr={2}>
@@ -82,7 +77,6 @@ const EditableText = ({
             }}
             _hover={{ cursor: "pointer" }}
             w="fit-content"
-            border="1px"
           >
             <BodyHeading>{value}</BodyHeading>
           </Box>

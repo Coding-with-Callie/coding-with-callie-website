@@ -135,11 +135,6 @@ export class AuthController {
     @Body('parentId') parentId: number,
     @Param('checklistId') checklistId: number,
   ) {
-    console.log(detail);
-
-    console.log(Object.keys(detail)[0]);
-    console.log(detail[Object.keys(detail)[0]]);
-
     return await this.authService.updateChecklistField(
       req.user.sub,
       parentId,

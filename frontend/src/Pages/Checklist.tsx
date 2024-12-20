@@ -47,7 +47,6 @@ const Checklist = () => {
         key={checklist.id}
         setChecklist={setChecklist}
         checklistId={checklist.id}
-        parentId={checklist?.parentList?.id || null}
       />
     </>
   );

@@ -28,7 +28,7 @@ const TextAreaInput = ({
 
   return (
     <Box>
-      <FormLabel>{label}</FormLabel>
+      {label !== "" && <FormLabel>{label}</FormLabel>}
       <Textarea
         variant="filled"
         onChange={onChange}

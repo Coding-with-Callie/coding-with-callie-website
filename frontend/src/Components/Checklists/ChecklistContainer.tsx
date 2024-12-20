@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Section from "../Section";
 import ProgressColumn from "./ProgressColumn";
 import CreateChecklistForm from "./CreateChecklistForm";
@@ -9,7 +9,6 @@ export type ChecklistType = {
   name: string;
   description?: string;
   children: ChecklistType[];
-  parentList: null | ChecklistType;
   status: "To Do" | "In Progress" | "Done";
   breadcrumbs: { id: number; name: string }[];
 };
@@ -19,7 +18,6 @@ type Props = {
   children: ChecklistType[];
   setChecklist: (checklist: ChecklistType) => void;
   checklistId: number;
-  parentId: null | number;
 };
 
 const ChecklistContainer = ({
@@ -27,7 +25,6 @@ const ChecklistContainer = ({
   children,
   setChecklist,
   checklistId,
-  parentId,
 }: Props) => {
   const toDoChildren = children.filter((child) => child.status === "To Do");
   const inProgressChildren = children.filter(
@@ -35,11 +32,12 @@ const ChecklistContainer = ({
   );
   const doneChildren = children.filter((child) => child.status === "Done");
 
-  const initialState = {
+  const initialStateName = {
     name: checklist.name,
+  };
+
+  const initialStateDescription = {
     description: checklist.description,
-    parentId: parentId,
-    checklistId: checklistId,
   };
 
   return (
@@ -52,9 +50,19 @@ const ChecklistContainer = ({
         updateData={setChecklist}
         isHeading={true}
         showLabel={false}
-        initialState={initialState}
+        initialState={initialStateName}
       />
-      <Text mb={6}>{checklist.description}</Text>
+      <EditableText
+        inputType="textarea"
+        field="description"
+        value={checklist.description || "Add a more detailed description..."}
+        route={`/checklists/${checklistId}`}
+        method="patch"
+        updateData={setChecklist}
+        isHeading={false}
+        showLabel={false}
+        initialState={initialStateDescription}
+      />
       {children.length > 0 && (
         <>
           <Box
