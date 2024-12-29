@@ -21,28 +21,28 @@ jobs:
         run: docker tag api registry.digitalocean.com/cwc/api # when using a specific version - ${{github.event.inputs.version }}
       - name: Push image to DO Container Registry
         run: docker push registry.digitalocean.com/cwc/api # when using a specific version - ${{github.event.inputs.version }}
-  # build-frontend:
-  #   name: Build and Push - Frontend
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Build image
-  #       run: docker build -t frontend ./frontend
-  #     - name: Install doctl
-  #       uses: digitalocean/action-doctl@v2
-  #       with:
-  #         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-  #     - name: Log in to DO Container Registry
-  #       run: doctl registry login --expiry-seconds 600
-  #     - name: Tag image
-  #       run: docker tag frontend registry.digitalocean.com/cwc/frontend # when using a specific version - ${{github.event.inputs.version }}
-  #     - name: Push image to DO Container Registry
-  #       run: docker push registry.digitalocean.com/cwc/frontend # when using a specific version - ${{github.event.inputs.version }}
+  build-frontend:
+    name: Build and Push - Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build image
+        run: docker build -t frontend ./frontend
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Log in to DO Container Registry
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag image
+        run: docker tag frontend registry.digitalocean.com/cwc/frontend # when using a specific version - ${{github.event.inputs.version }}
+      - name: Push image to DO Container Registry
+        run: docker push registry.digitalocean.com/cwc/frontend # when using a specific version - ${{github.event.inputs.version }}
   deploy:
     name: Deploy to DigitalOcean droplet
     runs-on: ubuntu-latest
-    needs: [build-api]
+    needs: [build-api, build-frontend]
     steps:
       - name: Execute SSH commands
         uses: appleboy/ssh-action@v1.1.0
