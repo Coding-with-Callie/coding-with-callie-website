@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { ReviewService } from '../review/review.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
 import { ReviewDTO } from './auth.controller';
+import { ChecklistService } from '../checklists/checklist.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -23,6 +24,12 @@ describe('AuthService', () => {
     uploadFile: jest.fn(),
   };
 
+  const mockChecklistService = {
+    getChecklists: jest.fn(),
+    getChecklistById: jest.fn(),
+    createChecklist: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,6 +37,7 @@ describe('AuthService', () => {
         { provide: UsersService, useValue: mockUsersService },
         { provide: ReviewService, useValue: mockReviewService },
         { provide: FileUploadService, useValue: mockFileUploadService },
+        { provide: ChecklistService, useValue: mockChecklistService },
       ],
     }).compile();
 
@@ -76,7 +84,7 @@ describe('AuthService', () => {
 
     mockUsersService.changeAccountDetail.mockResolvedValue(returnedUser);
 
-    const result = await service.changeAccountDetail(id, field, value);
+    const result = await service.changeUserDetail(id, field, value);
     expect(result).toEqual(returnedUser);
     expect(mockUsersService.changeAccountDetail).toHaveBeenCalledTimes(1);
     expect(mockUsersService.changeAccountDetail).toHaveBeenCalledWith(
