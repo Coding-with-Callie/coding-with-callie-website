@@ -2,9 +2,9 @@ import { Text } from "@chakra-ui/react";
 
 type Props = {
   children: string;
-  textAlignCenter?: boolean;
+  textAlign?: "left" | "center";
   maxWidthSize?: string;
-  flexWeight?: number;
+  flex?: number;
   margin?: boolean;
   bold?: boolean;
   italic?: boolean;
@@ -12,9 +12,9 @@ type Props = {
 
 const Paragraph = ({
   children,
-  textAlignCenter,
+  textAlign = "left",
   maxWidthSize,
-  flexWeight,
+  flex,
   margin = true,
   bold,
   italic,
@@ -23,9 +23,9 @@ const Paragraph = ({
     <Text
       color="#45446A"
       mb={margin ? 4 : 0}
-      textAlign={textAlignCenter ? "center" : "left"}
+      textAlign={textAlign}
       maxW={maxWidthSize}
-      flex={flexWeight}
+      flex={flex}
       fontWeight={bold ? "600" : "500"}
       fontStyle={italic ? "italic" : "normal"}
     >

@@ -1,22 +1,22 @@
 import { Box, Input } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { host, showNotification } from "../..";
+import { showNotification } from "../..";
 import { Context } from "../../App";
 import MyButton from "../MyButton";
+import { axiosPrivate } from "../../helpers/axios_instances";
 
 type Props = {
   field: string;
+  value: string;
   onClose: () => void;
 };
 
-const EditModal = ({ field, onClose }: Props) => {
-  const context: Context = useOutletContext();
-  const userId = context.user.id;
+const EditModal = ({ field, value, onClose }: Props) => {
+  const { user, updateUser } = useOutletContext() as Context;
   const navigate = useNavigate();
 
-  const [newValue, setNewValue] = useState("");
+  const [newValue, setNewValue] = useState(value);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [match, setMatch] = useState("");
 
@@ -29,42 +29,34 @@ const EditModal = ({ field, onClose }: Props) => {
   };
 
   const handleSubmit = (field: string) => {
-    if (field === "password") {
-      if (newValue !== match) {
-        setSubmitClicked(true);
-        return;
-      }
-    }
-    if (newValue !== "" && newValue) {
-      const token = localStorage.getItem("token");
-      axios
-        .post(
-          `${host}/api/auth/change-account-detail`,
-          { id: userId, value: newValue, field: field },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then((response) => {
-          showNotification(`Your account ${field} has been changed`, "success");
-          context.updateUser(response.data);
-        })
-        .catch((error) => {
-          if (error.response.data.message === "Unauthorized") {
-            showNotification(
-              "It looks like your session has expired. Please log in again to view Coding with Callie resources!",
-              "error"
-            );
-            navigate("/log-in");
-          } else {
-            let message: string = error.response.data.message[0];
-            showNotification(`${message}`, "error");
-          }
-        });
-      onClose();
-    } else {
+    if ((field === "password" && newValue !== match) || newValue === "") {
       setSubmitClicked(true);
+      return;
     }
+
+    if (newValue === value) {
+      onClose();
+      return;
+    }
+
+    axiosPrivate
+      .post("/change-account-detail", {
+        id: user.id,
+        value: newValue,
+        field: field,
+      })
+      .then((response) => {
+        showNotification(`Your account ${field} has been changed`, "success");
+        updateUser(response.data);
+      })
+      .catch((error) => {
+        showNotification(error.message, "error");
+
+        if (error.path) {
+          navigate(error.path);
+        }
+      });
+    onClose();
   };
 
   return (
@@ -72,16 +64,15 @@ const EditModal = ({ field, onClose }: Props) => {
       <Input
         type={field === "password" ? "password" : "text"}
         variant="filled"
-        layerStyle="input"
         placeholder={field === "password" ? "Enter new password" : ""}
         onChange={handleChange}
         isInvalid={submitClicked && newValue === ""}
+        value={newValue}
       />
       {field === "password" ? (
         <Input
           type="password"
           variant="filled"
-          layerStyle="input"
           placeholder="Retype new password"
           onChange={handleChangeMatch}
           isInvalid={submitClicked && match === ""}

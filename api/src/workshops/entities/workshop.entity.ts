@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Alumni } from '../../alumni/entities/alumni.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Workshop {
@@ -26,7 +25,4 @@ export class Workshop {
 
   @Column()
   price: number;
-
-  @OneToMany(() => Alumni, (alumni) => alumni.workshop)
-  alumni: Alumni[];
 }

@@ -11,22 +11,15 @@ import Profile from "./Pages/Profile";
 import Reviews from "./Pages/Reviews";
 import GuestSpeakers from "./Pages/GuestSpeakers";
 import Paragraph from "./Components/Paragraph";
-import Projects from "./Pages/Projects";
-import Project from "./Pages/Project";
 import Jobs from "./Pages/Jobs";
-import GuestSpeakerDetails from "./Pages/GuestSpeakerProfile";
 import {
-  BasicLoader,
-  AppLoader,
-  SignUpLoader,
-  LoginLoader,
-  ProfileLoader,
+  Load,
   ProfileResetLoader,
-  UserProjectsLoader,
-  ProjectLoader,
-  CombinedLoader,
-  ProfileLoaderNoToast,
+  RedirectLoggedInUser,
 } from "./helpers/loader_functions";
+import EditPassword from "./Components/Profile/EditPassword";
+import Checklists from "./Pages/Checklists";
+import Checklist from "./Pages/Checklist";
 
 export const showNotification = (
   message: string,
@@ -35,20 +28,15 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-export const host =
-  process.env.REACT_APP_ENV === "production"
-    ? `https://${window.location.host}`
-    : `http://localhost:3001`;
-
 const router = createBrowserRouter([
   {
     element: <App />,
-    loader: AppLoader,
+    loader: () => Load("user-details"),
     children: [
       {
         path: "/",
         element: <Home />,
-        loader: () => BasicLoader("resources"),
+        loader: () => Load("resources"),
       },
       {
         path: "/*",
@@ -57,21 +45,21 @@ const router = createBrowserRouter([
       {
         path: "/workshops",
         element: <Workshops />,
-        loader: () => BasicLoader("workshops"),
+        loader: () => Load("workshops"),
       },
       {
         path: "/reviews",
         element: <Reviews />,
-        loader: () => BasicLoader("reviews"),
+        loader: () => Load("reviews"),
       },
       {
-        path: "/contact-callie",
+        path: "/contact",
         element: <ContactCallie />,
       },
       {
         path: "/guest-speakers",
         element: <GuestSpeakers />,
-        loader: () => BasicLoader("auth/speakers"),
+        loader: () => Load("speakers"),
       },
       {
         path: "/jobs",
@@ -80,17 +68,22 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
-        loader: SignUpLoader,
+        loader: RedirectLoggedInUser,
       },
       {
         path: "/log-in",
         element: <LogIn />,
-        loader: LoginLoader,
+        loader: RedirectLoggedInUser,
       },
       {
         path: "/profile",
         element: <Profile />,
-        loader: ProfileLoader,
+        loader: () => Load("profile"),
+      },
+      {
+        path: "/change-password",
+        element: <EditPassword />,
+        loader: () => Load("profile"),
       },
       {
         path: "/profile/:token/:id",
@@ -98,19 +91,14 @@ const router = createBrowserRouter([
         loader: ProfileResetLoader,
       },
       {
-        path: "/project/:id",
-        element: <Project />,
-        loader: ProjectLoader,
+        path: "/checklists",
+        element: <Checklists />,
+        loader: () => Load("checklists"),
       },
       {
-        path: "/projects",
-        element: <Projects />,
-        loader: UserProjectsLoader,
-      },
-      {
-        path: "/guest-speaker/:id",
-        element: <GuestSpeakerDetails />,
-        loader: () => CombinedLoader("auth/speakers", ProfileLoaderNoToast),
+        path: "/checklist/:id",
+        element: <Checklist />,
+        loader: ({ params }) => Load(`checklist/${params.id}`),
       },
     ],
   },

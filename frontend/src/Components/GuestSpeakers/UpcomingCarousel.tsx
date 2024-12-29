@@ -25,83 +25,85 @@ const UpcomingCarousel = ({ speakers }: Props) => {
   );
 
   return (
-    <Section screenSizeParameter={isLargerThan1200} alignItemsCenter={true}>
+    <>
       {speakers.length > 0 && (
-        <Flex
-          w={isLargerThan480 ? "80%" : "100%"}
-          flexDirection="column"
-          justifyContent="center"
-          mb={4}
-        >
-          <BodyHeading textAlignCenter={true}>Upcoming Speakers</BodyHeading>
-          <Center>
-            <Divider
-              w="100%"
-              orientation="horizontal"
-              borderColor="black"
-              mb={4}
-            />
-          </Center>
-          {speakers.length > 1 && (
-            <Flex gap={4}>
-              {/*Don't show previous button or speaker if on the
-                            first speaker*/}
-              <Flex w="50%" alignItems="center" justifyContent="flex-end">
-                {activeSpeaker > 0 && (
-                  <>
-                    <IconButton
-                      aria-label="Previous Speaker"
-                      icon={<ArrowLeftIcon />}
-                      variant="ghost"
-                      onClick={() => setActiveSpeaker(activeSpeaker - 1)}
-                    />
-                    {/*Only show previous speaker preview on
-                                        larger screens*/}
-                    {isLargerThan1200 && (
-                      <SpeakerCard
-                        key={speakers[activeSpeaker - 1].id}
-                        speaker={speakers[activeSpeaker - 1]}
-                      />
-                    )}
-                  </>
-                )}
-              </Flex>
-              <SpeakerCard
-                key={speakers[activeSpeaker].id}
-                speaker={speakers[activeSpeaker]}
+        <Section>
+          <Flex
+            w={isLargerThan480 ? "80%" : "100%"}
+            flexDirection="column"
+            justifyContent="center"
+            mb={4}
+          >
+            <BodyHeading textAlign="center">Upcoming Speakers</BodyHeading>
+            <Center>
+              <Divider
+                w="100%"
+                orientation="horizontal"
+                borderColor="black"
+                mb={4}
               />
-              {/*Don't show next button or speaker if on the last
-                            speaker*/}
-              <Flex w="50%" alignItems="Center">
-                {activeSpeaker < speakers.length - 1 && (
-                  <>
-                    {/*Only show next speaker preview on
-                                        larger screens*/}
-                    {isLargerThan1200 && (
-                      <SpeakerCard
-                        key={speakers[activeSpeaker + 1].id}
-                        speaker={speakers[activeSpeaker + 1]}
+            </Center>
+            {speakers.length > 1 && (
+              <Flex gap={4}>
+                {/*Don't show previous button or speaker if on the
+                            first speaker*/}
+                <Flex w="50%" alignItems="center" justifyContent="flex-end">
+                  {activeSpeaker > 0 && (
+                    <>
+                      <IconButton
+                        aria-label="Previous Speaker"
+                        icon={<ArrowLeftIcon />}
+                        variant="ghost"
+                        onClick={() => setActiveSpeaker(activeSpeaker - 1)}
                       />
-                    )}
-                    <IconButton
-                      aria-label="Next Speaker"
-                      icon={<ArrowRightIcon />}
-                      variant="ghost"
-                      onClick={() => setActiveSpeaker(activeSpeaker + 1)}
-                    />
-                  </>
-                )}
+                      {/*Only show previous speaker preview on
+                                        larger screens*/}
+                      {isLargerThan1200 && (
+                        <SpeakerCard
+                          key={speakers[activeSpeaker - 1].id}
+                          speaker={speakers[activeSpeaker - 1]}
+                        />
+                      )}
+                    </>
+                  )}
+                </Flex>
+                <SpeakerCard
+                  key={speakers[activeSpeaker].id}
+                  speaker={speakers[activeSpeaker]}
+                />
+                {/*Don't show next button or speaker if on the last
+                            speaker*/}
+                <Flex w="50%" alignItems="Center">
+                  {activeSpeaker < speakers.length - 1 && (
+                    <>
+                      {/*Only show next speaker preview on
+                                        larger screens*/}
+                      {isLargerThan1200 && (
+                        <SpeakerCard
+                          key={speakers[activeSpeaker + 1].id}
+                          speaker={speakers[activeSpeaker + 1]}
+                        />
+                      )}
+                      <IconButton
+                        aria-label="Next Speaker"
+                        icon={<ArrowRightIcon />}
+                        variant="ghost"
+                        onClick={() => setActiveSpeaker(activeSpeaker + 1)}
+                      />
+                    </>
+                  )}
+                </Flex>
               </Flex>
-            </Flex>
-          )}
-          {speakers.length === 1 && (
-            <Flex justifyContent="center">
-              <SpeakerCard key={speakers[0].id} speaker={speakers[0]} />
-            </Flex>
-          )}
-        </Flex>
+            )}
+            {speakers.length === 1 && (
+              <Flex justifyContent="center">
+                <SpeakerCard key={speakers[0].id} speaker={speakers[0]} />
+              </Flex>
+            )}
+          </Flex>
+        </Section>
       )}
-    </Section>
+    </>
   );
 };
 

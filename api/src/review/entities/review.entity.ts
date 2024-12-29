@@ -13,7 +13,7 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('int', { nullable: true })
   rating: number | null;
 
   @Column()

@@ -51,17 +51,14 @@ const DeleteModal = ({ isOpen, onClose, itemType, deleteItem }: Props) => {
               mb={10}
               textAlign="center"
               fontSize={20}
-              layerStyle="text"
             >{`Are you sure you want to delete this ${itemType}?`}</Text>
             <Text
               textAlign="center"
               fontSize={20}
-              layerStyle="text"
             >{`You will be permanently deleting all associated ${getAssociatedItems()}.`}</Text>
           </Box>
           <Button
             onClick={deleteItem}
-            colorScheme="green"
           >{`Delete ${capitlizeItemType()}`}</Button>
         </ModalContent>
       </Modal>

@@ -13,6 +13,7 @@ const Menus = ({ user }: any) => {
     return items.filter((item) => {
       if (
         (loggedIn && item.hiddenWhenLoggedIn) ||
+        (user.role !== "admin" && item.visibleOnlyToAdmin) ||
         (loggedIn && isLargerThan600 && item.name === "Account Details") ||
         (!loggedIn && item.hiddenWhenLoggedOut)
       ) {
