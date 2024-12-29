@@ -1,6 +1,11 @@
 name: Run NestJS Unit Tests
 on:
-  [push]
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   run-unit-tests:
     name: Run NestJS Unit Tests

@@ -19,7 +19,13 @@ const MyButton = ({
   variant = "solid",
 }: Props) => {
   return (
-    <Button w={width} onClick={onClick} disabled={disabled} variant={variant}>
+    <Button
+      w={width}
+      onClick={onClick}
+      disabled={disabled}
+      variant={variant}
+      whiteSpace="normal"
+    >
       {loading ? <Spinner /> : children}
     </Button>
   );

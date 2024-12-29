@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import Section from "../Components/Section";
+import { text } from "../Components/theme";
 
 const Checklist = () => {
   const data = useLoaderData() as ChecklistType;
@@ -22,7 +23,7 @@ const Checklist = () => {
           separator={<ChevronRightIcon color="gray.500" />}
         >
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to="/checklists">
+            <BreadcrumbLink as={Link} to="/checklists" color={text}>
               Checklists
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -33,6 +34,7 @@ const Checklist = () => {
                   as={Link}
                   to={`/checklist/${breadcrumb.id}`}
                   isCurrentPage={checklist.id === breadcrumb.id}
+                  color={text}
                 >
                   {breadcrumb.name}
                 </BreadcrumbLink>
