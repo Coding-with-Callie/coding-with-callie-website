@@ -51,6 +51,7 @@ const ChecklistContainer = ({
         isHeading={true}
         showLabel={false}
         initialState={initialStateName}
+        message="Checklist updated!"
       />
       <EditableText
         inputType="textarea"
@@ -62,6 +63,7 @@ const ChecklistContainer = ({
         isHeading={false}
         showLabel={false}
         initialState={initialStateDescription}
+        message="Checklist updated!"
       />
       {children.length > 0 && (
         <>

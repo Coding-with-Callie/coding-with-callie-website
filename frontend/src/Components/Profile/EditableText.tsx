@@ -16,10 +16,11 @@ type Props = {
   isHeading?: boolean;
   showLabel?: boolean;
   initialState?: { [key: string]: any };
+  message?: string;
 };
 
 const EditableText = ({
-  inputType,
+  inputType = "text",
   field,
   value,
   route = "/change-account-detail",
@@ -28,6 +29,7 @@ const EditableText = ({
   isHeading = false,
   showLabel = true,
   initialState,
+  message = "Account details updated!",
 }: Props) => {
   const { updateUser } = useOutletContext() as Context;
   initialState = { ...initialState, [field.toLowerCase()]: value };
@@ -100,7 +102,7 @@ const EditableText = ({
             axiosType={"private"}
             method={method}
             route={route}
-            message={"Account details updated!"}
+            message={message}
             setEdit={setEdit}
             updateData={updateData || updateUser}
             initialState={initialState}
