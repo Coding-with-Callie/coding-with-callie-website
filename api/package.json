@@ -41,6 +41,10 @@
     "googleapis": "^144.0.0",
     "nestjs-pino": "^3.5.0",
     "nodemailer": "^6.9.16",
+<<<<<<< HEAD
+=======
+    "path": "^0.12.7",
+>>>>>>> 4197737b51ceac94b7994b350d75236c3df7d88c
     "pg": "^8.11.3",
     "pino-http": "^8.6.1",
     "react-toastify": "^10.0.6",
