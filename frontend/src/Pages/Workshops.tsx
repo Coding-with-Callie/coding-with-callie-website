@@ -1,8 +1,9 @@
-import { Box, Heading, Text, Image } from "@chakra-ui/react";
 import { useLoaderData } from "react-router-dom";
-import MyButton from "../Components/MyButton";
 import Section from "../Components/Section";
 import BodyText from "../Components/BodyText";
+import BodyHeading from "../Components/BodyHeading";
+import WorkshopTiles from "../Components/Workshops/WorkshopTiles";
+import WorkshopTilesContainer from "../Components/Workshops/WorkshopTilesContainer";
 
 export const why = [
   "When I was learning to code, I spent a maximum of a week or two working on a single project. I made all the quick portfolio projects: weather app, movie list, online clothing store, etc.",
@@ -31,109 +32,26 @@ export type Workshop = {
   price: number;
 };
 
-const openWorkshopInNewTab = (name: string) => {
-  if (name === "Build in Public Challenge") {
-    window.open(
-      "https://callie-stoscup-s-school.teachable.com/p/build-in-public-challenge",
-      "_blank",
-      "noreferrer"
-    );
-  } else {
-    window.open(
-      "https://callie-stoscup-s-school.teachable.com/p/deploy-in-public-challenge",
-      "_blank",
-      "noreferrer"
-    );
-  }
-};
-
 const Workshops = () => {
   const workshops = useLoaderData() as Workshop[];
 
   return (
     <>
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <Heading fontSize={28} mb={6} color="#79A9CD" textAlign="center">
-          Coding with Callie Workshops
-        </Heading>
+      <Section>
+        <BodyHeading>My Workshop Origin Story</BodyHeading>
+        <BodyText textBlocks={why} />
       </Section>
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
-          My Workshop Origin Story
-        </Heading>
-        <BodyText textBlocks={why} textAlignCenter={false} />
+      <Section>
+        <BodyHeading> Make it work first, and then make it better</BodyHeading>
+        <BodyText textBlocks={mantra} />
       </Section>
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
-          Make it work first, and then make it better
-        </Heading>
-        <BodyText textBlocks={mantra} textAlignCenter={false} />
+      <Section>
+        <BodyHeading>What sets Coding with Callie workshops apart?</BodyHeading>
+        <BodyText textBlocks={difference} />
       </Section>
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
-          What sets Coding with Callie workshops apart?
-        </Heading>
-        <BodyText textBlocks={difference} textAlignCenter={false} />
-      </Section>
-      <Section screenSizeParameter={false} alignItemsCenter={false}>
-        <Heading fontSize={28} mb={6} color="#79A9CD" w="100%">
-          Let's get to work 💪🏻
-        </Heading>
-        {workshops.length > 0 ? (
-          <Box
-            display="flex"
-            gap={20}
-            flexWrap="wrap"
-            justifyContent="center"
-            maxW="1000px"
-          >
-            {workshops.map((workshop, index) => {
-              return (
-                <Box
-                  backgroundColor="white"
-                  borderRadius={4}
-                  p={10}
-                  boxShadow="lg"
-                  flex={1}
-                  display="flex"
-                  flexDirection="column"
-                  gap={10}
-                  maxW="600px"
-                  minW="320px"
-                  key={index}
-                >
-                  <Heading fontSize={28} color="#79A9CD" textAlign="center">
-                    {workshop.name}
-                  </Heading>
-
-                  <Text color="#45446A" flex={1}>
-                    {workshop.description}
-                  </Text>
-
-                  <Image
-                    src={workshop.photo}
-                    boxShadow="lg"
-                    borderRadius={4}
-                    objectFit="cover"
-                  />
-
-                  <Box m="0 auto" display="flex" gap={4}>
-                    <MyButton
-                      onClick={() => {
-                        openWorkshopInNewTab(workshop.name);
-                      }}
-                    >
-                      Learn More
-                    </MyButton>
-                  </Box>
-                </Box>
-              );
-            })}
-          </Box>
-        ) : (
-          <Box>There are no workshops yet...</Box>
-        )}
-      </Section>
+      <WorkshopTilesContainer>
+        <WorkshopTiles workshops={workshops} />
+      </WorkshopTilesContainer>
     </>
   );
 };

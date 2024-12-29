@@ -1,335 +1,70 @@
-import {
-  Box,
-  Checkbox,
-  IconButton,
-  Input,
-  useDisclosure,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../BodyHeading";
 import ImageWithBorder from "./ImageWithBorder";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import MyButton from "../MyButton";
-import Alert from "../Profile/Alert";
-import { useRef, useState } from "react";
-import axios from "axios";
-import { host } from "../..";
 import { ResourceType } from "../../Pages/Home";
-import { toast } from "react-toastify";
-import {
-  FaRegCheckCircle,
-  FaRegEdit,
-  FaRegHandPointDown,
-  FaRegHandPointUp,
-  FaRegTrashAlt,
-} from "react-icons/fa";
+import BodyText from "../BodyText";
+import Section from "../Section";
+import { Context } from "../../App";
+import EditIcons from "./EditIcons";
 
 type Props = {
-  children: React.ReactNode;
-  heading: string;
-  imageUrl: string;
-  linkUrl: string;
-  buttonText: string;
-  target: "_blank" | "_self";
-  editable: boolean;
+  resource: ResourceType;
   setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
-  id: number;
-  edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  textBlocksValue: string;
-  order: number;
   numResources: number;
-  bodyText: string;
-  setTextBlocksValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const TextWithImageAndButton = ({
-  children,
-  heading,
-  imageUrl,
-  linkUrl,
-  buttonText,
-  target,
-  editable,
+  resource,
   setResources,
-  id,
-  edit,
   setEdit,
-  textBlocksValue,
-  order,
   numResources,
-  bodyText,
-  setTextBlocksValue,
 }: Props) => {
-  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
-  const {
-    isOpen: isOpenAlert,
-    onOpen: onOpenAlert,
-    onClose: onCloseAlert,
-  } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const { user } = useOutletContext() as Context;
 
-  const [headingValue, setHeadingValue] = useState(heading);
-  const [linkUrlValue, setLinkUrlValue] = useState(linkUrl);
-  const [buttonTextValue, setButtonTextValue] = useState(buttonText);
-  const [targetValue, setTargetValue] = useState(target);
-  const [image, setImage] = useState();
-  const [fileInputKey, setFileInputKey] = useState<string>("");
-
-  const deleteResource = () => {
-    axios
-      .delete(`${host}/api/auth/resource/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setResources(response.data);
-        onCloseAlert();
-        toast.success("Resource deleted successfully from home page!");
-      })
-      .catch(() => {
-        toast.error("Error deleting resource");
-      });
-  };
-
-  const editResource = () => {
-    setHeadingValue(heading);
-    setLinkUrlValue(linkUrl);
-    setButtonTextValue(buttonText);
-    setTargetValue(target);
-    setTextBlocksValue(bodyText);
-
-    setEdit(!edit);
-    console.log("Order:", order);
-    console.log("HEADING", heading);
-  };
-
-  const onChangeHeading = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHeadingValue(e.target.value);
-  };
-
-  const onChangeLinkUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLinkUrlValue(e.target.value);
-  };
-
-  const onChangeButtonText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setButtonTextValue(e.target.value);
-  };
-
-  const onChangeTarget = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTargetValue(e.target.checked ? "_blank" : "_self");
-  };
-
-  const scrollToElement = (order: number) => {
-    return new Promise((resolve) => {
-      document.getElementById(order.toString())?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      setTimeout(resolve, 200);
-    });
-  };
-
-  const moveResource = async (direction: string) => {
-    order = direction === "up" ? order - 1 : order + 1;
-    await scrollToElement(order);
-
-    axios
-      .post(
-        `${host}/api/auth/resource/${id}/order`,
-        {
-          direction,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        setResources(response.data);
-      })
-      .catch(() => {
-        toast.error("Error moving resource");
-      });
-  };
-
-  const submitEdit = () => {
-    if (
-      headingValue === "" ||
-      textBlocksValue === "" ||
-      buttonTextValue === "" ||
-      linkUrlValue === ""
-    ) {
-      toast.error("Please fill out all fields");
-      return;
-    }
-
-    if (
-      headingValue === heading &&
-      textBlocksValue === bodyText &&
-      buttonTextValue === buttonText &&
-      linkUrlValue === linkUrl &&
-      targetValue === target &&
-      !image
-    ) {
-      setEdit(false);
-      return;
-    }
-
-    const formData = new FormData();
-    if (image) {
-      formData.append("file", image);
-    }
-    formData.append("heading", headingValue);
-    formData.append("bodyText", textBlocksValue);
-    formData.append("buttonText", buttonTextValue);
-    formData.append("linkUrl", linkUrlValue);
-    formData.append("target", (targetValue === "_blank").toString());
-
-    axios
-      .put(`${host}/api/auth/resource/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setResources(response.data);
-        setEdit(false);
-        toast.success("Resource updated successfully");
-        setFileInputKey(new Date().getTime().toString());
-      })
-      .catch(() => {
-        toast.error("Error updating resource");
-      });
-  };
+  const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   return (
-    <>
+    <Section>
       <Box w="100%">
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          {edit ? (
-            <Input
-              type="text"
-              layerStyle="inputResource"
-              variant="filled"
-              id="heading"
-              value={headingValue}
-              mb={6}
-              mr={2}
-              onChange={onChangeHeading}
-              isInvalid={headingValue === ""}
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection={isLargerThan800 ? "row" : "column"}
+        >
+          <BodyHeading>{resource.heading}</BodyHeading>
+          {user.role === "admin" && (
+            <EditIcons
+              id={resource.id}
+              order={resource.order}
+              numResources={numResources}
+              setResources={setResources}
+              setEdit={setEdit}
             />
-          ) : (
-            <BodyHeading textAlignCenter={false}>{heading}</BodyHeading>
-          )}
-          {editable && (
-            <Box mb={6} display="flex" gap={2}>
-              <IconButton
-                aria-label={"edit resource"}
-                icon={edit ? <FaRegCheckCircle /> : <FaRegEdit />}
-                onClick={edit ? submitEdit : editResource}
-                colorScheme="green"
-              />
-              <IconButton
-                aria-label={"move resource up"}
-                icon={<FaRegHandPointUp />}
-                onClick={moveResource.bind(null, "up")}
-                colorScheme="blue"
-                disabled={order === 1}
-              />
-              <IconButton
-                aria-label={"move resource down"}
-                icon={<FaRegHandPointDown />}
-                onClick={moveResource.bind(null, "down")}
-                colorScheme="blue"
-                disabled={order === numResources}
-              />
-              <IconButton
-                aria-label={"delete resource"}
-                icon={<FaRegTrashAlt />}
-                onClick={onOpenAlert}
-                colorScheme="red"
-              />
-            </Box>
           )}
         </Box>
         <Box
           display="flex"
-          flexDirection={isLargerThan900 ? "row" : "column"}
+          flexDirection={isLargerThan1300 ? "row" : "column"}
           gap={10}
           mb={6}
           alignItems="center"
         >
-          {children}
-          <ImageWithBorder
-            imageUrl={imageUrl}
-            edit={edit}
-            fileInputKey={fileInputKey}
-            setImage={setImage}
-          />
+          <BodyText textBlocks={resource.bodyText} />
+          <ImageWithBorder imageUrl={resource.imageUrl} />
         </Box>
-        {edit ? (
-          <Box>
-            <Input
-              type="text"
-              layerStyle="inputResource"
-              variant="filled"
-              id="link"
-              value={linkUrlValue}
-              onChange={onChangeLinkUrl}
-              isInvalid={linkUrlValue === ""}
-              mb={2}
-              _hover={{ backgroundColor: "gray.50" }}
-              _focus={{ backgroundColor: "white" }}
-            />
-            <Box display="flex" gap={6} alignItems="center">
-              <Input
-                type="text"
-                layerStyle="inputResource"
-                variant="filled"
-                id="buttonText"
-                value={buttonTextValue}
-                onChange={onChangeButtonText}
-                isInvalid={buttonTextValue === ""}
-                _hover={{ backgroundColor: "gray.50" }}
-                _focus={{ backgroundColor: "white" }}
-              />
-              <Box
-                width="25%"
-                backgroundColor="white"
-                lineHeight="40px"
-                borderRadius={5}
-                textAlign="center"
-                _hover={{ backgroundColor: "gray.50" }}
-              >
-                <Checkbox
-                  layerStyle="inputResource"
-                  onChange={onChangeTarget}
-                  isChecked={targetValue === "_blank"}
-                >
-                  Open Link in New Tab
-                </Checkbox>
-              </Box>
-            </Box>
-          </Box>
-        ) : (
-          <Link to={linkUrl} target={target === "_blank" ? "_blank" : "_self"}>
-            <MyButton widthSize="100%">{buttonText}</MyButton>
-          </Link>
-        )}
+        <Link
+          to={resource.linkUrl}
+          target={resource.target ? "_blank" : "_self"}
+        >
+          <MyButton>{resource.buttonText}</MyButton>
+        </Link>
       </Box>
-      <Alert
-        isOpenAlert={isOpenAlert}
-        onCloseAlert={onCloseAlert}
-        cancelRef={cancelRef}
-        item="resource"
-        handleDelete={deleteResource}
-      />
-    </>
+    </Section>
   );
 };
 

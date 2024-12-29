@@ -7,15 +7,9 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ReviewModule } from '../review/review.module';
-import { SpeakersModule } from '../speakers/speakers.module';
 import { WorkshopsModule } from '../workshops/workshops.module';
-import { AlumniModule } from '../alumni/alumni.module';
-import { FeaturesModule } from '../features/features.module';
-import { ProjectsModule } from '../projects/projects.module';
-import { TasksModule } from '../tasks/tasks.module';
-import { UserStoriesModule } from '../userStories/userStories.module';
-import { ResourceModule } from '../resource/resource.module';
 import { FileUploadModule } from '../file_upload/file_upload.module';
+import { ChecklistModule } from '../checklists/checklists.module';
 
 @Module({
   imports: [
@@ -26,15 +20,9 @@ import { FileUploadModule } from '../file_upload/file_upload.module';
     UsersModule,
     ReviewModule,
     MailModule,
-    SpeakersModule,
     WorkshopsModule,
-    AlumniModule,
-    ProjectsModule,
-    FeaturesModule,
-    UserStoriesModule,
-    TasksModule,
-    ResourceModule,
     FileUploadModule,
+    ChecklistModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {

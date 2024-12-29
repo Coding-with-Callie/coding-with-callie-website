@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -7,13 +7,11 @@ type Props = {
 
 const FullMenu = ({ menuItems }: Props) => {
   return (
-    <Box display="flex" gap={10}>
+    <Box display="flex" gap={4} justifyContent="center">
       {menuItems.map((item: any, index: number) => {
         return (
           <Link to={`/${item.path}`} key={index}>
-            <Box color="#45446A" _hover={{ textDecoration: "underline" }}>
-              {item.name}
-            </Box>
+            <Button fontSize={14}>{item.name}</Button>
           </Link>
         );
       })}

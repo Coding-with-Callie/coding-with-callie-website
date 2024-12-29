@@ -1,46 +1,41 @@
 import { Box, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
+import { makeLowerCase } from "../../helpers/helpers";
 
 type Props = {
+  label: string;
   field: string;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   value: string;
   isInvalid: boolean | undefined;
-  helperText?: string;
   type?: string;
 };
 
 const TextInput = ({
+  label,
   field,
   onChange,
   value,
   isInvalid,
-  helperText,
-  type,
+  type = "text",
 }: Props) => {
-  const makeLowerCase = (field: string) => {
-    return field.split("").map((character) => character.toLowerCase());
-  };
-
   return (
     <Box>
-      <FormLabel layerStyle="input">{field}</FormLabel>
+      {label !== "" && <FormLabel>{label}</FormLabel>}
       <Input
-        type={type || "text"}
-        layerStyle="input"
+        type={type}
         variant="filled"
+        id={field}
         onChange={onChange}
         value={value}
         isInvalid={isInvalid}
       />
-      {!helperText ? (
-        isInvalid ? (
-          <FormHelperText color="red.500">
-            Please enter a valid {makeLowerCase(field)}!
-          </FormHelperText>
-        ) : (
-          <FormHelperText>{helperText}</FormHelperText>
-        )
-      ) : null}
+      {isInvalid && label !== "" && (
+        <FormHelperText color="red.500">
+          {field === "confirmPassword"
+            ? "New passwords must match!"
+            : `Please enter a valid ${makeLowerCase(label)}!`}
+        </FormHelperText>
+      )}
     </Box>
   );
 };

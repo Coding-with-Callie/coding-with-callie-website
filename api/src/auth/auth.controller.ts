@@ -3,13 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
-  Optional,
+  Patch,
   Post,
-  Put,
-  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -17,58 +13,24 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles, RolesGuard } from './roles.guard';
-import { Resource } from 'src/resource/entities/resource.entity';
 
-export class NewUserDto {
-  @IsNotEmpty({ message: 'You must provide a name.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
+// export class AccountDetailDTO {
+//   @IsNotEmpty()
+//   id: number;
 
-  @IsEmail(undefined, { message: 'You must enter a valid email address.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  email: string;
+//   @IsNotEmpty({ message: 'You must provide a new value.' })
+//   @Transform((params) => sanitizeHTML(params.value))
+//   value: string;
 
-  @IsNotEmpty({ message: 'You must provide a username.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  username: string;
+//   @IsNotEmpty()
+//   field: string;
+// }
 
-  @IsNotEmpty()
-  password: string;
-}
-
-export class UserLoginDto {
-  @IsNotEmpty({ message: 'You must provide a username.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  username: string;
-
-  @IsNotEmpty()
-  password: string;
-}
-
-export class AccountDetailDto {
-  @IsNotEmpty()
-  id: number;
-
-  @IsNotEmpty({ message: 'You must provide a new value.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-
-  @IsNotEmpty()
-  field: string;
-}
-
-export class Email {
-  @IsEmail(undefined, { message: 'You must enter a valid email address.' })
-  @Transform((params) => sanitizeHTML(params.value))
-  email: string;
-}
-
-export class ReviewDto {
+export class ReviewDTO {
   @IsNotEmpty()
   rating: number;
 
@@ -78,502 +40,116 @@ export class ReviewDto {
   @IsNotEmpty()
   @Transform((params) => sanitizeHTML(params.value))
   displayName: string;
-
-  userId: number;
 }
 
-export class AlumniDto {
-  name: string;
-  opportunities: string[];
-  bioText: string[];
-  linkedInUrl: string;
-  photoUrl: string;
-  projectUrl: string;
-  workshopId: number;
-}
-
-export class ProjectDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-}
-
-export class FeatureDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-
-  @IsNotEmpty()
-  projectId: number;
-}
-
-export class UserStoryDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  description: string;
-
-  @IsNotEmpty()
-  projectId: number;
-
-  @IsNotEmpty()
-  featureId: number;
-}
-
-export class TaskDto {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsNotEmpty()
-  projectId: number;
-
-  @IsNotEmpty()
-  featureId: number;
-
-  @IsNotEmpty()
-  userStoryId: number;
-}
-
-export class UpdateTaskDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-
-  @IsNotEmpty()
-  taskId: number;
-}
-
-export class UpdateUserStoryDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-
-  @IsNotEmpty()
-  userStoryId: number;
-}
-
-export class UpdateFeatureDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-
-  @IsNotEmpty()
-  featureId: number;
-}
-
-export class UpdateProjectDto {
-  @IsNotEmpty()
-  field: string;
-
-  // @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  value: string;
-
-  @IsNotEmpty()
-  projectId: number;
-}
-
-export class ResourceDTO {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  heading: string;
-
-  @IsNotEmpty()
-  bodyText: string[] | string;
-
-  imageUrl?: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  buttonText: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  linkUrl: string;
-
-  @IsNotEmpty()
-  target: string | boolean;
-}
-
-export class SpeakerDTO {
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  name: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  date: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  bioText: string[] | string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  sessionText: string[] | string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  websiteUrl: string;
-
-  @IsOptional()
-  @Transform((params) => sanitizeHTML(params.value))
-  sessionRecordingUrl: string;
-
-  photoUrl?: string;
-}
-
+@UseGuards(AuthGuard)
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signup')
-  async signUp(@Body() newUserDto: NewUserDto) {
-    return await this.authService.signUp(newUserDto);
+  @Get('user-details')
+  getUserDetailsForHeader(@Request() req) {
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
   }
 
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() userLoginDto: UserLoginDto) {
-    return this.authService.signIn(
-      userLoginDto.username,
-      userLoginDto.password,
-    );
-  }
-
-  @UseGuards(AuthGuard)
   @Get('profile')
   getUserProfile(@Request() req) {
-    return this.authService.getUserProfile(req.user.sub);
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
   }
 
-  @Get('profile/:token/:id')
-  getProfileReset(@Param('token') token: string, @Param('id') id: number) {
-    return this.authService.getProfileReset(token, id);
-  }
-
-  @Post('forgot-password')
-  forgotPassword(@Body() body: Email) {
-    return this.authService.forgotPassword(body.email);
-  }
-
-  @UseGuards(AuthGuard)
   @Post('change-account-detail')
-  changeAccountDetail(@Body() accountDetailDto: AccountDetailDto) {
-    return this.authService.changeAccountDetail(
-      accountDetailDto.id,
-      accountDetailDto.value,
-      accountDetailDto.field,
+  changeUserDetail(@Body() detail: { [key: string]: string }, @Request() req) {
+    return this.authService.changeUserDetail(
+      req.user.sub,
+      Object.keys(detail)[0],
+      detail[Object.keys(detail)[0]],
     );
   }
 
-  @UseGuards(AuthGuard)
-  @Post('delete-account')
-  deleteAccount(@Body('id') id: number) {
-    return this.authService.deleteUser(id);
+  @Post('change-password')
+  changePassword(
+    @Body() password: { password: string; newPassword: string },
+    @Request() req,
+  ) {
+    return this.authService.changePassword(
+      req.user.sub,
+      password.password,
+      password.newPassword,
+    );
   }
 
-  @UseGuards(AuthGuard)
+  @Post('delete-account')
+  softDeleteUser(@Body('id') id: number) {
+    return this.authService.softDeleteUser(id);
+  }
+
   @Post('upload-profile-image')
   @UseInterceptors(FileInterceptor('file'))
   async uploadProfileImage(
     @UploadedFile() file: Express.Multer.File,
-    @Query('id') id: number,
-  ) {
-    await this.authService.uploadProfileImage(id, file);
-    return this.authService.getUserProfile(id);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('submit-review')
-  async submitReview(@Body() review: ReviewDto) {
-    return await this.authService.submitReview(review);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  @Post('resource')
-  async createResource(
-    @Body() resource: ResourceDTO,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    const resourceToSave = new Resource();
-
-    resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
-    resourceToSave.imageUrl = await this.authService.uploadFile(file);
-    resourceToSave.buttonText = resource.buttonText;
-    resourceToSave.linkUrl = resource.linkUrl;
-    resourceToSave.target = resource.target === 'true';
-
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.authService.createResource(resourceToSave);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Delete('resource/:id')
-  async deleteResource(@Param('id') id: number) {
-    return await this.authService.deleteResource(id);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  @Put('resource/:id')
-  async updateResource(
-    @Param('id') id: number,
-    @Body() resource: ResourceDTO,
-    @UploadedFile() @Optional() file?: Express.Multer.File,
-  ) {
-    const resourceToSave = new Resource();
-
-    if (file) {
-      resourceToSave.imageUrl = await this.authService.uploadFile(file);
-    }
-
-    resourceToSave.heading = resource.heading;
-    resourceToSave.bodyText = resource.bodyText;
-    resourceToSave.buttonText = resource.buttonText;
-    resourceToSave.linkUrl = resource.linkUrl;
-    resourceToSave.target = resource.target === 'true';
-
-    if (typeof resourceToSave.bodyText === 'string') {
-      resourceToSave.bodyText = resourceToSave.bodyText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.authService.updateResource(id, resourceToSave);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Post('resource/:id/order')
-  async updateResourceOrder(
-    @Param('id') id,
-    @Body('direction') direction: string,
-  ) {
-    return await this.authService.updateResourceOrder(id, direction);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  @Post('speaker')
-  async createSpeaker(
-    @Body() speaker: SpeakerDTO,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    speaker.photoUrl = await this.authService.uploadFile(file);
-
-    if (typeof speaker.bioText === 'string') {
-      speaker.bioText = speaker.bioText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    if (typeof speaker.sessionText === 'string') {
-      speaker.sessionText = speaker.sessionText
-        .replace(/\r\n/g, '\n') // Replace \r\n with \n
-        .split(/\n+/) // Split at one or more newlines
-        .map((item: string) => item.trim()) // Trim whitespace from each item
-        .filter((item: string) => item.length > 0); // Remove empty items
-    }
-
-    return await this.authService.createSpeaker(speaker);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Delete('speaker/:id')
-  async deleteSpeaker(@Param('id') id: number) {
-    return await this.authService.deleteSpeaker(id);
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Put('guest-speaker/:id')
-  async updateSpeaker(
-    @Body() body: { id: number; field: string; value: string | string[] },
-  ) {
-    return await this.authService.changeSpeakerDetail(
-      body.id,
-      body.value,
-      body.field,
-    );
-  }
-
-  @Roles(['admin'])
-  @UseGuards(AuthGuard, RolesGuard)
-  @Post('create-alumni')
-  async createAlumni(@Body() alumni: AlumniDto) {
-    return await this.authService.createAlumni(alumni);
-  }
-
-  @Get('speakers')
-  async getSpeakers() {
-    return await this.authService.getSpeakers();
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('user-projects')
-  getUserProjects(@Request() req) {
-    return this.authService.getUserProjects(req.user.sub);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('project/:id')
-  getProject(@Param('id') id: number, @Request() req) {
-    return this.authService.getProject(req.user.sub, id);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('create-project')
-  createProject(@Body() projectDto: ProjectDto, @Request() req) {
-    return this.authService.createProject(
-      projectDto.name,
-      projectDto.description,
-      req.user.sub,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('update-project')
-  updateProject(@Body() updateProjectDto: UpdateProjectDto, @Request() req) {
-    return this.authService.updateProject(
-      updateProjectDto.field,
-      updateProjectDto.value,
-      req.user.sub,
-      updateProjectDto.projectId,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('delete-project')
-  deleteProject(@Body('projectId') projectId: number, @Request() req) {
-    return this.authService.deleteProject(projectId, req.user.sub);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('create-feature')
-  createFeature(@Body() featureDto: FeatureDto, @Request() req) {
-    return this.authService.createFeature(
-      featureDto.name,
-      featureDto.description,
-      req.user.sub,
-      featureDto.projectId,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('update-feature')
-  updateFeature(@Body() updateFeatureDto: UpdateFeatureDto, @Request() req) {
-    return this.authService.updateFeature(
-      updateFeatureDto.field,
-      updateFeatureDto.value,
-      req.user.sub,
-      updateFeatureDto.featureId,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('delete-feature')
-  deleteFeature(@Body('featureId') featureId: number, @Request() req) {
-    return this.authService.deleteFeature(featureId, req.user.sub);
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('create-user-story')
-  createUserStory(@Body() userStoryDto: UserStoryDto, @Request() req) {
-    return this.authService.createUserStory(
-      userStoryDto.name,
-      userStoryDto.description,
-      req.user.sub,
-      userStoryDto.projectId,
-      userStoryDto.featureId,
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('update-user-story')
-  updateUserStory(
-    @Body() updateUserStoryDto: UpdateUserStoryDto,
     @Request() req,
   ) {
-    return this.authService.updateUserStory(
-      updateUserStoryDto.field,
-      updateUserStoryDto.value,
+    await this.authService.uploadProfileImage(req.user.sub, file);
+    return this.authService.getFrontendFriendlyUser(req.user.sub);
+  }
+
+  @Post('review')
+  async submitReviewAndReturnUpdatedReviews(
+    @Body() review: ReviewDTO,
+    @Request() req,
+  ) {
+    return await this.authService.submitReviewAndReturnUpdatedReviews(
+      review,
       req.user.sub,
-      updateUserStoryDto.userStoryId,
     );
   }
 
-  @UseGuards(AuthGuard)
-  @Post('delete-user-story')
-  deleteUserStory(@Body('userStoryId') userStoryId: number, @Request() req) {
-    return this.authService.deleteUserStory(userStoryId, req.user.sub);
+  @Get('checklist/:id')
+  async getChecklist(@Request() req, @Param('id') id: number) {
+    return await this.authService.getChecklistById(req.user.sub, id);
   }
 
-  @UseGuards(AuthGuard)
-  @Post('create-task')
-  createTask(@Body() taskDto: TaskDto, @Request() req) {
-    return this.authService.createTask(
-      taskDto.name,
+  @Get('checklists')
+  async getChecklists(@Request() req) {
+    return await this.authService.getChecklists(req.user.sub);
+  }
+
+  @Post('checklists')
+  async createChecklist(
+    @Request() req,
+    @Body('name') name: string,
+    @Body('description') description?: string,
+    @Body('parentId') parentId?: number,
+  ) {
+    return await this.authService.createChecklist(
       req.user.sub,
-      taskDto.projectId,
-      taskDto.featureId,
-      taskDto.userStoryId,
+      name,
+      description,
+      parentId,
     );
   }
 
-  @UseGuards(AuthGuard)
-  @Post('update-task')
-  updateTask(@Body() updateTaskDto: UpdateTaskDto, @Request() req) {
-    return this.authService.updateTask(
-      updateTaskDto.field,
-      updateTaskDto.value,
+  @Patch('checklists/:checklistId')
+  async updateChecklistField(
+    @Request() req,
+    @Body() detail: { [key: string]: string },
+    @Body('parentId') parentId: number,
+    @Param('checklistId') checklistId: number,
+  ) {
+    return await this.authService.updateChecklistField(
       req.user.sub,
-      updateTaskDto.taskId,
+      parentId,
+      checklistId,
+      Object.keys(detail)[0],
+      detail[Object.keys(detail)[0]],
     );
   }
 
-  @UseGuards(AuthGuard)
-  @Post('delete-task')
-  deleteTask(@Body('taskId') taskId: number, @Request() req) {
-    return this.authService.deleteTask(taskId, req.user.sub);
+  @Delete('checklists/:checklistId')
+  async deleteChecklist(
+    @Request() req,
+    @Param('checklistId') checklistId: number,
+  ) {
+    return await this.authService.deleteChecklist(req.user.sub, checklistId);
   }
 }
