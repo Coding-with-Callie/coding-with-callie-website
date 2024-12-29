@@ -56,6 +56,25 @@ export class ChecklistService {
     return { ...checklist, breadcrumbs };
   }
 
+  // Get parent checklist by id from the database for a specific user
+  async getParentChecklist(userId: number, checklistId: number) {
+    const checklist = await this.checklistRepository.findOne({
+      where: {
+        id: checklistId,
+        user: {
+          id: userId,
+        },
+      },
+      relations: ['parentList'],
+    });
+
+    if (!checklist) {
+      return null;
+    }
+
+    return checklist.parentList;
+  }
+
   // Get all checklists from the database for a specific user
   async getChecklists(userId: number) {
     const checklists = await this.checklistRepository.find({
@@ -111,5 +130,24 @@ export class ChecklistService {
     checklist[field] = value;
     await this.checklistRepository.save(checklist);
     return { message: 'Checklist updated' };
+  }
+
+  // Delete a checklist from the database
+  async deleteChecklist(userId: number, checklistId: number) {
+    const checklist = await this.checklistRepository.findOne({
+      where: {
+        id: checklistId,
+        user: {
+          id: userId,
+        },
+      },
+    });
+
+    if (!checklist) {
+      return { message: 'Checklist not found' };
+    }
+
+    await this.checklistRepository.remove(checklist);
+    return { message: 'Checklist deleted' };
   }
 }

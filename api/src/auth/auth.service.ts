@@ -98,4 +98,18 @@ export class AuthService {
     // Return the updated checklist
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
+
+  async deleteChecklist(userId: number, checklistId: number) {
+    // Get the parent checklist
+    const parent = await this.checklistService.getParentChecklist(
+      userId,
+      checklistId,
+    );
+
+    // Delete the checklist
+    await this.checklistService.deleteChecklist(userId, checklistId);
+
+    // Return the updated parent checklist id
+    return parent.id;
+  }
 }

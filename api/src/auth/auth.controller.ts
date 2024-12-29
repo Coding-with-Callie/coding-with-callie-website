@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -142,5 +143,13 @@ export class AuthController {
       Object.keys(detail)[0],
       detail[Object.keys(detail)[0]],
     );
+  }
+
+  @Delete('checklists/:checklistId')
+  async deleteChecklist(
+    @Request() req,
+    @Param('checklistId') checklistId: number,
+  ) {
+    return await this.authService.deleteChecklist(req.user.sub, checklistId);
   }
 }

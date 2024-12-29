@@ -59,8 +59,6 @@ const FormSubmitButton = ({
   };
 
   const doNotSubmitForm = () => {
-    console.log(JSON.stringify(data), JSON.stringify(initialState));
-
     // Check if form is unchanged
     if (JSON.stringify(data) === JSON.stringify(initialState)) {
       if (setEdit) setEdit(false);
@@ -88,10 +86,7 @@ const FormSubmitButton = ({
   };
 
   const onSubmit = () => {
-    console.log("onSubmit");
     setSubmitClicked(true);
-
-    console.log("doNotSubmitForm", doNotSubmitForm());
 
     if (doNotSubmitForm()) return;
 

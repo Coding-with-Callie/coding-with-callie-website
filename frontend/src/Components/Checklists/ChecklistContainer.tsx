@@ -1,8 +1,11 @@
-import { Box } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import Section from "../Section";
 import ProgressColumn from "./ProgressColumn";
 import CreateChecklistForm from "./CreateChecklistForm";
 import EditableText from "../Profile/EditableText";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { axiosPrivate } from "../../helpers/axios_instances";
+import { useNavigate } from "react-router-dom";
 
 export type ChecklistType = {
   id: number;
@@ -26,6 +29,8 @@ const ChecklistContainer = ({
   setChecklist,
   checklistId,
 }: Props) => {
+  const navigate = useNavigate();
+
   const toDoChildren = children.filter((child) => child.status === "To Do");
   const inProgressChildren = children.filter(
     (child) => child.status === "In Progress"
@@ -40,19 +45,34 @@ const ChecklistContainer = ({
     description: checklist.description,
   };
 
+  const deleteChecklist = async () => {
+    axiosPrivate.delete(`/checklists/${checklistId}`).then((response) => {
+      navigate(`/checklist/${response.data}`);
+    });
+  };
+
   return (
     <Section>
-      <EditableText
-        field="name"
-        value={checklist.name}
-        route={`/checklists/${checklistId}`}
-        method="patch"
-        updateData={setChecklist}
-        isHeading={true}
-        showLabel={false}
-        initialState={initialStateName}
-        message="Checklist updated!"
-      />
+      <Box display="flex" justifyContent="space-between" gap={2}>
+        <Box w="100%">
+          <EditableText
+            field="name"
+            value={checklist.name}
+            route={`/checklists/${checklistId}`}
+            method="patch"
+            updateData={setChecklist}
+            isHeading={true}
+            showLabel={false}
+            initialState={initialStateName}
+            message="Checklist updated!"
+          />
+        </Box>
+        <IconButton
+          aria-label={"delete checklist"}
+          icon={<FaRegTrashAlt />}
+          onClick={deleteChecklist}
+        />
+      </Box>
       <EditableText
         inputType="textarea"
         field="description"
@@ -71,6 +91,7 @@ const ChecklistContainer = ({
             display="grid"
             gridTemplateColumns="repeat(auto-fit, minmax(250px, 1fr))"
             gap={4}
+            mt={4}
           >
             <ProgressColumn
               children={toDoChildren}
