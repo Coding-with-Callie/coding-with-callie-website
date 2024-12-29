@@ -6,6 +6,7 @@ import EditableText from "../Profile/EditableText";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { axiosPrivate } from "../../helpers/axios_instances";
 import { useNavigate } from "react-router-dom";
+import { showNotification } from "../..";
 
 export type ChecklistType = {
   id: number;
@@ -48,6 +49,7 @@ const ChecklistContainer = ({
   const deleteChecklist = async () => {
     axiosPrivate.delete(`/checklists/${checklistId}`).then((response) => {
       navigate(`/checklist/${response.data}`);
+      showNotification("Checklist deleted!", "success");
     });
   };
 

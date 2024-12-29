@@ -89,6 +89,7 @@ const EditableText = ({
               setEdit(!edit);
             }}
             _hover={{ cursor: "pointer" }}
+            lineHeight="40px"
           >
             {value}
           </Text>
