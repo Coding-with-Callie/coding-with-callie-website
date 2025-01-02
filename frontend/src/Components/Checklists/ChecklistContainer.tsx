@@ -48,7 +48,12 @@ const ChecklistContainer = ({
 
   const deleteChecklist = async () => {
     axiosPrivate.delete(`/checklists/${checklistId}`).then((response) => {
-      navigate(`/checklist/${response.data}`);
+      if (response.data) {
+        navigate(`/checklist/${response.data}`);
+      } else {
+        navigate("/checklists");
+      }
+
       showNotification("Checklist deleted!", "success");
     });
   };

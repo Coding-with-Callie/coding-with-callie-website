@@ -110,6 +110,9 @@ export class AuthService {
     await this.checklistService.deleteChecklist(userId, checklistId);
 
     // Return the updated parent checklist id
-    return parent.id;
+    if (parent) {
+      return parent.id;
+    }
+    return null;
   }
 }
