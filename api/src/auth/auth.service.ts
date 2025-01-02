@@ -54,7 +54,8 @@ export class AuthService {
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
 
-  async createChecklist(
+  // Create a checklist and return the appropriate checklist(s)
+  async createChecklistAndReturnUpdatedChecklists(
     userId: number,
     name: string,
     description?: string,
@@ -68,11 +69,11 @@ export class AuthService {
       parentId,
     );
 
-    // Return the updated parent checklist
+    // If we passed in a parent id, return the updated parent checklist
     if (parentId) {
       return await this.checklistService.getChecklistById(userId, parentId);
     }
-    // Return all checklists
+    // Otherwise return all checklists
     return await this.checklistService.getChecklists(userId);
   }
 
