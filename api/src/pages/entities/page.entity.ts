@@ -1,12 +1,11 @@
-import { Resource } from 'src/resource/entities/resource.entity';
+import { Section } from '../../sections/entities/section.entity';
 import { Users } from '../../users/entities/users.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -17,10 +16,12 @@ export class Page {
   @Column()
   name: string;
 
-  @ManyToOne(() => Users, (user) => user.checklists)
+  @Column()
+  path: string;
+
+  @ManyToOne(() => Users, (user) => user.pages)
   user: Users;
 
-  @ManyToMany(() => Resource, (resource) => resource.pages)
-  @JoinTable()
-  resources: Resource[];
+  @OneToMany(() => Section, (section) => section.page)
+  sections: Section[];
 }

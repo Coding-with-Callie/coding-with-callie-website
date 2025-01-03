@@ -32,7 +32,7 @@ export class AppService {
       return {
         path: '/',
         page: page.name,
-        resources: page.resources,
+        sections: page.sections,
       };
     });
   }

@@ -1,5 +1,4 @@
-import { Page } from 'src/pages/entities/page.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Resource {
@@ -26,7 +25,4 @@ export class Resource {
 
   @Column()
   order: number;
-
-  @ManyToMany(() => Page, (page) => page.resources)
-  pages: Page[];
 }

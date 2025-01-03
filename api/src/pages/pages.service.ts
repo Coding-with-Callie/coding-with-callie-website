@@ -12,7 +12,7 @@ export class PageService {
 
   async getPages() {
     return await this.pageRepository.find({
-      relations: ['resources'],
+      relations: ['sections'],
     });
   }
 }

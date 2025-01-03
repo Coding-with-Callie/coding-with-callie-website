@@ -21,7 +21,7 @@ const getRoutes = async () => {
   const children = routes.data.map((route: any) => {
     return {
       path: route.path,
-      element: <Page resources={route.resources} />,
+      element: <Page data={route.sections} />,
     };
   });
 

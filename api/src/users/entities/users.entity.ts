@@ -1,3 +1,4 @@
+import { Page } from '../../pages/entities/page.entity';
 import { Checklist } from '../../checklists/entities/checklist.entity';
 import { Review } from '../../review/entities/review.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
@@ -33,4 +34,7 @@ export class Users {
 
   @OneToMany(() => Checklist, (checklist) => checklist.user)
   checklists: Checklist[];
+
+  @OneToMany(() => Page, (page) => page.user)
+  pages: Page[];
 }
