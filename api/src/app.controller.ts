@@ -55,6 +55,11 @@ export class AppController {
     private readonly fileUploadService: FileUploadService,
   ) {}
 
+  @Get('routes')
+  getRoutes() {
+    return this.appService.getRoutes();
+  }
+
   @UseInterceptors(FileInterceptor('file'))
   @Post('signup')
   async signUp(

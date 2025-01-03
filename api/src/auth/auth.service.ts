@@ -92,11 +92,11 @@ export class AuthService {
       value,
     );
 
-    // Return the updated parent checklist
+    // If we passed in a parent id, return the updated parent checklist
     if (parentListId) {
       return await this.checklistService.getChecklistById(userId, parentListId);
     }
-    // Return the updated checklist
+    // Otherwise return the updated checklist
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
 

@@ -20,6 +20,9 @@ import {
 import EditPassword from "./Components/Profile/EditPassword";
 import Checklists from "./Pages/Checklists";
 import Checklist from "./Pages/Checklist";
+import { axiosPublic } from "./helpers/axios_instances";
+import path from "path";
+import Page from "./Pages/Page";
 
 export const showNotification = (
   message: string,
@@ -28,81 +31,27 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    loader: () => Load("user-details"),
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-        loader: () => Load("resources"),
-      },
-      {
-        path: "/*",
-        element: <Paragraph>Not Found</Paragraph>,
-      },
-      {
-        path: "/workshops",
-        element: <Workshops />,
-        loader: () => Load("workshops"),
-      },
-      {
-        path: "/reviews",
-        element: <Reviews />,
-        loader: () => Load("reviews"),
-      },
-      {
-        path: "/contact",
-        element: <ContactCallie />,
-      },
-      {
-        path: "/guest-speakers",
-        element: <GuestSpeakers />,
-        loader: () => Load("speakers"),
-      },
-      {
-        path: "/jobs",
-        element: <Jobs />,
-      },
-      {
-        path: "/sign-up",
-        element: <SignUp />,
-        loader: RedirectLoggedInUser,
-      },
-      {
-        path: "/log-in",
-        element: <LogIn />,
-        loader: RedirectLoggedInUser,
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-        loader: () => Load("profile"),
-      },
-      {
-        path: "/change-password",
-        element: <EditPassword />,
-        loader: () => Load("profile"),
-      },
-      {
-        path: "/profile/:token/:id",
-        element: <Profile />,
-        loader: ProfileResetLoader,
-      },
-      {
-        path: "/checklists",
-        element: <Checklists />,
-        loader: () => Load("checklists"),
-      },
-      {
-        path: "/checklist/:id",
-        element: <Checklist />,
-        loader: ({ params }) => Load(`checklist/${params.id}`),
-      },
-    ],
-  },
-]);
+const getRoutes = async () => {
+  const routes = await axiosPublic.get("routes");
+
+  const children = routes.data.map((route: any) => {
+    return {
+      path: route.path,
+      element: <Page />,
+      loader: () => Load(route.loader),
+    };
+  });
+
+  return [
+    {
+      element: <App />,
+      loader: () => Load("user-details"),
+      children,
+    },
+  ];
+};
+
+const router = createBrowserRouter(await getRoutes());
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

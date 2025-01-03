@@ -121,7 +121,7 @@ export class AuthController {
     @Body('description') description?: string,
     @Body('parentId') parentId?: number,
   ) {
-    return await this.authService.createChecklist(
+    return await this.authService.createChecklistAndReturnUpdatedChecklists(
       req.user.sub,
       name,
       description,

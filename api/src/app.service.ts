@@ -23,6 +23,15 @@ export class AppService {
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
   ) {}
+  async getRoutes() {
+    return [
+      {
+        path: '/',
+        page: 'Home',
+        loader: 'resources',
+      },
+    ];
+  }
 
   async getAllResources() {
     return await this.resourceService.getResources();
