@@ -12,6 +12,7 @@ import { MailService } from './mail/mail.service';
 import { NewUserDto } from './app.controller';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from './users/entities/users.entity';
+import { PageService } from './pages/pages.service';
 
 @Injectable()
 export class AppService {
@@ -22,15 +23,18 @@ export class AppService {
     private readonly speakersService: SpeakersService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
+    private readonly pageService: PageService,
   ) {}
   async getRoutes() {
-    return [
-      {
+    const pages = await this.pageService.getPages();
+
+    return pages.map((page) => {
+      return {
         path: '/',
-        page: 'Home',
-        loader: 'resources',
-      },
-    ];
+        page: page.name,
+        resources: page.resources,
+      };
+    });
   }
 
   async getAllResources() {

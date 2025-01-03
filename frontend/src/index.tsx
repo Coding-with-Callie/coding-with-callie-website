@@ -2,26 +2,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
-import Home from "./Pages/Home";
-import Workshops from "./Pages/Workshops";
-import ContactCallie from "./Pages/ContactCallie";
-import SignUp from "./Pages/SignUp";
-import LogIn from "./Pages/LogIn";
-import Profile from "./Pages/Profile";
-import Reviews from "./Pages/Reviews";
-import GuestSpeakers from "./Pages/GuestSpeakers";
-import Paragraph from "./Components/Paragraph";
-import Jobs from "./Pages/Jobs";
-import {
-  Load,
-  ProfileResetLoader,
-  RedirectLoggedInUser,
-} from "./helpers/loader_functions";
-import EditPassword from "./Components/Profile/EditPassword";
-import Checklists from "./Pages/Checklists";
-import Checklist from "./Pages/Checklist";
+import { Load } from "./helpers/loader_functions";
 import { axiosPublic } from "./helpers/axios_instances";
-import path from "path";
 import Page from "./Pages/Page";
 
 export const showNotification = (
@@ -34,12 +16,18 @@ export const showNotification = (
 const getRoutes = async () => {
   const routes = await axiosPublic.get("routes");
 
+  console.log("routes:", routes);
+
   const children = routes.data.map((route: any) => {
     return {
       path: route.path,
-      element: <Page />,
-      loader: () => Load(route.loader),
+      element: <Page resources={route.resources} />,
     };
+  });
+
+  children.push({
+    path: "/*",
+    element: <div>Page not found!</div>,
   });
 
   return [
