@@ -60,8 +60,8 @@ const Section = ({
       {data.type === "resource" && edit ? (
         <EditableTextWithImageAndButton
           id={data.id}
-          resource={data.data}
-          setResources={setPageData}
+          initialState={data.data}
+          setPageData={setPageData}
           setEdit={setEdit}
         />
       ) : (

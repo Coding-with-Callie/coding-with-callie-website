@@ -1,6 +1,3 @@
-import { useLoaderData, useOutletContext } from "react-router-dom";
-import { Context } from "../App";
-import Resources from "../Components/Home/Resources";
 import callie from "../images/callie.png";
 import PhotoAndText from "../Components/Home/PhotoAndText";
 
@@ -11,25 +8,10 @@ const text = [
   "Currently, I'm a Site Reliability Engineer II at HashiCorp! I love coding a little too much and find it difficult to stop coding after hours. So, I decided to switch it up and spend my after hours coding time on Coding with Callie.",
 ];
 
-export type ResourceType = {
-  id: number;
-  heading: string;
-  imageUrl: string;
-  linkUrl: string;
-  buttonText: string;
-  bodyText: string[];
-  target: boolean;
-  order: number;
-};
-
 const Home = () => {
-  const resources = useLoaderData() as ResourceType[];
-  const { user } = useOutletContext() as Context;
-
   return (
     <>
       <PhotoAndText heading="Hi, I'm Callie 👋🏻" text={text} image={callie} />
-      <Resources data={resources} role={user.role} />
     </>
   );
 };

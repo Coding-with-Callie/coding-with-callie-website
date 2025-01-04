@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ResourceType } from "../../Pages/Home";
 import FormInputs from "../Forms/FormInputs";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import FormSubmitButton from "../Forms/FormSubmitButton";
@@ -7,25 +6,17 @@ import { editableResourceFormData } from "../../helpers/forms";
 
 type Props = {
   id: number;
-  resource: ResourceType;
-  setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
+  initialState: any;
+  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const EditableTextWithImageAndButton = ({
   id,
-  resource,
-  setResources,
+  initialState,
+  setPageData,
   setEdit,
 }: Props) => {
-  const initialState = {
-    heading: resource.heading,
-    image: "",
-    bodyText: resource.bodyText.join("\n\n"),
-    linkUrl: resource.linkUrl,
-    buttonText: resource.buttonText,
-    target: resource.target,
-  };
   const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -64,7 +55,7 @@ const EditableTextWithImageAndButton = ({
           axiosType={"admin"}
           route={`/resource/${id}`}
           message={"Resource updated!"}
-          updateData={setResources}
+          updateData={setPageData}
           setEdit={setEdit}
           method="put"
           initialState={initialState}
