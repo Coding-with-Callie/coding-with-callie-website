@@ -5,7 +5,6 @@ import { Context } from "../App";
 import BodyHeading from "../Components/BodyHeading";
 import MyButton from "../Components/MyButton";
 import Alert from "../Components/Profile/Alert";
-import Section from "../Components/Section";
 import { axiosPrivate } from "../helpers/axios_instances";
 import { showNotification } from "..";
 import AccountDetails from "../Components/Profile/AccountDetails";
@@ -52,23 +51,21 @@ const Profile = () => {
 
   return (
     <>
-      <Section>
-        <BodyHeading textAlign="center">Account Details</BodyHeading>
-        <AccountDetails />
+      <BodyHeading textAlign="center">Account Details</BodyHeading>
+      <AccountDetails />
 
-        <MyButton onClick={() => navigate("/change-password")}>
-          Change Password
-        </MyButton>
-        <Box
-          display="flex"
-          flexDirection={isLargerThan500 ? "row" : "column"}
-          gap={2}
-          mt={6}
-        >
-          <MyButton onClick={logout}>Log out</MyButton>
-          <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
-        </Box>
-      </Section>
+      <MyButton onClick={() => navigate("/change-password")}>
+        Change Password
+      </MyButton>
+      <Box
+        display="flex"
+        flexDirection={isLargerThan500 ? "row" : "column"}
+        gap={2}
+        mt={6}
+      >
+        <MyButton onClick={logout}>Log out</MyButton>
+        <MyButton onClick={onOpenAlert}>Delete Account</MyButton>
+      </Box>
 
       <Alert
         isOpenAlert={isOpenAlert}

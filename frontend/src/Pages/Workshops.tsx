@@ -37,18 +37,12 @@ const Workshops = () => {
 
   return (
     <>
-      <Section>
-        <BodyHeading>My Workshop Origin Story</BodyHeading>
-        <BodyText textBlocks={why} />
-      </Section>
-      <Section>
-        <BodyHeading> Make it work first, and then make it better</BodyHeading>
-        <BodyText textBlocks={mantra} />
-      </Section>
-      <Section>
-        <BodyHeading>What sets Coding with Callie workshops apart?</BodyHeading>
-        <BodyText textBlocks={difference} />
-      </Section>
+      <BodyHeading>My Workshop Origin Story</BodyHeading>
+      <BodyText textBlocks={why} />
+      <BodyHeading> Make it work first, and then make it better</BodyHeading>
+      <BodyText textBlocks={mantra} />
+      <BodyHeading>What sets Coding with Callie workshops apart?</BodyHeading>
+      <BodyText textBlocks={difference} />
       <WorkshopTilesContainer>
         <WorkshopTiles workshops={workshops} />
       </WorkshopTilesContainer>

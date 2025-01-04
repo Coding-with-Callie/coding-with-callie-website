@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import MyButton from "../Components/MyButton";
-import Section from "../Components/Section";
 import LogInForm from "../Components/LogIn/LogInForm";
 import { axiosPublic } from "../helpers/axios_instances";
 import { showNotification } from "..";
@@ -49,43 +48,41 @@ const LogIn = () => {
   return (
     <>
       <LogInForm />
-      <Section>
-        <Box
-          display="flex"
-          gap={6}
-          alignItems="center"
-          justifyContent="center"
-          flexDirection={isLargerThan450 ? "row" : "column"}
-        >
-          <Text w="fit-content" whiteSpace="nowrap">
-            Forgot your password?
-          </Text>
-          <MyButton onClick={onOpen}>Reset Password</MyButton>
-        </Box>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader color="#45446A" mx={2}>
-              Enter the email address associated with your account:
-            </ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Box display="flex" flexDirection="column" gap={4} mb={4}>
-                <Input
-                  onChange={(e: any) => {
-                    setEmail(e.target.value);
-                  }}
-                  variant="filled"
-                  value={email}
-                />
-                <MyButton onClick={resetPassword}>
-                  Send verification email!
-                </MyButton>
-              </Box>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </Section>
+      <Box
+        display="flex"
+        gap={6}
+        alignItems="center"
+        justifyContent="center"
+        flexDirection={isLargerThan450 ? "row" : "column"}
+      >
+        <Text w="fit-content" whiteSpace="nowrap">
+          Forgot your password?
+        </Text>
+        <MyButton onClick={onOpen}>Reset Password</MyButton>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader color="#45446A" mx={2}>
+            Enter the email address associated with your account:
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box display="flex" flexDirection="column" gap={4} mb={4}>
+              <Input
+                onChange={(e: any) => {
+                  setEmail(e.target.value);
+                }}
+                variant="filled"
+                value={email}
+              />
+              <MyButton onClick={resetPassword}>
+                Send verification email!
+              </MyButton>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -17,32 +17,30 @@ const Checklist = () => {
 
   return (
     <>
-      <Section>
-        <Breadcrumb
-          spacing="8px"
-          separator={<ChevronRightIcon color="gray.500" />}
-        >
-          <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to="/checklists" color={text}>
-              Checklists
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          {checklist.breadcrumbs.map((breadcrumb) => {
-            return (
-              <BreadcrumbItem>
-                <BreadcrumbLink
-                  as={Link}
-                  to={`/checklist/${breadcrumb.id}`}
-                  isCurrentPage={checklist.id === breadcrumb.id}
-                  color={text}
-                >
-                  {breadcrumb.name}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            );
-          })}
-        </Breadcrumb>
-      </Section>
+      <Breadcrumb
+        spacing="8px"
+        separator={<ChevronRightIcon color="gray.500" />}
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink as={Link} to="/checklists" color={text}>
+            Checklists
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {checklist.breadcrumbs.map((breadcrumb) => {
+          return (
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                as={Link}
+                to={`/checklist/${breadcrumb.id}`}
+                isCurrentPage={checklist.id === breadcrumb.id}
+                color={text}
+              >
+                {breadcrumb.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          );
+        })}
+      </Breadcrumb>
       <ChecklistContainer
         checklist={checklist}
         children={checklist.children}

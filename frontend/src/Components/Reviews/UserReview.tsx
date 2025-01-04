@@ -3,7 +3,6 @@ import { Review } from "../../Pages/Reviews";
 import Paragraph from "../Paragraph";
 import StarRating from "./StarRating";
 import { format } from "date-fns";
-import ReviewContainer from "./ReviewContainer";
 
 type Props = {
   review: Review;
@@ -14,7 +13,7 @@ const UserReview = ({ review, index }: Props) => {
   const [isLargerThan550] = useMediaQuery("(min-width: 550px)");
 
   return (
-    <ReviewContainer index={index}>
+    <>
       <Box display="flex" gap={3}>
         {isLargerThan550 && (
           <Avatar src={review.user.photo} name={review.displayName} size="lg" />
@@ -52,7 +51,7 @@ const UserReview = ({ review, index }: Props) => {
       {review.comments.length > 0 && (
         <Text mt={6}>{`"${review.comments}"`}</Text>
       )}
-    </ReviewContainer>
+    </>
   );
 };
 

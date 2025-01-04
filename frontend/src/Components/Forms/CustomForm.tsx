@@ -1,9 +1,9 @@
 import { CustomFormData } from "../../helpers/forms";
-import FormContainer from "./FormContainer";
 import FormHeading from "./FormHeading";
 import FormInputs from "./FormInputs";
 import { useState } from "react";
 import FormSubmitButton from "./FormSubmitButton";
+import FormContainer from "./FormContainer";
 
 type Props = {
   form: CustomFormData;

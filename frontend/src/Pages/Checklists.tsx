@@ -21,17 +21,15 @@ const Checklists = () => {
         };
 
         return (
-          <Section>
+          <>
             <BodyHeading>{checklist.name}</BodyHeading>
             <Text mb={6}>{checklist.description}</Text>
             <MyButton onClick={openChecklist}>View Checklist!</MyButton>
-          </Section>
+          </>
         );
       })}
 
-      <Section>
-        <CreateChecklistForm setChecklist={setChecklists} parentId={null} />
-      </Section>
+      <CreateChecklistForm setChecklist={setChecklists} parentId={null} />
     </>
   );
 };

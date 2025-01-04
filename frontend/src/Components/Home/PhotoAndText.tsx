@@ -14,27 +14,25 @@ const PhotoAndText = ({ heading, text, image }: Props) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   return (
-    <Section>
-      <Box
-        display="flex"
-        gap={10}
-        flexDirection={isLargerThan1300 ? "row" : "column"}
-        alignItems="center"
-      >
-        <Image
-          src={image}
-          border="1px solid #A9A9A9"
-          borderRadius="50%"
-          h={isLargerThan500 ? "350px" : "250px"}
-          boxShadow="lg"
-          w={isLargerThan500 ? "350px" : "250px"}
-        />
-        <Box>
-          <BodyHeading>{heading}</BodyHeading>
-          <BodyText textBlocks={text} />
-        </Box>
+    <Box
+      display="flex"
+      gap={10}
+      flexDirection={isLargerThan1300 ? "row" : "column"}
+      alignItems="center"
+    >
+      <Image
+        src={image}
+        border="1px solid #A9A9A9"
+        borderRadius="50%"
+        h={isLargerThan500 ? "350px" : "250px"}
+        boxShadow="lg"
+        w={isLargerThan500 ? "350px" : "250px"}
+      />
+      <Box>
+        <BodyHeading>{heading}</BodyHeading>
+        <BodyText textBlocks={text} />
       </Box>
-    </Section>
+    </Box>
   );
 };
 
