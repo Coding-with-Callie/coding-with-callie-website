@@ -16,8 +16,6 @@ export const showNotification = (
 const getRoutes = async () => {
   const routes = await axiosPublic.get("routes");
 
-  console.log("routes:", routes);
-
   const children = routes.data.map((route: any) => {
     return {
       path: route.path,

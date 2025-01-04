@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import TextWithImageAndButton from "./TextWithImageAndButton";
 import { ResourceType } from "../../Pages/Home";
 import { useState } from "react";
-import EditableResource from "./EditableResource";
+import EditableResource from "./EditableTextWithImageAndButton";
 
 type Props = {
   resource: ResourceType;
@@ -23,12 +23,7 @@ const Resource = ({ resource, setResources, numResources }: Props) => {
           setEdit={setEdit}
         />
       ) : (
-        <TextWithImageAndButton
-          resource={resource}
-          setResources={setResources}
-          setEdit={setEdit}
-          numResources={numResources}
-        />
+        <TextWithImageAndButton data={resource} />
       )}
     </Box>
   );

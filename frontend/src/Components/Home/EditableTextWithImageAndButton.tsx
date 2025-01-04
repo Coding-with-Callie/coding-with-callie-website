@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ResourceType } from "../../Pages/Home";
 import FormInputs from "../Forms/FormInputs";
-import Section from "../Section";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import FormSubmitButton from "../Forms/FormSubmitButton";
 import { editableResourceFormData } from "../../helpers/forms";
@@ -13,7 +12,12 @@ type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
+const EditableTextWithImageAndButton = ({
+  id,
+  resource,
+  setResources,
+  setEdit,
+}: Props) => {
   const initialState = {
     heading: resource.heading,
     image: "",
@@ -36,7 +40,7 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
   };
 
   return (
-    <Section>
+    <>
       <Box
         mb={6}
         gap={6}
@@ -112,8 +116,8 @@ const EditableResource = ({ id, resource, setResources, setEdit }: Props) => {
           submitClicked={submitClicked}
         />
       </Box>
-    </Section>
+    </>
   );
 };
 
-export default EditableResource;
+export default EditableTextWithImageAndButton;

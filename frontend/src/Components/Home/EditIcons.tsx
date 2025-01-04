@@ -9,23 +9,16 @@ import Alert from "../Profile/Alert";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { axiosAdmin } from "../../helpers/axios_instances";
-import { ResourceType } from "../../Pages/Home";
 
 type Props = {
   id: number;
   order: number;
-  numResources: number;
-  setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
+  numSections: number;
+  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditIcons = ({
-  id,
-  order,
-  numResources,
-  setResources,
-  setEdit,
-}: Props) => {
+const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
@@ -37,7 +30,7 @@ const EditIcons = ({
     axiosAdmin
       .delete(`/resource/${id}`)
       .then((response) => {
-        setResources(response.data);
+        setPageData(response.data);
         onCloseAlert();
         toast.success("Resource deleted successfully from home page!");
       })
@@ -65,7 +58,7 @@ const EditIcons = ({
         direction,
       })
       .then((response) => {
-        setResources(response.data);
+        setPageData(response.data);
       })
       .catch(() => {
         toast.error("Error moving resource");
@@ -92,7 +85,7 @@ const EditIcons = ({
           icon={<FaRegHandPointDown />}
           onClick={moveResource.bind(null, "down")}
           colorScheme="blue"
-          disabled={order === numResources}
+          disabled={order === numSections}
         />
         <IconButton
           aria-label={"delete resource"}

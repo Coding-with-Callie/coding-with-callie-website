@@ -1,22 +1,22 @@
-import { useOutletContext } from "react-router-dom";
-import { Context } from "../App";
-import Resources from "../Components/Home/Resources";
+import { useState } from "react";
+import Section from "../Components/Section";
 
 type Props = {
   data: any[];
 };
 
 const Page = ({ data }: Props) => {
-  const { user } = useOutletContext() as Context;
+  const [pageData, setPageData] = useState(data);
 
   return (
     <>
-      {data.map((section) => {
-        if (section.type === "resource") {
-          return <Resources data={[section.data]} role={user.role} />;
-        }
-        return <div>hello</div>;
-      })}
+      {data.map((section) => (
+        <Section
+          data={section}
+          numSections={pageData.length}
+          setPageData={setPageData}
+        />
+      ))}
     </>
   );
 };
