@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { ResourceService } from '../resource/resource.service';
 import { ResourceDTO, SpeakerDTO } from './admin.controller';
 import { SpeakersService } from '../speakers/speakers.service';
+import { SectionsService } from '../sections/sections.service';
 
 @Injectable()
 export class AdminService {
   constructor(
     private resourceService: ResourceService,
     private speakersService: SpeakersService,
+    private sectionsService: SectionsService,
   ) {}
   async createResourceAndReturnUpdatedResources(
     resource: ResourceDTO,
@@ -34,7 +36,10 @@ export class AdminService {
     file: Express.Multer.File,
   ) {
     // Update the resource
-    await this.resourceService.updateResource(id, resource, file);
+    // await this.resourceService.updateResource(id, resource, file);
+
+    // Update the section
+    await this.sectionsService.updateSection(id, resource, file);
 
     // Return the updated resources
     return await this.resourceService.getResources();

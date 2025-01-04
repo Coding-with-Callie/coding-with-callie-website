@@ -134,8 +134,6 @@ export class ChecklistService {
 
   // Delete a checklist from the database
   async deleteChecklist(userId: number, checklistId: number) {
-    console.log('checklistId', checklistId);
-
     const checklist = await this.checklistRepository.findOne({
       where: {
         id: checklistId,
