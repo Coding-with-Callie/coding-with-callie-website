@@ -44,7 +44,7 @@ const Header = ({ user, updateUser, pages }: Props) => {
           </Box>
         </Link>
       </Box>
-      <Menus user={user} updateUser={updateUser} pages={pages} />
+      <Menus pages={pages} />
 
       {loggedIn ? (
         <Avatar
