@@ -15,6 +15,7 @@ const Page = ({ data }: Props) => {
           data={section}
           numSections={pageData.length}
           setPageData={setPageData}
+          key={section.id}
         />
       ))}
     </>
