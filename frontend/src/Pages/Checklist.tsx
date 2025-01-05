@@ -4,7 +4,6 @@ import ChecklistContainer from "../Components/Checklists/ChecklistContainer";
 import { useEffect, useState } from "react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
-import Section from "../Components/Section";
 import { text } from "../Components/theme";
 
 const Checklist = () => {

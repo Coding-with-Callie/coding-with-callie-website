@@ -22,7 +22,11 @@ export type CustomError = {
   path?: string;
 };
 
-function App() {
+type Props = {
+  pages: any[];
+};
+
+function App({ pages }: Props) {
   const data = useLoaderData();
   const [user, setUser] = useState<any>(data);
 
@@ -50,7 +54,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <DndProvider backend={HTML5Backend}>
         <Box display="flex" flexDirection="column" minHeight="100vh">
-          <Header user={user} updateUser={updateUser} />
+          <Header user={user} updateUser={updateUser} pages={pages} />
           <Box flex={1} pb={20} backgroundColor={mainBackground}>
             <Outlet context={context} />
           </Box>

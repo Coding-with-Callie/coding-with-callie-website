@@ -15,8 +15,8 @@ const HamburgerMenu = ({ menuItems }: Props) => {
       <MenuList>
         {menuItems.map((item: any, index: number) => {
           return (
-            <Link to={`/${item.path}`} key={index}>
-              <MenuItem>{item.name}</MenuItem>
+            <Link to={item.path} key={index}>
+              <MenuItem>{item.page}</MenuItem>
             </Link>
           );
         })}

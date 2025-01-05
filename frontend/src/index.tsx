@@ -14,7 +14,9 @@ export const showNotification = (
 };
 
 const getRoutes = async () => {
-  const routes = await axiosPublic.get("routes");
+  const routes = (await axiosPublic.get("routes")) as any;
+
+  console.log("routes", routes);
 
   const children = routes.data.map((route: any) => {
     return {
@@ -30,7 +32,7 @@ const getRoutes = async () => {
 
   return [
     {
-      element: <App />,
+      element: <App pages={routes.data} />,
       loader: () => Load("user-details"),
       children,
     },

@@ -3,7 +3,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import FullMenu from "./FullMenu";
 import { menuItem, menuItems } from "./menuItems";
 
-const Menus = ({ user }: any) => {
+const Menus = ({ user, pages }: any) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
 
@@ -28,9 +28,9 @@ const Menus = ({ user }: any) => {
   return (
     <>
       {isLargerThan1300 ? (
-        <FullMenu menuItems={filteredMenuItems} />
+        <FullMenu menuItems={pages} />
       ) : (
-        <HamburgerMenu menuItems={filteredMenuItems} />
+        <HamburgerMenu menuItems={pages} />
       )}
     </>
   );

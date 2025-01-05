@@ -7,9 +7,10 @@ const sloth = require("../../src/images/sloth.png");
 type Props = {
   user: any;
   updateUser: (newUser: any) => void;
+  pages: any[];
 };
 
-const Header = ({ user, updateUser }: Props) => {
+const Header = ({ user, updateUser, pages }: Props) => {
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ const Header = ({ user, updateUser }: Props) => {
           </Box>
         </Link>
       </Box>
-      <Menus user={user} updateUser={updateUser} />
+      <Menus user={user} updateUser={updateUser} pages={pages} />
 
       {loggedIn ? (
         <Avatar
