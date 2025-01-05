@@ -45,6 +45,7 @@ const Section = ({
           setPageData={setPageData}
           edit={edit}
           setEdit={setEdit}
+          id={data.id}
         />
       )}
     </Box>

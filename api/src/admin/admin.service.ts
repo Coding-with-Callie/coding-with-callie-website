@@ -3,6 +3,7 @@ import { ResourceService } from '../resource/resource.service';
 import { ResourceDTO, SpeakerDTO } from './admin.controller';
 import { SpeakersService } from '../speakers/speakers.service';
 import { SectionsService } from '../sections/sections.service';
+import { PagesService } from '../pages/pages.service';
 
 @Injectable()
 export class AdminService {
@@ -10,6 +11,7 @@ export class AdminService {
     private resourceService: ResourceService,
     private speakersService: SpeakersService,
     private sectionsService: SectionsService,
+    private pagesService: PagesService,
   ) {}
   async createResourceAndReturnUpdatedResources(
     resource: ResourceDTO,
@@ -30,19 +32,17 @@ export class AdminService {
     return await this.resourceService.getResources();
   }
 
-  async updateResourceAndReturnUpdatedResources(
+  async updateSectionAndReturnUpdatedPageSections(
     id: number,
     resource: ResourceDTO,
     file: Express.Multer.File,
   ) {
-    // Update the resource
-    // await this.resourceService.updateResource(id, resource, file);
-
     // Update the section
     await this.sectionsService.updateSection(id, resource, file);
 
-    // Return the updated resources
-    return await this.resourceService.getResources();
+    // Return the updated page
+    const page = await this.pagesService.getPageBySectionId(id);
+    return page.sections;
   }
 
   async updateResourceOrderAndReturnUpdatedResources(

@@ -96,13 +96,13 @@ export class AdminController {
   }
 
   @UseInterceptors(FileInterceptor('file'))
-  @Put('resource/:id')
-  async updateResourceAndReturnUpdatedResources(
+  @Put('section/:id')
+  async updateSectionAndReturnUpdatedPage(
     @Param('id') id: number,
     @Body() resource: ResourceDTO,
     @UploadedFile() @Optional() file?: Express.Multer.File,
   ) {
-    return await this.adminService.updateResourceAndReturnUpdatedResources(
+    return await this.adminService.updateSectionAndReturnUpdatedPageSections(
       id,
       resource,
       file,

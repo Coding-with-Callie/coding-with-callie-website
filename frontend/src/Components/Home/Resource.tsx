@@ -18,14 +18,15 @@ type Props = {
   setPageData: React.Dispatch<React.SetStateAction<any[]>>;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  id: number;
 };
 
-const Resource = ({ resource, setPageData, edit, setEdit }: Props) => {
+const Resource = ({ resource, setPageData, edit, setEdit, id }: Props) => {
   return (
     <Box>
       {edit ? (
         <EditableTextWithImageAndButton
-          id={resource.id}
+          id={id}
           initialState={resource}
           setPageData={setPageData}
           setEdit={setEdit}

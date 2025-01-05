@@ -12,7 +12,7 @@ import { MailService } from './mail/mail.service';
 import { NewUserDto } from './app.controller';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from './users/entities/users.entity';
-import { PageService } from './pages/pages.service';
+import { PagesService } from './pages/pages.service';
 
 @Injectable()
 export class AppService {
@@ -23,10 +23,10 @@ export class AppService {
     private readonly speakersService: SpeakersService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
-    private readonly pageService: PageService,
+    private readonly pagesService: PagesService,
   ) {}
   async getRoutes() {
-    const pages = await this.pageService.getPages();
+    const pages = await this.pagesService.getPages();
 
     return pages.map((page) => {
       return {

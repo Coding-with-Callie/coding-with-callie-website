@@ -102,7 +102,7 @@ const FormSubmitButton = ({
     let dataToSend = data;
 
     if (
-      route.includes("/resource") ||
+      route.includes("/section") ||
       route === "/signup" ||
       route === "/speaker"
     ) {

@@ -17,7 +17,7 @@ import { FileUploadModule } from './file_upload/file_upload.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import jwt from './config/jwt';
 import { AdminModule } from './admin/admin.module';
-import { PageModule } from './pages/pages.module';
+import { PagesModule } from './pages/pages.module';
 
 @Module({
   imports: [
@@ -41,7 +41,7 @@ import { PageModule } from './pages/pages.module';
     WorkshopsModule,
     ResourceModule,
     FileUploadModule,
-    PageModule,
+    PagesModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
