@@ -1,7 +1,7 @@
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import theme, { mainBackground } from "./Components/theme";
-import Header from "./Header";
+import Header from "./Header/Header";
 import "@fontsource/pacifico/400.css";
 import "@fontsource/sometype-mono/500.css";
 import { useState } from "react";

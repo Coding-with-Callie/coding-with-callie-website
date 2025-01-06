@@ -1,5 +1,4 @@
 import React from "react";
-import { Speaker } from "../../Pages/GuestSpeakers";
 import {
   Center,
   Divider,
@@ -10,10 +9,9 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import SpeakerCard from "./SpeakerCard";
 import BodyHeading from "../BodyHeading";
-import Section from "../Section";
 
 interface Props {
-  speakers: Speaker[];
+  speakers: any[];
 }
 const UpcomingCarousel = ({ speakers }: Props) => {
   const [activeSpeaker, setActiveSpeaker] = React.useState(0);

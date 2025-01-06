@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Speaker } from "../../Pages/GuestSpeakers";
 import {
   useMediaQuery,
   Image,
@@ -29,10 +28,10 @@ import { FaRegCheckCircle, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { validURL } from "../../helpers/helpers";
 
 type Props = {
-  speaker: Speaker;
+  speaker: any;
   editable: boolean;
-  setPastSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
-  setUpcomingSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
+  setPastSpeakers: React.Dispatch<React.SetStateAction<any[]>>;
+  setUpcomingSpeakers: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 const GuestSpeaker = ({

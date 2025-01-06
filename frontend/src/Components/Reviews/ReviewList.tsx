@@ -1,9 +1,8 @@
 import { Box } from "@chakra-ui/react";
-import { Review } from "../../Pages/Reviews";
 import UserReview from "./UserReview";
 
 type Props = {
-  reviews: Review[];
+  reviews: any[];
 };
 
 const ReviewList = ({ reviews }: Props) => {

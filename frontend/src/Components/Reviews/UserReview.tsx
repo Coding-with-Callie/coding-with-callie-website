@@ -1,11 +1,10 @@
 import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
-import { Review } from "../../Pages/Reviews";
 import Paragraph from "../Paragraph";
 import StarRating from "./StarRating";
 import { format } from "date-fns";
 
 type Props = {
-  review: Review;
+  review: any;
   index: number;
 };
 

@@ -1,10 +1,9 @@
 import { AspectRatio, Box, Image, useMediaQuery } from "@chakra-ui/react";
-import { Speaker } from "../../Pages/GuestSpeakers";
 import BodyHeading from "../BodyHeading";
 import ReactPlayer from "react-player";
 
 type Props = {
-  speaker: Speaker;
+  speaker: any;
 };
 
 const NewSpeaker = ({ speaker }: Props) => {

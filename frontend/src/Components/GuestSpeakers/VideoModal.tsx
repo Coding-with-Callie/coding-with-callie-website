@@ -10,12 +10,11 @@ import {
   Box,
 } from "@chakra-ui/react";
 import ReactPlayer from "react-player";
-import { Speaker } from "../../Pages/GuestSpeakers";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  speaker: Speaker;
+  speaker: any;
 };
 
 const VideoModal = ({ isOpen, onClose, speaker }: Props) => {
