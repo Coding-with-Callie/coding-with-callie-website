@@ -24,12 +24,18 @@ export class AdminService {
     return await this.resourceService.getResources();
   }
 
-  async deleteResourceAndReturnUpdatedResources(id: number) {
-    // Delete the resource
-    await this.resourceService.deleteResource(id);
+  async deleteSectionAndReturnUpdatedPage(id: number) {
+    // Get the page that the section belongs to
+    const page = await this.pagesService.getPageBySectionId(id);
 
-    // Return the updated resources
-    return await this.resourceService.getResources();
+    // Delete the section
+    await this.sectionsService.deleteSection(id);
+
+    // Delete the section from the page
+    page.sections = page.sections.filter((section) => section.id !== id);
+
+    // Return the updated page's sections
+    return page.sections;
   }
 
   async updateSectionAndReturnUpdatedPageSections(

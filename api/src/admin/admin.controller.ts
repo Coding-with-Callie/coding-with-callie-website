@@ -90,9 +90,9 @@ export class AdminController {
     );
   }
 
-  @Delete('resource/:id')
-  async deleteResourceAndReturnUpdatedResources(@Param('id') id: number) {
-    return await this.adminService.deleteResourceAndReturnUpdatedResources(id);
+  @Delete('section/:id')
+  async deleteSectionAndReturnUpdatedPage(@Param('id') id: number) {
+    return await this.adminService.deleteSectionAndReturnUpdatedPage(id);
   }
 
   @UseInterceptors(FileInterceptor('file'))

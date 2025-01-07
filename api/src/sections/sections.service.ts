@@ -40,4 +40,12 @@ export class SectionsService {
     // Return a success message
     return { message: 'Section updated successfully' };
   }
+
+  async deleteSection(id: number) {
+    // Delete the section
+    await this.sectionRepository.delete(id);
+
+    // Return a success message
+    return { message: 'Section deleted successfully' };
+  }
 }

@@ -26,16 +26,16 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const deleteResource = () => {
+  const deleteSection = () => {
     axiosAdmin
-      .delete(`/resource/${id}`)
+      .delete(`/section/${id}`)
       .then((response) => {
         setPageData(response.data);
         onCloseAlert();
-        toast.success("Resource deleted successfully from home page!");
+        toast.success("Section deleted successfully!");
       })
       .catch(() => {
-        toast.error("Error deleting resource");
+        toast.error("Error deleting section");
       });
   };
 
@@ -69,7 +69,7 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
     <>
       <Box mb={6} display="flex" gap={2}>
         <IconButton
-          aria-label={"edit resource"}
+          aria-label={"edit section"}
           icon={<FaRegEdit />}
           onClick={() => setEdit(true)}
         />
@@ -88,7 +88,7 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
           disabled={order === numSections}
         />
         <IconButton
-          aria-label={"delete resource"}
+          aria-label={"delete section"}
           icon={<FaRegTrashAlt />}
           onClick={onOpenAlert}
           colorScheme="red"
@@ -98,8 +98,8 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
         isOpenAlert={isOpenAlert}
         onCloseAlert={onCloseAlert}
         cancelRef={cancelRef}
-        item="resource"
-        handleDelete={deleteResource}
+        item="section"
+        handleDelete={deleteSection}
       />
     </>
   );
