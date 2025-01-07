@@ -2,19 +2,26 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 import { useState } from "react";
 import Resource from "./Home/Resource";
 import SectionHeading from "./Home/SectionHeading";
+import MyButton from "./MyButton";
 
 type Props = {
+  id: number;
+  type: string;
+  heading?: string;
   data: any;
   backgroundColor?: string;
-  numSections: number;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  numSections?: number;
+  setPageData?: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 const Section = ({
+  id,
   backgroundColor = "white",
   data,
   numSections,
   setPageData,
+  heading,
+  type,
 }: Props) => {
   const [edit, setEdit] = useState(false);
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
@@ -30,24 +37,27 @@ const Section = ({
       mx={isLargerThan900 ? "auto" : 8}
       boxShadow="lg"
     >
-      <SectionHeading
-        heading={data.data.heading}
-        id={data.id}
-        order={0}
-        numSections={numSections}
-        edit={edit}
-        setEdit={setEdit}
-        setPageData={setPageData}
-      />
-      {data.type === "resource" && (
+      {heading && numSections && setPageData && (
+        <SectionHeading
+          heading={heading}
+          id={id}
+          order={0}
+          numSections={numSections}
+          edit={edit}
+          setEdit={setEdit}
+          setPageData={setPageData}
+        />
+      )}
+      {type === "resource" && setPageData && (
         <Resource
-          resource={data.data}
+          resource={data}
           setPageData={setPageData}
           edit={edit}
           setEdit={setEdit}
-          id={data.id}
+          id={id}
         />
       )}
+      {type === "button" && <MyButton>{data}</MyButton>}
     </Box>
   );
 };
