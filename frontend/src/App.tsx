@@ -28,6 +28,7 @@ type Props = {
 
 function App({ pages }: Props) {
   const data = useLoaderData();
+
   const [user, setUser] = useState<any>(data);
 
   const updateUser = (newUser: any) => {

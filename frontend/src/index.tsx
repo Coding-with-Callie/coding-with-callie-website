@@ -13,15 +13,23 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-const getRoutes = async () => {
-  const routes = (await axiosPublic.get("routes")) as any;
+export type PageType = {
+  id: number;
+  name: string;
+  path: string;
+};
 
-  console.log("routes", routes);
+type RoutesType = {
+  data: PageType[];
+};
+
+const getRoutes = async () => {
+  const routes = (await axiosPublic.get("routes")) as RoutesType;
 
   const children = routes.data.map((route: any) => {
     return {
       path: route.path,
-      element: <Page data={route.sections} />,
+      element: <Page sections={route.sections} />,
     };
   });
 

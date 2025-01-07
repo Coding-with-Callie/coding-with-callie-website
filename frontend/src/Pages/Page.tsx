@@ -1,12 +1,29 @@
 import { useState } from "react";
 import Section from "../Components/Section";
+import MyButton from "../Components/MyButton";
+import SectionWrapper from "../Components/SectionWrapper";
 
-type Props = {
-  data: any[];
+export type ResourceType = {
+  heading: string;
+  imageUrl: string;
+  linkUrl: string;
+  buttonText: string;
+  bodyText: string[];
+  target: boolean;
 };
 
-const Page = ({ data }: Props) => {
-  const [pageData, setPageData] = useState(data);
+export type SectionType = {
+  id: number;
+  type: string;
+  data: ResourceType;
+};
+
+type Props = {
+  sections: SectionType[];
+};
+
+const Page = ({ sections }: Props) => {
+  const [pageData, setPageData] = useState(sections);
 
   return (
     <>
@@ -18,10 +35,11 @@ const Page = ({ data }: Props) => {
           key={section.id}
           id={section.id}
           type={section.type}
-          heading={section.data.heading || null}
         />
       ))}
-      <Section id={1} type="button" data={"Add a section!"} />
+      <SectionWrapper>
+        <MyButton>Add a section!</MyButton>
+      </SectionWrapper>
     </>
   );
 };

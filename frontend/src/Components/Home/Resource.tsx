@@ -1,20 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import TextWithImageAndButton from "./TextWithImageAndButton";
 import EditableTextWithImageAndButton from "./EditableTextWithImageAndButton";
-
-export type ResourceData = {
-  id: number;
-  heading: string;
-  imageUrl: string;
-  linkUrl: string;
-  buttonText: string;
-  bodyText: string[];
-  target: boolean;
-  order: number;
-};
+import { ResourceType } from "../../Pages/Page";
 
 type Props = {
-  resource: ResourceData;
+  resource: ResourceType;
   setPageData: React.Dispatch<React.SetStateAction<any[]>>;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
