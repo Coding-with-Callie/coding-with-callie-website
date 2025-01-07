@@ -3,12 +3,13 @@ import ImageWithBorder from "./ImageWithBorder";
 import { Link } from "react-router-dom";
 import MyButton from "../MyButton";
 import BodyText from "../BodyText";
+import { TextWithImageAndLinkType } from "../../Pages/Page";
 
 type Props = {
-  data: any;
+  data: TextWithImageAndLinkType;
 };
 
-const TextWithImageAndButton = ({ data }: Props) => {
+const TextWithImageAndLink = ({ data }: Props) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   return (
@@ -30,4 +31,4 @@ const TextWithImageAndButton = ({ data }: Props) => {
   );
 };
 
-export default TextWithImageAndButton;
+export default TextWithImageAndLink;

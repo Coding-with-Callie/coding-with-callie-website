@@ -11,7 +11,7 @@ type Props = {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditableTextWithImageAndButton = ({
+const TextWithImageAndLinkForm = ({
   id,
   initialState,
   setPageData,
@@ -111,4 +111,4 @@ const EditableTextWithImageAndButton = ({
   );
 };
 
-export default EditableTextWithImageAndButton;
+export default TextWithImageAndLinkForm;

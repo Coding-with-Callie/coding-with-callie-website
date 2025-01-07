@@ -3,7 +3,7 @@ import Section from "../Components/Section";
 import MyButton from "../Components/MyButton";
 import SectionWrapper from "../Components/SectionWrapper";
 
-export type ResourceType = {
+export type TextWithImageAndLinkType = {
   heading: string;
   imageUrl: string;
   linkUrl: string;
@@ -15,7 +15,7 @@ export type ResourceType = {
 export type SectionType = {
   id: number;
   type: string;
-  data: ResourceType;
+  data: TextWithImageAndLinkType;
 };
 
 type Props = {
