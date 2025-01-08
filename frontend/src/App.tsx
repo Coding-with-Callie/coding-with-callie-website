@@ -51,6 +51,8 @@ function App({ pages }: Props) {
     catchError,
   };
 
+  console.log("reload", pages);
+
   return (
     <ChakraProvider theme={theme}>
       <DndProvider backend={HTML5Backend}>

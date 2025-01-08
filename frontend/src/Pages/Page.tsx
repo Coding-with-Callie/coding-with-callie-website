@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Section from "../Components/Section";
 import MyButton from "../Components/MyButton";
 import SectionWrapper from "../Components/SectionWrapper";
@@ -30,6 +30,10 @@ type Props = {
 
 const Page = ({ data }: Props) => {
   const [page, setPage] = useState(data);
+
+  useEffect(() => {
+    setPage(data);
+  }, [data]);
 
   return (
     <>

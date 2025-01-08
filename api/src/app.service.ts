@@ -30,7 +30,7 @@ export class AppService {
 
     return pages.map((page) => {
       return {
-        path: '/',
+        path: page.path,
         page: page.name,
         sections: page.sections,
       };
