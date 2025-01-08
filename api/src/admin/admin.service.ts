@@ -34,8 +34,8 @@ export class AdminService {
     // Delete the section from the page
     page.sections = page.sections.filter((section) => section.id !== id);
 
-    // Return the updated page's sections
-    return page.sections;
+    // Return the updated page
+    return page;
   }
 
   async updateSectionAndReturnUpdatedPageSections(
@@ -47,8 +47,7 @@ export class AdminService {
     await this.sectionsService.updateSection(id, resource, file);
 
     // Return the updated page
-    const page = await this.pagesService.getPageBySectionId(id);
-    return page.sections;
+    return await this.pagesService.getPageBySectionId(id);
   }
 
   async updateResourceOrderAndReturnUpdatedResources(

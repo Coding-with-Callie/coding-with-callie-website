@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import { TextWithImageAndLinkType } from "../../Pages/Page";
+import { PageType, TextWithImageAndLinkType } from "../../Pages/Page";
 import TextWithImageAndLinkForm from "./TextWithImageAndLinkForm";
 import TextWithImageAndLink from "./TextWithImageAndLink";
 
 type Props = {
   data: TextWithImageAndLinkType;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   id: number;
@@ -13,7 +13,7 @@ type Props = {
 
 const EditableTextWithImageAndLink = ({
   data,
-  setPageData,
+  setPage,
   edit,
   setEdit,
   id,
@@ -24,7 +24,7 @@ const EditableTextWithImageAndLink = ({
         <TextWithImageAndLinkForm
           id={id}
           initialState={data}
-          setPageData={setPageData}
+          setPage={setPage}
           setEdit={setEdit}
         />
       ) : (

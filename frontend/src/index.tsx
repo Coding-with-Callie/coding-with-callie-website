@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
 import { Load } from "./helpers/loader_functions";
 import { axiosPublic } from "./helpers/axios_instances";
-import Page from "./Pages/Page";
+import Page, { PageType } from "./Pages/Page";
 
 export const showNotification = (
   message: string,
@@ -13,23 +13,13 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-export type PageType = {
-  id: number;
-  name: string;
-  path: string;
-};
-
-type RoutesType = {
-  data: PageType[];
-};
-
 const getRoutes = async () => {
-  const routes = (await axiosPublic.get("routes")) as RoutesType;
+  const pages = (await axiosPublic.get("pages")).data as PageType[];
 
-  const children = routes.data.map((route: any) => {
+  const children = pages.map((page: any) => {
     return {
-      path: route.path,
-      element: <Page sections={route.sections} />,
+      path: page.path,
+      element: <Page data={page} />,
     };
   });
 
@@ -40,7 +30,7 @@ const getRoutes = async () => {
 
   return [
     {
-      element: <App pages={routes.data} />,
+      element: <App pages={pages} />,
       loader: () => Load("user-details"),
       children,
     },

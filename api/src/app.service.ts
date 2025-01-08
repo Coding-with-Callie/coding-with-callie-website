@@ -25,7 +25,7 @@ export class AppService {
     private readonly mailService: MailService,
     private readonly pagesService: PagesService,
   ) {}
-  async getRoutes() {
+  async getPages() {
     const pages = await this.pagesService.getPages();
 
     return pages.map((page) => {

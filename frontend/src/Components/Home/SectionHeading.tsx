@@ -3,6 +3,7 @@ import BodyHeading from "../BodyHeading";
 import EditIcons from "./EditIcons";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
+import { PageType } from "../../Pages/Page";
 
 type Props = {
   heading: string;
@@ -11,7 +12,7 @@ type Props = {
   numSections: number;
   edit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
 };
 
 const SectionHeading = ({
@@ -21,7 +22,7 @@ const SectionHeading = ({
   numSections,
   edit,
   setEdit,
-  setPageData,
+  setPage,
 }: Props) => {
   const { user } = useOutletContext() as Context;
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
@@ -41,7 +42,7 @@ const SectionHeading = ({
               id={id}
               order={order}
               numSections={numSections}
-              setPageData={setPageData}
+              setPage={setPage}
               setEdit={setEdit}
             />
           )}

@@ -3,18 +3,19 @@ import FormInputs from "../Forms/FormInputs";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import FormSubmitButton from "../Forms/FormSubmitButton";
 import { editableResourceFormData } from "../../helpers/forms";
+import { PageType } from "../../Pages/Page";
 
 type Props = {
   id: number;
   initialState: any;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TextWithImageAndLinkForm = ({
   id,
   initialState,
-  setPageData,
+  setPage,
   setEdit,
 }: Props) => {
   const [data, setData] = useState(initialState);
@@ -29,6 +30,8 @@ const TextWithImageAndLinkForm = ({
     if (input) return [input];
     return [];
   };
+
+  console.log("data", data);
 
   return (
     <>
@@ -55,7 +58,7 @@ const TextWithImageAndLinkForm = ({
           axiosType={"admin"}
           route={`/section/${id}`}
           message={"Section updated!"}
-          updateData={setPageData}
+          updateData={setPage}
           setEdit={setEdit}
           method="put"
           initialState={initialState}

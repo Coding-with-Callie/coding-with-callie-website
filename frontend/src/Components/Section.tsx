@@ -2,7 +2,7 @@ import { useState } from "react";
 import SectionHeading from "./Home/SectionHeading";
 import SectionWrapper from "./SectionWrapper";
 import EditableTextWithImageAndLink from "./Home/EditableTextWithImageAndLink";
-import { TextWithImageAndLinkType } from "../Pages/Page";
+import { PageType, TextWithImageAndLinkType } from "../Pages/Page";
 
 type Props = {
   id: number;
@@ -10,10 +10,10 @@ type Props = {
   data: TextWithImageAndLinkType;
   backgroundColor?: string;
   numSections: number;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
 };
 
-const Section = ({ id, data, numSections, setPageData, type }: Props) => {
+const Section = ({ id, data, numSections, setPage, type }: Props) => {
   const [edit, setEdit] = useState(false);
 
   return (
@@ -25,12 +25,12 @@ const Section = ({ id, data, numSections, setPageData, type }: Props) => {
         numSections={numSections}
         edit={edit}
         setEdit={setEdit}
-        setPageData={setPageData}
+        setPage={setPage}
       />
-      {type === "text with image and link" && setPageData && (
+      {type === "text with image and link" && setPage && (
         <EditableTextWithImageAndLink
           data={data}
-          setPageData={setPageData}
+          setPage={setPage}
           edit={edit}
           setEdit={setEdit}
           id={id}

@@ -38,17 +38,18 @@ const FormInputs = ({
           item.field === "confirmPassword" &&
           data.newPassword !== data.confirmPassword;
 
+        let value = data[item.field];
+
         if (item.type === "text") {
           return (
             <TextInput
               key={index}
               label={item.label}
               field={item.field}
-              value={data[item.field]}
+              value={value}
               onChange={onChange}
               isInvalid={
-                submitClicked &&
-                isInvalid(item.field, data[item.field], item.required)
+                submitClicked && isInvalid(item.field, value, item.required)
               }
             />
           );
@@ -60,11 +61,11 @@ const FormInputs = ({
               key={index}
               label={item.label}
               field={item.field}
-              value={data[item.field]}
+              value={value}
               onChange={onChange}
               isInvalid={
                 (submitClicked &&
-                  isInvalid(item.field, data[item.field], item.required)) ||
+                  isInvalid(item.field, value, item.required)) ||
                 isPasswordMismatch
               }
               type="password"
@@ -73,15 +74,18 @@ const FormInputs = ({
         }
 
         if (item.type === "textarea") {
+          if (Array.isArray(value)) {
+            value = value.join("\n\n");
+          }
+
           return (
             <TextAreaInput
               label={item.label}
               field={item.field}
               onChange={onChange}
-              value={data[item.field]}
+              value={value}
               isInvalid={
-                submitClicked &&
-                isInvalid(item.field, data[item.field], item.required)
+                submitClicked && isInvalid(item.field, value, item.required)
               }
             />
           );

@@ -18,20 +18,26 @@ export type SectionType = {
   data: TextWithImageAndLinkType;
 };
 
-type Props = {
+export type PageType = {
+  id: number;
+  path: string;
   sections: SectionType[];
 };
 
-const Page = ({ sections }: Props) => {
-  const [pageData, setPageData] = useState(sections);
+type Props = {
+  data: PageType;
+};
+
+const Page = ({ data }: Props) => {
+  const [page, setPage] = useState(data);
 
   return (
     <>
-      {pageData.map((section) => (
+      {page.sections.map((section) => (
         <Section
           data={section.data}
-          numSections={pageData.length}
-          setPageData={setPageData}
+          numSections={page.sections.length}
+          setPage={setPage}
           key={section.id}
           id={section.id}
           type={section.type}

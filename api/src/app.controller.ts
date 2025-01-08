@@ -55,9 +55,9 @@ export class AppController {
     private readonly fileUploadService: FileUploadService,
   ) {}
 
-  @Get('routes')
+  @Get('pages')
   getRoutes() {
-    return this.appService.getRoutes();
+    return this.appService.getPages();
   }
 
   @UseInterceptors(FileInterceptor('file'))

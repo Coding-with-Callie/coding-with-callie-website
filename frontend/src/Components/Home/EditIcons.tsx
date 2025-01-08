@@ -9,16 +9,17 @@ import Alert from "../Profile/Alert";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { axiosAdmin } from "../../helpers/axios_instances";
+import { PageType } from "../../Pages/Page";
 
 type Props = {
   id: number;
   order: number;
   numSections: number;
-  setPageData: React.Dispatch<React.SetStateAction<any[]>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
+const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
@@ -30,7 +31,8 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
     axiosAdmin
       .delete(`/section/${id}`)
       .then((response) => {
-        setPageData(response.data);
+        console.log("response", response.data);
+        setPage(response.data);
         onCloseAlert();
         toast.success("Section deleted successfully!");
       })
@@ -58,7 +60,7 @@ const EditIcons = ({ id, order, numSections, setPageData, setEdit }: Props) => {
         direction,
       })
       .then((response) => {
-        setPageData(response.data);
+        setPage(response.data);
       })
       .catch(() => {
         toast.error("Error moving resource");
