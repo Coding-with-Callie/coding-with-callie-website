@@ -31,8 +31,6 @@ const TextWithImageAndLinkForm = ({
     return [];
   };
 
-  console.log("data", data);
-
   return (
     <>
       <Box

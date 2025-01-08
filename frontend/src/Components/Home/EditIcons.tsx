@@ -31,7 +31,6 @@ const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
     axiosAdmin
       .delete(`/section/${id}`)
       .then((response) => {
-        console.log("response", response.data);
         setPage(response.data);
         onCloseAlert();
         toast.success("Section deleted successfully!");

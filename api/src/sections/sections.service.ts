@@ -22,8 +22,6 @@ export class SectionsService {
       data.imageUrl = sectionToUpdate.data.imageUrl;
     }
 
-    console.log('BODY TEXT', data.bodyText);
-
     // Edit necessary properties of the section data
     if (sectionToUpdate.type === 'text with image and link') {
       data.target = data.target === 'true';
@@ -33,8 +31,6 @@ export class SectionsService {
         .map((item: string) => item.trim()) // Trim whitespace from each item
         .filter((item: string) => item.length > 0); // Remove empty items
     }
-
-    console.log('BODY TEXT', data.bodyText);
 
     sectionToUpdate.data = data;
 
