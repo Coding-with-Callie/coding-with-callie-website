@@ -131,8 +131,8 @@ describe('AppService', () => {
       email: 'email',
       name: 'name',
       photo: 'photo',
-      review: [],
-      projects: [],
+      checklists: [],
+      pages: [],
     };
     const response = await service.createAccessToken(user);
     expect(mockJwtService.signAsync).toHaveBeenCalled();
