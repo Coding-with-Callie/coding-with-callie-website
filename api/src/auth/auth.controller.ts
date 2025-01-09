@@ -13,9 +13,6 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { IsNotEmpty } from 'class-validator';
-import { Transform } from 'class-transformer';
-import * as sanitizeHTML from 'sanitize-html';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 // export class AccountDetailDTO {
@@ -29,18 +26,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 //   @IsNotEmpty()
 //   field: string;
 // }
-
-export class ReviewDTO {
-  @IsNotEmpty()
-  rating: number;
-
-  @Transform((params) => sanitizeHTML(params.value))
-  comments: string;
-
-  @IsNotEmpty()
-  @Transform((params) => sanitizeHTML(params.value))
-  displayName: string;
-}
 
 @UseGuards(AuthGuard)
 @Controller('auth')
@@ -91,17 +76,6 @@ export class AuthController {
   ) {
     await this.authService.uploadProfileImage(req.user.sub, file);
     return this.authService.getFrontendFriendlyUser(req.user.sub);
-  }
-
-  @Post('review')
-  async submitReviewAndReturnUpdatedReviews(
-    @Body() review: ReviewDTO,
-    @Request() req,
-  ) {
-    return await this.authService.submitReviewAndReturnUpdatedReviews(
-      review,
-      req.user.sub,
-    );
   }
 
   @Get('checklist/:id')

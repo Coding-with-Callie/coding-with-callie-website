@@ -1,6 +1,5 @@
 import { Page } from '../../pages/entities/page.entity';
 import { Checklist } from '../../checklists/entities/checklist.entity';
-import { Review } from '../../review/entities/review.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -28,9 +27,6 @@ export class Users {
     default: null,
   })
   photo: string;
-
-  @OneToMany(() => Review, (review) => review.user)
-  review: Review[];
 
   @OneToMany(() => Checklist, (checklist) => checklist.user)
   checklists: Checklist[];

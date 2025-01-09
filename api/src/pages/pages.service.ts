@@ -9,6 +9,10 @@ export class PagesService {
     @InjectRepository(Page)
     private pageRepository: Repository<Page>,
   ) {}
+  async createPage(page: any, userId: number) {
+    await this.pageRepository.save({ ...page, user: { id: userId } });
+    return { message: 'Page created successfully.' };
+  }
 
   async getPages() {
     return await this.pageRepository.find({

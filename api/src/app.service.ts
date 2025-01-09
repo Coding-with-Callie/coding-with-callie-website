@@ -3,9 +3,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { WorkshopsService } from './workshops/workshops.service';
-import { ResourceService } from './resource/resource.service';
-import { SpeakersService } from './speakers/speakers.service';
 import { hashPassword, verifyPasswordMatches } from './helpers/helpers';
 import { UsersService } from './users/users.service';
 import { MailService } from './mail/mail.service';
@@ -18,9 +15,6 @@ import { PagesService } from './pages/pages.service';
 export class AppService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly resourceService: ResourceService,
-    private readonly workshopsService: WorkshopsService,
-    private readonly speakersService: SpeakersService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
     private readonly pagesService: PagesService,
@@ -35,18 +29,6 @@ export class AppService {
         sections: page.sections,
       };
     });
-  }
-
-  async getAllResources() {
-    return await this.resourceService.getResources();
-  }
-
-  async getAllWorkshops() {
-    return await this.workshopsService.getWorkshops();
-  }
-
-  async getAllSpeakers() {
-    return await this.speakersService.getSpeakers();
   }
 
   async registerUserAndLogIn(user: NewUserDto, photoUrl: string) {

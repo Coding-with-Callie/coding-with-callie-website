@@ -2,12 +2,10 @@ import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppService } from './app.service';
 import { JwtService } from '@nestjs/jwt';
-import { ResourceService } from './resource/resource.service';
-import { WorkshopsService } from './workshops/workshops.service';
-import { SpeakersService } from './speakers/speakers.service';
 import { UsersService } from './users/users.service';
 import { MailService } from './mail/mail.service';
 import { hashPassword } from './helpers/helpers';
+import { PagesService } from './pages/pages.service';
 
 describe('AppService', () => {
   let service: AppService;
@@ -15,18 +13,6 @@ describe('AppService', () => {
   const mockJwtService = {
     signAsync: jest.fn().mockResolvedValue('token'),
     verifyAsync: jest.fn().mockResolvedValue({}),
-  };
-
-  const mockResourceService = {
-    getResources: jest.fn().mockResolvedValue([]),
-  };
-
-  const mockWorkshopsService = {
-    getWorkshops: jest.fn().mockResolvedValue([]),
-  };
-
-  const mockSpeakersService = {
-    getSpeakers: jest.fn().mockResolvedValue([]),
   };
 
   const mockUsersService = {
@@ -44,16 +30,16 @@ describe('AppService', () => {
     sendPasswordResetEmail: jest.fn(),
   };
 
+  const mockPagesService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AppService,
         { provide: JwtService, useValue: mockJwtService },
-        { provide: ResourceService, useValue: mockResourceService },
-        { provide: WorkshopsService, useValue: mockWorkshopsService },
-        { provide: SpeakersService, useValue: mockSpeakersService },
         { provide: UsersService, useValue: mockUsersService },
         { provide: MailService, useValue: mockMailService },
+        { provide: PagesService, useValue: mockPagesService },
       ],
     }).compile();
 
@@ -63,27 +49,6 @@ describe('AppService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  it('should call getResources', async () => {
-    const resources = await service.getAllResources();
-    expect(mockResourceService.getResources).toHaveBeenCalled();
-    expect(mockResourceService.getResources).toHaveBeenCalledTimes(1);
-    expect(resources).toEqual([]);
-  });
-
-  it('should call getWorkshops', async () => {
-    const workshops = await service.getAllWorkshops();
-    expect(mockWorkshopsService.getWorkshops).toHaveBeenCalled();
-    expect(mockWorkshopsService.getWorkshops).toHaveBeenCalledTimes(1);
-    expect(workshops).toEqual([]);
-  });
-
-  it('should call getSpeakers', async () => {
-    const speakers = await service.getAllSpeakers();
-    expect(mockSpeakersService.getSpeakers).toHaveBeenCalled();
-    expect(mockSpeakersService.getSpeakers).toHaveBeenCalledTimes(1);
-    expect(speakers).toEqual([]);
   });
 
   it('should call createUser and sucessfully create a user', async () => {

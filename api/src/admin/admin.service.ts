@@ -1,27 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { ResourceService } from '../resource/resource.service';
-import { ResourceDTO, SpeakerDTO } from './admin.controller';
-import { SpeakersService } from '../speakers/speakers.service';
 import { SectionsService } from '../sections/sections.service';
 import { PagesService } from '../pages/pages.service';
 
 @Injectable()
 export class AdminService {
   constructor(
-    private resourceService: ResourceService,
-    private speakersService: SpeakersService,
     private sectionsService: SectionsService,
     private pagesService: PagesService,
   ) {}
-  async createResourceAndReturnUpdatedResources(
-    resource: ResourceDTO,
-    file: Express.Multer.File,
-  ) {
-    // Create the resource
-    await this.resourceService.createResource(resource, file);
+  async createPageAndReturnUpdatedPages(page: any, userId: number) {
+    // Create the page
+    await this.pagesService.createPage(page, userId);
 
-    // Return the updated resources
-    return await this.resourceService.getResources();
+    // Return the updated pages
+    return await this.pagesService.getPages();
   }
 
   async deleteSectionAndReturnUpdatedPage(id: number) {
@@ -40,55 +32,13 @@ export class AdminService {
 
   async updateSectionAndReturnUpdatedPageSections(
     id: number,
-    resource: ResourceDTO,
+    data: any,
     file: Express.Multer.File,
   ) {
     // Update the section
-    await this.sectionsService.updateSection(id, resource, file);
+    await this.sectionsService.updateSection(id, data, file);
 
     // Return the updated page
     return await this.pagesService.getPageBySectionId(id);
-  }
-
-  async updateResourceOrderAndReturnUpdatedResources(
-    id: number,
-    direction: string,
-  ) {
-    // Update the order of the resource
-    await this.resourceService.updateOrder(id, direction);
-
-    // Return the updated resources
-    return await this.resourceService.getResources();
-  }
-
-  async createSpeakerAndReturnUpdatedSpeakers(
-    speaker: SpeakerDTO,
-    file: Express.Multer.File,
-  ) {
-    // Create the speaker
-    await this.speakersService.createSpeaker(speaker, file);
-
-    // Return the updated speakers
-    return await this.speakersService.getSpeakers();
-  }
-
-  async deleteSpeakerAndReturnUpdatedSpeakers(id: number) {
-    // Delete the speaker
-    await this.speakersService.deleteSpeaker(id);
-
-    // Return the updated speakers
-    return await this.speakersService.getSpeakers();
-  }
-
-  async updateSpeakerAndReturnUpdatedSpeakers(
-    id: number,
-    speaker: SpeakerDTO,
-    file: Express.Multer.File,
-  ) {
-    // Update the speaker
-    await this.speakersService.updateSpeaker(id, speaker, file);
-
-    // Return the updated speakers
-    return await this.speakersService.getSpeakers();
   }
 }

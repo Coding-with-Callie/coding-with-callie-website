@@ -56,7 +56,7 @@ export class AppController {
   ) {}
 
   @Get('pages')
-  getRoutes() {
+  getPages() {
     return this.appService.getPages();
   }
 
@@ -86,20 +86,5 @@ export class AppController {
   @Post('forgot-password')
   sendPasswordResetEmail(@Body() body: Email) {
     return this.appService.sendPasswordResetEmail(body.email);
-  }
-
-  @Get('resources')
-  getAllResources() {
-    return this.appService.getAllResources();
-  }
-
-  @Get('workshops')
-  getAllWorkshops() {
-    return this.appService.getAllWorkshops();
-  }
-
-  @Get('speakers')
-  async getAllSpeakers() {
-    return await this.appService.getAllSpeakers();
   }
 }

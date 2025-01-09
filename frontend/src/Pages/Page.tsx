@@ -37,7 +37,7 @@ const Page = ({ data }: Props) => {
 
   return (
     <>
-      {page.sections.map((section) => (
+      {data.sections.map((section) => (
         <Section
           data={section.data}
           numSections={page.sections.length}

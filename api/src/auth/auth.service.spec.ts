@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { ReviewService } from '../review/review.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { ReviewDTO } from './auth.controller';
 import { ChecklistService } from '../checklists/checklist.service';
 
 describe('AuthService', () => {
@@ -13,11 +11,6 @@ describe('AuthService', () => {
     getFrontendFriendlyUser: jest.fn(),
     changeAccountDetail: jest.fn(),
     softDeleteUser: jest.fn(),
-  };
-
-  const mockReviewService = {
-    submitReview: jest.fn(),
-    getAllReviews: jest.fn(),
   };
 
   const mockFileUploadService = {
@@ -35,7 +28,6 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         { provide: UsersService, useValue: mockUsersService },
-        { provide: ReviewService, useValue: mockReviewService },
         { provide: FileUploadService, useValue: mockFileUploadService },
         { provide: ChecklistService, useValue: mockChecklistService },
       ],
@@ -143,29 +135,6 @@ describe('AuthService', () => {
       'photo',
       'photourl.com',
     );
-  });
-
-  it('should call submitReview and getAllReviews in review service and return all reviews', async () => {
-    const review: ReviewDTO = {
-      rating: 5,
-      comments: 'Great project!',
-      displayName: 'Callie Stoscup',
-    };
-    const userId = 1;
-
-    mockReviewService.submitReview.mockResolvedValue({
-      message: 'Review submitted successfully',
-    });
-    mockReviewService.getAllReviews.mockResolvedValue([review]);
-
-    const result = await service.submitReviewAndReturnUpdatedReviews(
-      review,
-      userId,
-    );
-    expect(result).toEqual([review]);
-    expect(mockReviewService.submitReview).toHaveBeenCalledTimes(1);
-    expect(mockReviewService.submitReview).toHaveBeenCalledWith(review, userId);
-    expect(mockReviewService.getAllReviews).toHaveBeenCalledTimes(1);
   });
 
   it('should call getChecklists in checklist service and return all checklists', async () => {
