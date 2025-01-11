@@ -14,13 +14,25 @@ export const showNotification = (
 };
 
 const getRoutes = async () => {
-  const pages = (await axiosPublic.get("pages")).data as PageType[];
+  let pages = (await axiosPublic.get("pages")).data as PageType[];
 
-  pages.push({
-    path: "/log-in",
-    page: "Log In",
-    sections: [{ id: 0, type: "log-in form", data: { heading: "Log in" } }],
-  });
+  // Delete this line after we finish testing
+  // pages = [] as PageType[];
+
+  if (pages.length === 0) {
+    return [
+      {
+        element: <App pages={pages} />,
+        loader: () => Load("user-details"),
+        children: [
+          {
+            path: "/",
+            element: <Page data={{ path: "/", page: "home", sections: [] }} />,
+          },
+        ],
+      },
+    ];
+  }
 
   const children = pages.map((page: any) => {
     return {

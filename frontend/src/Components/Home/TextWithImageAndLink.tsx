@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import MyButton from "../MyButton";
 import BodyText from "../BodyText";
 import { TextWithImageAndLinkType } from "../../Pages/Page";
+import BodyHeading from "../BodyHeading";
 
 type Props = {
   data: TextWithImageAndLinkType;
@@ -14,6 +15,7 @@ const TextWithImageAndLink = ({ data }: Props) => {
 
   return (
     <Box w="100%">
+      <BodyHeading>{data.heading}</BodyHeading>
       <Box
         display="flex"
         flexDirection={isLargerThan1300 ? "row" : "column"}

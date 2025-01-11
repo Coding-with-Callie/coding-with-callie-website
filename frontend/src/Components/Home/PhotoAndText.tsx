@@ -1,5 +1,4 @@
 import { Box, Image, useMediaQuery } from "@chakra-ui/react";
-import Section from "../Section";
 import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 
