@@ -1,15 +1,11 @@
 import SectionWrapper from "./SectionWrapper";
-import {
-  LogInFormType,
-  PageType,
-  TextWithImageAndLinkType,
-} from "../Pages/Page";
+import { ContentType, PageType } from "../Pages/Page";
 import Content from "./Content";
 
 type Props = {
   id: number;
   type: string;
-  data: TextWithImageAndLinkType | LogInFormType;
+  data: ContentType;
   backgroundColor?: string;
   numSections: number;
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
