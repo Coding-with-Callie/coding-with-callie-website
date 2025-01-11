@@ -33,7 +33,21 @@ const TextWithImageAndLinkForm = ({
 
   return (
     <>
-      <Box mb={6} display="flex" justifyContent="flex-end">
+      <Box
+        mb={6}
+        gap={6}
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Box w="100%">
+          <FormInputs
+            input={findInput("heading")}
+            data={data}
+            setData={setData}
+            submitClicked={submitClicked}
+          />
+        </Box>
         <FormSubmitButton
           data={data}
           setData={setData}
@@ -47,14 +61,6 @@ const TextWithImageAndLinkForm = ({
           method="put"
           initialState={initialState}
           resetInitialState={false}
-        />
-      </Box>
-      <Box w="100%" mb={6}>
-        <FormInputs
-          input={findInput("heading")}
-          data={data}
-          setData={setData}
-          submitClicked={submitClicked}
         />
       </Box>
       <Box

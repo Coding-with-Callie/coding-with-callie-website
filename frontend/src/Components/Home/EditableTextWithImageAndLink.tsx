@@ -19,7 +19,7 @@ const EditableTextWithImageAndLink = ({
   id,
 }: Props) => {
   return (
-    <Box>
+    <Box w="100%">
       {edit ? (
         <TextWithImageAndLinkForm
           id={id}
