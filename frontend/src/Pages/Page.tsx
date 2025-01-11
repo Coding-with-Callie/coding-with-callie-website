@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Section from "../Components/Section";
 import MyButton from "../Components/MyButton";
 import SectionWrapper from "../Components/SectionWrapper";
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 
 export type TextWithImageAndLinkType = {
   heading: string;
@@ -30,6 +32,9 @@ type Props = {
 
 const Page = ({ data }: Props) => {
   const [page, setPage] = useState(data);
+  const { user } = useOutletContext() as Context;
+
+  console.log("user", user);
 
   useEffect(() => {
     setPage(data);
@@ -47,9 +52,11 @@ const Page = ({ data }: Props) => {
           type={section.type}
         />
       ))}
-      <SectionWrapper>
-        <MyButton>Add a section!</MyButton>
-      </SectionWrapper>
+      {user.role && user.role === "admin" && (
+        <SectionWrapper>
+          <MyButton>Add a section!</MyButton>
+        </SectionWrapper>
+      )}
     </>
   );
 };
