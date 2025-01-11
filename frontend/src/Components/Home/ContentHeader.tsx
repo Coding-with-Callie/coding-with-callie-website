@@ -1,13 +1,10 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
-import BodyHeading from "../BodyHeading";
+import { Box } from "@chakra-ui/react";
 import EditIcons from "./EditIcons";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../../App";
 import { PageType } from "../../Pages/Page";
 
 type Props = {
-  type: string;
-  heading: string;
   id: number;
   order: number;
   numSections: number;
@@ -16,9 +13,7 @@ type Props = {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
 };
 
-const ContentHeading = ({
-  type,
-  heading,
+const ContentHeader = ({
   id,
   order,
   numSections,
@@ -45,4 +40,4 @@ const ContentHeading = ({
   );
 };
 
-export default ContentHeading;
+export default ContentHeader;

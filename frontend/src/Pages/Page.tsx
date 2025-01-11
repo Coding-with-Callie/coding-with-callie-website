@@ -14,14 +14,19 @@ export type TextWithImageAndLinkType = {
   target: boolean;
 };
 
-export type LogInFormType = {
+export type ContentType = {
   heading: string;
+  imageUrl: string;
+  linkUrl?: string;
+  buttonText?: string;
+  bodyText: string[];
+  target?: boolean;
 };
 
 export type SectionType = {
   id: number;
-  type: string;
-  data: TextWithImageAndLinkType | LogInFormType;
+  type: "content";
+  data: ContentType;
 };
 
 export type PageType = {
@@ -55,7 +60,7 @@ const Page = ({ data }: Props) => {
           type={section.type}
         />
       ))}
-      {user.role && user.role === "admin" && (
+      {user.role === "admin" && (
         <SectionWrapper>
           <MyButton>Add a section!</MyButton>
         </SectionWrapper>

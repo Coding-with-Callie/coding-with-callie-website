@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { PageType } from "../Pages/Page";
 import EditableTextWithImageAndLink from "./Home/EditableTextWithImageAndLink";
-import ContentHeading from "./Home/ContentHeading";
 import PhotoAndText from "./Home/PhotoAndText";
+import ContentHeader from "./Home/ContentHeader";
 
 type Props = {
   type: string;
@@ -12,10 +12,8 @@ type Props = {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
 };
 
-const Content = ({ type, data, id, numSections, setPage }: Props) => {
+const Content = ({ data, id, numSections, setPage }: Props) => {
   const [edit, setEdit] = useState(false);
-
-  console.log("Content.tsx", data);
 
   const getContent = () => {
     if (data.bodyText && data.imageUrl && data.linkUrl) {
@@ -41,9 +39,7 @@ const Content = ({ type, data, id, numSections, setPage }: Props) => {
 
   return (
     <>
-      <ContentHeading
-        type={type}
-        heading={data.heading}
+      <ContentHeader
         id={id}
         order={0}
         numSections={numSections}
