@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Section from "../Components/Section";
 import MyButton from "../Components/MyButton";
 import SectionWrapper from "../Components/SectionWrapper";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
+import Content from "../Components/Content";
 
 export type TextWithImageAndLinkType = {
   heading: string;
@@ -50,16 +50,20 @@ const Page = ({ data }: Props) => {
 
   return (
     <>
-      {data.sections.map((section) => (
-        <Section
-          data={section.data}
-          numSections={page.sections.length}
-          setPage={setPage}
-          key={section.id}
-          id={section.id}
-          type={section.type}
-        />
-      ))}
+      {page.sections.map((section) => {
+        if (section.type === "content") {
+          return (
+            <Content
+              type={section.type}
+              data={section.data}
+              id={section.id}
+              numSections={data.sections.length}
+              setPage={setPage}
+            />
+          );
+        }
+        return null;
+      })}
       {user.role === "admin" && (
         <SectionWrapper>
           <MyButton>Add a section!</MyButton>

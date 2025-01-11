@@ -2,7 +2,11 @@ import { useState } from "react";
 import { PageType } from "../Pages/Page";
 import EditableTextWithImageAndLink from "./Home/EditableTextWithImageAndLink";
 import PhotoAndText from "./Home/PhotoAndText";
-import ContentHeader from "./Home/ContentHeader";
+import SectionWrapper from "./SectionWrapper";
+import { Box, useMediaQuery } from "@chakra-ui/react";
+import EditIcons from "./Home/EditIcons";
+import { useOutletContext } from "react-router-dom";
+import { Context } from "../App";
 
 type Props = {
   type: string;
@@ -13,7 +17,9 @@ type Props = {
 };
 
 const Content = ({ data, id, numSections, setPage }: Props) => {
+  const { user } = useOutletContext() as Context;
   const [edit, setEdit] = useState(false);
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
   const getContent = () => {
     if (data.bodyText && data.imageUrl && data.linkUrl) {
@@ -38,17 +44,20 @@ const Content = ({ data, id, numSections, setPage }: Props) => {
   };
 
   return (
-    <>
-      <ContentHeader
-        id={id}
-        order={0}
-        numSections={numSections}
-        edit={edit}
-        setEdit={setEdit}
-        setPage={setPage}
-      />
-      {getContent()}
-    </>
+    <SectionWrapper>
+      <Box display="flex">
+        {getContent()}
+        {!edit && user.role === "admin" && (
+          <EditIcons
+            id={id}
+            order={data.order}
+            numSections={numSections}
+            setPage={setPage}
+            setEdit={setEdit}
+          />
+        )}
+      </Box>
+    </SectionWrapper>
   );
 };
 

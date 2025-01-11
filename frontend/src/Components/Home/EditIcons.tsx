@@ -68,7 +68,7 @@ const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
 
   return (
     <>
-      <Box mb={6} display="flex" gap={2}>
+      <Box ml={8} display="flex" gap={2} flexDirection="column">
         <IconButton
           aria-label={"edit section"}
           icon={<FaRegEdit />}
