@@ -1,5 +1,4 @@
 import { CustomFormData } from "../../helpers/forms";
-import FormHeading from "./FormHeading";
 import FormInputs from "./FormInputs";
 import { useState } from "react";
 import FormSubmitButton from "./FormSubmitButton";
@@ -34,7 +33,6 @@ const CustomForm = ({
 
   return (
     <FormContainer>
-      <FormHeading>{form.formHeading}</FormHeading>
       <FormInputs
         input={form.input}
         data={data}

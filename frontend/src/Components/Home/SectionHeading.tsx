@@ -6,6 +6,7 @@ import { Context } from "../../App";
 import { PageType } from "../../Pages/Page";
 
 type Props = {
+  type: string;
   heading: string;
   id: number;
   order: number;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const SectionHeading = ({
+  type,
   heading,
   id,
   order,
@@ -27,6 +29,8 @@ const SectionHeading = ({
   const { user } = useOutletContext() as Context;
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
+  console.log("type:", type);
+
   return (
     <>
       {!edit && (
@@ -36,7 +40,9 @@ const SectionHeading = ({
           justifyContent="space-between"
           flexDirection={isLargerThan800 ? "row" : "column"}
         >
-          <BodyHeading>{heading}</BodyHeading>
+          <BodyHeading textAlign={type === "log-in form" ? "center" : "left"}>
+            {heading}
+          </BodyHeading>
           {user.role === "admin" && (
             <EditIcons
               id={id}

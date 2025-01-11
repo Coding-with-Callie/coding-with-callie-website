@@ -16,6 +16,12 @@ export const showNotification = (
 const getRoutes = async () => {
   const pages = (await axiosPublic.get("pages")).data as PageType[];
 
+  pages.push({
+    path: "/log-in",
+    page: "Log In",
+    sections: [{ id: 0, type: "log-in form", data: { heading: "Log in" } }],
+  });
+
   const children = pages.map((page: any) => {
     return {
       path: page.path,

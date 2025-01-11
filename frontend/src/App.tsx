@@ -45,6 +45,8 @@ function App({ pages }: Props) {
     }
   };
 
+  console.log("pages", pages);
+
   const context: Context = {
     user,
     updateUser,

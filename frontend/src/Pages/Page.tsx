@@ -14,15 +14,20 @@ export type TextWithImageAndLinkType = {
   target: boolean;
 };
 
+export type LogInFormType = {
+  heading: string;
+};
+
 export type SectionType = {
   id: number;
   type: string;
-  data: TextWithImageAndLinkType;
+  data: TextWithImageAndLinkType | LogInFormType;
 };
 
 export type PageType = {
-  id: number;
+  id?: number;
   path: string;
+  page: string;
   sections: SectionType[];
 };
 
@@ -33,8 +38,6 @@ type Props = {
 const Page = ({ data }: Props) => {
   const [page, setPage] = useState(data);
   const { user } = useOutletContext() as Context;
-
-  console.log("user", user);
 
   useEffect(() => {
     setPage(data);

@@ -2,12 +2,17 @@ import { useState } from "react";
 import SectionHeading from "./Home/SectionHeading";
 import SectionWrapper from "./SectionWrapper";
 import EditableTextWithImageAndLink from "./Home/EditableTextWithImageAndLink";
-import { PageType, TextWithImageAndLinkType } from "../Pages/Page";
+import {
+  LogInFormType,
+  PageType,
+  TextWithImageAndLinkType,
+} from "../Pages/Page";
+import LogInForm from "./LogIn/LogInForm";
 
 type Props = {
   id: number;
   type: string;
-  data: TextWithImageAndLinkType;
+  data: TextWithImageAndLinkType | LogInFormType;
   backgroundColor?: string;
   numSections: number;
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
@@ -19,6 +24,7 @@ const Section = ({ id, data, numSections, setPage, type }: Props) => {
   return (
     <SectionWrapper>
       <SectionHeading
+        type={type}
         heading={data.heading}
         id={id}
         order={0}
@@ -27,7 +33,7 @@ const Section = ({ id, data, numSections, setPage, type }: Props) => {
         setEdit={setEdit}
         setPage={setPage}
       />
-      {type === "text with image and link" && setPage && (
+      {type === "text with image and link" && "imageUrl" in data && setPage && (
         <EditableTextWithImageAndLink
           data={data}
           setPage={setPage}
@@ -36,6 +42,7 @@ const Section = ({ id, data, numSections, setPage, type }: Props) => {
           id={id}
         />
       )}
+      {type === "log-in form" && <LogInForm />}
     </SectionWrapper>
   );
 };
