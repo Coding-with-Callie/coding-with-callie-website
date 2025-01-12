@@ -1,9 +1,9 @@
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import FormSubmitButton from "../Forms/FormSubmitButton";
 import { editableResourceFormData } from "../../helpers/forms";
 import { PageType } from "../../Pages/Page";
+import ContentForm from "./ContentForm";
 
 type Props = {
   id: number;
@@ -21,7 +21,6 @@ const TextWithImageAndLinkForm = ({
   const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
 
-  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   const findInput = (field: string) => {
@@ -33,10 +32,15 @@ const TextWithImageAndLinkForm = ({
   };
 
   return (
-    <Box
-      gap={6}
-      display="flex"
-      flexDirection={isLargerThan800 ? "row" : "column"}
+    <ContentForm
+      id={id}
+      data={data}
+      setData={setData}
+      setSubmitClicked={setSubmitClicked}
+      input={editableResourceFormData.input}
+      setPage={setPage}
+      setEdit={setEdit}
+      initialState={initialState}
     >
       <Box display="flex" flexDirection="column" gap={6} w="100%">
         <FormInputs
@@ -88,21 +92,7 @@ const TextWithImageAndLinkForm = ({
           />
         </Box>
       </Box>
-      <FormSubmitButton
-        data={data}
-        setData={setData}
-        setSubmitClicked={setSubmitClicked}
-        input={editableResourceFormData.input}
-        axiosType={"admin"}
-        route={`/section/${id}`}
-        message={"Section updated!"}
-        updateData={setPage}
-        setEdit={setEdit}
-        method="put"
-        initialState={initialState}
-        resetInitialState={false}
-      />
-    </Box>
+    </ContentForm>
   );
 };
 
