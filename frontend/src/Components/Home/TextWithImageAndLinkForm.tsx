@@ -21,6 +21,7 @@ const TextWithImageAndLinkForm = ({
   const [data, setData] = useState(initialState);
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   const findInput = (field: string) => {
@@ -32,86 +33,76 @@ const TextWithImageAndLinkForm = ({
   };
 
   return (
-    <>
-      <Box
-        mb={6}
-        gap={6}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box w="100%">
-          <FormInputs
-            input={findInput("heading")}
-            data={data}
-            setData={setData}
-            submitClicked={submitClicked}
-          />
-        </Box>
-        <FormSubmitButton
+    <Box
+      gap={6}
+      display="flex"
+      flexDirection={isLargerThan800 ? "row" : "column"}
+    >
+      <Box display="flex" flexDirection="column" gap={6} w="100%">
+        <FormInputs
+          input={findInput("heading")}
           data={data}
           setData={setData}
-          setSubmitClicked={setSubmitClicked}
-          input={editableResourceFormData.input}
-          axiosType={"admin"}
-          route={`/section/${id}`}
-          message={"Section updated!"}
-          updateData={setPage}
-          setEdit={setEdit}
-          method="put"
-          initialState={initialState}
-          resetInitialState={false}
+          submitClicked={submitClicked}
         />
-      </Box>
-      <Box
-        display="flex"
-        gap={6}
-        flexDirection={isLargerThan1300 ? "row" : "column"}
-      >
-        <Box w={isLargerThan1300 ? "75%" : "100%"}>
+        <Box
+          display="flex"
+          gap={6}
+          flexDirection={isLargerThan1300 ? "row" : "column"}
+        >
+          <Box w={isLargerThan1300 ? "50%" : "100%"}>
+            <FormInputs
+              input={findInput("bodyText")}
+              data={data}
+              setData={setData}
+              submitClicked={submitClicked}
+            />
+          </Box>
           <FormInputs
-            input={findInput("bodyText")}
+            input={findInput("image")}
             data={data}
             setData={setData}
             submitClicked={submitClicked}
           />
         </Box>
         <FormInputs
-          input={findInput("image")}
+          input={findInput("linkUrl")}
           data={data}
           setData={setData}
           submitClicked={submitClicked}
         />
+        <Box display="flex" alignItems="center" gap={6}>
+          <Box flex={1}>
+            <FormInputs
+              input={findInput("buttonText")}
+              data={data}
+              setData={setData}
+              submitClicked={submitClicked}
+            />
+          </Box>
+          <FormInputs
+            input={findInput("target")}
+            data={data}
+            setData={setData}
+            submitClicked={submitClicked}
+          />
+        </Box>
       </Box>
-      {data.linkUrl && (
-        <>
-          <Box my={6}>
-            <FormInputs
-              input={findInput("linkUrl")}
-              data={data}
-              setData={setData}
-              submitClicked={submitClicked}
-            />
-          </Box>
-          <Box display="flex" alignItems="center" gap={6}>
-            <Box flex={1}>
-              <FormInputs
-                input={findInput("buttonText")}
-                data={data}
-                setData={setData}
-                submitClicked={submitClicked}
-              />
-            </Box>
-            <FormInputs
-              input={findInput("target")}
-              data={data}
-              setData={setData}
-              submitClicked={submitClicked}
-            />
-          </Box>
-        </>
-      )}
-    </>
+      <FormSubmitButton
+        data={data}
+        setData={setData}
+        setSubmitClicked={setSubmitClicked}
+        input={editableResourceFormData.input}
+        axiosType={"admin"}
+        route={`/section/${id}`}
+        message={"Section updated!"}
+        updateData={setPage}
+        setEdit={setEdit}
+        method="put"
+        initialState={initialState}
+        resetInitialState={false}
+      />
+    </Box>
   );
 };
 

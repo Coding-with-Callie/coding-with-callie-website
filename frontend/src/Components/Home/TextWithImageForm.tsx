@@ -63,22 +63,20 @@ const TextWithImageForm = ({ id, initialState, setPage, setEdit }: Props) => {
           />
         </Box>
       </Box>
-      <Box display="flex" justifySelf="flex-end">
-        <FormSubmitButton
-          data={data}
-          setData={setData}
-          setSubmitClicked={setSubmitClicked}
-          input={editableResourceFormData.input}
-          axiosType={"admin"}
-          route={`/section/${id}`}
-          message={"Section updated!"}
-          updateData={setPage}
-          setEdit={setEdit}
-          method="put"
-          initialState={initialState}
-          resetInitialState={false}
-        />
-      </Box>
+      <FormSubmitButton
+        data={data}
+        setData={setData}
+        setSubmitClicked={setSubmitClicked}
+        input={editableResourceFormData.input}
+        axiosType={"admin"}
+        route={`/section/${id}`}
+        message={"Section updated!"}
+        updateData={setPage}
+        setEdit={setEdit}
+        method="put"
+        initialState={initialState}
+        resetInitialState={false}
+      />
     </Box>
   );
 };

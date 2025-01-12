@@ -57,6 +57,8 @@ export class AdminController {
     @Body() data: any,
     @UploadedFile() @Optional() file?: Express.Multer.File,
   ) {
+    console.log('data', data);
+
     return await this.adminService.updateSectionAndReturnUpdatedPageSections(
       id,
       data,
