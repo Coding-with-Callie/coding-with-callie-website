@@ -1,4 +1,9 @@
-import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import {
   FaRegEdit,
   FaRegHandPointUp,
@@ -26,6 +31,7 @@ const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
     onClose: onCloseAlert,
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   const deleteSection = () => {
     axiosAdmin
@@ -69,7 +75,13 @@ const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
 
   return (
     <>
-      <Box ml={8} display="flex" gap={2} flexDirection="column">
+      <Box
+        mt={isLargerThan800 ? 0 : 8}
+        ml={isLargerThan800 ? 8 : 0}
+        display="flex"
+        gap={2}
+        flexDirection="column"
+      >
         <IconButton
           aria-label={"edit section"}
           icon={<FaRegEdit />}

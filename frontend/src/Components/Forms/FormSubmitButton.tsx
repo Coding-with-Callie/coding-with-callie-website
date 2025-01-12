@@ -137,6 +137,7 @@ const FormSubmitButton = ({
         aria-label="submit"
         icon={loading ? <Spinner /> : <CheckIcon />}
         onClick={onSubmit}
+        w="100%"
       />
     );
   } else {

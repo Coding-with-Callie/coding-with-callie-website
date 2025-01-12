@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { PageType } from "../Pages/Page";
 import EditableTextWithImageAndLink from "./Home/EditableTextWithImageAndLink";
-import PhotoAndText from "./Home/PhotoAndText";
 import SectionWrapper from "./SectionWrapper";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import EditIcons from "./Home/EditIcons";
 import { useOutletContext } from "react-router-dom";
 import { Context } from "../App";
+import EditableTextWithImage from "./Home/EditableTextWithImage";
 
 type Props = {
   type: string;
@@ -19,6 +19,7 @@ type Props = {
 const Content = ({ data, id, numSections, setPage }: Props) => {
   const { user } = useOutletContext() as Context;
   const [edit, setEdit] = useState(false);
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
   const getContent = () => {
     if (data.bodyText && data.imageUrl && data.linkUrl) {
@@ -33,10 +34,12 @@ const Content = ({ data, id, numSections, setPage }: Props) => {
       );
     } else if (data.imageUrl && data.bodyText) {
       return (
-        <PhotoAndText
-          heading={data.heading}
-          text={data.bodyText}
-          image={data.imageUrl}
+        <EditableTextWithImage
+          data={data}
+          setPage={setPage}
+          edit={edit}
+          setEdit={setEdit}
+          id={id}
         />
       );
     }
@@ -44,7 +47,7 @@ const Content = ({ data, id, numSections, setPage }: Props) => {
 
   return (
     <SectionWrapper>
-      <Box display="flex">
+      <Box display="flex" flexDirection={isLargerThan800 ? "row" : "column"}>
         {getContent()}
         {!edit && user.role === "admin" && (
           <EditIcons

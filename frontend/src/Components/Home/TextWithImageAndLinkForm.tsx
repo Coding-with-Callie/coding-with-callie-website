@@ -66,7 +66,6 @@ const TextWithImageAndLinkForm = ({
       <Box
         display="flex"
         gap={6}
-        mb={6}
         flexDirection={isLargerThan1300 ? "row" : "column"}
       >
         <Box w={isLargerThan1300 ? "75%" : "100%"}>
@@ -84,30 +83,34 @@ const TextWithImageAndLinkForm = ({
           submitClicked={submitClicked}
         />
       </Box>
-      <Box mb={6}>
-        <FormInputs
-          input={findInput("linkUrl")}
-          data={data}
-          setData={setData}
-          submitClicked={submitClicked}
-        />
-      </Box>
-      <Box display="flex" alignItems="center" gap={6}>
-        <Box flex={1}>
-          <FormInputs
-            input={findInput("buttonText")}
-            data={data}
-            setData={setData}
-            submitClicked={submitClicked}
-          />
-        </Box>
-        <FormInputs
-          input={findInput("target")}
-          data={data}
-          setData={setData}
-          submitClicked={submitClicked}
-        />
-      </Box>
+      {data.linkUrl && (
+        <>
+          <Box my={6}>
+            <FormInputs
+              input={findInput("linkUrl")}
+              data={data}
+              setData={setData}
+              submitClicked={submitClicked}
+            />
+          </Box>
+          <Box display="flex" alignItems="center" gap={6}>
+            <Box flex={1}>
+              <FormInputs
+                input={findInput("buttonText")}
+                data={data}
+                setData={setData}
+                submitClicked={submitClicked}
+              />
+            </Box>
+            <FormInputs
+              input={findInput("target")}
+              data={data}
+              setData={setData}
+              submitClicked={submitClicked}
+            />
+          </Box>
+        </>
+      )}
     </>
   );
 };

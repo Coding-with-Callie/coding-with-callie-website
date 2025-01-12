@@ -2,13 +2,17 @@ import { Box, Image, useMediaQuery } from "@chakra-ui/react";
 import BodyHeading from "../BodyHeading";
 import BodyText from "../BodyText";
 
-type Props = {
+type TextWithImageType = {
+  imageUrl: string;
   heading: string;
-  text: string[];
-  image: string;
+  bodyText: string[];
 };
 
-const PhotoAndText = ({ heading, text, image }: Props) => {
+type Props = {
+  data: TextWithImageType;
+};
+
+const TextWithImage = ({ data }: Props) => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
@@ -20,7 +24,7 @@ const PhotoAndText = ({ heading, text, image }: Props) => {
       alignItems="center"
     >
       <Image
-        src={image}
+        src={data.imageUrl}
         border="1px solid #A9A9A9"
         borderRadius="50%"
         h={isLargerThan500 ? "350px" : "250px"}
@@ -28,11 +32,11 @@ const PhotoAndText = ({ heading, text, image }: Props) => {
         w={isLargerThan500 ? "350px" : "250px"}
       />
       <Box>
-        <BodyHeading>{heading}</BodyHeading>
-        <BodyText textBlocks={text} />
+        <BodyHeading>{data.heading}</BodyHeading>
+        <BodyText textBlocks={data.bodyText} />
       </Box>
     </Box>
   );
 };
 
-export default PhotoAndText;
+export default TextWithImage;
