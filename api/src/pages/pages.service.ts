@@ -15,9 +15,11 @@ export class PagesService {
   }
 
   async getPages() {
-    return await this.pageRepository.find({
-      relations: ['sections'],
-    });
+    return await this.pageRepository
+      .createQueryBuilder('page')
+      .leftJoinAndSelect('page.sections', 'section')
+      .orderBy('section.order', 'ASC')
+      .getMany();
   }
 
   async getPageBySectionId(sectionId: number) {

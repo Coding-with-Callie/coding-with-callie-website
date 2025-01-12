@@ -41,6 +41,39 @@ export class SectionsService {
     return { message: 'Section updated successfully' };
   }
 
+  async updateSectionOrder(id: number, direction: 'up' | 'down') {
+    // Get the section to update
+    const sectionToUpdate = await this.sectionRepository.findOneBy({ id });
+
+    if (direction === 'up') {
+      // Get the section to swap with
+      const sectionToSwap = await this.sectionRepository.findOneBy({
+        order: sectionToUpdate.order - 1,
+      });
+
+      // Update the order of the sections
+      sectionToSwap.order += 1;
+      sectionToUpdate.order -= 1;
+
+      // Save the updated sections
+      await this.sectionRepository.save([sectionToUpdate, sectionToSwap]);
+    } else {
+      // Get the section to swap with
+      const sectionToSwap = await this.sectionRepository.findOneBy({
+        order: sectionToUpdate.order + 1,
+      });
+
+      // Update the order of the sections
+      sectionToSwap.order -= 1;
+      sectionToUpdate.order += 1;
+
+      // Save the updated sections
+      await this.sectionRepository.save([sectionToUpdate, sectionToSwap]);
+    }
+    // Return a success message
+    return { message: 'Section order updated successfully' };
+  }
+
   async deleteSection(id: number) {
     // Delete the section
     await this.sectionRepository.delete(id);

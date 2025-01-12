@@ -55,14 +55,15 @@ const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
     await scrollToElement(order);
 
     axiosAdmin
-      .post(`/resource/${id}/order`, {
+      .patch(`/section/${id}/order`, {
         direction,
       })
       .then((response) => {
+        console.log(response.data);
         setPage(response.data);
       })
       .catch(() => {
-        toast.error("Error moving resource");
+        toast.error("Error moving section");
       });
   };
 

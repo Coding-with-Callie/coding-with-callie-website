@@ -30,6 +30,17 @@ export class AdminService {
     return page;
   }
 
+  async updateSectionOrderAndReturnUpdatedPage(
+    id: number,
+    direction: 'up' | 'down',
+  ) {
+    // Update the section order
+    await this.sectionsService.updateSectionOrder(id, direction);
+
+    // Return the updated page
+    return await this.pagesService.getPageBySectionId(id);
+  }
+
   async updateSectionAndReturnUpdatedPageSections(
     id: number,
     data: any,

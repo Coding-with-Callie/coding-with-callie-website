@@ -12,6 +12,9 @@ export class Section {
   @Column('json')
   data: any;
 
+  @Column({ nullable: true })
+  order: number;
+
   @ManyToOne(() => Page, (page) => page.sections)
   page: Page;
 }

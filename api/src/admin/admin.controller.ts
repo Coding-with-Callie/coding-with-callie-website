@@ -4,6 +4,7 @@ import {
   Delete,
   Optional,
   Param,
+  Patch,
   Post,
   Put,
   Req,
@@ -36,6 +37,17 @@ export class AdminController {
   @Delete('section/:id')
   async deleteSectionAndReturnUpdatedPage(@Param('id') id: number) {
     return await this.adminService.deleteSectionAndReturnUpdatedPage(id);
+  }
+
+  @Patch('section/:id/order')
+  async updateSectionOrderAndReturnUpdatedPage(
+    @Param('id') id: number,
+    @Body('direction') direction: 'up' | 'down',
+  ) {
+    return await this.adminService.updateSectionOrderAndReturnUpdatedPage(
+      id,
+      direction,
+    );
   }
 
   @UseInterceptors(FileInterceptor('file'))
