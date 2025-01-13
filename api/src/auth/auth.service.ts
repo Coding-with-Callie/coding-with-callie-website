@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { ReviewService } from '../review/review.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { ReviewDTO } from './auth.controller';
 import { ChecklistService } from '../checklists/checklist.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private reviewService: ReviewService,
     private fileUploadService: FileUploadService,
     private checklistService: ChecklistService,
   ) {}
@@ -38,14 +35,6 @@ export class AuthService {
     return await this.usersService.changeAccountDetail(id, 'photo', photoUrl);
   }
 
-  async submitReviewAndReturnUpdatedReviews(review: ReviewDTO, userId: number) {
-    // Submit the review
-    await this.reviewService.submitReview(review, userId);
-
-    // Return the updated reviews
-    return await this.reviewService.getAllReviews();
-  }
-
   async getChecklists(userId: number) {
     return await this.checklistService.getChecklists(userId);
   }
@@ -54,7 +43,8 @@ export class AuthService {
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
 
-  async createChecklist(
+  // Create a checklist and return the appropriate checklist(s)
+  async createChecklistAndReturnUpdatedChecklists(
     userId: number,
     name: string,
     description?: string,
@@ -68,11 +58,11 @@ export class AuthService {
       parentId,
     );
 
-    // Return the updated parent checklist
+    // If we passed in a parent id, return the updated parent checklist
     if (parentId) {
       return await this.checklistService.getChecklistById(userId, parentId);
     }
-    // Return all checklists
+    // Otherwise return all checklists
     return await this.checklistService.getChecklists(userId);
   }
 
@@ -91,11 +81,11 @@ export class AuthService {
       value,
     );
 
-    // Return the updated parent checklist
+    // If we passed in a parent id, return the updated parent checklist
     if (parentListId) {
       return await this.checklistService.getChecklistById(userId, parentListId);
     }
-    // Return the updated checklist
+    // Otherwise return the updated checklist
     return await this.checklistService.getChecklistById(userId, checklistId);
   }
 
@@ -110,6 +100,9 @@ export class AuthService {
     await this.checklistService.deleteChecklist(userId, checklistId);
 
     // Return the updated parent checklist id
-    return parent.id;
+    if (parent) {
+      return parent.id;
+    }
+    return null;
   }
 }

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { ResourceType } from "../../Pages/Home";
 import CustomForm from "../Forms/CustomForm";
 import { resourceFormData } from "../../helpers/forms";
 
 type Props = {
-  setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
+  setResources: React.Dispatch<React.SetStateAction<ResourceData[]>>;
 };
 
 export type ResourceData = {

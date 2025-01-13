@@ -2,24 +2,9 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import App from "./App";
-import Home from "./Pages/Home";
-import Workshops from "./Pages/Workshops";
-import ContactCallie from "./Pages/ContactCallie";
-import SignUp from "./Pages/SignUp";
-import LogIn from "./Pages/LogIn";
-import Profile from "./Pages/Profile";
-import Reviews from "./Pages/Reviews";
-import GuestSpeakers from "./Pages/GuestSpeakers";
-import Paragraph from "./Components/Paragraph";
-import Jobs from "./Pages/Jobs";
-import {
-  Load,
-  ProfileResetLoader,
-  RedirectLoggedInUser,
-} from "./helpers/loader_functions";
-import EditPassword from "./Components/Profile/EditPassword";
-import Checklists from "./Pages/Checklists";
-import Checklist from "./Pages/Checklist";
+import { Load } from "./helpers/loader_functions";
+import { axiosPublic } from "./helpers/axios_instances";
+import Page, { PageType } from "./Pages/Page";
 
 export const showNotification = (
   message: string,
@@ -28,81 +13,49 @@ export const showNotification = (
   toast[type](message, { toastId: `${type}-${message}` });
 };
 
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    loader: () => Load("user-details"),
-    children: [
+const getRoutes = async () => {
+  let pages = (await axiosPublic.get("pages")).data as PageType[];
+
+  // Delete this line after we finish testing
+  // pages = [] as PageType[];
+
+  if (pages.length === 0) {
+    return [
       {
-        path: "/",
-        element: <Home />,
-        loader: () => Load("resources"),
+        element: <App pages={pages} />,
+        loader: () => Load("user-details"),
+        children: [
+          {
+            path: "/",
+            element: <Page data={{ path: "/", page: "home", sections: [] }} />,
+          },
+        ],
       },
-      {
-        path: "/*",
-        element: <Paragraph>Not Found</Paragraph>,
-      },
-      {
-        path: "/workshops",
-        element: <Workshops />,
-        loader: () => Load("workshops"),
-      },
-      {
-        path: "/reviews",
-        element: <Reviews />,
-        loader: () => Load("reviews"),
-      },
-      {
-        path: "/contact",
-        element: <ContactCallie />,
-      },
-      {
-        path: "/guest-speakers",
-        element: <GuestSpeakers />,
-        loader: () => Load("speakers"),
-      },
-      {
-        path: "/jobs",
-        element: <Jobs />,
-      },
-      {
-        path: "/sign-up",
-        element: <SignUp />,
-        loader: RedirectLoggedInUser,
-      },
-      {
-        path: "/log-in",
-        element: <LogIn />,
-        loader: RedirectLoggedInUser,
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-        loader: () => Load("profile"),
-      },
-      {
-        path: "/change-password",
-        element: <EditPassword />,
-        loader: () => Load("profile"),
-      },
-      {
-        path: "/profile/:token/:id",
-        element: <Profile />,
-        loader: ProfileResetLoader,
-      },
-      {
-        path: "/checklists",
-        element: <Checklists />,
-        loader: () => Load("checklists"),
-      },
-      {
-        path: "/checklist/:id",
-        element: <Checklist />,
-        loader: ({ params }) => Load(`checklist/${params.id}`),
-      },
-    ],
-  },
-]);
+    ];
+  }
+
+  const children = pages.map((page: any) => {
+    return {
+      path: page.path,
+      element: <Page data={page} />,
+    };
+  });
+
+  children.push({
+    path: "/*",
+    element: <div>Page not found!</div>,
+  });
+
+  return [
+    {
+      element: <App pages={pages} />,
+      loader: () => Load("user-details"),
+      children,
+    },
+  ];
+};
+
+const router = createBrowserRouter(await getRoutes());
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

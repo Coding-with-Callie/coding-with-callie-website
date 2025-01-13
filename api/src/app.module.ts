@@ -8,15 +8,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 import { MailModule } from './mail/mail.module';
-import { ReviewModule } from './review/review.module';
-import { ReviewController } from './review/review.controller';
-import { SpeakersModule } from './speakers/speakers.module';
-import { WorkshopsModule } from './workshops/workshops.module';
-import { ResourceModule } from './resource/resource.module';
 import { FileUploadModule } from './file_upload/file_upload.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import jwt from './config/jwt';
 import { AdminModule } from './admin/admin.module';
+import { PagesModule } from './pages/pages.module';
 
 @Module({
   imports: [
@@ -35,11 +31,8 @@ import { AdminModule } from './admin/admin.module';
     AdminModule,
     UsersModule,
     MailModule,
-    ReviewModule,
-    SpeakersModule,
-    WorkshopsModule,
-    ResourceModule,
     FileUploadModule,
+    PagesModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
@@ -58,7 +51,7 @@ import { AdminModule } from './admin/admin.module';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, ReviewController],
+  controllers: [AppController],
   providers: [AppService, JwtService],
 })
 export class AppModule {}

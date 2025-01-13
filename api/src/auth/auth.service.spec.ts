@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { ReviewService } from '../review/review.service';
 import { FileUploadService } from '../file_upload/file_upload.service';
-import { ReviewDTO } from './auth.controller';
 import { ChecklistService } from '../checklists/checklist.service';
 
 describe('AuthService', () => {
@@ -13,11 +11,6 @@ describe('AuthService', () => {
     getFrontendFriendlyUser: jest.fn(),
     changeAccountDetail: jest.fn(),
     softDeleteUser: jest.fn(),
-  };
-
-  const mockReviewService = {
-    submitReview: jest.fn(),
-    getAllReviews: jest.fn(),
   };
 
   const mockFileUploadService = {
@@ -35,7 +28,6 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         { provide: UsersService, useValue: mockUsersService },
-        { provide: ReviewService, useValue: mockReviewService },
         { provide: FileUploadService, useValue: mockFileUploadService },
         { provide: ChecklistService, useValue: mockChecklistService },
       ],
@@ -145,26 +137,85 @@ describe('AuthService', () => {
     );
   });
 
-  it('should call submitReview and getAllReviews in review service and return all reviews', async () => {
-    const review: ReviewDTO = {
-      rating: 5,
-      comments: 'Great project!',
-      displayName: 'Callie Stoscup',
-    };
+  it('should call getChecklists in checklist service and return all checklists', async () => {
     const userId = 1;
+    const checklists = [];
 
-    mockReviewService.submitReview.mockResolvedValue({
-      message: 'Review submitted successfully',
-    });
-    mockReviewService.getAllReviews.mockResolvedValue([review]);
+    mockChecklistService.getChecklists.mockResolvedValue(checklists);
 
-    const result = await service.submitReviewAndReturnUpdatedReviews(
-      review,
+    const result = await service.getChecklists(userId);
+    expect(result).toEqual(checklists);
+    expect(mockChecklistService.getChecklists).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.getChecklists).toHaveBeenCalledWith(userId);
+  });
+
+  it('should call getChecklistById in checklist service and return a checklist', async () => {
+    const userId = 1;
+    const checklistId = 1;
+    const checklist = {};
+
+    mockChecklistService.getChecklistById.mockResolvedValue(checklist);
+
+    const result = await service.getChecklistById(userId, checklistId);
+    expect(result).toEqual(checklist);
+    expect(mockChecklistService.getChecklistById).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.getChecklistById).toHaveBeenCalledWith(
       userId,
+      checklistId,
     );
-    expect(result).toEqual([review]);
-    expect(mockReviewService.submitReview).toHaveBeenCalledTimes(1);
-    expect(mockReviewService.submitReview).toHaveBeenCalledWith(review, userId);
-    expect(mockReviewService.getAllReviews).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call createChecklist in checklist service and return all checklists', async () => {
+    // We are not passing in a parentId (or description)
+    const userId = 1;
+    const name = "Callie's Checklist";
+
+    mockChecklistService.getChecklists.mockResolvedValue([]);
+
+    const result = await service.createChecklistAndReturnUpdatedChecklists(
+      userId,
+      name,
+    );
+    expect(result).toEqual([]);
+    expect(mockChecklistService.createChecklist).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.createChecklist).toHaveBeenCalledWith(
+      userId,
+      name,
+      undefined,
+      undefined,
+    );
+    expect(mockChecklistService.getChecklists).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.getChecklists).toHaveBeenCalledWith(userId);
+    expect(mockChecklistService.getChecklistById).not.toHaveBeenCalled();
+  });
+
+  it('should call createChecklist in checklist service and return the parent checklist', async () => {
+    const userId = 1;
+    const name = "Callie's Checklist";
+    const parentId = 2;
+    const parentChecklist = {};
+
+    mockChecklistService.getChecklistById.mockResolvedValue(parentChecklist);
+
+    const result = await service.createChecklistAndReturnUpdatedChecklists(
+      userId,
+      name,
+      undefined,
+      parentId,
+    );
+    expect(result).toEqual(parentChecklist);
+    expect(mockChecklistService.createChecklist).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.createChecklist).toHaveBeenCalledWith(
+      userId,
+      name,
+      undefined,
+      parentId,
+    );
+    expect(mockChecklistService.getChecklistById).toHaveBeenCalledTimes(1);
+    expect(mockChecklistService.getChecklistById).toHaveBeenCalledWith(
+      userId,
+      parentId,
+    );
+    expect(mockChecklistService.getChecklists).not.toHaveBeenCalled();
   });
 });

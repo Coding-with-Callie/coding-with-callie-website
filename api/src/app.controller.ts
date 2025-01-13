@@ -55,6 +55,11 @@ export class AppController {
     private readonly fileUploadService: FileUploadService,
   ) {}
 
+  @Get('pages')
+  getPages() {
+    return this.appService.getPages();
+  }
+
   @UseInterceptors(FileInterceptor('file'))
   @Post('signup')
   async signUp(
@@ -81,20 +86,5 @@ export class AppController {
   @Post('forgot-password')
   sendPasswordResetEmail(@Body() body: Email) {
     return this.appService.sendPasswordResetEmail(body.email);
-  }
-
-  @Get('resources')
-  getAllResources() {
-    return this.appService.getAllResources();
-  }
-
-  @Get('workshops')
-  getAllWorkshops() {
-    return this.appService.getAllWorkshops();
-  }
-
-  @Get('speakers')
-  async getAllSpeakers() {
-    return await this.appService.getAllSpeakers();
   }
 }

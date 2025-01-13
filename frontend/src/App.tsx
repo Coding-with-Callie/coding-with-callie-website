@@ -1,7 +1,7 @@
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import theme, { mainBackground } from "./Components/theme";
-import Header from "./Header";
+import Header from "./Header/Header";
 import "@fontsource/pacifico/400.css";
 import "@fontsource/sometype-mono/500.css";
 import { useState } from "react";
@@ -22,8 +22,13 @@ export type CustomError = {
   path?: string;
 };
 
-function App() {
+type Props = {
+  pages: any[];
+};
+
+function App({ pages }: Props) {
   const data = useLoaderData();
+
   const [user, setUser] = useState<any>(data);
 
   const updateUser = (newUser: any) => {
@@ -50,7 +55,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <DndProvider backend={HTML5Backend}>
         <Box display="flex" flexDirection="column" minHeight="100vh">
-          <Header user={user} updateUser={updateUser} />
+          <Header user={user} updateUser={updateUser} pages={pages} />
           <Box flex={1} pb={20} backgroundColor={mainBackground}>
             <Outlet context={context} />
           </Box>

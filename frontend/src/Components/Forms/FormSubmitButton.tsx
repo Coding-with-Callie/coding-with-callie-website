@@ -10,7 +10,7 @@ import {
 import { createFormData, isInvalid } from "../../helpers/helpers";
 import MyButton from "../MyButton";
 import { FieldData } from "../../helpers/forms";
-import { IconButton, Spinner } from "@chakra-ui/react";
+import { IconButton, Spinner, useMediaQuery } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
 
 type Props = {
@@ -46,6 +46,7 @@ const FormSubmitButton = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { catchError } = useOutletContext() as Context;
+  const isLargerThan800 = useMediaQuery("(min-width: 800px)");
   const navigate = useNavigate();
 
   const resetState = () => {
@@ -102,7 +103,7 @@ const FormSubmitButton = ({
     let dataToSend = data;
 
     if (
-      route.includes("/resource") ||
+      route.includes("/section") ||
       route === "/signup" ||
       route === "/speaker"
     ) {
@@ -110,6 +111,8 @@ const FormSubmitButton = ({
     }
 
     const methodToUse = method || "put";
+
+    console.log("dataToSend", dataToSend);
 
     axiosToUse[methodToUse](route, dataToSend)
       .then((response) => {
@@ -137,6 +140,7 @@ const FormSubmitButton = ({
         aria-label="submit"
         icon={loading ? <Spinner /> : <CheckIcon />}
         onClick={onSubmit}
+        w={isLargerThan800 ? undefined : "100%"}
       />
     );
   } else {

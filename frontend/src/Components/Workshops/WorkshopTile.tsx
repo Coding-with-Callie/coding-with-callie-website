@@ -2,10 +2,9 @@ import { AspectRatio, Box, Image } from "@chakra-ui/react";
 import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
 import MyButton from "../MyButton";
-import { Workshop } from "../../Pages/Workshops";
 
 type Props = {
-  workshop: Workshop;
+  workshop: any;
   index: number;
 };
 

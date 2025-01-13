@@ -1,5 +1,4 @@
 import { Box, IconButton } from "@chakra-ui/react";
-import Section from "../Section";
 import ProgressColumn from "./ProgressColumn";
 import CreateChecklistForm from "./CreateChecklistForm";
 import EditableText from "../Profile/EditableText";
@@ -48,13 +47,18 @@ const ChecklistContainer = ({
 
   const deleteChecklist = async () => {
     axiosPrivate.delete(`/checklists/${checklistId}`).then((response) => {
-      navigate(`/checklist/${response.data}`);
+      if (response.data) {
+        navigate(`/checklist/${response.data}`);
+      } else {
+        navigate("/checklists");
+      }
+
       showNotification("Checklist deleted!", "success");
     });
   };
 
   return (
-    <Section>
+    <>
       <Box display="flex" justifyContent="space-between" gap={2}>
         <Box w="100%">
           <EditableText
@@ -117,7 +121,7 @@ const ChecklistContainer = ({
         </>
       )}
       <CreateChecklistForm setChecklist={setChecklist} parentId={checklistId} />
-    </Section>
+    </>
   );
 };
 

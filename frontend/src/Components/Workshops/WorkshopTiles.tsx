@@ -1,8 +1,7 @@
-import { Workshop } from "../../Pages/Workshops";
 import WorkshopTile from "./WorkshopTile";
 
 type Props = {
-  workshops: Workshop[];
+  workshops: any[];
 };
 
 const WorkshopTiles = ({ workshops }: Props) => {

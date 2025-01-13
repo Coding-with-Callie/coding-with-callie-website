@@ -3,37 +3,32 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { WorkshopsService } from './workshops/workshops.service';
-import { ResourceService } from './resource/resource.service';
-import { SpeakersService } from './speakers/speakers.service';
 import { hashPassword, verifyPasswordMatches } from './helpers/helpers';
 import { UsersService } from './users/users.service';
 import { MailService } from './mail/mail.service';
 import { NewUserDto } from './app.controller';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from './users/entities/users.entity';
+import { PagesService } from './pages/pages.service';
 
 @Injectable()
 export class AppService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly resourceService: ResourceService,
-    private readonly workshopsService: WorkshopsService,
-    private readonly speakersService: SpeakersService,
     private readonly usersService: UsersService,
     private readonly mailService: MailService,
+    private readonly pagesService: PagesService,
   ) {}
+  async getPages() {
+    const pages = await this.pagesService.getPages();
 
-  async getAllResources() {
-    return await this.resourceService.getResources();
-  }
-
-  async getAllWorkshops() {
-    return await this.workshopsService.getWorkshops();
-  }
-
-  async getAllSpeakers() {
-    return await this.speakersService.getSpeakers();
+    return pages.map((page) => {
+      return {
+        path: page.path,
+        page: page.name,
+        sections: page.sections,
+      };
+    });
   }
 
   async registerUserAndLogIn(user: NewUserDto, photoUrl: string) {

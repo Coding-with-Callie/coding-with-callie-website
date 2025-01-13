@@ -1,4 +1,9 @@
-import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  useDisclosure,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import {
   FaRegEdit,
   FaRegHandPointUp,
@@ -9,40 +14,35 @@ import Alert from "../Profile/Alert";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { axiosAdmin } from "../../helpers/axios_instances";
-import { ResourceType } from "../../Pages/Home";
+import { PageType } from "../../Pages/Page";
 
 type Props = {
   id: number;
   order: number;
-  numResources: number;
-  setResources: React.Dispatch<React.SetStateAction<ResourceType[]>>;
+  numSections: number;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditIcons = ({
-  id,
-  order,
-  numResources,
-  setResources,
-  setEdit,
-}: Props) => {
+const EditIcons = ({ id, order, numSections, setPage, setEdit }: Props) => {
   const {
     isOpen: isOpenAlert,
     onOpen: onOpenAlert,
     onClose: onCloseAlert,
   } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
 
-  const deleteResource = () => {
+  const deleteSection = () => {
     axiosAdmin
-      .delete(`/resource/${id}`)
+      .delete(`/section/${id}`)
       .then((response) => {
-        setResources(response.data);
+        setPage(response.data);
         onCloseAlert();
-        toast.success("Resource deleted successfully from home page!");
+        toast.success("Section deleted successfully!");
       })
       .catch(() => {
-        toast.error("Error deleting resource");
+        toast.error("Error deleting section");
       });
   };
 
@@ -61,22 +61,29 @@ const EditIcons = ({
     await scrollToElement(order);
 
     axiosAdmin
-      .post(`/resource/${id}/order`, {
+      .patch(`/section/${id}/order`, {
         direction,
       })
       .then((response) => {
-        setResources(response.data);
+        console.log(response.data);
+        setPage(response.data);
       })
       .catch(() => {
-        toast.error("Error moving resource");
+        toast.error("Error moving section");
       });
   };
 
   return (
     <>
-      <Box mb={6} display="flex" gap={2}>
+      <Box
+        mt={isLargerThan800 ? 0 : 8}
+        ml={isLargerThan800 ? 8 : 0}
+        display="flex"
+        gap={2}
+        flexDirection="column"
+      >
         <IconButton
-          aria-label={"edit resource"}
+          aria-label={"edit section"}
           icon={<FaRegEdit />}
           onClick={() => setEdit(true)}
         />
@@ -92,10 +99,10 @@ const EditIcons = ({
           icon={<FaRegHandPointDown />}
           onClick={moveResource.bind(null, "down")}
           colorScheme="blue"
-          disabled={order === numResources}
+          disabled={order === numSections}
         />
         <IconButton
-          aria-label={"delete resource"}
+          aria-label={"delete section"}
           icon={<FaRegTrashAlt />}
           onClick={onOpenAlert}
           colorScheme="red"
@@ -105,8 +112,8 @@ const EditIcons = ({
         isOpenAlert={isOpenAlert}
         onCloseAlert={onCloseAlert}
         cancelRef={cancelRef}
-        item="resource"
-        handleDelete={deleteResource}
+        item="section"
+        handleDelete={deleteSection}
       />
     </>
   );

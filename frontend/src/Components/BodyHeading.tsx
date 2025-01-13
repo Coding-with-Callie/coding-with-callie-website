@@ -21,6 +21,7 @@ const BodyHeading = ({
       textAlign={textAlign}
       fontWeight={700}
       color={heading}
+      w="100%"
     >
       {children}
     </Text>

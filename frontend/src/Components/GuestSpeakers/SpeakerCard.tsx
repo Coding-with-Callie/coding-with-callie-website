@@ -13,14 +13,13 @@ import {
   AccordionPanel,
   Center,
 } from "@chakra-ui/react";
-import { Speaker } from "../../Pages/GuestSpeakers";
 import BodyHeading from "../BodyHeading";
 import Paragraph from "../Paragraph";
 import BodyText from "../BodyText";
 import { useState } from "react";
 
 interface Props {
-  speaker: Speaker;
+  speaker: any;
 }
 
 const SpeakerCard = ({ speaker }: Props) => {

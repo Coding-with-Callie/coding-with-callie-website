@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { GuestSpeakerData, Speaker } from "../../Pages/GuestSpeakers";
 import CustomForm from "../Forms/CustomForm";
 import { guestSpeakerFormData } from "../../helpers/forms";
 
 type Props = {
-  setPastSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
-  setUpcomingSpeakers: React.Dispatch<React.SetStateAction<Speaker[]>>;
+  setPastSpeakers: React.Dispatch<React.SetStateAction<any[]>>;
+  setUpcomingSpeakers: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
@@ -21,7 +20,7 @@ const GuestSpeakerForm = ({ setPastSpeakers, setUpcomingSpeakers }: Props) => {
   const [formData, setFormData] = useState(initialState);
   const [fileInputKey, setFileInputKey] = useState("");
 
-  const updateData = (data: GuestSpeakerData) => {
+  const updateData = (data: any) => {
     setPastSpeakers(data.pastSpeakers);
     setUpcomingSpeakers(data.upcomingSpeakers);
   };
