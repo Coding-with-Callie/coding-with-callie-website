@@ -9,7 +9,6 @@ import { Context } from "../App";
 import EditableTextWithImage from "./Home/EditableTextWithImage";
 
 type Props = {
-  type: string;
   data: any;
   id: number;
   numSections: number;

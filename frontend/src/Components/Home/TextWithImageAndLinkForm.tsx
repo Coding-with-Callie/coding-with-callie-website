@@ -1,9 +1,9 @@
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import { editableResourceFormData } from "../../helpers/forms";
+import { textWithImageAndLinkFormData } from "../../helpers/forms";
 import { PageType } from "../../Pages/Page";
-import ContentForm from "./ContentForm";
+import ContentForm from "./ContentFormWrapper";
 
 type Props = {
   id: number;
@@ -24,7 +24,7 @@ const TextWithImageAndLinkForm = ({
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   const findInput = (field: string) => {
-    const input = editableResourceFormData.input.find(
+    const input = textWithImageAndLinkFormData.input.find(
       (item) => item.field === field
     );
     if (input) return [input];
@@ -37,7 +37,7 @@ const TextWithImageAndLinkForm = ({
       data={data}
       setData={setData}
       setSubmitClicked={setSubmitClicked}
-      input={editableResourceFormData.input}
+      input={textWithImageAndLinkFormData.input}
       setPage={setPage}
       setEdit={setEdit}
       initialState={initialState}

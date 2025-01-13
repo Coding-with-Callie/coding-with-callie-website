@@ -29,7 +29,7 @@ const FileInput = ({ onChange, key, label }: Props) => {
   };
 
   return (
-    <Box>
+    <Box border="1px">
       <FormLabel>{label}</FormLabel>
       <Box display="flex" alignItems="center" gap={6}>
         <Text>{fileName}</Text>

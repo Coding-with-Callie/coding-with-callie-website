@@ -226,7 +226,7 @@ export const changePasswordFormData: CustomFormData = {
   ],
 };
 
-export const editableResourceFormData: CustomFormData = {
+export const textWithImageAndLinkFormData: CustomFormData = {
   formHeading: "",
   input: [
     {
@@ -264,6 +264,30 @@ export const editableResourceFormData: CustomFormData = {
       label: "Open link in new tab?",
       field: "target",
       required: true,
+    },
+  ],
+};
+
+export const textWithImageFormData: CustomFormData = {
+  formHeading: "",
+  input: [
+    {
+      type: "text",
+      label: "",
+      field: "heading",
+      required: true,
+    },
+    {
+      type: "textarea",
+      label: "",
+      field: "bodyText",
+      required: true,
+    },
+    {
+      type: "file",
+      label: "",
+      field: "image",
+      required: false,
     },
   ],
 };

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import FormInputs from "../Forms/FormInputs";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import FormSubmitButton from "../Forms/FormSubmitButton";
-import { editableResourceFormData } from "../../helpers/forms";
+import { textWithImageFormData } from "../../helpers/forms";
 import { PageType } from "../../Pages/Page";
-import ContentForm from "./ContentForm";
+import ContentFormWrapper from "./ContentFormWrapper";
 
 type Props = {
   id: number;
@@ -21,7 +20,7 @@ const TextWithImageForm = ({ id, initialState, setPage, setEdit }: Props) => {
   const [isLargerThan1300] = useMediaQuery("(min-width: 1300px)");
 
   const findInput = (field: string) => {
-    const input = editableResourceFormData.input.find(
+    const input = textWithImageFormData.input.find(
       (item) => item.field === field
     );
     if (input) return [input];
@@ -29,12 +28,12 @@ const TextWithImageForm = ({ id, initialState, setPage, setEdit }: Props) => {
   };
 
   return (
-    <ContentForm
+    <ContentFormWrapper
       id={id}
       data={data}
       setData={setData}
       setSubmitClicked={setSubmitClicked}
-      input={editableResourceFormData.input}
+      input={textWithImageFormData.input}
       setPage={setPage}
       setEdit={setEdit}
       initialState={initialState}
@@ -44,6 +43,7 @@ const TextWithImageForm = ({ id, initialState, setPage, setEdit }: Props) => {
         display="flex"
         gap={6}
         flexDirection={isLargerThan1300 ? "row" : "column"}
+        border="1px"
       >
         <Box w={isLargerThan500 ? "350px" : "250px"}>
           <FormInputs
@@ -68,7 +68,7 @@ const TextWithImageForm = ({ id, initialState, setPage, setEdit }: Props) => {
           />
         </Box>
       </Box>
-    </ContentForm>
+    </ContentFormWrapper>
   );
 };
 

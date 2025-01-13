@@ -54,7 +54,6 @@ const Page = ({ data }: Props) => {
         if (section.type === "content") {
           return (
             <Content
-              type={section.type}
               data={section.data}
               id={section.id}
               numSections={data.sections.length}
